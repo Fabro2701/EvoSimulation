@@ -1,4 +1,4 @@
-package map;
+package simulator.model.map;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -51,6 +51,10 @@ import javax.swing.event.ChangeListener;
  */
 public class MapCreator extends JFrame implements ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//3 canvas, one per each map attribute
 	Canvas temperatureCanvas;
 	Canvas radiationCanvas;

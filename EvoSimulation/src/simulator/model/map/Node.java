@@ -1,7 +1,7 @@
-package map;
+package simulator.model.map;
 
 public class Node {
-	private float temperature, radiation, food;
+	private float temperature, radiation, food, altitude;
 	
 	public Node(int r, int g, int b) {
 		temperature = r;

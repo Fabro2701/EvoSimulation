@@ -1,4 +1,4 @@
-package map;
+package simulator.model.map;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -42,6 +42,8 @@ public class Map {
 		}
 		return builder.toString();
 	}
+	public BufferedImage getImage() {return img;}
+	
 	public static void main(String args[]){
 		Map map = new Map("test1");
 		System.out.println(map);
