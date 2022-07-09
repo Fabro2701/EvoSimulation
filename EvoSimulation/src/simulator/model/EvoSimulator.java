@@ -5,7 +5,9 @@ import java.util.List;
 
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
+import simulator.model.entity.SimpleRandomEntity;
 import simulator.model.map.Map;
+import util.Pair;
 
 public class EvoSimulator {
 	private Map map;
@@ -19,14 +21,25 @@ public class EvoSimulator {
 		this.map = new Map("test1");
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<>();
+		
+		entities.add(new SimpleRandomEntity());
+		entities.add(new SimpleRandomEntity());
 	}
 	public void update() {
 		for(Entity e:entities) {
 			MOVE move = e.getMove();
-			
+			Pair<Integer,Integer> change = move.getPosChange();
+			Pair<Integer,Integer> newPos = new Pair<Integer,Integer>(e.getX()+change.first,e.getY()+change.second);
+			newPos.first=Math.abs(newPos.first);
+			newPos.second=Math.abs(newPos.second);
+			newPos.first=newPos.first>=map.WIDTH?map.WIDTH-1:newPos.first;
+			newPos.second=newPos.second>=map.HEIGHT?map.HEIGHT-1:newPos.second;
+			e.setNewPos(newPos.first, newPos.second);
+			//System.out.println(e.x);
+			//System.out.println(e.y);
 		}
 		for(SimulatorObserver observer:observers) {
-			observer.onUpdate(entities, time);
+			observer.onUpdate(entities, map, time);
 		}
 		time++;
 	}

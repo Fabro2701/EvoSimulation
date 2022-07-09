@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Map {
 	private Node[][] nodes;
 	private BufferedImage img;
-	private int HEIGHT,WIDTH;
+	public int HEIGHT,WIDTH;
 	
 	public Map(String fileName) {
 		try {

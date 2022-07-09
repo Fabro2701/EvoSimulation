@@ -13,5 +13,12 @@ public class Controller {
 		simulator.addObserver(observer);
 		
 	}
+	public void run(int runs) {
+		if(runs<=0)return;
+		
+		for(int i=0;i<runs;i++) {
+			simulator.update();
 
+		}
+	}
 }

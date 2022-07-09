@@ -1,28 +1,20 @@
 package simulator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
+import simulator.view.TimeLabel;
 import simulator.view.viewer.Viewer;
 
 public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
 	private EvoSimulator simulator;
+	private boolean simStop;
     /** Creates new form LauncherGUI */
     public LauncherGUI() {
+    	simStop = false;
     	simulator = new EvoSimulator();
     	controller = new Controller(simulator);
         initComponents();
@@ -31,7 +23,9 @@ public class LauncherGUI extends javax.swing.JFrame {
 
     private void configureComponents() {
 		// TODO Auto-generated method stub
-		
+    	//simulator.update();
+    	
+    	
 	}
 
 	/** This method is called from within the constructor to
@@ -46,11 +40,11 @@ public class LauncherGUI extends javax.swing.JFrame {
         viewer = new Viewer(controller);
         jbPlay = new javax.swing.JButton();
         jbPause = new javax.swing.JButton();
+        jpTime = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jlSimulationTime = new javax.swing.JLabel();
+        jlSimulationTime = new TimeLabel(controller);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 600));
 
         viewer.setBackground(new java.awt.Color(238, 0, 238));
         viewer.setPreferredSize(new java.awt.Dimension(500, 500));
@@ -86,6 +80,27 @@ public class LauncherGUI extends javax.swing.JFrame {
         jlSimulationTime.setBackground(new java.awt.Color(255, 255, 255));
         jlSimulationTime.setText("999");
 
+        javax.swing.GroupLayout jpTimeLayout = new javax.swing.GroupLayout(jpTime);
+        jpTime.setLayout(jpTimeLayout);
+        jpTimeLayout.setHorizontalGroup(
+            jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpTimeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jpTimeLayout.setVerticalGroup(
+            jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpTimeLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,44 +108,66 @@ public class LauncherGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(94, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(321, 321, 321))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbPause, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        // TODO add your handling code here:
+    private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
+    	simStop = false;
+    	runEvent(10000);
+    	
     }                                      
 
-    private void jbPauseActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
-    }                                       
+    private void runEvent(int n) {
+    	if ( n>0 && !simStop) {
+	         try {
+	        	 controller.run(1);
+	         } catch (Exception e) {
+	        	 JOptionPane.showMessageDialog(this, e);
+	             return;
+	         }
+	         SwingUtilities.invokeLater( new Runnable() {
+	        	@Override
+	     		public void run() {
+	        		runEvent(n-1);
+	     		}
+	         });
+	   } 
 
-    /**
+	}
+
+	private void jbPauseActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        pauseEvent();
+    }                                       
+	
+    private void pauseEvent() {
+    	simStop = true;
+	}
+
+	/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -170,6 +207,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;
+    private javax.swing.JPanel jpTime;
     private javax.swing.JPanel viewer;
     // End of variables declaration                   
 
