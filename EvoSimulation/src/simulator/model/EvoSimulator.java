@@ -7,6 +7,7 @@ import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
 import simulator.model.entity.SimpleRandomEntity;
 import simulator.model.map.Map;
+import statistics.StatsManager;
 import util.Pair;
 
 public class EvoSimulator {
@@ -22,8 +23,7 @@ public class EvoSimulator {
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<>();
 		
-		entities.add(new SimpleRandomEntity());
-		entities.add(new SimpleRandomEntity());
+		
 	}
 	public void update() {
 		for(Entity e:entities) {
@@ -41,10 +41,15 @@ public class EvoSimulator {
 		for(SimulatorObserver observer:observers) {
 			observer.onUpdate(entities, map, time);
 		}
+		StatsManager.getInstance().onAdvance(time);
 		time++;
 	}
 	public void addObserver(SimulatorObserver observer) {
 		observers.add(observer);
 		observer.onRegister(entities,map,time);
+	}
+	public void addEntity(Entity entity) {
+		entities.add(entity);
+		StatsManager.getInstance().onEntityAdded(time);
 	}
 }

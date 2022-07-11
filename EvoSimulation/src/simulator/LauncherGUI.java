@@ -5,8 +5,13 @@ import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
+import simulator.model.entity.SimpleRandomEntity;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.Viewer;
+import statistics.models.PopulationCountStats;
+import statistics.visualizers.BarChartVisualizer;
+import statistics.visualizers.LineChartVisualizer;
+import statistics.visualizers.StatsVisualizer;
 
 public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
@@ -24,8 +29,13 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void configureComponents() {
 		// TODO Auto-generated method stub
     	//simulator.update();
+    	//SwingUtilities.invokeLater(()->{StatsVisualizer sv = new StatsVisualizer(new PopulationCountStats());});
     	
     	
+    	StatsVisualizer sv = new LineChartVisualizer(new PopulationCountStats(),"Population status");
+    	controller.addEntity(new SimpleRandomEntity());
+    	controller.addEntity(new SimpleRandomEntity());
+    	controller.addEntity(new SimpleRandomEntity());
 	}
 
 	/** This method is called from within the constructor to
@@ -43,6 +53,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         jpTime = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jlSimulationTime = new TimeLabel(controller);
+        jbAddEntity = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +112,13 @@ public class LauncherGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jbAddEntity.setText("Add Entity");
+        jbAddEntity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddEntityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,7 +135,9 @@ public class LauncherGUI extends javax.swing.JFrame {
                         .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(321, 321, 321))))
+                        .addGap(47, 47, 47)
+                        .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(156, 156, 156))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,15 +145,17 @@ public class LauncherGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>                      
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
@@ -166,6 +188,10 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void pauseEvent() {
     	simStop = true;
 	}
+    
+    private void jbAddEntityActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        controller.addEntity(new SimpleRandomEntity());
+    }
 
 	/**
      * @param args the command line arguments
@@ -204,6 +230,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jbAddEntity;
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;

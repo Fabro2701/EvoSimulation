@@ -2,7 +2,8 @@ package simulator.control;
 
 import simulator.model.EvoSimulator;
 import simulator.model.SimulatorObserver;
-import simulator.view.viewer.Viewer;
+import simulator.model.entity.Entity;
+import simulator.model.entity.SimpleRandomEntity;
 
 public class Controller {
 	private EvoSimulator simulator;
@@ -20,5 +21,9 @@ public class Controller {
 			simulator.update();
 
 		}
+	}
+	public void addEntity(Entity entity) {
+		simulator.addEntity(entity);
+		
 	}
 }

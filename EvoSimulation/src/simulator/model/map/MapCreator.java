@@ -408,7 +408,7 @@ public class MapCreator extends JFrame implements ActionListener{
 	}
 	public static void main(String args[]){
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
+			SwingUtilities.invokeAndWait(new Runnable() {//invokeLater
 				public void run() {
 					new MapCreator();
 				}
