@@ -1,5 +1,20 @@
 package simulator.model.map.creator;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,6 +38,7 @@ public class MapElevationCreator extends javax.swing.JFrame {
     private void configComponents() {
     	jpViewPanel.config();
     	jpModificationPanel.config();
+    	
 	}
 
 	/**
@@ -37,17 +53,17 @@ public class MapElevationCreator extends javax.swing.JFrame {
         jpModificationPanel = new MapElevationModifierPanel();
         jpViewPanel = new MapElevationViewPanel(jpModificationPanel);
         jpControlPanel = new javax.swing.JPanel();
-        jsIntensity = new javax.swing.JSpinner();
-        jsSize = new javax.swing.JSpinner();
-        jbZoomIn = new javax.swing.JButton();
-        jbZoomOut = new javax.swing.JButton();
-        jbRotationLeft = new javax.swing.JButton();
-        jbRotationRight = new javax.swing.JButton();
         jlIntensity = new javax.swing.JLabel();
         jlSize = new javax.swing.JLabel();
+        jsSize = new javax.swing.JSlider();
+        jsIntensity = new javax.swing.JSlider();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jmFile = new javax.swing.JMenu();
+        jmiOpen = new javax.swing.JMenuItem();
+        jmiSave = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1100, 600));
+        setPreferredSize(new java.awt.Dimension(1400, 600));
 
         jpModificationPanel.setPreferredSize(new java.awt.Dimension(500, 500));
         jpModificationPanel.setSize(new java.awt.Dimension(500, 500));
@@ -63,42 +79,19 @@ public class MapElevationCreator extends javax.swing.JFrame {
             .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        jpViewPanel.setPreferredSize(new java.awt.Dimension(500, 500));
-        jpViewPanel.setSize(new java.awt.Dimension(500, 500));
+        jpViewPanel.setPreferredSize(new java.awt.Dimension(870, 500));
+        jpViewPanel.setSize(new java.awt.Dimension(870, 500));
 
         javax.swing.GroupLayout jpViewPanelLayout = new javax.swing.GroupLayout(jpViewPanel);
         jpViewPanel.setLayout(jpViewPanelLayout);
         jpViewPanelLayout.setHorizontalGroup(
             jpViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
         );
         jpViewPanelLayout.setVerticalGroup(
             jpViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 500, Short.MAX_VALUE)
         );
-
-        jbZoomIn.setText("Zoom In");
-        jbZoomIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbZoomInActionPerformed(evt);
-            }
-        });
-
-        jbZoomOut.setText("Zoom Out");
-
-        jbRotationLeft.setText("Rotation Left");
-        jbRotationLeft.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	jpViewPanel.changeSkew(0.1f);
-            }
-        });
-
-        jbRotationRight.setText("Rotation Right");
-        jbRotationRight.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	jpViewPanel.changeSkew(-0.1f);
-            }
-        });
 
         jlIntensity.setText("Intensity");
 
@@ -111,37 +104,51 @@ public class MapElevationCreator extends javax.swing.JFrame {
             .addGroup(jpControlPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jlIntensity)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jsIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jsIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
                 .addComponent(jlSize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jsSize, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(276, 276, 276)
-                .addComponent(jbZoomIn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbZoomOut)
-                .addGap(34, 34, 34)
-                .addComponent(jbRotationLeft)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbRotationRight)
+                .addGap(18, 18, 18)
+                .addComponent(jsSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpControlPanelLayout.setVerticalGroup(
             jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpControlPanelLayout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jsIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jsSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbZoomIn)
-                    .addComponent(jbZoomOut)
-                    .addComponent(jbRotationLeft)
-                    .addComponent(jbRotationRight)
-                    .addComponent(jlIntensity)
-                    .addComponent(jlSize))
-                .addGap(16, 16, 16))
+                .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpControlPanelLayout.createSequentialGroup()
+                        .addComponent(jlIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpControlPanelLayout.createSequentialGroup()
+                        .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jsIntensity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jsSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16))))
         );
+
+        jmFile.setText("File");
+
+        jmiOpen.setText("Open");
+        jmiOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiOpenActionPerformed(evt);
+            }
+        });
+        jmFile.add(jmiOpen);
+
+        jmiSave.setText("Save");
+        jmiSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSaveActionPerformed(evt);
+            }
+        });
+        jmFile.add(jmiSave);
+
+        jMenuBar1.add(jmFile);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,8 +160,8 @@ public class MapElevationCreator extends javax.swing.JFrame {
                     .addComponent(jpControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jpModificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jpViewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jpViewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -166,15 +173,64 @@ public class MapElevationCreator extends javax.swing.JFrame {
                     .addComponent(jpViewPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jpControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 28, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void jbZoomInActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+    private void jmiSaveActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    	JDialog jd = new JDialog(this);
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setMaximumSize(new Dimension(100, 50));
+		mainPanel.setMinimumSize(new Dimension(100, 50));
+		mainPanel.setPreferredSize(new Dimension(100, 50));
+		jd.setContentPane(mainPanel);
+		final JTextField jtxt = new JTextField("filename");
+		JButton jbSave = new JButton("Save");
+		jbSave.addActionListener((ae) -> {saveMap(jtxt.getText());jd.dispose();});
+		JButton jbCancel = new JButton("Cancel");
+		jbCancel.addActionListener((ae) -> jd.dispose());
+		mainPanel.add(jtxt,BorderLayout.CENTER);
+		
+		JPanel boxPanel = new JPanel();
+		boxPanel.setLayout(new BoxLayout(boxPanel, BoxLayout.LINE_AXIS));
+		boxPanel.add(jbSave);
+		boxPanel.add(jbCancel);
+		mainPanel.add(boxPanel,BorderLayout.SOUTH);
+		
+		
+		jd.pack();
+		jd.setLocationRelativeTo(null);
+		jd.setVisible(true);
+    }                                       
+
+    private void saveMap(String filepath) {
+    	File outputfile = new File("resources/maps/"+filepath+".jpg");
+		try {
+			ImageIO.write(jpModificationPanel.getImage(), "jpg", outputfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void jmiOpenActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    	JFileChooser jfc = new JFileChooser("resources/maps/");
+		int returnValue = jfc.showOpenDialog(null);
+		
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			try {
+				BufferedImage image = ImageIO.read(selectedFile);
+				jpModificationPanel.setImage(image);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    }                                                    
 
     /**
      * @param args the command line arguments
@@ -212,16 +268,18 @@ public class MapElevationCreator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton jbRotationLeft;
-    private javax.swing.JButton jbRotationRight;
-    private javax.swing.JButton jbZoomIn;
-    private javax.swing.JButton jbZoomOut;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel jlIntensity;
     private javax.swing.JLabel jlSize;
+    private javax.swing.JMenu jmFile;
+    private javax.swing.JMenuItem jmiOpen;
+    private javax.swing.JMenuItem jmiSave;
     private javax.swing.JPanel jpControlPanel;
     private MapElevationModifierPanel jpModificationPanel;
     private MapElevationViewPanel jpViewPanel;
-    private javax.swing.JSpinner jsIntensity;
-    private javax.swing.JSpinner jsSize;
+    private javax.swing.JSlider jsIntensity;
+    private javax.swing.JSlider jsSize;
+    
+    
     // End of variables declaration                   
 }

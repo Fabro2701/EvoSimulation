@@ -134,6 +134,11 @@ public class MapElevationModifierPanel extends JPanel{
 	public void addObserver(MapElevationViewPanel mapElevationViewPanel) {
 		viewer=mapElevationViewPanel;
 	}
+	public void setImage(BufferedImage image2) {
+		image=image2;
+		repaint();
+		if(viewer!=null)viewer.update(image);
+	}
 	
 
 	

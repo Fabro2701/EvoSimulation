@@ -7,6 +7,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Map {
 	private Node[][] nodes;
 	private BufferedImage img;
@@ -31,7 +34,21 @@ public class Map {
         }
 		
 	}
+	public JSONArray toJSON() {
+		JSONArray arr = new JSONArray();
+		for(int i=0;i<nodes.length;i++) {
+			for(int j=0;j<nodes[i].length;j++) {
+				arr.put(nodes[i][j].toJSON());
+			}
+		}
+		return arr;
+	}
+	
 	@Override
+	public String toString() {
+		return this.toJSON().toString();
+	}
+	/*@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for(int i=0;i<HEIGHT;i++) {
@@ -41,11 +58,15 @@ public class Map {
 			builder.append("\n");
 		}
 		return builder.toString();
-	}
+	}*/
 	public BufferedImage getImage() {return img;}
 	
-	public static void main(String args[]){
+	/*public static void main(String args[]){
 		Map map = new Map("test1");
 		System.out.println(map);
+	}*/
+	public Node getNodeAt(int x, int y) {
+		// TODO Auto-generated method stub
+		return nodes[y][x];
 	}
 }

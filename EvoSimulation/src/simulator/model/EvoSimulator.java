@@ -7,6 +7,7 @@ import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
 import simulator.model.entity.SimpleRandomEntity;
 import simulator.model.map.Map;
+import simulator.model.map.Node;
 import statistics.StatsManager;
 import util.Pair;
 
@@ -51,5 +52,9 @@ public class EvoSimulator {
 	public void addEntity(Entity entity) {
 		entities.add(entity);
 		StatsManager.getInstance().onEntityAdded(time);
+	}
+	public Node getNodeAt(int x, int y) {
+		// TODO Auto-generated method stub
+		return map.getNodeAt(x,y);
 	}
 }

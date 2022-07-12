@@ -3,13 +3,17 @@ package simulator;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
+import simulator.model.entity.Entity;
 import simulator.model.entity.SimpleRandomEntity;
+import simulator.model.map.Node;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.Viewer;
 import statistics.models.PopulationCountStats;
-import statistics.visualizers.BarChartVisualizer;
 import statistics.visualizers.LineChartVisualizer;
 import statistics.visualizers.StatsVisualizer;
 
@@ -17,11 +21,19 @@ public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
 	private EvoSimulator simulator;
 	private boolean simStop;
+	
+	public LauncherGUI(Controller controller) {
+		simStop = false;
+		this.controller = controller;
+		initComponents();
+        configureComponents();
+	}
+	
     /** Creates new form LauncherGUI */
     public LauncherGUI() {
     	simStop = false;
     	simulator = new EvoSimulator();
-    	controller = new Controller(simulator);
+    	controller = new Controller(simulator,null);
         initComponents();
         configureComponents();
     }
@@ -33,9 +45,18 @@ public class LauncherGUI extends javax.swing.JFrame {
     	
     	
     	StatsVisualizer sv = new LineChartVisualizer(new PopulationCountStats(),"Population status");
-    	controller.addEntity(new SimpleRandomEntity());
-    	controller.addEntity(new SimpleRandomEntity());
-    	controller.addEntity(new SimpleRandomEntity());
+    	
+    	Node ini = controller.getNodeAt(0, 0);
+    	Entity e1 = new SimpleRandomEntity("1",ini);
+    	Entity e2 = new SimpleRandomEntity("2",ini);
+    	Entity e3 = new SimpleRandomEntity("3",ini);
+    	controller.addEntity(e1);
+    	controller.addEntity(e2);
+    	controller.addEntity(e3);
+    	JSONArray arr = new JSONArray().put(e1.toJSON()).put(e2.toJSON()).put(e3.toJSON());
+    	JSONObject ob = new JSONObject().put("entities",arr);
+    	System.out.println(ob.toString(4));
+    	
 	}
 
 	/** This method is called from within the constructor to
@@ -190,7 +211,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	}
     
     private void jbAddEntityActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        controller.addEntity(new SimpleRandomEntity());
+        //controller.addEntity(new SimpleRandomEntity(null));
     }
 
 	/**

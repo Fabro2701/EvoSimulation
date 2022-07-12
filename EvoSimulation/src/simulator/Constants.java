@@ -3,6 +3,7 @@ package simulator;
 import util.Pair;
 
 public final class Constants {
+	public static int jsonView = 0;
 	public enum MOVE {
         UP {
 			@Override

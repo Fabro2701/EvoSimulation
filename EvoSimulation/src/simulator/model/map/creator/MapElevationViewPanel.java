@@ -4,26 +4,130 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
 
-
+//credits to https://www.softwaredeveloperzone.com/simple-3d-graphics-using-java/
 public class MapElevationViewPanel extends JPanel{
-	private float ySkew=1f;
+	private float xSkew=1.0f;
+	private float ySkew=1.0f;
+	int originX=0;
+	int originY=0;
+	int xs = 10;
+	int ys = xs;
 	private BufferedImage image;
 	private BufferedImage rootImage;
+	private MouseAdapter mouseAdapter;
+	private KeyListener keyListener;
+	
 	public MapElevationViewPanel(MapElevationModifierPanel map) {
 		map.addObserver(this);
-		image = new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB);
+		
+	    keyListener = new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				int c = ke.getKeyCode();
+				switch(c) {
+				  case KeyEvent.VK_W:
+				    originY-=10;
+				    break;
+				  case KeyEvent.VK_S:
+					originY+=10;
+				    break;
+				  case KeyEvent.VK_A:
+					originX-=10;
+				    break;
+				  case KeyEvent.VK_D:
+					originX+=10;
+				    break;
+				  default:				    
+				}
+				repaint();
+			}
+
+			@Override
+			public void keyReleased(KeyEvent ke) {
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent ke) {
+			}
+			
+		};
+		this.addKeyListener(keyListener);
+		this.setFocusable(true);
+        this.requestFocusInWindow();
+		
+		mouseAdapter = new MouseAdapter() {
+    		boolean pressed = false;
+    		Point current = null;
+
+    		
+    		@Override
+    		public void mouseWheelMoved(MouseWheelEvent e) {
+    			
+    			if(e.getWheelRotation()!=0) {
+    				xs+=e.getWheelRotation();
+    				repaint();
+    			}
+    			//System.out.println(e.getWheelRotation()); 
+    		}
+    		@Override
+			public void mouseClicked(MouseEvent e) {
+    			//pressed = true;
+    			//current = e.getPoint();
+    			//System.out.println("clicked");
+			}
+    		@Override
+			public void mousePressed(MouseEvent e) {
+    			if(!pressed) {
+    				pressed = true;
+        			current = e.getPoint();
+    			}
+    			//
+			}
+    		@Override
+			public void mouseReleased(MouseEvent e) {
+    			pressed = false;
+    			
+			}
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if(pressed) {
+					Point dir = e.getPoint();
+					if(dir.equals(current))return;
+					int dx = dir.x-current.x;
+					int dy = dir.y-current.y;
+					
+					float decreaseFactor = 1000.0f;
+	    			xSkew+=(float)dx/decreaseFactor;
+					ySkew+=(float)dy/decreaseFactor;
+					//System.out.println(xSkew+" "+ySkew);
+					repaint();
+				}
+			}
+    	};
+		this.addMouseListener(mouseAdapter);
+		this.addMouseMotionListener(mouseAdapter);
+		this.addMouseWheelListener(mouseAdapter);
 	}
 	public void config() {
+		image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
+	
 		createNewCanvas();
 	}
 	public void update(BufferedImage inImage) {
 		rootImage=inImage;
-		
 		repaint();
 	}
 	private BufferedImage reduceImage(BufferedImage img) {
@@ -32,13 +136,6 @@ public class MapElevationViewPanel extends JPanel{
 		BufferedImage image2 = new BufferedImage(size,size,BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D)image2.createGraphics();
 		g2d.drawImage(imgS, 0, 0, size, size, null);
-		/*for (int y = 0; y < image2.getHeight(); y++) {
-	         for (int x = 0; x < image2.getWidth(); x++) {   
-	        	 int pixel = image2.getRGB(x,y);
-	        	 Color color = new Color(pixel, false);
-	        	 //elevation[y][x]=color.getRed();
-	         }
-	    }*/
 		return image2;
 	}
 	private void createNewCanvas() {
@@ -53,12 +150,11 @@ public class MapElevationViewPanel extends JPanel{
 		BufferedImage reducedImg = reduceImage(rootImage);
 		Graphics2D g2d = (Graphics2D)image.getGraphics();
 		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, this.getHeight(), this.getWidth());
+		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2d.setColor(Color.green);
-		int xs = 10;
-		int ys = xs;
-		int originX = -200;
-		int originY = 200;
+		
+		//originX;
+		//originY;
 		Point2D point1;
 		Point2D point2;
 		
@@ -80,7 +176,7 @@ public class MapElevationViewPanel extends JPanel{
 					//System.out.println(point1.x);
 					//System.out.println(point1.y);
 				}
-				if(j<reducedImg.getWidth()-1) {
+				if(j<reducedImg.getWidth()-1) { 
 					point1 = transform3D(
 							new Point3D(i * xs, 
 											 (int) (new Color(reducedImg.getRGB(j, i),false).getGreen() * inskew), 
@@ -98,12 +194,12 @@ public class MapElevationViewPanel extends JPanel{
 		g2dd.drawImage(image, 0, 0, null);
 	}
 	public void changeSkew(float change) {
-		this.ySkew+=change;
+		this.xSkew+=change;
 		repaint();
 	}
 	public Point2D transform3D(Point3D point3D) {
 		//return new Point2D(point3D.x + point3D.z, (int) (((-point3D.y) + point3D.z - point3D.x) * ySkew));
-		return new Point2D(point3D.x + point3D.z, (int) (((-point3D.y) + point3D.z) * ySkew));
+		return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z) * ySkew));
 	}
 	
 	public class Point2D {

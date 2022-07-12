@@ -1,15 +1,28 @@
 package simulator.model.map;
 
+import org.json.JSONObject;
+
 public class Node {
-	private float temperature, radiation, food, altitude;
+	private float temperature, radiation, food, elevation;
 	
 	public Node(int r, int g, int b) {
 		temperature = r;
 		radiation = g;
 		food = b;
 	}
+	public JSONObject toJSON() {
+		return new JSONObject().put("temperature", temperature)
+							   .put("radiaton", radiation)
+							   .put("food", food)
+							   .put("elevation", elevation);
+	}
+	
 	@Override
 	public String toString() {
-		return "("+Float.toString(temperature)+" - "+Float.toString(radiation)+" - "+Float.toString(food)+")";
+		return this.toJSON().toString();
 	}
+	//@Override
+	//public String toString() {
+	//	return "("+Float.toString(temperature)+" - "+Float.toString(radiation)+" - "+Float.toString(food)+")";
+	//}
 }
