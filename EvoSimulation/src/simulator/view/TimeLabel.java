@@ -19,13 +19,13 @@ public class TimeLabel extends JLabel implements SimulatorObserver{
 	@Override
 	public void onRegister(List<Entity> entities, Map map, int time) {
 		this.setText(String.valueOf(time));
-		
+		repaint();
 	}
 
 	@Override
 	public void onUpdate(List<Entity> entities, Map map, int time) {
 		this.setText(String.valueOf(time));
-		
+		repaint();
 	}
 
 }

@@ -5,17 +5,19 @@ import java.util.List;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
+import simulator.factories.builders.Builder;
 import simulator.model.entity.Entity;
 
-public class BuilderBasedFactory implements Factory{
-	private List<Entity.Builder> builders;
-	public BuilderBasedFactory(List<Entity.Builder>builders) {
+public class BuilderBasedFactory<T> implements Factory<T>{
+	private List<Builder<T>> builders;
+	public BuilderBasedFactory(List<Builder<T>>builders) {
 		this.builders = builders;
 	}
-	public Entity createInstance(JSONObject info, Controller controller) {
-		for(Entity.Builder b: builders) {
-			Entity tmp = b.createInstance(info,controller);
+	public T createInstance(JSONObject info, Controller controller) {
+		for(Builder<T> b: builders) {
+			T tmp = b.createInstance(info,controller);
 			if(tmp!=null) {
+				
 				return tmp;
 			}
 		}

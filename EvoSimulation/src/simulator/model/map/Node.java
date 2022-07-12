@@ -3,15 +3,20 @@ package simulator.model.map;
 import org.json.JSONObject;
 
 public class Node {
+	public int x,y;
 	private float temperature, radiation, food, elevation;
 	
-	public Node(int r, int g, int b) {
+	public Node(int x, int y, int r, int g, int b) {
+		this.x=x;
+		this.y=y;
 		temperature = r;
 		radiation = g;
 		food = b;
 	}
 	public JSONObject toJSON() {
-		return new JSONObject().put("temperature", temperature)
+		return new JSONObject().put("x", x)
+							   .put("y", y)
+							   .put("temperature", temperature)
 							   .put("radiaton", radiation)
 							   .put("food", food)
 							   .put("elevation", elevation);

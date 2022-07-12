@@ -14,10 +14,9 @@ import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import util.Util;
 
-public class Viewer extends JPanel implements SimulatorObserver{
+public class Viewer extends AbstractViewer {
 	
 	private BufferedImage mapImage;
-	private BufferedImage entitiesImage;
 	public Viewer(Controller ctrl) {
 	      //initGUI();
 	      ctrl.addObserver(this);
@@ -25,31 +24,22 @@ public class Viewer extends JPanel implements SimulatorObserver{
 	}
 	@Override
 	public void onRegister(List<Entity> entities, Map map, int time) {
-		mapImage = Util.copyImage(map.getImage());
+		mapImage = Util.copyImage(map.getElevationImage());
+		setEntitiesImage(entities);
 		repaint();
 	}
 
 	@Override
 	public void onUpdate(List<Entity> entities, Map map, int time) {
-		mapImage = Util.copyImage(map.getImage());
+		mapImage = Util.copyImage(map.getElevationImage());
 		setEntitiesImage(entities);
 		repaint();
 	}
 	
 	private void setEntitiesImage(List<Entity> entities) {
-		/*BufferedImage img = new BufferedImage(500, 500,BufferedImage.TYPE_INT_RGB);
 		Graphics2D gr = (Graphics2D) mapImage.getGraphics();
 		for(Entity e:entities) {
-			gr.drawImage(e.getImage(), e.getX(), e.getY(), null);
-		}*/
-		/*Graphics2D gr = (Graphics2D) mapImage.getGraphics();
-		for(Entity e:entities) {
-			gr.setColor(Color.blue);
-			gr.fill(e.getImage());
-		}*/
-		Graphics2D gr = (Graphics2D) mapImage.getGraphics();
-		for(Entity e:entities) {
-			gr.drawImage(e.getImage(), e.getX(), e.getY(), null);
+			gr.drawImage(e.getImage(), e.node.x, e.node.y, null);
 		}
 	}
 	@Override
@@ -66,6 +56,9 @@ public class Viewer extends JPanel implements SimulatorObserver{
 			}
 		}
 		
+		
+		gr.setColor(Color.red);
+		gr.fillOval(0, 0, 20, 20);
 		//gr.drawImage(mapImage,100,100,null);
 		//gr.drawImage(entitiesImage, 0, 0, 500, 500, 0, 0, 500, 500, null);
 	}

@@ -20,22 +20,25 @@ public class EvoSimulator {
 	
 	public EvoSimulator() {
 		this.time = 0;
-		this.map = new Map("test1");
+		this.map = new Map("test1","elevation1test");
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<>();
 		
 		
 	}
 	public void update() {
+	
 		for(Entity e:entities) {
 			MOVE move = e.getMove();
 			Pair<Integer,Integer> change = move.getPosChange();
-			Pair<Integer,Integer> newPos = new Pair<Integer,Integer>(e.getX()+change.first,e.getY()+change.second);
+			Pair<Integer,Integer> newPos = new Pair<Integer,Integer>(e.node.x+change.first,e.node.y+change.second);
 			newPos.first=Math.abs(newPos.first);
 			newPos.second=Math.abs(newPos.second);
 			newPos.first=newPos.first>=map.WIDTH?map.WIDTH-1:newPos.first;
 			newPos.second=newPos.second>=map.HEIGHT?map.HEIGHT-1:newPos.second;
-			e.setNewPos(newPos.first, newPos.second);
+			e.setNewNode(this.getNodeAt(newPos.first, newPos.second));
+			//System.out.println(newPos.first +" -*-  "+newPos.second);
+
 			//System.out.println(e.x);
 			//System.out.println(e.y);
 		}
@@ -57,4 +60,5 @@ public class EvoSimulator {
 		// TODO Auto-generated method stub
 		return map.getNodeAt(x,y);
 	}
+	public Map getMap() {return map;}
 }

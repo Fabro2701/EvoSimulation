@@ -8,9 +8,11 @@ import javax.swing.SwingUtilities;
 import simulator.LauncherGUI;
 import simulator.control.Controller;
 import simulator.factories.BuilderBasedFactory;
+import simulator.factories.builders.Builder;
+import simulator.factories.builders.SimpleRandomEntityBuilder;
+import simulator.factories.builders.SimpleUPEntityBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
-import simulator.model.entity.SimpleRandomEntity;
 
 public class Main {
 	
@@ -18,9 +20,11 @@ public class Main {
 	private static Controller controller;
 	
 	public static void main(String args[]) {
-		List<Entity.Builder> builders = new ArrayList<Entity.Builder>();
-		builders.add(new SimpleRandomEntity.Builder());
-		BuilderBasedFactory factory = new BuilderBasedFactory(builders);
+		List<Builder<Entity>> builders = new ArrayList<Builder<Entity>>();
+		builders.add(new SimpleRandomEntityBuilder());
+		builders.add(new SimpleUPEntityBuilder());
+		
+		BuilderBasedFactory<Entity> factory = new BuilderBasedFactory<Entity>(builders);
 		
 		simulator = new EvoSimulator();
     	controller = new Controller(simulator,factory);
@@ -32,6 +36,6 @@ public class Main {
 			e.printStackTrace();
 		}
     	
-		SwingUtilities.invokeLater(()->{new LauncherGUI(controller);});
+		SwingUtilities.invokeLater(()->{new LauncherGUI(controller).setVisible(true);});
 	}
 }

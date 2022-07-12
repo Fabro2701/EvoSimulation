@@ -13,6 +13,7 @@ import simulator.model.entity.SimpleRandomEntity;
 import simulator.model.map.Node;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.Viewer;
+import simulator.view.viewer.Viewer3D;
 import statistics.models.PopulationCountStats;
 import statistics.visualizers.LineChartVisualizer;
 import statistics.visualizers.StatsVisualizer;
@@ -27,15 +28,16 @@ public class LauncherGUI extends javax.swing.JFrame {
 		this.controller = controller;
 		initComponents();
         configureComponents();
+        viewer.repaint();
 	}
 	
     /** Creates new form LauncherGUI */
     public LauncherGUI() {
-    	simStop = false;
+    	/*simStop = false;
     	simulator = new EvoSimulator();
     	controller = new Controller(simulator,null);
         initComponents();
-        configureComponents();
+        configureComponents();*/
     }
 
     private void configureComponents() {
@@ -46,7 +48,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     	
     	StatsVisualizer sv = new LineChartVisualizer(new PopulationCountStats(),"Population status");
     	
-    	Node ini = controller.getNodeAt(0, 0);
+    	/*Node ini = controller.getNodeAt(0, 0);
     	Entity e1 = new SimpleRandomEntity("1",ini);
     	Entity e2 = new SimpleRandomEntity("2",ini);
     	Entity e3 = new SimpleRandomEntity("3",ini);
@@ -55,7 +57,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     	controller.addEntity(e3);
     	JSONArray arr = new JSONArray().put(e1.toJSON()).put(e2.toJSON()).put(e3.toJSON());
     	JSONObject ob = new JSONObject().put("entities",arr);
-    	System.out.println(ob.toString(4));
+    	System.out.println(ob.toString(4));*/
     	
 	}
 
@@ -75,6 +77,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jlSimulationTime = new TimeLabel(controller);
         jbAddEntity = new javax.swing.JButton();
+        jp3DViewer = new Viewer3D(controller);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,7 +113,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         jLabel1.setText("Time:");
 
         jlSimulationTime.setBackground(new java.awt.Color(255, 255, 255));
-        jlSimulationTime.setText("999");
+        jlSimulationTime.setText("0");
 
         javax.swing.GroupLayout jpTimeLayout = new javax.swing.GroupLayout(jpTime);
         jpTime.setLayout(jpTimeLayout);
@@ -140,6 +143,17 @@ public class LauncherGUI extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jp3DViewerLayout = new javax.swing.GroupLayout(jp3DViewer);
+        jp3DViewer.setLayout(jp3DViewerLayout);
+        jp3DViewerLayout.setHorizontalGroup(
+            jp3DViewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 870, Short.MAX_VALUE)
+        );
+        jp3DViewerLayout.setVerticalGroup(
+            jp3DViewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 492, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,29 +163,35 @@ public class LauncherGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(94, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jp3DViewer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
+                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(156, 156, 156))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jp3DViewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbPause, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                    .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 
@@ -195,7 +215,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	         SwingUtilities.invokeLater( new Runnable() {
 	        	@Override
 	     		public void run() {
-	        		runEvent(n-1);
+	        		runEvent(n);
 	     		}
 	         });
 	   } 
@@ -211,18 +231,14 @@ public class LauncherGUI extends javax.swing.JFrame {
 	}
     
     private void jbAddEntityActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        //controller.addEntity(new SimpleRandomEntity(null));
+        controller.addRandomEntity();
     }
 
 	/**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    /*public static void main(String args[]) {
+  
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -241,13 +257,13 @@ public class LauncherGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LauncherGUI().setVisible(true);
             }
         });
-    }
+    }*/
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel1;
@@ -256,7 +272,8 @@ public class LauncherGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;
     private javax.swing.JPanel jpTime;
-    private javax.swing.JPanel viewer;
+    private Viewer viewer;
+    private Viewer3D jp3DViewer;
     // End of variables declaration                   
 
 }

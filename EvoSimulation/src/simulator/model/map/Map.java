@@ -12,24 +12,28 @@ import org.json.JSONObject;
 
 public class Map {
 	private Node[][] nodes;
-	private BufferedImage img;
+	private BufferedImage attributesImg;
+	private BufferedImage elevationImg;
 	public int HEIGHT,WIDTH;
 	
-	public Map(String fileName) {
+	public Map(String attributesFileName, String elevationFileName) {
 		try {
-			this.img = ImageIO.read(new File("resources/maps/"+fileName+".jpg"));
+			this.attributesImg = ImageIO.read(new File("resources/maps/"+attributesFileName+".jpg"));
+			this.elevationImg = ImageIO.read(new File("resources/maps/"+elevationFileName+".jpg"));
+			
+			if(attributesImg.getHeight()!=elevationImg.getHeight())System.out.println("Images dimensions are not equal");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		this.HEIGHT = img.getHeight();
-		this.WIDTH = img.getWidth();
+		this.HEIGHT = attributesImg.getHeight();
+		this.WIDTH = attributesImg.getWidth();
 		this.nodes = new Node[HEIGHT][WIDTH];
 		
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
-	            Color color = new Color(img.getRGB(x,y), true);
-				nodes[x][y] = new Node(color.getRed(),color.getGreen(),color.getBlue());
+	            Color color = new Color(attributesImg.getRGB(x,y), false);
+				nodes[x][y] = new Node(x,y,color.getRed(),color.getGreen(),color.getBlue());
 			}
         }
 		
@@ -59,7 +63,8 @@ public class Map {
 		}
 		return builder.toString();
 	}*/
-	public BufferedImage getImage() {return img;}
+	public BufferedImage getAttributesImage() {return attributesImg;}
+	public BufferedImage getElevationImage() {return elevationImg;}
 	
 	/*public static void main(String args[]){
 		Map map = new Map("test1");
@@ -67,6 +72,6 @@ public class Map {
 	}*/
 	public Node getNodeAt(int x, int y) {
 		// TODO Auto-generated method stub
-		return nodes[y][x];
+		return nodes[x][y];
 	}
 }

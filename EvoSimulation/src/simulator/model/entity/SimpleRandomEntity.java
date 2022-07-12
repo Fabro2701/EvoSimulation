@@ -16,10 +16,9 @@ public class SimpleRandomEntity extends Entity {
 	
 	public SimpleRandomEntity(String id, Node node) {
 		super(id, node);
-		x=0;
-		y=0;
+		type="sr";
 		img = new ImageIcon("resources/entities/entity1.png").getImage();
-		//System.out.println(Builder.type);
+		
 	}
 	
 	@Override
@@ -40,14 +39,5 @@ public class SimpleRandomEntity extends Entity {
 		//Ellipse2D.Double circle = new Ellipse2D.Double(x, y, 20, 20);
 		//return circle;
 	}
-	public static class Builder extends Entity.Builder{
-		public String type="sr";
-		@Override
-		public Entity createTheInstance(JSONObject o, Controller ctrl) {
-			return new SimpleRandomEntity(o.getString("id"),
-										  ctrl.getNodeAt(o.getInt("x"),o.getInt("y"))
-										  );
-		}
-		
-	}
+	
 }

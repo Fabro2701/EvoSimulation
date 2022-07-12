@@ -1,4 +1,4 @@
-package simulator.model.map.creator;
+package simulator.view.viewer;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,14 +11,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.JPanel;
 
-import simulator.view.viewer.Viewer3D.Point3D;
+import simulator.control.Controller;
+import simulator.model.entity.Entity;
+import simulator.model.map.Map;
+import simulator.model.map.creator.MapElevationModifierPanel;
+import simulator.model.map.creator.MapElevationViewPanel.Point2D;
+import simulator.model.map.creator.MapElevationViewPanel.Point3D;
+import util.Util;
 
-
-//credits to https://www.softwaredeveloperzone.com/simple-3d-graphics-using-java/
-public class MapElevationViewPanel extends JPanel{
+public class Viewer3D extends AbstractViewer{
 	private float xSkew=1.0f;
 	private float ySkew=1.0f;
 	int originX=0;
@@ -29,9 +34,12 @@ public class MapElevationViewPanel extends JPanel{
 	private BufferedImage rootImage;
 	private MouseAdapter mouseAdapter;
 	private KeyListener keyListener;
+	private List<Entity> entities;
 	
-	public MapElevationViewPanel(MapElevationModifierPanel map) {
-		map.addObserver(this);
+	public Viewer3D(Controller ctrl) {
+		ctrl.addObserver(this);
+	    repaint();
+		//map.addObserver(this);
 		
 	    keyListener = new KeyListener() {
 
@@ -122,6 +130,7 @@ public class MapElevationViewPanel extends JPanel{
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
 		this.addMouseWheelListener(mouseAdapter);
+		
 	}
 	public void config() {
 		image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -130,6 +139,20 @@ public class MapElevationViewPanel extends JPanel{
 	}
 	public void update(BufferedImage inImage) {
 		rootImage=inImage;
+		repaint();
+	}
+	@Override
+	public void onRegister(List<Entity> entities, Map map, int time) {
+		rootImage = Util.copyImage(map.getElevationImage());
+		this.entities=entities;
+		repaint();
+	}
+
+	
+	@Override
+	public void onUpdate(List<Entity> entities, Map map, int time) {
+		rootImage = Util.copyImage(map.getElevationImage());
+		this.entities=entities;
 		repaint();
 	}
 	private BufferedImage reduceImage(BufferedImage img) {
@@ -148,26 +171,32 @@ public class MapElevationViewPanel extends JPanel{
 	}
 	@Override
 	public void paintComponent(Graphics g) {
+		if(image==null)config();
+		this.requestFocusInWindow();
 		Graphics2D g2dd = (Graphics2D)g;
 		BufferedImage reducedImg = reduceImage(rootImage);
 		Graphics2D g2d = (Graphics2D)image.getGraphics();
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2d.setColor(Color.green);
-		
+		float inskew = 2.0f;
 		//originX;
 		//originY;
+		
+		
+		
 		Point2D point1;
 		Point2D point2;
 		
-		float inskew = 2.0f;
+		
 		
 		for(int i=0;i<reducedImg.getHeight();i++) {
 			for(int j=0;j<reducedImg.getWidth();j++) {
-				point1 = transform3D(
-			             new Point3D(j * xs, 
-						 (int) (new Color(reducedImg.getRGB(j, i),false).getGreen() * inskew), 
-						  i * ys));
+				
+				point1 = transform3D(new Point3D(j * xs, 
+						 						(int) (new Color(reducedImg.getRGB(j, i),false).getGreen() * inskew), 
+						 						 i * ys));
+				
 				if(j<reducedImg.getWidth()-1) {
 					
 					point2 = transform3D(
@@ -193,6 +222,19 @@ public class MapElevationViewPanel extends JPanel{
 				}
 			}
 		}
+		
+		for(Entity e:entities) {
+			Point2D scaledCoord = new Point2D(e.node.x/10,e.node.y/10);
+			Point2D p1 = transform3D(
+		             new Point3D(scaledCoord.x * xs, 
+		            		 	(int) (new Color(reducedImg.getRGB(scaledCoord.x, scaledCoord.y),false).getGreen() * inskew), 
+		            		 	 scaledCoord.y * ys));
+			g2d.drawImage(e.getImage(), p1.x+originX, p1.y+originY, null);
+		}
+		
+		g2d.setColor(Color.red);
+		g2d.fillOval(originX, originY, 20, 20);
+		
 		g2dd.drawImage(image, 0, 0, null);
 	}
 	public void changeSkew(float change) {
@@ -223,4 +265,6 @@ public class MapElevationViewPanel extends JPanel{
 		int y = 0;
 		int z = 0;
 	}
+
+	
 }
