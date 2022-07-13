@@ -29,15 +29,14 @@ public class SimpleRandomEntity extends Entity {
 	public JSONObject getJSON() {
 		return super.getJSON().getJSONObject("data").put("image", "entity1");//la img ya la conoce la clase?
 	}*/
+
 	@Override
-	public Image getImage() {
-		return img;
-		/*BufferedImage img = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
-		Graphics2D gr = img.createGraphics();
-		gr.setColor(Color.BLUE);
-		gr.fillOval(0, 0, 20, 20);*/
-		//Ellipse2D.Double circle = new Ellipse2D.Double(x, y, 20, 20);
-		//return circle;
+	public void myInteract(Entity e) {
+		e.recieveActiveEntityInteraction(this);
 	}
 	
+	@Override
+	public void getFood(FoodEntity f) {
+		f.getFoodAmount();
+	}
 }

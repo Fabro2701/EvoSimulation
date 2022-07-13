@@ -40,4 +40,10 @@ public class StatsManager implements StatsObserver{
 			observer.onAdvance(time);
 		}
 	}
+	@Override
+	public void onEntityVanished(int time) {
+		for(StatsObserver observer:observers) {
+			observer.onEntityVanished(time);
+		}
+	}
 }

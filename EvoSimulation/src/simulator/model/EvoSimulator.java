@@ -15,6 +15,7 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
 import util.Pair;
+import util.Util;
 
 public class EvoSimulator {
 	private Map map;
@@ -32,7 +33,7 @@ public class EvoSimulator {
 		
 	}
 	public void update() {
-	
+		//entities movements
 		for(Entity e:entities) {
 			MOVE move = e.getMove();
 			Pair<Integer,Integer> change = move.getPosChange();
@@ -47,6 +48,27 @@ public class EvoSimulator {
 			//System.out.println(e.x);
 			//System.out.println(e.y);
 		}
+		
+		//entities interactions
+		for(Entity e1:entities) {
+			for(Entity e2:entities) {
+				if(Util.areCloseEnough(e1, e2)) {
+					e1.interact(e2);
+				}
+			}
+		}
+		
+		//remove entities
+		for(int i=0;i<entities.size();i++) {
+			if(!entities.get(i).isAlive()) {
+				entities.remove(i);
+				i--;
+			}
+		}
+		
+		
+		
+		
 		for(SimulatorObserver observer:observers) {
 			observer.onUpdate(entities, map, time);
 		}

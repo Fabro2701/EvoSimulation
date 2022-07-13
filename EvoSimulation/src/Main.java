@@ -11,9 +11,11 @@ import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.builders.Builder;
+import simulator.factories.builders.FoodEntityBuilder;
 import simulator.factories.builders.SimpleRandomEntityBuilder;
 import simulator.factories.builders.SimpleUPEntityBuilder;
 import simulator.factories.builders.events.AddEntitiesEventBuilder;
+import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import statistics.models.PopulationCountStats;
@@ -33,6 +35,7 @@ public class Main {
 		
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();
 		eventBuilders.add(new AddEntitiesEventBuilder());
+		eventBuilders.add(new AddFoodDistributionEventBuilder());
 
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);
 		
@@ -40,18 +43,19 @@ public class Main {
 		List<Builder<Entity>> entityBuilders = new ArrayList<Builder<Entity>>();
 		entityBuilders.add(new SimpleRandomEntityBuilder());
 		entityBuilders.add(new SimpleUPEntityBuilder());
+		entityBuilders.add(new FoodEntityBuilder());
 		
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
 		
 		simulator = new EvoSimulator();
     	controller = new Controller(simulator,entityFactory,eventFactory,eventManager);
     	
-    	/*try {
+    	try {
 			controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
     	
 		SwingUtilities.invokeLater(()->{new LauncherGUI(controller).setVisible(true);});
 	}

@@ -6,4 +6,6 @@ public interface StatsObserver {
 	default public void onEntityAdded(int time) {}
 	
 	default public void onAdvance(int time) {}
+	
+	default public void onEntityVanished(int time) {}
 }

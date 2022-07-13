@@ -14,9 +14,12 @@ public class SimpleUPEntity extends SimpleRandomEntity{
 		img = new ImageIcon("resources/entities/entity2.png").getImage();
 		// TODO Auto-generated constructor stub
 	}
+	
 	@Override
 	public MOVE getMove() {
 		return MOVE.UP;
 	}
+	
+	
 
 }

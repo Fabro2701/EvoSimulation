@@ -4,6 +4,7 @@ import util.Pair;
 
 public final class Constants {
 	public static int jsonView = 0;
+	public static final int INTERACTION_DISTANCE = 4; 
 	public enum MOVE {
         UP {
 			@Override
