@@ -13,14 +13,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import javax.swing.JPanel;
 
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
-import simulator.model.map.creator.MapElevationModifierPanel;
-import simulator.model.map.creator.MapElevationViewPanel.Point2D;
-import simulator.model.map.creator.MapElevationViewPanel.Point3D;
+
 import util.Util;
 
 public class Viewer3D extends AbstractViewer{
@@ -242,8 +239,8 @@ public class Viewer3D extends AbstractViewer{
 		repaint();
 	}
 	public Point2D transform3D(Point3D point3D) {
-		//return new Point2D(point3D.x + point3D.z, (int) (((-point3D.y) + point3D.z - point3D.x) * ySkew));
-		return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z) * ySkew));
+		return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z - point3D.x) * ySkew));
+		//return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z) * ySkew));
 	}
 	
 	public class Point2D {

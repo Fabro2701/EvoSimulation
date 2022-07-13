@@ -7,12 +7,18 @@ import javax.swing.SwingUtilities;
 
 import simulator.LauncherGUI;
 import simulator.control.Controller;
+import simulator.events.Event;
+import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.builders.Builder;
 import simulator.factories.builders.SimpleRandomEntityBuilder;
 import simulator.factories.builders.SimpleUPEntityBuilder;
+import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.models.PopulationCountStats;
+import statistics.visualizers.AreaChartVisualizer;
+import statistics.visualizers.StatsVisualizer;
 
 public class Main {
 	
@@ -20,21 +26,32 @@ public class Main {
 	private static Controller controller;
 	
 	public static void main(String args[]) {
-		List<Builder<Entity>> builders = new ArrayList<Builder<Entity>>();
-		builders.add(new SimpleRandomEntityBuilder());
-		builders.add(new SimpleUPEntityBuilder());
 		
-		BuilderBasedFactory<Entity> factory = new BuilderBasedFactory<Entity>(builders);
+		StatsVisualizer sv = new AreaChartVisualizer(new PopulationCountStats(),"Population status");
+		
+		EventManager eventManager = new EventManager();
+		
+		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();
+		eventBuilders.add(new AddEntitiesEventBuilder());
+
+		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);
+		
+		
+		List<Builder<Entity>> entityBuilders = new ArrayList<Builder<Entity>>();
+		entityBuilders.add(new SimpleRandomEntityBuilder());
+		entityBuilders.add(new SimpleUPEntityBuilder());
+		
+		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
 		
 		simulator = new EvoSimulator();
-    	controller = new Controller(simulator,factory);
+    	controller = new Controller(simulator,entityFactory,eventFactory,eventManager);
     	
-    	try {
-			controller.loadBodies(new FileInputStream("resources/loads/entities/test1.json"));
+    	/*try {
+			controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     	
 		SwingUtilities.invokeLater(()->{new LauncherGUI(controller).setVisible(true);});
 	}

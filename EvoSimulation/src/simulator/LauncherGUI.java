@@ -1,22 +1,18 @@
 package simulator;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
-import simulator.model.entity.Entity;
-import simulator.model.entity.SimpleRandomEntity;
-import simulator.model.map.Node;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.Viewer;
 import simulator.view.viewer.Viewer3D;
-import statistics.models.PopulationCountStats;
-import statistics.visualizers.LineChartVisualizer;
-import statistics.visualizers.StatsVisualizer;
 
 public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
@@ -46,7 +42,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     	//SwingUtilities.invokeLater(()->{StatsVisualizer sv = new StatsVisualizer(new PopulationCountStats());});
     	
     	
-    	StatsVisualizer sv = new LineChartVisualizer(new PopulationCountStats(),"Population status");
+    	
     	
     	/*Node ini = controller.getNodeAt(0, 0);
     	Entity e1 = new SimpleRandomEntity("1",ini);
@@ -78,6 +74,8 @@ public class LauncherGUI extends javax.swing.JFrame {
         jlSimulationTime = new TimeLabel(controller);
         jbAddEntity = new javax.swing.JButton();
         jp3DViewer = new Viewer3D(controller);
+        jbAddEvent = new javax.swing.JButton();
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +152,13 @@ public class LauncherGUI extends javax.swing.JFrame {
             .addGap(0, 492, Short.MAX_VALUE)
         );
 
+        jbAddEvent.setText("Add Event");
+        jbAddEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddEventActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,6 +178,8 @@ public class LauncherGUI extends javax.swing.JFrame {
                         .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbAddEvent)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -191,7 +198,8 @@ public class LauncherGUI extends javax.swing.JFrame {
                     .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbPause, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                     .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbAddEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 
@@ -209,6 +217,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	         try {
 	        	 controller.run(1);
 	         } catch (Exception e) {
+	        	 System.out.println(e);
 	        	 JOptionPane.showMessageDialog(this, e);
 	             return;
 	         }
@@ -233,7 +242,24 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void jbAddEntityActionPerformed(java.awt.event.ActionEvent evt) {                                            
         controller.addRandomEntity();
     }
+    
+    private void jbAddEventActionPerformed(java.awt.event.ActionEvent evt) {      
+    	JFileChooser jfc = new JFileChooser("resources/loads/events");
+		int returnValue = jfc.showOpenDialog(null);
 
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			//System.out.println(selectedFile.getAbsolutePath());
+			try {
+				controller.addEvent(new FileInputStream(selectedFile));
+			
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+        
+    }   
 	/**
      * @param args the command line arguments
      */
@@ -268,6 +294,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jbAddEntity;
+    private javax.swing.JButton jbAddEvent;
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;

@@ -1,5 +1,6 @@
 package simulator.control;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.json.JSONArray;
@@ -7,6 +8,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import simulator.RandomSingleton;
+import simulator.events.Event;
+import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.SimulatorObserver;
@@ -16,9 +19,13 @@ import simulator.model.map.Node;
 public class Controller {
 	private EvoSimulator simulator;
 	private BuilderBasedFactory<Entity> entityFactory;
-	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory) {
+	private BuilderBasedFactory<Event> eventFactory;
+	private EventManager eventManager;
+	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory, BuilderBasedFactory<Event> eventFactory, EventManager eventManager) {
 		this.simulator = simulator;
 		this.entityFactory = entityFactory;
+		this.eventFactory = eventFactory;
+		this.eventManager = eventManager;
 	}
 	public void addObserver(SimulatorObserver observer) {
 		simulator.addObserver(observer);
@@ -28,8 +35,9 @@ public class Controller {
 		if(runs<=0)return;
 		
 		for(int i=0;i<runs;i++) {
+			eventManager.update(this, simulator.getTime());
 			simulator.update();
-
+			
 		}
 	}
 	public void addRandomEntity() {
@@ -42,14 +50,19 @@ public class Controller {
 		simulator.addEntity(entityFactory.createInstance(o,this));
 		
 	}
-	public void loadBodies(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray a = jsonInput.getJSONArray("entities");
-		for(int i=0;i<a.length();i++) {
-			simulator.addEntity(entityFactory.createInstance(a.getJSONObject(i),this));
+	public void loadEntities(InputStream in) {
+		loadEntities(new JSONObject(new JSONTokener(in)).getJSONArray("entities"));
+	}
+	public void loadEntities(JSONArray jsonInput) {
+		for(int i=0;i<jsonInput.length();i++) {
+			simulator.addEntity(entityFactory.createInstance(jsonInput.getJSONObject(i),this));
 		}
 	}
 	public Node getNodeAt(int x, int y) {
 		return simulator.getNodeAt(x,y);
 	}
+	public void addEvent(InputStream in) {
+		eventManager.addEvent(eventFactory.createInstance(new JSONObject(new JSONTokener(in)), this));
+	}
+	
 }

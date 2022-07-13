@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static simulator.Constants.jsonView;;
+
 public class Map {
 	private Node[][] nodes;
 	private BufferedImage attributesImg;
@@ -50,7 +52,7 @@ public class Map {
 	
 	@Override
 	public String toString() {
-		return this.toJSON().toString();
+		return this.toJSON().toString(jsonView);
 	}
 	/*@Override
 	public String toString() {

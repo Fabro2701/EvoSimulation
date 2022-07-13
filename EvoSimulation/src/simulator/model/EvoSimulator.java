@@ -1,11 +1,16 @@
 package simulator.model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
-import simulator.model.entity.SimpleRandomEntity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
@@ -47,6 +52,7 @@ public class EvoSimulator {
 		}
 		StatsManager.getInstance().onAdvance(time);
 		time++;
+		
 	}
 	public void addObserver(SimulatorObserver observer) {
 		observers.add(observer);
@@ -61,4 +67,16 @@ public class EvoSimulator {
 		return map.getNodeAt(x,y);
 	}
 	public Map getMap() {return map;}
+	public int getTime() {return time;}
+	
+	public JSONObject toJSON() {
+		JSONArray entitiesArr = new JSONArray();
+		for(Entity e:entities) {
+			entitiesArr.put(e.toJSON());
+		}
+		return new JSONObject().put("time", time)
+							   .put("entites", entitiesArr)
+							   .put("map", map.toJSON())//?too heavy
+							   ;
+	}
 }
