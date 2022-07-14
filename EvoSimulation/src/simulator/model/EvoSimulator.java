@@ -43,10 +43,6 @@ public class EvoSimulator {
 			newPos.first=newPos.first>=map.WIDTH?map.WIDTH-1:newPos.first;
 			newPos.second=newPos.second>=map.HEIGHT?map.HEIGHT-1:newPos.second;
 			e.setNewNode(this.getNodeAt(newPos.first, newPos.second));
-			//System.out.println(newPos.first +" -*-  "+newPos.second);
-
-			//System.out.println(e.x);
-			//System.out.println(e.y);
 		}
 		
 		//entities interactions

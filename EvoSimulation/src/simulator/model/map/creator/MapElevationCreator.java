@@ -57,6 +57,7 @@ public class MapElevationCreator extends javax.swing.JFrame {
         jlSize = new javax.swing.JLabel();
         jsSize = new javax.swing.JSlider();
         jsIntensity = new javax.swing.JSlider();
+        jbClear = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmFile = new javax.swing.JMenu();
         jmiOpen = new javax.swing.JMenuItem();
@@ -97,6 +98,29 @@ public class MapElevationCreator extends javax.swing.JFrame {
 
         jlSize.setText("Size");
 
+        jsSize.setMinimum(10);
+        jsSize.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sizeChanged(evt);
+            }
+        });
+
+        jsIntensity.setMaximum(20);
+        jsIntensity.setMinimum(1);
+        jsIntensity.setValue(10);
+        jsIntensity.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                intensityChanged(evt);
+            }
+        });
+        
+        jbClear.setText("Clear");
+        jbClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpControlPanelLayout = new javax.swing.GroupLayout(jpControlPanel);
         jpControlPanel.setLayout(jpControlPanelLayout);
         jpControlPanelLayout.setHorizontalGroup(
@@ -110,22 +134,26 @@ public class MapElevationCreator extends javax.swing.JFrame {
                 .addComponent(jlSize)
                 .addGap(18, 18, 18)
                 .addComponent(jsSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(jbClear)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpControlPanelLayout.setVerticalGroup(
             jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpControlPanelLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpControlPanelLayout.createSequentialGroup()
-                        .addComponent(jlIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpControlPanelLayout.createSequentialGroup()
-                        .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jsIntensity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jsSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jlSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(16, 16, 16))))
+                    .addComponent(jbClear)
+                    .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpControlPanelLayout.createSequentialGroup()
+                            .addComponent(jlIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpControlPanelLayout.createSequentialGroup()
+                            .addGroup(jpControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jsIntensity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jsSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jlSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(16, 16, 16)))))
         );
 
         jmFile.setText("File");
@@ -171,9 +199,9 @@ public class MapElevationCreator extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpModificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpViewPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jpControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -231,7 +259,18 @@ public class MapElevationCreator extends javax.swing.JFrame {
 			}
 		}
     }                                                    
+	private void jbClearActionPerformed(java.awt.event.ActionEvent evt) {                                        
+		jpViewPanel.config();
+    	jpModificationPanel.config();
+    	jpViewPanel.setInitProperties();
+    }   
+	private void sizeChanged(javax.swing.event.ChangeEvent evt) {                             
+		jpModificationPanel.changeSizeStroke(jsSize.getValue());
+    }                            
 
+    private void intensityChanged(javax.swing.event.ChangeEvent evt) {                                  
+    	jpModificationPanel.changeIntensity(jsIntensity.getValue());
+    }      
     /**
      * @param args the command line arguments
      */
@@ -269,6 +308,7 @@ public class MapElevationCreator extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton jbClear;
     private javax.swing.JLabel jlIntensity;
     private javax.swing.JLabel jlSize;
     private javax.swing.JMenu jmFile;

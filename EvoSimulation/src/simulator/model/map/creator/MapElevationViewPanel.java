@@ -32,7 +32,7 @@ public class MapElevationViewPanel extends JPanel{
 	
 	public MapElevationViewPanel(MapElevationModifierPanel map) {
 		map.addObserver(this);
-		
+		setInitProperties();
 	    keyListener = new KeyListener() {
 
 			@Override
@@ -86,6 +86,8 @@ public class MapElevationViewPanel extends JPanel{
     		}
     		@Override
 			public void mouseClicked(MouseEvent e) {
+
+    	        //requestFocus();
     			//pressed = true;
     			//current = e.getPoint();
     			//System.out.println("clicked");
@@ -123,6 +125,17 @@ public class MapElevationViewPanel extends JPanel{
 		this.addMouseMotionListener(mouseAdapter);
 		this.addMouseWheelListener(mouseAdapter);
 	}
+	public void setInitProperties() {
+		xSkew=1.0f;
+		ySkew=1.0f;
+		originX=0;
+		originY=0;
+		xs = 10;
+		ys = xs;
+
+        this.requestFocusInWindow();
+		repaint();
+	}
 	public void config() {
 		image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
 	
@@ -130,6 +143,8 @@ public class MapElevationViewPanel extends JPanel{
 	}
 	public void update(BufferedImage inImage) {
 		rootImage=inImage;
+
+        this.requestFocusInWindow();
 		repaint();
 	}
 	private BufferedImage reduceImage(BufferedImage img) {
