@@ -16,6 +16,12 @@ import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.map.Node;
 
+/**
+ * 
+ * @author fabrizioortega
+ * 
+ * Controller class
+ */
 public class Controller {
 	private EvoSimulator simulator;
 	private BuilderBasedFactory<Entity> entityFactory;
