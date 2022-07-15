@@ -23,6 +23,7 @@ public abstract class Entity implements IInteract{
 	protected Image img=null;
 	public Node node=null;
 	protected boolean alive;
+	protected float energy;
 	
 	public Entity(String id, Node n) {
 		type = ".";

@@ -85,7 +85,6 @@ public class Viewer extends AbstractViewer {
 					//System.out.println("ent  "+e.node.x+" "+e.node.y);
 					if(Math.abs(e.node.x-point.x)+Math.abs(e.node.x-point.x)<=selectionRatio) {
 						openEntityDialog(e);
-						System.out.println("yes");
 						
 					}
 				}
