@@ -15,8 +15,12 @@ public class B extends JFrame{
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.setColor(Color.green);
+				g.setColor(new Color(0,255,0,100));
 				g.fillRect(0, 0, 300, 300);
+				g.setColor(new Color(0,255,0,100));
+				g.fillRect(0, 0, 150, 150);
+				g.setColor(new Color(255,0,0,100));
+				g.fillRect(0, 0, 300, 100);
 			}
 		};
 		main.setMinimumSize(new Dimension(300,300));
@@ -44,7 +48,7 @@ public class B extends JFrame{
 		
 		this.setContentPane(main);
 		
-		main.add(op1);op1.add(op2);
+		//main.add(op1);op1.add(op2);
 		//main.add(op1);
 		
 		this.setMinimumSize(new Dimension(300,300));
