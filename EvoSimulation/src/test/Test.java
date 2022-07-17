@@ -1,67 +1,104 @@
 package test;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
+import javax.swing.SwingUtilities;
 
 public class Test extends JFrame {  
 	  
-	  private static final long serialVersionUID = 1L;  
-	  
-	  public Test(String title) {  
-	    super(title);  
-	    // Create dataset  
-	    DefaultCategoryDataset dataset = createDataset();  
-	    // Create chart  
-	    JFreeChart chart = ChartFactory.createLineChart(  
-	        "Site Traffic", // Chart title  
-	        "Date", // X-Axis Label  
-	        "Number of Visitor", // Y-Axis Label  
-	        dataset  
-	        );  
-	  
-	    ChartPanel panel = new ChartPanel(chart);  
-	    setContentPane(panel);  
-	  }  
-	  
-	  private DefaultCategoryDataset createDataset() {  
-	  
-	    String series1 = "Visitor";  
-	    String series2 = "Unique Visitor";  
-	  
-	    DefaultCategoryDataset dataset = new DefaultCategoryDataset();  
-	    dataset.addValue(200, series1, "2016-12-19");  
-	    dataset.addValue(150, series1, "2016-12-20");  
-	    dataset.addValue(100, series1, "2016-12-21");  
-	    dataset.addValue(210, series1, "2016-12-22");  
-	    dataset.addValue(240, series1, "2016-12-23");  
-	    dataset.addValue(195, series1, "2016-12-24");  
-	    dataset.addValue(245, series1, "2016-12-25");  
-	  
-	    dataset.addValue(150, series2, "2016-12-19");  
-	    dataset.addValue(130, series2, "2016-12-20");  
-	    dataset.addValue(95, series2, "2016-12-21");  
-	    dataset.addValue(195, series2, "2016-12-22");  
-	    dataset.addValue(200, series2, "2016-12-23");  
-	    dataset.addValue(180, series2, "2016-12-24");  
-	    dataset.addValue(230, series2, "2016-12-25");  
-	  
-	    return dataset;  
-	  }  
+	public Test() {  
+		  
+		
+		Img i1 = new Img("elevation1test");
+		Img i2 = new Img("test1");
+
+		JScrollPane pictureScrollPane = new JScrollPane();
+		pictureScrollPane.setViewportView(i1);
+		pictureScrollPane.setViewportView(i2);
+		//pictureScrollPane.remove(i1);
+		//pictureScrollPane.add(i1);
+        pictureScrollPane.setPreferredSize(new Dimension(300, 250));
+		
+        this.add(pictureScrollPane);
+        
+		this.setPreferredSize(new Dimension(300,300));
+		this.pack();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}  
+	public class Img extends JLabel implements Scrollable,MouseListener{
+		public ImageIcon img;
+		public Img(String filename) {
+			super(new ImageIcon("resources/maps/"+filename+".jpg"));
+			img = (ImageIcon) this.getIcon();
+			this.addMouseListener(this);
+		}
+		@Override
+		public Dimension getPreferredScrollableViewportSize() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportHeight() {
+			// TODO Auto-generated method stub
+			return false;
+
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println(img.toString()+e.getPoint());
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	  }
 	  
 	  public static void main(String[] args) {  
 	    SwingUtilities.invokeLater(() -> {  
-	    	Test example = new Test("Line Chart Example");  
-	      example.setAlwaysOnTop(true);  
-	      example.pack();  
-	      example.setSize(600, 400);  
-	      example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  
-	      example.setVisible(true);  
+	    	new Test().setVisible(true);
 	    });  
 	  }  
 	}  
