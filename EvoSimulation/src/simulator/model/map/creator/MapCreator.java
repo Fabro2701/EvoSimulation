@@ -39,8 +39,8 @@ public class MapCreator extends javax.swing.JFrame {
        setMaximumSize(new java.awt.Dimension(1400, 750));
        setMinimumSize(new java.awt.Dimension(1400, 750));
 
-       jtpMainPanel.addTab("Attributes", attributesPanel);
        jtpMainPanel.addTab("Terrain", terrainPanel);
+       jtpMainPanel.addTab("Attributes", attributesPanel);
        jtpMainPanel.addTab("Elevation", elevationPanel);
 
        jMenu1.setText("File");

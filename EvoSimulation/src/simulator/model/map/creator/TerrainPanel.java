@@ -1,13 +1,157 @@
 package simulator.model.map.creator;
 
-public class TerrainPanel extends javax.swing.JPanel {
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.util.EnumMap;
 
-    /**
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.Scrollable;
+
+import static simulator.Constants.MAP_TYPE;
+
+public class TerrainPanel extends javax.swing.JPanel {
+	private Controller ctrl;
+	/**
      * Creates new form TerrainPanel
      */
     public TerrainPanel() {
         initComponents();
+        ctrl = new Controller();
+        modificationPanel.setViewportView(ctrl.img);
     }
+	public class Controller implements MouseListener, MouseMotionListener{
+		private Graphics2D bufferGraphics;
+		   private BufferedImage bufferImage;
+		   private int strokeSize;
+		   private int width, height;
+		   private ModificationImage img;
+		   private Point current;
+		   private MAP_TYPE selection;
+		   private EnumMap<MAP_TYPE,Color>featureMap;
+		   
+		public Controller() {
+			width = 800;
+		   height = 800;
+		   
+		   strokeSize = 50;
+		   
+		   
+		   bufferImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+		   bufferGraphics = bufferImage.createGraphics();
+		   bufferGraphics.setColor(new Color(0,0,0,255));
+		   bufferGraphics.fillRect(0, 0, width, height);
+		   
+		   img = new ModificationImage(new ImageIcon(bufferImage), this);
+		   current = new Point();
+		   
+		   
+		   featureMap = new EnumMap<MAP_TYPE,Color>(MAP_TYPE.class);
+		   featureMap.put(MAP_TYPE.LAND,new Color(255,255,255,255));
+		   featureMap.put(MAP_TYPE.VOID,new Color(0,0,0,255));
+		   selection = MAP_TYPE.LAND;
+		}
+		public void resize(int x, int y) {
+			
+			Image tmp = bufferImage.getScaledInstance(x, y, Image.SCALE_DEFAULT);
+			
+			width = x;
+			height = y;
+			bufferImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+			bufferGraphics = bufferImage.createGraphics();
+			bufferGraphics.drawImage(tmp, 0, 0, null);
+			
+			img.setIcon(new ImageIcon(bufferImage));
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			current.setLocation(e.getPoint());
+		}
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			bufferGraphics.setStroke(new BasicStroke(strokeSize));
+			bufferGraphics.setColor(featureMap.get(selection));
+			//bufferGraphics.drawLine(current.x,current.y,e.getX(),e.getY());
+			bufferGraphics.fillOval(e.getX()-strokeSize/2, e.getY()-strokeSize/2, strokeSize, strokeSize);
+			
+			img.setIcon(new ImageIcon(bufferImage));
+			current.setLocation(e.getPoint());
+			
+		}
+		private class ModificationImage extends JLabel implements Scrollable{
+			public ModificationImage(ImageIcon icon, Controller ctrl) {
+				super(icon);
+				this.addMouseListener(ctrl);
+				this.addMouseMotionListener(ctrl);
+			}
+
+			@Override
+			public Dimension getPreferredScrollableViewportSize() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean getScrollableTracksViewportHeight() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		}
+
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {}
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		@Override
+		public void mouseMoved(MouseEvent e) {}
+		public void setStrokeSize(int value) {
+			// TODO Auto-generated method stub
+			strokeSize=value;
+		}
+		public void setSelection(String selectedItem) {
+			if(selectedItem.equals("Land")) {
+				selection = MAP_TYPE.LAND;
+			}
+			else {
+				selection = MAP_TYPE.VOID;
+			}
+		}
+		
+	}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -18,15 +162,15 @@ public class TerrainPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+    	modificationPanel = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        jsStrokeSize = new javax.swing.JSlider();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jtfSizeX = new javax.swing.JTextField();
+        jtfSizeY = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
 
@@ -34,10 +178,10 @@ public class TerrainPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1373, 682));
         setSize(new java.awt.Dimension(1373, 682));
 
-        jScrollPane1.setBorder(new javax.swing.border.MatteBorder(null));
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(600, 600));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(600, 600));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 600));
+        modificationPanel.setBorder(new javax.swing.border.MatteBorder(null));
+        modificationPanel.setMaximumSize(new java.awt.Dimension(600, 600));
+        modificationPanel.setMinimumSize(new java.awt.Dimension(600, 600));
+        modificationPanel.setPreferredSize(new java.awt.Dimension(600, 600));
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 
@@ -52,18 +196,28 @@ public class TerrainPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Stroke Size");
 
-        jSlider1.setMinimum(1);
-
-        jLabel3.setText("Canvas Size");
-
-        jTextField1.setText("500");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        jsStrokeSize.setMinimum(1);
+        jsStrokeSize.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jsStrokeSizeStateChanged(evt);
             }
         });
 
-        jTextField2.setText("500");
+        jLabel3.setText("Canvas Size");
+
+        jtfSizeX.setText("500");
+        jtfSizeX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfSizeXActionPerformed(evt);
+            }
+        });
+
+        jtfSizeY.setText("500");
+        jtfSizeY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfSizeYActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,13 +231,13 @@ public class TerrainPanel extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jsStrokeSize, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfSizeX, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfSizeY, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,10 +253,10 @@ public class TerrainPanel extends javax.swing.JPanel {
                         .addGap(15, 15, 15))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                            .addComponent(jsStrokeSize, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jtfSizeY, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfSizeX, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap())))
         );
 
@@ -128,7 +282,7 @@ public class TerrainPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE))
+                    .addComponent(modificationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -141,7 +295,7 @@ public class TerrainPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(modificationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,12 +305,21 @@ public class TerrainPanel extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+    	ctrl.setSelection((String)jComboBox1.getSelectedItem());
     }                                          
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
+    private void jtfSizeXActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        ctrl.resize(Integer.valueOf(jtfSizeX.getText()),Integer.valueOf(jtfSizeY.getText()));
+    }                                        
+    private void jtfSizeYActionPerformed(java.awt.event.ActionEvent evt) {                      
+        ctrl.resize(Integer.valueOf(jtfSizeX.getText()),Integer.valueOf(jtfSizeY.getText()));
+    }  
+    
+    private void jsStrokeSizeStateChanged(javax.swing.event.ChangeEvent evt) {                                          
+        ctrl.setStrokeSize(jsStrokeSize.getValue());
+    }                                          
+
+                                          
 
 
     // Variables declaration - do not modify                     
@@ -166,10 +329,11 @@ public class TerrainPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane modificationPanel;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JSlider jsStrokeSize;
+    private javax.swing.JTextField jtfSizeX;
+    private javax.swing.JTextField jtfSizeY;
     // End of variables declaration                   
+                
 }

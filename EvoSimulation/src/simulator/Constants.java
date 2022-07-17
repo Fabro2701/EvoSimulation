@@ -7,6 +7,11 @@ public final class Constants {
 	public static final int INTERACTION_DISTANCE = 4; 
 	public static float MOVEMENT_ENERGY_COST_CONSTANT = 10.0f;
 	public static float LIVE_ENERGY_COST_CONSTANT = 10.0f;
+	
+	public enum MAP_TYPE {
+		LAND,
+		VOID
+	}
 	public enum MOVE {
         UP {
 			@Override
