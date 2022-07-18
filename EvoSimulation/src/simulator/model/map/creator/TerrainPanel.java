@@ -10,6 +10,12 @@ import javax.swing.ImageIcon;
 
 import simulator.Constants.MAP_TYPE;
 
+/**
+ * TerrainPanel creates the enumeration distinction of the map nodes
+ * 
+ * @author fabrizioortega
+ *
+ */
 public class TerrainPanel extends AbstractCreatorPanel {
 
 	public TerrainPanel() {
@@ -20,7 +26,9 @@ public class TerrainPanel extends AbstractCreatorPanel {
 
 	protected class Controller extends AbstractCreatorPanel.Controller {
 		protected int strokeSize;
+		// selection is the current MAP_TYPE (Land,Void)
 		protected MAP_TYPE selection;
+		// featureMap map of MAP_TYPE's
 		protected EnumMap<MAP_TYPE, Color> featureMap;
 
 		public Controller(int width, int height, Color initColor) {
@@ -60,6 +68,12 @@ public class TerrainPanel extends AbstractCreatorPanel {
 			}
 		}
 
+		/**
+		 * Resize the current canvas Pending global resizing
+		 * 
+		 * @param w
+		 * @param h
+		 */
 		public void resize(int w, int h) {
 			Image tmp = bufferImage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
 

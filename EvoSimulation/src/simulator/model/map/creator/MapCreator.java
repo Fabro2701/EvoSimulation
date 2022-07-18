@@ -15,14 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
-*
-* @author fabrizioortega
-*/
-/**
  *
  * @author fabrizioortega
  */
+
 public class MapCreator extends javax.swing.JFrame {
+	private static final long serialVersionUID = 2L;
+
 	private PanelManager panelManager;
 
 	/**

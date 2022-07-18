@@ -15,7 +15,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
+/**
+ * AbstractCreatorPanel incorporates common behaviours of the components of
+ * MapCreator, like get and set of bufferImage; the Controller,
+ * ModificationImage and ViewImage each with its common functionality
+ * 
+ * @author fabrizioortega
+ *
+ */
 public abstract class AbstractCreatorPanel extends JPanel {
+	private static final long serialVersionUID = 2L;
+
 	protected Controller ctrl;
 
 	public AbstractCreatorPanel() {
@@ -26,6 +36,11 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		return ctrl.bufferImage;
 	}
 
+	/**
+	 * Set a new bufferImage and update what is necessary
+	 * 
+	 * @param inImg
+	 */
 	public void setImage(BufferedImage inImg) {
 		ctrl.bufferImage = inImg;
 		ctrl.bufferGraphics = ctrl.bufferImage.createGraphics();
@@ -35,6 +50,12 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Controller manages the events on ModificationPanel
+	 * 
+	 * @author fabrizioortega
+	 *
+	 */
 	protected abstract class Controller implements MouseListener, MouseMotionListener {
 		protected Graphics2D bufferGraphics;
 		protected BufferedImage bufferImage;
@@ -43,6 +64,12 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		protected Point current;
 		public ViewImage viewObserver;
 
+		/**
+		 * 
+		 * @param width
+		 * @param height
+		 * @param initColor initial color for the ModificationPanel
+		 */
 		public Controller(int width, int height, Color initColor) {
 			this.width = width;
 			this.height = height;
@@ -58,6 +85,8 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		}
 
 		protected class ModificationImage extends JLabel implements Scrollable {
+			private static final long serialVersionUID = 2L;
+
 			public ModificationImage(ImageIcon icon) {
 				super(icon);
 				this.addMouseListener(Controller.this);
@@ -92,6 +121,8 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		}
 
 		protected abstract class ViewImage extends JLabel implements Scrollable {
+			private static final long serialVersionUID = 2L;
+
 			public abstract void update(BufferedImage image);
 
 			@Override
@@ -126,6 +157,9 @@ public abstract class AbstractCreatorPanel extends JPanel {
 
 		}
 
+		/**
+		 * Each creator component has its own way to modify ModificationPanel
+		 */
 		@Override
 		public abstract void mouseDragged(MouseEvent e);
 
@@ -154,8 +188,14 @@ public abstract class AbstractCreatorPanel extends JPanel {
 
 	}
 
+	/**
+	 * init GUI components
+	 */
 	public abstract void initComponents();
 
+	/**
+	 * Modification and view panel
+	 */
 	protected javax.swing.JScrollPane modificationPanel;
 	protected javax.swing.JScrollPane viewPanel;
 }
