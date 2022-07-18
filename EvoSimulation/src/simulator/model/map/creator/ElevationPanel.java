@@ -69,7 +69,8 @@ public class ElevationPanel extends AbstractCreatorPanel {
 
 			bufferGraphics.fillOval(e.getX() - strokeSize / 2, e.getY() - strokeSize / 2, strokeSize, strokeSize);
 			current.setLocation(e.getPoint());
-			img.setIcon(new ImageIcon(bufferImage));
+			ElevationPanel.this.repaint();
+			// img.setIcon(new ImageIcon(bufferImage));
 			viewObserver.update(bufferImage);
 
 		}

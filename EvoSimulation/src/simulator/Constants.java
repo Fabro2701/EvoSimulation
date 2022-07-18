@@ -4,45 +4,46 @@ import util.Pair;
 
 public final class Constants {
 	public static int jsonView = 0;
-	public static final int INTERACTION_DISTANCE = 4; 
+	public static final int INTERACTION_DISTANCE = 4;
 	public static float MOVEMENT_ENERGY_COST_CONSTANT = 10.0f;
 	public static float LIVE_ENERGY_COST_CONSTANT = 10.0f;
-	
+
 	public enum MAP_TYPE {
-		LAND,
-		VOID
+		LAND, VOID;
 	}
+
 	public enum MOVE {
-        UP {
+		UP {
 			@Override
 			public Pair<Integer, Integer> getPosChange() {
-				return new Pair<>(0,-1);
+				return new Pair<>(0, -1);
 			}
 		},
-        RIGHT {
+		RIGHT {
 			@Override
 			public Pair<Integer, Integer> getPosChange() {
-				return new Pair<>(1,0);
+				return new Pair<>(1, 0);
 			}
 		},
-        DOWN {
+		DOWN {
 			@Override
 			public Pair<Integer, Integer> getPosChange() {
-				return new Pair<>(0,1);
+				return new Pair<>(0, 1);
 			}
 		},
-        LEFT {
+		LEFT {
 			@Override
 			public Pair<Integer, Integer> getPosChange() {
-				return new Pair<>(-1,0);
+				return new Pair<>(-1, 0);
 			}
 		},
-        NEUTRAL {
+		NEUTRAL {
 			@Override
 			public Pair<Integer, Integer> getPosChange() {
-				return new Pair<>(0,0);
+				return new Pair<>(0, 0);
 			}
 		};
-		public abstract Pair<Integer,Integer> getPosChange();
-    }
+
+		public abstract Pair<Integer, Integer> getPosChange();
+	}
 }

@@ -22,6 +22,19 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		initComponents();
 	}
 
+	public BufferedImage getBufferImage() {
+		return ctrl.bufferImage;
+	}
+
+	public void setImage(BufferedImage inImg) {
+		ctrl.bufferImage = inImg;
+		ctrl.bufferGraphics = ctrl.bufferImage.createGraphics();
+		ctrl.img.setIcon(new ImageIcon(ctrl.bufferImage));
+		if (ctrl.viewObserver != null)
+			ctrl.viewObserver.update(ctrl.bufferImage);
+		repaint();
+	}
+
 	protected abstract class Controller implements MouseListener, MouseMotionListener {
 		protected Graphics2D bufferGraphics;
 		protected BufferedImage bufferImage;
@@ -37,12 +50,11 @@ public abstract class AbstractCreatorPanel extends JPanel {
 			current = new Point();
 
 			bufferImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
 			bufferGraphics = bufferImage.createGraphics();
 			bufferGraphics.setColor(initColor);
 			bufferGraphics.fillRect(0, 0, width, height);
 
-			// img = new ModificationImage(new ImageIcon(bufferImage));
-			// modificationPanel.setViewportView(this.img);
 		}
 
 		protected class ModificationImage extends JLabel implements Scrollable {
