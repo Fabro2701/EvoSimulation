@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class Node {
 	public int x, y;
-	private float temperature, radiation, elevation;
+	public float temperature, radiation, elevation;
 
 	public Node(int x, int y, int r, int g) {
 		this.x = x;

@@ -23,40 +23,42 @@ import statistics.visualizers.AreaChartVisualizer;
 import statistics.visualizers.StatsVisualizer;
 
 public class Main {
-	
+
 	private static EvoSimulator simulator;
 	private static Controller controller;
-	
+
 	public static void main(String args[]) {
-		
-		StatsVisualizer sv = new AreaChartVisualizer(new PopulationCountStats(),"Population status");
-		
+
+		StatsVisualizer sv = new AreaChartVisualizer(new PopulationCountStats(), "Population status");
+
 		EventManager eventManager = new EventManager();
-		
+
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();
 		eventBuilders.add(new AddEntitiesEventBuilder());
 		eventBuilders.add(new AddFoodDistributionEventBuilder());
 
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);
-		
-		
+
 		List<Builder<Entity>> entityBuilders = new ArrayList<Builder<Entity>>();
 		entityBuilders.add(new SimpleRandomEntityBuilder());
 		entityBuilders.add(new SimpleUPEntityBuilder());
 		entityBuilders.add(new FoodEntityBuilder());
-		
+
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
-		
+
 		simulator = new EvoSimulator();
-    	controller = new Controller(simulator,entityFactory,eventFactory,eventManager);
-    	
-    	try {
+		controller = new Controller(simulator, entityFactory, eventFactory, eventManager);
+
+		try {
+			controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
 			controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-		SwingUtilities.invokeLater(()->{new LauncherGUI(controller).setVisible(true);});
+
+		SwingUtilities.invokeLater(() -> {
+			new LauncherGUI(controller).setVisible(true);
+		});
 	}
 }

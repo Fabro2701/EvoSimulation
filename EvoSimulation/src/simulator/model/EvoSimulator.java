@@ -29,6 +29,10 @@ public class EvoSimulator {
 	}
 
 	public void update() {
+		for (Entity e : entities) {
+			e.update();
+		}
+
 		// entities movements
 		for (Entity e : entities) {
 			MOVE move = e.getMove();
