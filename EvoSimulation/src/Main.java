@@ -19,8 +19,10 @@ import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.models.PopulationAgeStats;
 import statistics.models.PopulationCountStats;
 import statistics.visualizers.AreaChartVisualizer;
+import statistics.visualizers.LineChartVisualizer;
 import statistics.visualizers.StatsVisualizer;
 
 public class Main {
@@ -30,7 +32,8 @@ public class Main {
 
 	public static void main(String args[]) {
 
-		StatsVisualizer sv = new AreaChartVisualizer(new PopulationCountStats(), "Population status");
+		StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(), "Population status");
+		StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(), "Age Population");
 
 		EventManager eventManager = new EventManager();
 

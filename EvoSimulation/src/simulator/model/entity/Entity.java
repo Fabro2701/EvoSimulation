@@ -63,6 +63,7 @@ public abstract class Entity implements IInteract {
 
 	public void vanish() {
 		StatsManager.getInstance().onEntityVanished(-1);
+		StatsManager.getInstance().onEntityDead(-1,age);
 		alive = false;
 	}
 

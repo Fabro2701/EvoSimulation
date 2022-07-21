@@ -46,4 +46,10 @@ public class StatsManager implements StatsObserver{
 			observer.onEntityVanished(time);
 		}
 	}
+	@Override
+	public void onEntityDead(int time, int age) {
+		for(StatsObserver observer:observers) {
+			observer.onEntityDead(time, age);
+		}
+	}
 }
