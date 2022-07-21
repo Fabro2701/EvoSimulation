@@ -7,7 +7,7 @@ public class RandomSingleton {
     private Random _rnd;
 
     private RandomSingleton() {
-    	_rnd = new Random(333);
+    	_rnd = new Random(1);
     }
 
     public static RandomSingleton getInstance() {
