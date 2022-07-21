@@ -4,54 +4,54 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import simulator.model.entity.individuals.Chromosome;
+import simulator.model.entity.individuals.Phenotype;
+
 public class Grammar {
-	public HashMap<NonTerminal, List<Production>> productions;
-	public HashMap<String, NonTerminal> nonTerminals;
-	public HashMap<String, Terminal> terminals;
-	private Term initial;
+	public HashMap<Symbol, List<Production>> rules;
+
+	private Symbol initial;
 	
 	
 
 	public Grammar() {
-		productions = new HashMap<NonTerminal, List<Production>>();
-		nonTerminals = new HashMap<String, NonTerminal>();
-		terminals = new HashMap<String, Terminal>();
+		rules = new HashMap<Symbol, List<Production>>();
 	}
-
-	public class Term {
+	public static enum SymbolType{NTerminal,Terminal}
+	public class Symbol {
 		String name;
-
-		public Term(String name) {
+		String realValue;
+		SymbolType type;
+		public Symbol(String name, SymbolType type) {
+			this.type = type;
 			this.name = name;
+			realValue = name;
 		}
-
+		public String getRealValue() {return name;}
+		public SymbolType getType() {return type;}
 		@Override
-		public String toString() {return name;}
+		public String toString() {return "<"+name+">";}
 
 		@Override
 		public int hashCode() {
 			return name.hashCode();
 		}
-	}
-
-	class NonTerminal extends Term {
-		public NonTerminal(String name) {
-			super(name);
+		
+		public boolean equals(String s) {
+			return this.name.equals(s);
+		}
+		public boolean equals(Symbol s) {
+			return this.name.equals(s.name)&&this.type==s.type;
 		}
 	}
 
-	public class Terminal extends Term {
-		public Terminal(String name) {
-			super(name);
-		}
-
-	}
+	
 
 	public class Production {
-		public List<Term> terms;
+		public List<Symbol> terms;
 		int numTerms;
-		public Production(Term... terms) {
-			this.terms = new ArrayList<Term>();
+		public Production(Symbol... terms) {
+			this.terms = new ArrayList<Symbol>();
 			for (int i = 0; i < terms.length; i++) {
 				this.terms.add(terms[i]);
 			}
@@ -61,7 +61,7 @@ public class Grammar {
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
-			for (Term t : terms) {
+			for (Symbol t : terms) {
 				sb.append(t);
 				sb.append(' ');
 
@@ -70,19 +70,27 @@ public class Grammar {
 			return sb.toString();
 		}
 	}
-	public Term getInitial() {
+	public Symbol getInitial() {
 		return initial;
 	}
 
-	public void setInitial(Term initial) {
+	public void setInitial(Symbol initial) {
+		if(initial.getType()==SymbolType.Terminal)throw new IllegalArgumentException("The initial symbol has to be non-Terminal");
 		this.initial = initial;
 	}
+	public void addRule(Symbol s, List<Production>l) {
+		rules.put(s, l);
+	}
+	public List<Production> getRule(Symbol s){
+		return rules.get(s);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (NonTerminal nt : productions.keySet()) {
+		for (Symbol nt : rules.keySet()) {
 			sb.append(nt + " -> ");
-			for (Production p : productions.get(nt)) {
+			for (Production p : rules.get(nt)) {
 				sb.append(p);
 				sb.append('|');
 			}
@@ -93,83 +101,128 @@ public class Grammar {
 	}
 	public Grammar(String s) {
 		this();
-		Terminal a = new Terminal("a");
-		Terminal b = new Terminal("b");
-		Terminal c = new Terminal("c");
+		Grammar g=this;
+		
+		Symbol right = g.new Symbol("RIGHT",Grammar.SymbolType.Terminal);
+		Symbol left = g.new Symbol("LEFT",Grammar.SymbolType.Terminal);
+		Symbol up = g.new Symbol("UP",Grammar.SymbolType.Terminal);
+		Symbol down = g.new Symbol("DOWN",Grammar.SymbolType.Terminal);
+		Symbol neutral = g.new Symbol("NEUTRAL",Grammar.SymbolType.Terminal);
+		Symbol _if = g.new Symbol("if",Grammar.SymbolType.Terminal);
+		Symbol _then = g.new Symbol("_then_",Grammar.SymbolType.Terminal);
+		Symbol _else = g.new Symbol("else",Grammar.SymbolType.Terminal);
+		Symbol _endif = g.new Symbol("endif",Grammar.SymbolType.Terminal);
+		Symbol r_f_d = g.new Symbol("r_f_d",Grammar.SymbolType.Terminal);
+		Symbol l_f_d = g.new Symbol("l_f_d",Grammar.SymbolType.Terminal);
+		Symbol u_f_d = g.new Symbol("u_f_d",Grammar.SymbolType.Terminal);
+		Symbol d_f_d = g.new Symbol("d_f_d",Grammar.SymbolType.Terminal);
+		Symbol _parent1 = g.new Symbol("(",Grammar.SymbolType.Terminal);
+		Symbol _parent2 = g.new Symbol(")",Grammar.SymbolType.Terminal);
+		Symbol _semicolon = g.new Symbol(";",Grammar.SymbolType.Terminal);
+		Symbol _brack1 = g.new Symbol("{",Grammar.SymbolType.Terminal);
+		Symbol _brack2 = g.new Symbol("}",Grammar.SymbolType.Terminal);
+		Symbol _posF = g.new Symbol("posF",Grammar.SymbolType.Terminal);
 
-		NonTerminal A = new NonTerminal("A");
-		NonTerminal B = new NonTerminal("B");
-		NonTerminal C = new NonTerminal("C");
+		Symbol CODE = g.new Symbol("CODE",Grammar.SymbolType.NTerminal);
+		Symbol LINE = g.new Symbol("LINE",Grammar.SymbolType.NTerminal);
+		Symbol ACTION = g.new Symbol("ACTION",Grammar.SymbolType.NTerminal);
+		Symbol IF = g.new Symbol("IF",Grammar.SymbolType.NTerminal);
+		Symbol COND = g.new Symbol("COND",Grammar.SymbolType.NTerminal);
+		Symbol OBS = g.new Symbol("OBS",Grammar.SymbolType.NTerminal);
 
-		List<Production> pA = new ArrayList<Production>();
-		Production pA1 = new Production(a, C, a, B, b, B);
-		Production pA2 = new Production(a, A);
-		pA.add(pA1);
-		pA.add(pA2);
-		this.productions.put(A, pA);
-
-		List<Production> pB = new ArrayList<Production>();
-
-		Production pB1 = new Production(a, B);
-		Production pB2 = new Production(C, b);
-		Production pB3 = new Production(b,C,b);
-		pB.add(pB3);
-		pB.add(pB1);
-		pB.add(pB2);
-		this.productions.put(B, pB);
-
-		List<Production> pC = new ArrayList<Production>();
-		Production pC1 = new Production(c);
-		Production pC2 = new Production(C, c);
-		pC.add(pC1);
-		pC.add(pC2);
-		this.productions.put(C, pC);
+		
+		List<Production> pCode = new ArrayList<Production>();
+		Production pCode1 = g.new Production(LINE);
+		Production pCode2 = g.new Production(CODE,LINE);
+		pCode.add(pCode1);
+		pCode.add(pCode2);
+		g.addRule(CODE, pCode);
 		
 		
-		nonTerminals.put("A",A);
-		nonTerminals.put("B",B);
-		nonTerminals.put("C",C);
-		terminals.put("a",a);
-		terminals.put("b",b);
-		terminals.put("c",c);
-		terminals.put(")",new Terminal(")"));
-		//terminals.put("(",new Terminal("("));
+		List<Production> pLine = new ArrayList<Production>();
+		Production pLine1 = g.new Production(ACTION,_semicolon);
+		Production pLine2 = g.new Production(IF);
+		pLine.add(pLine1);
+		pLine.add(pLine2);
+		g.addRule(LINE,pLine);
 		
-		this.setInitial(A);
+		List<Production> pAction = new ArrayList<Production>();
+		Production pA1 = g.new Production(right);
+		Production pA2 = g.new Production(left);
+		Production pA3 = g.new Production(up);
+		Production pA4 = g.new Production(down);
+		Production pA5 = g.new Production(neutral);
+		pAction.add(pA1);
+		pAction.add(pA2);
+		pAction.add(pA3);
+		pAction.add(pA4);
+		pAction.add(pA5);
+		g.addRule(ACTION, pAction);
+		
+		List<Production> pIf = new ArrayList<Production>();
+		Production pIf1 = g.new Production(_if,COND,_brack1,LINE,_brack2,_else,_brack1,LINE,_brack2,_endif);
+		Production pIf2 = g.new Production(_if,COND,_brack1,LINE,_brack2,_endif);
+		pIf.add(pIf1);
+		pIf.add(pIf2);
+		g.rules.put(IF,pIf);
+		
+		List<Production> pCond = new ArrayList<Production>();
+		Production pCond1 = g.new Production(_parent1,OBS,_parent2);
+		pCond.add(pCond1);
+		g.addRule(COND,pCond);
+
+		
+		List<Production> pObs = new ArrayList<Production>();
+		Production pObs1 = g.new Production(r_f_d);
+		Production pObs2 = g.new Production(l_f_d);
+		Production pObs3 = g.new Production(u_f_d);
+		Production pObs4 = g.new Production(d_f_d);
+		pObs.add(pObs1);
+		pObs.add(pObs2);
+		pObs.add(pObs3);
+		pObs.add(pObs4);
+		g.addRule(OBS,pObs);
+		
+		g.setInitial(CODE);
 	}
 	public static void main(String args[]) {
-		Grammar g = new Grammar();
+		Grammar g = new Grammar("s");
+		System.out.println(g);
+		Chromosome c = new Chromosome(30);
+		c.setIntToCodon(0, 1);
+		c.setIntToCodon(1, 1);
+		c.setIntToCodon(2, 1);
+		c.setIntToCodon(3, 0);
+		c.setIntToCodon(4, 1);
+		c.setIntToCodon(5, 1);
+		c.setIntToCodon(6, 0);
+		c.setIntToCodon(7, 2);
+		c.setIntToCodon(8, 0);
+		c.setIntToCodon(9, 2);
+		c.setIntToCodon(10, 1);
+		c.setIntToCodon(11, 1);
+		c.setIntToCodon(12, 0);
+		c.setIntToCodon(13, 3);
+		c.setIntToCodon(14, 0);
+		c.setIntToCodon(15, 3);
 
-		Terminal a = g.new Terminal("a");
-		Terminal b = g.new Terminal("b");
-		Terminal c = g.new Terminal("c");
+		c.setIntToCodon(16, 1);
+		c.setIntToCodon(17, 1);
+		c.setIntToCodon(18, 0);
+		c.setIntToCodon(19, 1);
+		c.setIntToCodon(20, 0);
+		c.setIntToCodon(21, 1);
 
-		NonTerminal A = g.new NonTerminal("A");
-		NonTerminal B = g.new NonTerminal("B");
-		NonTerminal C = g.new NonTerminal("C");
-
-		List<Production> pA = new ArrayList<Production>();
-		Production pA1 = g.new Production(B, a, b, C);
-		Production pA2 = g.new Production(a);
-		pA.add(pA1);
-		pA.add(pA2);
-		g.productions.put(A, pA);
-
-		List<Production> pB = new ArrayList<Production>();
-		Production pB1 = g.new Production(A, B);
-		Production pB2 = g.new Production(C, B);
-		Production pB3 = g.new Production(b);
-		pB.add(pB1);
-		pB.add(pB2);
-		pB.add(pB3);
-		g.productions.put(B, pB);
-
-		List<Production> pC = new ArrayList<Production>();
-		Production pC1 = g.new Production(C, c);
-		pC.add(pC1);
-		g.productions.put(C, pC);
-
-		System.out.println(new Grammar("d"));
-
+		c.setIntToCodon(22, 1);
+		c.setIntToCodon(23, 1);
+		c.setIntToCodon(24, 0);
+		c.setIntToCodon(25, 0);
+		c.setIntToCodon(26, 0);
+		c.setIntToCodon(27, 0);
+		Phenotype pt = new Phenotype(c.parseGrammar(g));
+		
+		System.out.println(pt.getVisualCode());
+		
+		
 	}
 }
