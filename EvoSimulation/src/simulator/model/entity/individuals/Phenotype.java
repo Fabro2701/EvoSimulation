@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import grammar.Grammar.Symbol;
+import simulator.Constants.MOVE;
 
 /**
  * 
@@ -15,11 +16,14 @@ public class Phenotype extends LinkedList<Symbol>{
 	String visualization;
 	Iterator<Symbol>it;
 	Symbol current;
+	boolean valid;
 	public Phenotype() {
 		super();
+		valid=false;
 	}
 	public Phenotype(LinkedList<Symbol>l) {
 		super(l);
+		valid=true;
 	}
 	public void jumpToEndIf(){
 		int cont=0;
@@ -37,10 +41,14 @@ public class Phenotype extends LinkedList<Symbol>{
 		}
 	}
 	public Symbol getNext(HashMap<String, Integer>observations) {
+		int cont=0;
+		int limit=50;
+		if(!valid)return null;
 		if(it==null||!it.hasNext())it=this.iterator();
 		current=it.next();
 		boolean jump=false;
 		while(true) {
+			cont++;
 			if(current.equals("UP")||current.equals("DOWN")||current.equals("LEFT")||current.equals("RIGHT")||current.equals("NEUTRAL")) {
 				return current;
 			}
@@ -92,6 +100,7 @@ public class Phenotype extends LinkedList<Symbol>{
 				if(!it.hasNext())it=this.iterator();
 				current=it.next();
 			}
+			if(cont>=limit)return null;
 		}
 		
 	}

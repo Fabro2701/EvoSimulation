@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import org.json.JSONObject;
 
 import simulator.Constants.MOVE;
+import simulator.control.Controller;
+import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 import simulator.view.viewer.Viewer;
 import statistics.StatsManager;
@@ -39,7 +41,7 @@ public abstract class Entity implements IInteract {
 		age=0;
 	}
 
-	public abstract void update();
+	public abstract void update(EvoSimulator evoSimulator);
 
 	public final MOVE getMove(HashMap<String,Integer>observations) {
 		MOVE m = getTheMove(observations);
@@ -48,9 +50,9 @@ public abstract class Entity implements IInteract {
 
 		return m;
 	}
-
+	public final int getAge() {return age;}
 	public abstract MOVE getTheMove(HashMap<String,Integer>observations);
-
+	public abstract boolean shouldInteract();
 	@Override
 	public void interact(Entity e) {
 		if (!this.alive || !e.isAlive())
@@ -63,7 +65,7 @@ public abstract class Entity implements IInteract {
 
 	public void vanish() {
 		StatsManager.getInstance().onEntityVanished(-1);
-		StatsManager.getInstance().onEntityDead(-1,age);
+		StatsManager.getInstance().onEntityDead(-1,this);
 		alive = false;
 	}
 

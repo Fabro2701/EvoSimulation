@@ -17,6 +17,8 @@ import simulator.factories.builders.entity.SimpleRandomEntityBuilder;
 import simulator.factories.builders.entity.SimpleUPEntityBuilder;
 import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
+import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
+import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import statistics.models.PopulationAgeStats;
@@ -40,6 +42,8 @@ public class Main {
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();
 		eventBuilders.add(new AddEntitiesEventBuilder());
 		eventBuilders.add(new AddFoodDistributionEventBuilder());
+		eventBuilders.add(new AddFoodGeneratorEventBuilder());
+		eventBuilders.add(new AddRandomEntitiesGeneratorEventBuilder());
 
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);
 
@@ -61,9 +65,9 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		SwingUtilities.invokeLater(() -> {
+		controller.run(100000);
+		/*SwingUtilities.invokeLater(() -> {
 			new LauncherGUI(controller).setVisible(true);
-		});
+		});*/
 	}
 }

@@ -3,6 +3,8 @@ package statistics;
 import java.util.ArrayList;
 import java.util.List;
 
+import simulator.model.entity.Entity;
+
 public class StatsManager implements StatsObserver{
     private static StatsManager single_instance = null;
  
@@ -47,9 +49,9 @@ public class StatsManager implements StatsObserver{
 		}
 	}
 	@Override
-	public void onEntityDead(int time, int age) {
+	public void onEntityDead(int time, Entity e) {
 		for(StatsObserver observer:observers) {
-			observer.onEntityDead(time, age);
+			observer.onEntityDead(time, e);
 		}
 	}
 }

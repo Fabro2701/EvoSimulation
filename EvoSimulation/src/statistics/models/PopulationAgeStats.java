@@ -3,6 +3,8 @@ package statistics.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import simulator.model.entity.Entity;
+import simulator.model.entity.individuals.GIndividual;
 import statistics.StatsData;
 import statistics.visualizers.StatsVisualizer;
 
@@ -50,9 +52,16 @@ public class PopulationAgeStats extends StatsData{
 		}
 	}
 	@Override
-	public void onEntityDead(int time, int age) {
+	public void onEntityDead(int time, Entity e) {
 		alivePopulation--;
-		max = max>age?max:age;
+	
+		if(e.getAge()>max) {
+			System.out.println("max: "+e.getAge());
+			System.out.println(((GIndividual)e).getPhenotype().getVisualCode());
+		}
+		max = max>e.getAge()?max:e.getAge();
+		
+		
 		//dataset.addValue(Float.valueOf(avg/alivePopulation), "avgAge", Integer.valueOf(currentTime));
 		dataset.addValue(Float.valueOf(max), "maxAge", Integer.valueOf(currentTime));
 		for(StatsVisualizer v:visualizers) {

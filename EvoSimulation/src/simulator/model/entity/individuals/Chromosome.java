@@ -41,7 +41,7 @@ public class Chromosome {
 		LinkedList<Symbol> terminals = new LinkedList<Symbol>();
 		// = new ArrayList<Production>(); 
 		// ps.addAll(0,g.productions.get(init));
-		int limit=100;
+		int limit=50;
 		int i=0;
 		int cont=0;
 		int calls=0;
@@ -52,7 +52,8 @@ public class Chromosome {
 			int r = codons.get(i).intValue%m;
 			q.addAll(0, ps.get(r).terms);
 			
-			//terminals.add(g.new Terminal("("));calls++;
+			//terminals.add(g.new Terminal("("));
+			calls++;
 			while(!q.isEmpty() && q.getFirst().getType()==Grammar.SymbolType.Terminal) {
 				if(!q.getFirst().toString().equals(")"))cont++;
 				terminals.add(q.pop());
@@ -74,7 +75,12 @@ public class Chromosome {
 		
 		return terminals;
 	}
-	
+	public void mutate(float mutationProb) {
+		float r = (0.01f+mutationProb)/255.0f;
+		if(RandomSingleton.nextFloat()<r) {
+			codons.get(RandomSingleton.nextInt(codons.size())).setInt(RandomSingleton.nextInt(256-1));;
+		}
+	}
 	class Codon{
 		BitSet bits;
 		int intValue;
@@ -85,6 +91,9 @@ public class Chromosome {
 		public Codon(int n) {
 			bits = new BitSet(8);
 			intValue = n;
+		}
+		public void setInt(int v) {
+			intValue=v;
 		}
 		
 	}

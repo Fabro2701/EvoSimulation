@@ -3,6 +3,8 @@ package simulator.model.entity;
 import java.util.HashMap;
 
 import simulator.Constants.MOVE;
+import simulator.control.Controller;
+import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public abstract class PasiveEntity extends Entity {
@@ -24,8 +26,10 @@ public abstract class PasiveEntity extends Entity {
 	}
 
 	@Override
-	public void update() {
+	public void update(EvoSimulator evoSimulator) {
 		// pending
 	}
+	@Override
+	public boolean shouldInteract() {return false;}
 
 }

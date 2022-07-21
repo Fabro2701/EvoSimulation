@@ -1,40 +1,75 @@
 package simulator.model.entity.individuals;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
 import grammar.Grammar;
+import grammar.Grammar.Symbol;
 import simulator.Constants.MOVE;
+import simulator.RandomSingleton;
+import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public class MyIndividual extends GIndividual{
-
+	public MyIndividual(MyIndividual e) {
+		super(e.id, e.node);
+		type = "mi";
+		img = new ImageIcon("resources/entities/myentity.png").getImage();
+		grammar = new Grammar("s");
+		genotype = new Genotype(e.genotype.get(0));
+		mutate();
+		//if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		LinkedList<Symbol> crom = genotype.get(0).parseGrammar(grammar);
+		
+		if(crom==null) {
+			phenotype = new Phenotype();
+		}
+		else phenotype = new Phenotype(crom);
+		
+		
+	}
 	public MyIndividual(String id, Node n) {
 		super(id, n);
 		type = "mi";
 		img = new ImageIcon("resources/entities/myentity.png").getImage();
 		grammar = new Grammar("s");
-		Chromosome c = new Chromosome(100);
+		Chromosome c = new Chromosome(50);
 
-		c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		LinkedList<Symbol> crom = c.parseGrammar(grammar);
 		
 		genotype = new Genotype(c);
-		phenotype = new Phenotype(c.parseGrammar(grammar));
+		
+		if(crom==null) {
+			phenotype = new Phenotype();
+		}
+		else phenotype = new Phenotype(crom);
 	}
 
-	
-	
+	public void mutate() {
+		genotype.get(0).mutate(this.node.radiation);
+	}
+	@Override
+	public void update(EvoSimulator simulator) {
+		super.update(simulator);
+		if(((float)age/50000.0f)>RandomSingleton.nextFloat()) {
+			simulator.addEntity(new MyIndividual(this));
+			//simulator.addEntity(new MyIndividual(this));
+		}
+		
+	}
 	@Override
 	public MOVE getTheMove(HashMap<String,Integer>observations) {
+		Symbol moveS = phenotype.getNext(observations);
+		if(moveS==null)return MOVE.NEUTRAL;		
 		
-		String move = phenotype.getNext(observations).getRealValue();
-		
-		return MOVE.valueOf(move);
+		return MOVE.valueOf(moveS.getRealValue());
 	}
 	
 	public static void main(String args[]) {
-		MyIndividual m = new MyIndividual("fa",null);
+		MyIndividual m = new MyIndividual("-1",null);
 		System.out.println(m.phenotype.getVisualCode());
 		
 		HashMap<String,Integer>r = new HashMap<String,Integer>();

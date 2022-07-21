@@ -7,7 +7,7 @@ public class RandomSingleton {
     private Random _rnd;
 
     private RandomSingleton() {
-    	_rnd = new Random(1);
+    	_rnd = new Random(11);
     }
 
     public static RandomSingleton getInstance() {
@@ -22,5 +22,8 @@ public class RandomSingleton {
     }
     public static int nextInt(int u) {
         return getInstance()._rnd.nextInt(u);
+   }
+    public static double nextFloat() {
+        return getInstance()._rnd.nextFloat();
    }
 }

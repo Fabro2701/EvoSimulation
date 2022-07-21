@@ -40,6 +40,7 @@ public class AddFoodDistributionEvent extends OneTimeEvent{
 			
 		}
 		ctrl.loadEntities(arr);
+		executionTime = -1;
 	}
 
 }

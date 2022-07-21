@@ -1,5 +1,7 @@
 package statistics;
 
+import simulator.model.entity.Entity;
+
 public interface StatsObserver {
 	default public void onRegister() {}
 	
@@ -9,5 +11,5 @@ public interface StatsObserver {
 
 	default public void onEntityVanished(int time) {}
 	
-	default public void onEntityDead(int time, int age) {}
+	default public void onEntityDead(int time, Entity e) {}
 }

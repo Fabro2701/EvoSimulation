@@ -65,8 +65,8 @@ public class EvoSimulator {
 		return r;
 	}
 	public void update() {
-		for (Entity e : entities) {
-			e.update();
+		for (int i=0;i<entities.size();i++) {
+			entities.get(i).update(this);
 		}
 
 		// entities movements
@@ -83,10 +83,12 @@ public class EvoSimulator {
 		}
 
 		// entities interactions
-		for (Entity e1 : entities) {
-			for (Entity e2 : entities) {
-				if (Util.areCloseEnough(e1, e2)) {
-					e1.interact(e2);
+		for (Entity e1 : entities) {	
+			if(e1.shouldInteract()) {
+				for (Entity e2 : entities) {
+					if (Util.areCloseEnough(e1, e2)) {
+						e1.interact(e2);
+					}
 				}
 			}
 		}

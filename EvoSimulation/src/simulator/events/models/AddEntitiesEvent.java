@@ -16,6 +16,7 @@ public class AddEntitiesEvent extends OneTimeEvent{
 	@Override
 	public void execute(Controller ctrl) {
 		ctrl.loadEntities(entitiesToAdd);
+		executionTime = -1;
 	}
 
 }

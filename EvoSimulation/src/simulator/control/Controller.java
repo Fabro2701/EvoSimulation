@@ -52,7 +52,7 @@ public class Controller {
 	}
 
 	public void addRandomEntity() {
-		JSONObject o = new JSONObject().put("type", "su").put("data",
+		JSONObject o = new JSONObject().put("type", "mi").put("data",
 				new JSONObject().put("id", String.valueOf(RandomSingleton.nextInt(1000)))
 						.put("x", RandomSingleton.nextInt(simulator.getMap().WIDTH))
 						.put("y", RandomSingleton.nextInt(simulator.getMap().HEIGHT)));
