@@ -188,37 +188,9 @@ public class Grammar {
 	public static void main(String args[]) {
 		Grammar g = new Grammar("s");
 		System.out.println(g);
-		Chromosome c = new Chromosome(30);
-		c.setIntToCodon(0, 1);
-		c.setIntToCodon(1, 1);
-		c.setIntToCodon(2, 1);
-		c.setIntToCodon(3, 0);
-		c.setIntToCodon(4, 1);
-		c.setIntToCodon(5, 1);
-		c.setIntToCodon(6, 0);
-		c.setIntToCodon(7, 2);
-		c.setIntToCodon(8, 0);
-		c.setIntToCodon(9, 2);
-		c.setIntToCodon(10, 1);
-		c.setIntToCodon(11, 1);
-		c.setIntToCodon(12, 0);
-		c.setIntToCodon(13, 3);
-		c.setIntToCodon(14, 0);
-		c.setIntToCodon(15, 3);
-
-		c.setIntToCodon(16, 1);
-		c.setIntToCodon(17, 1);
-		c.setIntToCodon(18, 0);
-		c.setIntToCodon(19, 1);
-		c.setIntToCodon(20, 0);
-		c.setIntToCodon(21, 1);
-
-		c.setIntToCodon(22, 1);
-		c.setIntToCodon(23, 1);
-		c.setIntToCodon(24, 0);
-		c.setIntToCodon(25, 0);
-		c.setIntToCodon(26, 0);
-		c.setIntToCodon(27, 0);
+		Chromosome c = new Chromosome(100);
+		c.setArrayIntToCodon(1,1,1,1,0, 1,1,0,2,0,2, 1,1,0,1,0,1, 1,1,0,3,0,3, 1,1,0,0,0,0, 0,4);
+		
 		Phenotype pt = new Phenotype(c.parseGrammar(g));
 		
 		System.out.println(pt.getVisualCode());

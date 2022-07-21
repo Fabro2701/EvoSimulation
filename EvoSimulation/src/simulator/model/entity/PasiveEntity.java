@@ -1,5 +1,7 @@
 package simulator.model.entity;
 
+import java.util.HashMap;
+
 import simulator.Constants.MOVE;
 import simulator.model.map.Node;
 
@@ -11,7 +13,7 @@ public abstract class PasiveEntity extends Entity {
 	}
 
 	@Override
-	public MOVE getTheMove() {
+	public MOVE getTheMove(HashMap<String,Integer>observations) {
 		return MOVE.NEUTRAL;
 	}
 

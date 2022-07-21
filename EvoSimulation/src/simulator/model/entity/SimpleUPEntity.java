@@ -1,5 +1,7 @@
 package simulator.model.entity;
 
+import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 
 import simulator.Constants.MOVE;
@@ -15,7 +17,7 @@ public class SimpleUPEntity extends SimpleRandomEntity {
 	}
 
 	@Override
-	public MOVE getTheMove() {
+	public MOVE getTheMove(HashMap<String,Integer>observations) {
 		return MOVE.UP;
 	}
 

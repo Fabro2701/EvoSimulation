@@ -10,7 +10,6 @@ public abstract class AbstractIndividual extends ActiveEntity{
 		super(id, n);
 	}
 
-	@Override
-	public abstract MOVE getTheMove();
+	
 
 }

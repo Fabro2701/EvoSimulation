@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.HashMap;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -38,15 +39,15 @@ public abstract class Entity implements IInteract {
 
 	public abstract void update();
 
-	public final MOVE getMove() {
-		MOVE m = getTheMove();
+	public final MOVE getMove(HashMap<String,Integer>observations) {
+		MOVE m = getTheMove(observations);
 		if (m != MOVE.NEUTRAL)
 			energy -= weight * MOVEMENT_ENERGY_COST_CONSTANT;
 
 		return m;
 	}
 
-	public abstract MOVE getTheMove();
+	public abstract MOVE getTheMove(HashMap<String,Integer>observations);
 
 	@Override
 	public void interact(Entity e) {
@@ -107,4 +108,5 @@ public abstract class Entity implements IInteract {
 	public void setNewNode(Node n) {
 		node = n;
 	}
+	public String getId() {return id;}
 }

@@ -1,20 +1,19 @@
-package simulator.factories.builders;
+package simulator.factories.builders.entity;
 
 import org.json.JSONObject;
 
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
-import simulator.model.entity.SimpleRandomEntity;
+import simulator.model.entity.individuals.MyIndividual;
 
-public class SimpleRandomEntityBuilder extends EntityBuilder{
-	public SimpleRandomEntityBuilder() {
-		type="sr";
+public class MyIndividualBuilder extends EntityBuilder{
+	public MyIndividualBuilder() {
+		type="mi";
 	}
 	@Override
 	public Entity createTheInstance(JSONObject o, Controller ctrl) {
-		return new SimpleRandomEntity(o.getString("id"),
+		return new MyIndividual(o.getString("id"),
 									  ctrl.getNodeAt(o.getInt("x"),o.getInt("y"))
 									  );
 	}
-
 }

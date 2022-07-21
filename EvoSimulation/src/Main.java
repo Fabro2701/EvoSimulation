@@ -11,9 +11,10 @@ import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.builders.Builder;
-import simulator.factories.builders.FoodEntityBuilder;
-import simulator.factories.builders.SimpleRandomEntityBuilder;
-import simulator.factories.builders.SimpleUPEntityBuilder;
+import simulator.factories.builders.entity.FoodEntityBuilder;
+import simulator.factories.builders.entity.MyIndividualBuilder;
+import simulator.factories.builders.entity.SimpleRandomEntityBuilder;
+import simulator.factories.builders.entity.SimpleUPEntityBuilder;
 import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
 import simulator.model.EvoSimulator;
@@ -43,6 +44,7 @@ public class Main {
 		entityBuilders.add(new SimpleRandomEntityBuilder());
 		entityBuilders.add(new SimpleUPEntityBuilder());
 		entityBuilders.add(new FoodEntityBuilder());
+		entityBuilders.add(new MyIndividualBuilder());
 
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
 

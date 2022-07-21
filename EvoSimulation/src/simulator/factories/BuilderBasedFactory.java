@@ -21,6 +21,7 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 				return tmp;
 			}
 		}
+		System.out.println("type not found: "+info.getString("type"));
 		return null;
 		//throw new IllegalArgumentException();
 	}

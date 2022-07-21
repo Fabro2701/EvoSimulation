@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -27,7 +28,42 @@ public class EvoSimulator {
 		this.entities = new ArrayList<>();
 
 	}
-
+	private HashMap<String,Integer>getObservations(Entity e){
+		HashMap<String,Integer> r = new HashMap<String,Integer>();
+		int dist=50;
+		r.put("u_f_d", 0);
+		r.put("d_f_d", 0);
+		r.put("l_f_d", 0);
+		r.put("r_f_d", 0);
+		
+		
+		for(Entity e2:entities) {
+			if(Math.sqrt(Math.pow(Math.abs(e.node.x-e2.node.x),2)+Math.pow(Math.abs(e.node.y-e2.node.y),2))<=dist) {
+				if(e.node.x>e2.node.x) {
+					r.put("l_f_d", r.get("l_f_d")+1);
+				}
+				if(e.node.x<e2.node.x) {
+					//r.put("r_f_d", r.get("r_f_d")+1);
+				}
+				if(e.node.y<e2.node.y) {
+					//r.put("d_f_d", r.get("d_f_d")+1);
+				}
+				if(e.node.y>e2.node.y) {
+					r.put("u_f_d", r.get("u_f_d")+1);
+				}
+			}
+			
+		}
+		//if(e.getId().equals("4"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
+		/*for(int x=-dist;x<=dist;x++) {
+			for(int y=-dist;y<=dist;y++) {
+				if(x<0) {
+				}
+			}
+		}*/
+		
+		return r;
+	}
 	public void update() {
 		for (Entity e : entities) {
 			e.update();
@@ -35,7 +71,7 @@ public class EvoSimulator {
 
 		// entities movements
 		for (Entity e : entities) {
-			MOVE move = e.getMove();
+			MOVE move = e.getMove(getObservations(e));
 			Pair<Integer, Integer> change = move.getPosChange();
 			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(e.node.x + change.first,
 					e.node.y + change.second);

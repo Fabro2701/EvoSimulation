@@ -14,7 +14,5 @@ public abstract class GIndividual extends AbstractIndividual{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public abstract MOVE getTheMove();
 
 }

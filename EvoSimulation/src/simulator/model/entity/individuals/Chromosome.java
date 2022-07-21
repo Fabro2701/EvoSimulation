@@ -29,6 +29,11 @@ public class Chromosome {
 	public void setIntToCodon(int i, int v) {
 		codons.set(i, new Codon(v));
 	}
+	public void setArrayIntToCodon(int ...v) {
+		for(int i=0;i<v.length;i++) {
+			codons.set(i, new Codon(v[i]));
+		}
+	}
 	public LinkedList<Symbol> parseGrammar(Grammar g) {
 		Symbol t = g.getInitial();
 		List<Production> ps;

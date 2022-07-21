@@ -1,5 +1,7 @@
 package simulator.model.entity;
 
+import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 
 import simulator.Constants.MOVE;
@@ -16,7 +18,7 @@ public class SimpleRandomEntity extends ActiveEntity {
 	}
 
 	@Override
-	public MOVE getTheMove() {
+	public MOVE getTheMove(HashMap<String,Integer>observations) {
 		return MOVE.values()[RandomSingleton.nextInt(MOVE.values().length)];
 	}
 	/*
