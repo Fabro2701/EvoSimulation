@@ -27,6 +27,7 @@ public abstract class Entity implements IInteract {
 	protected boolean alive;
 	protected float energy;
 	protected float weight;
+	protected int age;
 
 	public Entity(String id, Node n) {
 		type = ".";
@@ -35,6 +36,7 @@ public abstract class Entity implements IInteract {
 		alive = true;
 		energy = 100.0f;
 		weight = 1.f;
+		age=0;
 	}
 
 	public abstract void update();

@@ -20,6 +20,7 @@ public abstract class ActiveEntity extends Entity {
 
 	@Override
 	public void update() {
+		age++;
 		if (alive && energy <= 0.0f) {
 			this.vanish();
 		}

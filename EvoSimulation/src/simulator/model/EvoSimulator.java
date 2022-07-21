@@ -30,7 +30,7 @@ public class EvoSimulator {
 	}
 	private HashMap<String,Integer>getObservations(Entity e){
 		HashMap<String,Integer> r = new HashMap<String,Integer>();
-		int dist=50;
+		int dist=30;
 		r.put("u_f_d", 0);
 		r.put("d_f_d", 0);
 		r.put("l_f_d", 0);
@@ -38,15 +38,15 @@ public class EvoSimulator {
 		
 		
 		for(Entity e2:entities) {
-			if(Math.sqrt(Math.pow(Math.abs(e.node.x-e2.node.x),2)+Math.pow(Math.abs(e.node.y-e2.node.y),2))<=dist) {
+			if(Math.sqrt(Math.pow(e.node.x-e2.node.x,2)+Math.pow(e.node.y-e2.node.y,2))<=dist) {
 				if(e.node.x>e2.node.x) {
 					r.put("l_f_d", r.get("l_f_d")+1);
 				}
 				if(e.node.x<e2.node.x) {
-					//r.put("r_f_d", r.get("r_f_d")+1);
+					r.put("r_f_d", r.get("r_f_d")+1);
 				}
 				if(e.node.y<e2.node.y) {
-					//r.put("d_f_d", r.get("d_f_d")+1);
+					r.put("d_f_d", r.get("d_f_d")+1);
 				}
 				if(e.node.y>e2.node.y) {
 					r.put("u_f_d", r.get("u_f_d")+1);

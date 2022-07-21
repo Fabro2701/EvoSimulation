@@ -46,19 +46,47 @@ public class Phenotype extends LinkedList<Symbol>{
 			}
 			else if(current.equals("if")) {
 				it.next();//(
-				Symbol cond = it.next();
-				current=cond;
-				boolean c = observations.get(cond.getRealValue())>0;
+				boolean c=false;
+				current =it.next();
+				if(current.equals("posF ")) {//monary
+					Symbol cond = it.next();
+					current=cond;
+					c = observations.get(cond.getRealValue())>0;
+				}
+				else {
+					Symbol l = current;
+					Symbol op = it.next();
+					Symbol r = it.next();
+					switch (op.getRealValue()) {
+						case "<":
+							c=observations.get(l.getRealValue())<observations.get(r.getRealValue());
+							break;
+						case ">":
+							c=observations.get(l.getRealValue())>observations.get(r.getRealValue());
+							break;
+						case "<=":
+							c=observations.get(l.getRealValue())<=observations.get(r.getRealValue());
+							break;
+						case ">=":
+							c=observations.get(l.getRealValue())>=observations.get(r.getRealValue());
+							break;
+					}
+					current=r;
+				}
 				if(!c) {
 					it.next();//)
 					jump=true;
 					jumpToEndIf();
 				}
 			}
-			else if(current.equals("else")&&jump) {
-				it.next();
-				jump=false;
-				
+			else if(current.equals("else")) {
+				if(jump) {
+					it.next();
+					jump=false;
+				}
+				else {
+					jumpToEndIf();
+				}
 			}
 			else {
 				if(!it.hasNext())it=this.iterator();

@@ -30,7 +30,7 @@ public class Grammar {
 		public String getRealValue() {return name;}
 		public SymbolType getType() {return type;}
 		@Override
-		public String toString() {return "<"+name+">";}
+		public String toString() {return type==SymbolType.NTerminal?"<"+name+">":name;}
 
 		@Override
 		public int hashCode() {
@@ -121,7 +121,11 @@ public class Grammar {
 		Symbol _semicolon = g.new Symbol(";",Grammar.SymbolType.Terminal);
 		Symbol _brack1 = g.new Symbol("{",Grammar.SymbolType.Terminal);
 		Symbol _brack2 = g.new Symbol("}",Grammar.SymbolType.Terminal);
-		Symbol _posF = g.new Symbol("posF",Grammar.SymbolType.Terminal);
+		Symbol _posF = g.new Symbol("posF ",Grammar.SymbolType.Terminal);
+		Symbol _less = g.new Symbol("<",Grammar.SymbolType.Terminal);
+		Symbol _greater = g.new Symbol(">",Grammar.SymbolType.Terminal);
+		Symbol _lessE = g.new Symbol("<=",Grammar.SymbolType.Terminal);
+		Symbol _greaterE = g.new Symbol(">=",Grammar.SymbolType.Terminal);
 
 		Symbol CODE = g.new Symbol("CODE",Grammar.SymbolType.NTerminal);
 		Symbol LINE = g.new Symbol("LINE",Grammar.SymbolType.NTerminal);
@@ -129,6 +133,7 @@ public class Grammar {
 		Symbol IF = g.new Symbol("IF",Grammar.SymbolType.NTerminal);
 		Symbol COND = g.new Symbol("COND",Grammar.SymbolType.NTerminal);
 		Symbol OBS = g.new Symbol("OBS",Grammar.SymbolType.NTerminal);
+		Symbol OP = g.new Symbol("OP",Grammar.SymbolType.NTerminal);
 
 		
 		List<Production> pCode = new ArrayList<Production>();
@@ -167,8 +172,10 @@ public class Grammar {
 		g.rules.put(IF,pIf);
 		
 		List<Production> pCond = new ArrayList<Production>();
-		Production pCond1 = g.new Production(_parent1,OBS,_parent2);
+		Production pCond1 = g.new Production(_parent1,_posF,OBS,_parent2);
+		Production pCond2 = g.new Production(_parent1,OBS,OP,OBS,_parent2);
 		pCond.add(pCond1);
+		pCond.add(pCond2);
 		g.addRule(COND,pCond);
 
 		
@@ -183,13 +190,24 @@ public class Grammar {
 		pObs.add(pObs4);
 		g.addRule(OBS,pObs);
 		
+		List<Production> pOps = new ArrayList<Production>();
+		Production pOps1 = g.new Production(_less);
+		Production pOps2 = g.new Production(_greater);
+		Production pOps3 = g.new Production(_lessE);
+		Production pOps4 = g.new Production(_greaterE);
+		pOps.add(pOps1);
+		pOps.add(pOps2);
+		pOps.add(pOps3);
+		pOps.add(pOps4);
+		g.addRule(OP,pOps);
+		
 		g.setInitial(CODE);
 	}
 	public static void main(String args[]) {
 		Grammar g = new Grammar("s");
 		System.out.println(g);
 		Chromosome c = new Chromosome(100);
-		c.setArrayIntToCodon(1,1,1,1,0, 1,1,0,2,0,2, 1,1,0,1,0,1, 1,1,0,3,0,3, 1,1,0,0,0,0, 0,4);
+		//c.setArrayIntToCodon(1,0, 1,0,1,2,3,3,0,2,1,1,0,3,0,3, 1,0,1,0,3,1,0,0,1, 0,0,1,0,1,0,  2);
 		
 		Phenotype pt = new Phenotype(c.parseGrammar(g));
 		
