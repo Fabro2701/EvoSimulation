@@ -11,7 +11,6 @@ public abstract class PasiveEntity extends Entity {
 
 	public PasiveEntity(String id, Node n) {
 		super(id, n);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

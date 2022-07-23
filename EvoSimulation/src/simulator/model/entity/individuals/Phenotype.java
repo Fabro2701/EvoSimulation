@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import grammar.Grammar.Symbol;
-import simulator.Constants.MOVE;
 
 /**
  * 
@@ -153,5 +155,13 @@ public class Phenotype extends LinkedList<Symbol>{
 			setVisualization();
 		}
 		return visualization;
+	}
+	public JSONObject toJSON() {
+		JSONArray arr = new JSONArray();
+		
+		for(Symbol s:this){
+			arr.put(s.getRealValue());
+		}
+		return new JSONObject().put("symbols", arr);
 	}
 }

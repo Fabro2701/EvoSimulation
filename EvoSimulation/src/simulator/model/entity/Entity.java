@@ -24,12 +24,13 @@ import statistics.StatsManager;
 public abstract class Entity implements IInteract {
 	protected String type;
 	protected String id;
-	protected Image img = null;
-	public Node node = null;
+	protected Image img;
+	public Node node;
 	protected boolean alive;
 	protected float energy;
 	protected float weight;
 	protected int age;
+	protected int currentTime;
 
 	public Entity(String id, Node n) {
 		type = ".";
@@ -41,7 +42,9 @@ public abstract class Entity implements IInteract {
 		age=0;
 	}
 
-	public abstract void update(EvoSimulator evoSimulator);
+	public void update(EvoSimulator evoSimulator) {
+		currentTime=evoSimulator.getTime();
+	}
 
 	public final MOVE getMove(HashMap<String,Integer>observations) {
 		MOVE m = getTheMove(observations);

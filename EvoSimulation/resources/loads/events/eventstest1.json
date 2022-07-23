@@ -6,17 +6,44 @@
             "data":{
                 "time":0,
                 "center":250,
-                "amount":30,
+                "amount":1,
                 "radius":100
             }
         },
         {
-            "type":"fe",
+            "type":"fg",
             "data":{
                 "time":0,
-                "center":100,
-                "amount":30,
-                "radius":90
+                "times":100,
+                "interval":300,
+                "centerX":250,
+                "centerY":250,
+                "amount":10,
+                "radiusX":240,
+                "radiusY":240
+            }
+        },
+        {
+            "type":"fg",
+            "data":{
+                "time":0,
+                "times":2,
+                "interval":200,
+                "centerX":250,
+                "centerY":250,
+                "amount":5,
+                "radiusX":100,
+                "radiusY":100
+            }
+        },
+        {
+            "type":"reg",
+            "data":{
+                "time":0,
+                "times":100,
+                "interval":100,
+                "typeTo":"mi",
+                "amount":5
             }
         }
     ]

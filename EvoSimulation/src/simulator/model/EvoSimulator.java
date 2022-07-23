@@ -25,7 +25,7 @@ public class EvoSimulator {
 		this.time = 0;
 		this.map = new Map("test1");
 		this.observers = new ArrayList<>();
-		this.entities = new ArrayList<>();
+		this.entities = new ArrayList<Entity>();
 
 	}
 	private HashMap<String,Integer>getObservations(Entity e){
@@ -65,32 +65,34 @@ public class EvoSimulator {
 		return r;
 	}
 	public void update() {
-		for (int i=0;i<entities.size();i++) {
-			entities.get(i).update(this);
+		//if(time%100==0)System.out.println(time);
+		for(Entity ae:entities) {
+			ae.update(this);
 		}
 
 		// entities movements
-		for (Entity e : entities) {
-			MOVE move = e.getMove(getObservations(e));
+		for (Entity ae : entities) {
+			MOVE move = ae.getMove(getObservations(ae));
 			Pair<Integer, Integer> change = move.getPosChange();
-			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(e.node.x + change.first,
-					e.node.y + change.second);
+			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(ae.node.x + change.first,
+					ae.node.y + change.second);
 			newPos.first = Math.abs(newPos.first);
 			newPos.second = Math.abs(newPos.second);
 			newPos.first = newPos.first >= map.WIDTH ? map.WIDTH - 1 : newPos.first;
 			newPos.second = newPos.second >= map.HEIGHT ? map.HEIGHT - 1 : newPos.second;
-			e.setNewNode(this.getNodeAt(newPos.first, newPos.second));
+			ae.setNewNode(this.getNodeAt(newPos.first, newPos.second));
 		}
 
 		// entities interactions
 		for (Entity e1 : entities) {	
-			if(e1.shouldInteract()) {
-				for (Entity e2 : entities) {
+			for (Entity e2 : entities) {
+				if(e1!=e2) {
 					if (Util.areCloseEnough(e1, e2)) {
 						e1.interact(e2);
 					}
 				}
 			}
+			
 		}
 
 		// remove entities
@@ -120,7 +122,6 @@ public class EvoSimulator {
 	}
 
 	public Node getNodeAt(int x, int y) {
-		// TODO Auto-generated method stub
 		return map.getNodeAt(x, y);
 	}
 

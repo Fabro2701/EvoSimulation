@@ -22,6 +22,7 @@ public abstract class ActiveEntity extends Entity {
 
 	@Override
 	public void update(EvoSimulator evoSimulator) {
+		super.update(evoSimulator);
 		age++;
 		if (alive && energy <= 0.0f) {
 			this.vanish();

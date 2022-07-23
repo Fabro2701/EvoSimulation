@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import grammar.Grammar;
 import grammar.Grammar.Symbol;
 import simulator.Constants.MOVE;
@@ -37,7 +39,7 @@ public class MyIndividual extends GIndividual{
 		grammar = new Grammar("s");
 		Chromosome c = new Chromosome(50);
 
-		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		//if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
 		LinkedList<Symbol> crom = c.parseGrammar(grammar);
 		
 		genotype = new Genotype(c);
@@ -46,6 +48,8 @@ public class MyIndividual extends GIndividual{
 			phenotype = new Phenotype();
 		}
 		else phenotype = new Phenotype(crom);
+		
+		//if(id.equals("-1"))System.out.println(this.toJSON().toString(4));
 	}
 
 	public void mutate() {
@@ -67,6 +71,10 @@ public class MyIndividual extends GIndividual{
 		
 		return MOVE.valueOf(moveS.getRealValue());
 	}
+	@Override
+	public JSONObject toJSON() {
+		return super.toJSON().getJSONObject("data").put("phenotype", phenotype.toJSON());
+	}
 	
 	public static void main(String args[]) {
 		MyIndividual m = new MyIndividual("-1",null);
@@ -84,5 +92,6 @@ public class MyIndividual extends GIndividual{
 		System.out.println(m.getTheMove(r));
 		System.out.println(m.getTheMove(r));
 	}
+	
 
 }

@@ -1,0 +1,15 @@
+
+{
+    "type":"fg",
+    "data":{
+        "time":0,
+        "times":10,
+        "interval":200,
+        "centerX":250,
+        "centerY":250,
+        "amount":30,
+        "radiusX":100,
+        "radiusY":100
+    }
+}
+    
