@@ -3,28 +3,55 @@ package simulator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
-import simulator.model.EvoSimulator;
 import simulator.view.TimeLabel;
+import simulator.view.viewer.AbstractViewer;
 import simulator.view.viewer.Viewer;
 import simulator.view.viewer.Viewer3D;
 
 public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
-	private EvoSimulator simulator;
+	private HashMap<String,AbstractViewer>viewersMap;
+	private AbstractViewer viewer;
 	private boolean simStop;
+	private ViewersController viewsController;
 	
 	public LauncherGUI(Controller controller) {
 		simStop = false;
 		this.controller = controller;
 		initComponents();
         configureComponents();
-        viewer.repaint();
+        viewsController = new ViewersController();
+	}
+	
+	class ViewersController{
+		public ViewersController() {
+			viewersMap = new HashMap<String,AbstractViewer>();
+			viewersMap.put(jrbTemperatureView.getActionCommand(), new Viewer(controller));
+			viewersMap.put(jrb3DView.getActionCommand(), new Viewer3D(controller));
+			changeView(jrbTemperatureView.getActionCommand());
+		}
+		
+		public void changeView(String key) {
+			for(String k:viewersMap.keySet()) {
+				if(k.equals(key)) {
+					System.out.println(key);
+					viewer = viewersMap.get(key);
+					viewer.activate();
+					jScrollPane1.setViewportView(viewer);
+					
+				}
+				else {
+					viewersMap.get(k).deactivate();
+				}
+			}jScrollPane1.repaint();
+		}
 	}
 	
     /** Creates new form LauncherGUI */
@@ -66,33 +93,23 @@ public class LauncherGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        viewer = new Viewer(controller);
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        //viewer = new Viewer(controller);
         jbPlay = new javax.swing.JButton();
         jbPause = new javax.swing.JButton();
         jpTime = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jlSimulationTime = new TimeLabel(controller);
         jbAddEntity = new javax.swing.JButton();
-        jp3DViewer = new Viewer3D(controller);
+        //jp3DViewer = new Viewer3D(controller);
         jbAddEvent = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jrbTemperatureView = new javax.swing.JRadioButton();
+        jrb3DView = new javax.swing.JRadioButton();
+        
         
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        viewer.setBackground(new java.awt.Color(238, 0, 238));
-        viewer.setPreferredSize(new java.awt.Dimension(500, 500));
-        viewer.setSize(new java.awt.Dimension(500, 500));
-
-        javax.swing.GroupLayout viewerLayout = new javax.swing.GroupLayout(viewer);
-        viewer.setLayout(viewerLayout);
-        viewerLayout.setHorizontalGroup(
-            viewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-        viewerLayout.setVerticalGroup(
-            viewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
 
         jbPlay.setText("Play");
         jbPlay.addActionListener(new java.awt.event.ActionListener() {
@@ -120,19 +137,28 @@ public class LauncherGUI extends javax.swing.JFrame {
             .addGroup(jpTimeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jpTimeLayout.setVerticalGroup(
             jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpTimeLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(1, 1, 1)
                 .addGroup(jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jbAddEvent.setText("Add Event");
+        jbAddEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddEventActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setBorder(new javax.swing.border.MatteBorder(null));
 
         jbAddEntity.setText("Add Entity");
         jbAddEntity.addActionListener(new java.awt.event.ActionListener() {
@@ -141,21 +167,21 @@ public class LauncherGUI extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jp3DViewerLayout = new javax.swing.GroupLayout(jp3DViewer);
-        jp3DViewer.setLayout(jp3DViewerLayout);
-        jp3DViewerLayout.setHorizontalGroup(
-            jp3DViewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 870, Short.MAX_VALUE)
-        );
-        jp3DViewerLayout.setVerticalGroup(
-            jp3DViewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
-        );
-
-        jbAddEvent.setText("Add Event");
-        jbAddEvent.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(jrbTemperatureView);
+        jrbTemperatureView.setSelected(true);
+        jrbTemperatureView.setText("TemperatureView");
+        jrbTemperatureView.setToolTipText("");
+        jrbTemperatureView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAddEventActionPerformed(evt);
+                jrbTemperatureViewActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jrb3DView);
+        jrb3DView.setText("3DView");
+        jrb3DView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrb3DViewActionPerformed(evt);
             }
         });
 
@@ -166,45 +192,47 @@ public class LauncherGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jp3DViewer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbPause, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
-                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbAddEvent)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrbTemperatureView)
+                            .addComponent(jrb3DView))))
+                .addContainerGap(725, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(viewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jp3DViewer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbPause, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                    .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbAddEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbPause, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                            .addComponent(jpTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbAddEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jrbTemperatureView)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jrb3DView)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
-    }// </editor-fold>                      
+    }// </editor-fold>                     
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
@@ -260,6 +288,13 @@ public class LauncherGUI extends javax.swing.JFrame {
 		}
         
     }   
+    private void jrbTemperatureViewActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    	viewsController.changeView(evt.getActionCommand());
+    }                                                  
+
+    private void jrb3DViewActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    	viewsController.changeView(evt.getActionCommand());
+    }      
 	/**
      * @param args the command line arguments
      */
@@ -291,16 +326,20 @@ public class LauncherGUI extends javax.swing.JFrame {
         });
     }*/
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify                   
+    private javax.swing.ButtonGroup buttonGroup1;                
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAddEntity;
     private javax.swing.JButton jbAddEvent;
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;
     private javax.swing.JPanel jpTime;
-    private Viewer viewer;
-    private Viewer3D jp3DViewer;
+    //private Viewer viewer;
+    //private Viewer3D jp3DViewer;
+    private javax.swing.JRadioButton jrb3DView;
+    private javax.swing.JRadioButton jrbTemperatureView;
     // End of variables declaration                   
 
 }

@@ -76,8 +76,8 @@ public class EvoSimulator {
 	}
 	public void update() {
 		//if(time%100==0)System.out.println(time);
-		for(Entity ae:entities) {
-			ae.update(this);
+		for(int i=0;i<entities.size();i++) {
+			entities.get(i).update(this);
 		}
 
 		// entities movements

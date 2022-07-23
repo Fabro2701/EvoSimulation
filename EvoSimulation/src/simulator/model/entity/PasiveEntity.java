@@ -29,7 +29,7 @@ public abstract class PasiveEntity extends Entity {
 
 	@Override
 	public void update(EvoSimulator evoSimulator) {
-		// pending
+		super.update(evoSimulator);
 	}
 	@Override
 	public boolean shouldInteract() {return false;}

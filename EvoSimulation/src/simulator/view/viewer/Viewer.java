@@ -18,55 +18,55 @@ import simulator.model.map.Map;
 
 public class Viewer extends AbstractViewer {
 
-	private BufferedImage bufferImage;
-	private Graphics2D bufferGraphics;
-
-	private BufferedImage mapImage;
-
-	private List<Entity> entities;
-
 	public Viewer(Controller ctrl) {
+		super(ctrl);
 		// initGUI();
-		this.setSize(new Dimension(500, 500));
-		this.setPreferredSize(new Dimension(500, 500));
 
-		ctrl.addObserver(this);
-		addEntityViewers();
-		repaint();
+		//addEntityViewers();
+		//repaint();
 	}
 
 	@Override
-	public void onRegister(List<Entity> entities, Map map, int time) {
-		if (bufferImage == null) {
-			bufferImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-			bufferGraphics = bufferImage.createGraphics();
-		}
-		this.mapImage = map.getElevationImage();
+	public void onRegister(List<Entity> entities, Map map, int time) { 
+
+		this.mapImg = map.getAttributesImage();
 		this.entities = entities;
 		// setEntitiesImage(entities);
+		updateImage();
 		repaint();
+		
 	}
 
 	@Override
 	public void onUpdate(List<Entity> entities, Map map, int time) {
-		this.mapImage = map.getElevationImage();
-		this.entities = entities;
-		// setEntitiesImage(entities);
-		repaint();
-	}
-
-	private void setEntitiesImage(List<Entity> entities) {
-		Graphics2D gr = (Graphics2D) mapImage.getGraphics();
-		for (Entity e : entities) {
-			gr.drawImage(e.getImage(), e.node.x, e.node.y, null);
+		if(active) {
+			this.mapImg = map.getAttributesImage();
+			this.entities = entities;
+			// setEntitiesImage(entities);
+			updateImage();
+			repaint();
 		}
 	}
 
+	public void updateImage() {
+		
+		bufferGraphics.drawImage(mapImg, 0, 0, null);
+		int gridSize = 20;
+		for (int i = 0; i < this.getHeight(); i += gridSize) {
+			for (int j = 0; j < this.getWidth(); j += gridSize) {
+				bufferGraphics.drawRect(i, j, gridSize, gridSize);
+			}
+		}
+		for (Entity e : entities) {
+			bufferGraphics.drawImage(e.getImage(), e.node.x, e.node.y, null);
+		}
+		
+	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// ImageIcon?
-
+/*
 		bufferGraphics.drawImage(mapImage, 0, 0, this.getWidth(), this.getHeight(), 0, 0, mapImage.getWidth(),
 				mapImage.getHeight(), null);
 
@@ -81,7 +81,7 @@ public class Viewer extends AbstractViewer {
 			bufferGraphics.drawImage(e.getImage(), e.node.x, e.node.y, null);
 		}
 
-		g.drawImage(bufferImage, 0, 0, null);
+		g.drawImage(bufferImage, 0, 0, null);*/
 		// gr.setColor(Color.red);
 		// gr.fillOval(0, 0, 20, 20);
 		// gr.drawImage(mapImage,100,100,null);

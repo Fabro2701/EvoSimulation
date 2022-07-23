@@ -22,7 +22,6 @@ public class Pheromone extends ArrayList<Float>{
 		this.add(0.f);
 		this.add(0.f);
 		this.add(0.f);
-		System.out.println(this.toString());
 	}
 	@Override
 	public String toString() {

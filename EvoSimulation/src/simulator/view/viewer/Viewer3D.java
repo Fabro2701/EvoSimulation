@@ -21,21 +21,24 @@ import simulator.model.map.Map;
 import util.Util;
 
 public class Viewer3D extends AbstractViewer{
-	private float xSkew=1.0f;
-	private float ySkew=1.0f;
-	int originX=0;
-	int originY=0;
-	int xs = 10;
-	int ys = xs;
-	private BufferedImage image;
-	private BufferedImage rootImage;
+	private float xSkew;
+	private float ySkew;
+	int originX;
+	int originY;
+	int xs;
+	int ys;
 	private MouseAdapter mouseAdapter;
 	private KeyListener keyListener;
-	private List<Entity> entities;
 	
 	public Viewer3D(Controller ctrl) {
-		ctrl.addObserver(this);
-	    repaint();
+		super(ctrl);
+		
+		xSkew=1.0f;
+		ySkew=1.0f;
+		originX=0;
+		originY=0;
+		xs = 10;
+		ys = xs;
 		//map.addObserver(this);
 		
 	    keyListener = new KeyListener() {
@@ -58,7 +61,7 @@ public class Viewer3D extends AbstractViewer{
 				    break;
 				  default:				    
 				}
-				repaint();
+				updateImage();
 			}
 
 			@Override
@@ -85,12 +88,13 @@ public class Viewer3D extends AbstractViewer{
     			
     			if(e.getWheelRotation()!=0) {
     				xs+=e.getWheelRotation();
-    				repaint();
+    				updateImage();
     			}
     			//System.out.println(e.getWheelRotation()); 
     		}
     		@Override
 			public void mouseClicked(MouseEvent e) {
+    			requestFocusInWindow();
     			//pressed = true;
     			//current = e.getPoint();
     			//System.out.println("clicked");
@@ -120,7 +124,7 @@ public class Viewer3D extends AbstractViewer{
 	    			xSkew+=(float)dx/decreaseFactor;
 					ySkew+=(float)dy/decreaseFactor;
 					//System.out.println(xSkew+" "+ySkew);
-					repaint();
+					updateImage();
 				}
 			}
     	};
@@ -130,58 +134,45 @@ public class Viewer3D extends AbstractViewer{
 		
 	}
 	public void config() {
-		image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
+		//image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
 	
-		createNewCanvas();
 	}
-	public void update(BufferedImage inImage) {
-		rootImage=inImage;
-		repaint();
-	}
+	
 	@Override
 	public void onRegister(List<Entity> entities, Map map, int time) {
-		rootImage = Util.copyImage(map.getElevationImage());
-		this.entities=entities;
+		this.mapImg = map.getElevationImage();
+		this.entities = entities;
+		updateImage();
 		repaint();
 	}
 
 	
 	@Override
 	public void onUpdate(List<Entity> entities, Map map, int time) {
-		rootImage = Util.copyImage(map.getElevationImage());
-		this.entities=entities;
-		repaint();
+		if(active) {
+			this.mapImg = map.getElevationImage();		
+			this.entities=entities;
+			updateImage();
+			repaint();
+		}
+		
 	}
-	private BufferedImage reduceImage(BufferedImage img) {
+	private BufferedImage reduceImage(Image img) {
 		int size=50;
 		Image imgS = img.getScaledInstance(size, size, Image.SCALE_SMOOTH);
-		BufferedImage image2 = new BufferedImage(size,size,BufferedImage.TYPE_INT_RGB);
+		BufferedImage image2 = new BufferedImage(size,size,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = (Graphics2D)image2.createGraphics();
 		g2d.drawImage(imgS, 0, 0, size, size, null);
 		return image2;
 	}
-	private void createNewCanvas() {
-		Graphics2D g2d = image.createGraphics();
-		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, this.getHeight(), this.getWidth());
-		repaint();
-	}
-	@Override
-	public void paintComponent(Graphics g) {
-		if(image==null)config();
-		this.requestFocusInWindow();
-		Graphics2D g2dd = (Graphics2D)g;
-		BufferedImage reducedImg = reduceImage(rootImage);
-		Graphics2D g2d = (Graphics2D)image.getGraphics();
-		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g2d.setColor(Color.green);
+	public void updateImage() {
+		BufferedImage reducedImg = reduceImage(mapImg);
+		//Graphics2D g2d = (Graphics2D)image.getGraphics();
+		bufferGraphics.setColor(new Color(0,0,0,255));
+		bufferGraphics.fillRect(0, 0, bufferImage.getWidth(), bufferImage.getHeight());
+		bufferGraphics.setColor(new Color(255,255,255,100));
 		float inskew = 2.0f;
-		//originX;
-		//originY;
-		
-		
-		
+
 		Point2D point1;
 		Point2D point2;
 		
@@ -204,7 +195,7 @@ public class Viewer3D extends AbstractViewer{
 					
 					//System.out.println(point1.x + originX+" "+point1.y + originY+"  "+point2.x + originX+" "+point2.y + originY);
 					//try {
-					g2d.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
+					bufferGraphics.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
 					
 				
 				}
@@ -215,7 +206,7 @@ public class Viewer3D extends AbstractViewer{
 											 (int) (new Color(reducedImg.getRGB(j, i+1),false).getGreen() * inskew), 
 											 (i + 1) * ys));
 					
-					g2d.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
+					bufferGraphics.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
 				}
 			}
 		}
@@ -226,17 +217,19 @@ public class Viewer3D extends AbstractViewer{
 		             new Point3D(scaledCoord.x * xs, 
 		            		 	(int) (new Color(reducedImg.getRGB(scaledCoord.x, scaledCoord.y),false).getGreen() * inskew), 
 		            		 	 scaledCoord.y * ys));
-			g2d.drawImage(e.getImage(), p1.x+originX, p1.y+originY, null);
+			bufferGraphics.drawImage(e.getImage(), p1.x+originX, p1.y+originY, null);
 		}
 		
-		g2d.setColor(Color.red);
-		g2d.fillOval(originX, originY, 20, 20);
-		
-		g2dd.drawImage(image, 0, 0, null);
+
+	}
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
 	}
 	public void changeSkew(float change) {
 		this.xSkew+=change;
-		repaint();
+		updateImage();
 	}
 	public Point2D transform3D(Point3D point3D) {
 		return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z - point3D.x) * ySkew));

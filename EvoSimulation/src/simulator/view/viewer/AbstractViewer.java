@@ -1,19 +1,72 @@
 package simulator.view.viewer;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.Scrollable;
 
+import simulator.control.Controller;
 import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 
-public abstract class AbstractViewer extends JPanel implements SimulatorObserver{
-
+public abstract class AbstractViewer extends JLabel implements SimulatorObserver, Scrollable{
+	protected List<Entity> entities;
+	protected Image mapImg;
+	protected BufferedImage bufferImage;
+	protected Graphics2D bufferGraphics;
+	protected boolean active;
+	public AbstractViewer(Controller ctrl) {
+		bufferImage = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+		bufferGraphics = bufferImage.createGraphics();
+		ctrl.addObserver(this);
+		
+		active=false;
+		this.setIcon(new ImageIcon(bufferImage));
+		
+	}
+	public void activate() {
+		active=true;
+	}
+	public void deactivate() {
+		active=false;
+	}
+	public Image getImage() {return bufferImage;}
 	@Override
 	public abstract void onRegister(List<Entity> entities, Map map, int time);
 
 	@Override
 	public abstract void onUpdate(List<Entity> entities, Map map, int time);
+	@Override
+	public Dimension getPreferredScrollableViewportSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public boolean getScrollableTracksViewportWidth() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean getScrollableTracksViewportHeight() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
