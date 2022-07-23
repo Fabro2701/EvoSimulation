@@ -12,7 +12,9 @@ public abstract class ActiveEntity extends Entity {
 
 	public ActiveEntity(String id, Node n) {
 		super(id, n);
-		// TODO Auto-generated constructor stub
+		active=true;
+		pheromone = new Pheromone();
+		pheromone.init(this);
 	}
 
 	@Override

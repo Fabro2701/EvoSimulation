@@ -28,32 +28,42 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 
 	}
-	private HashMap<String,Integer>getObservations(Entity e){
-		HashMap<String,Integer> r = new HashMap<String,Integer>();
-		int dist=30;
-		r.put("u_f_d", 0);
-		r.put("d_f_d", 0);
-		r.put("l_f_d", 0);
-		r.put("r_f_d", 0);
+	private HashMap<String,Object>getObservations(Entity e){
 		
+		HashMap<String,Object> r = new HashMap<String,Object>();
+		
+		int dist=30;
+		
+		int u_f_d=0;
+		int d_f_d=0;
+		int r_f_d=0;
+		int l_f_d=0;
+		
+		
+	
+		if(!e.active)return r;
 		
 		for(Entity e2:entities) {
 			if(Math.sqrt(Math.pow(e.node.x-e2.node.x,2)+Math.pow(e.node.y-e2.node.y,2))<=dist) {
 				if(e.node.x>e2.node.x) {
-					r.put("l_f_d", r.get("l_f_d")+1);
+					l_f_d++;
 				}
 				if(e.node.x<e2.node.x) {
-					r.put("r_f_d", r.get("r_f_d")+1);
+					r_f_d++;
 				}
 				if(e.node.y<e2.node.y) {
-					r.put("d_f_d", r.get("d_f_d")+1);
+					d_f_d++;
 				}
 				if(e.node.y>e2.node.y) {
-					r.put("u_f_d", r.get("u_f_d")+1);
+					u_f_d++;
 				}
 			}
 			
 		}
+		r.put("l_f_d", l_f_d);
+		r.put("r_f_d", r_f_d);
+		r.put("d_f_d", d_f_d);
+		r.put("u_f_d", u_f_d);
 		//if(e.getId().equals("4"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
 		/*for(int x=-dist;x<=dist;x++) {
 			for(int y=-dist;y<=dist;y++) {

@@ -11,10 +11,13 @@ public abstract class PasiveEntity extends Entity {
 
 	public PasiveEntity(String id, Node n) {
 		super(id, n);
+		active=false;
+		pheromone = new Pheromone();
+		pheromone.init(this);
 	}
 
 	@Override
-	public MOVE getTheMove(HashMap<String,Integer>observations) {
+	public MOVE getTheMove(HashMap<String,Object>observations) {
 		return MOVE.NEUTRAL;
 	}
 

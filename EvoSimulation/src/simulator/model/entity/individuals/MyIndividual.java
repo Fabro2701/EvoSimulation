@@ -39,7 +39,7 @@ public class MyIndividual extends GIndividual{
 		grammar = new Grammar("s");
 		Chromosome c = new Chromosome(50);
 
-		//if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
 		LinkedList<Symbol> crom = c.parseGrammar(grammar);
 		
 		genotype = new Genotype(c);
@@ -65,7 +65,7 @@ public class MyIndividual extends GIndividual{
 		
 	}
 	@Override
-	public MOVE getTheMove(HashMap<String,Integer>observations) {
+	public MOVE getTheMove(HashMap<String,Object>observations) {
 		Symbol moveS = phenotype.getNext(observations);
 		if(moveS==null)return MOVE.NEUTRAL;		
 		
@@ -87,10 +87,10 @@ public class MyIndividual extends GIndividual{
 		r.put("l_f_d", 0);
 		r.put("r_f_d", 0);
 	
+		/*System.out.println(m.getTheMove(r));
 		System.out.println(m.getTheMove(r));
 		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));
+		System.out.println(m.getTheMove(r));*/
 	}
 	
 

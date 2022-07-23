@@ -31,6 +31,8 @@ public abstract class Entity implements IInteract {
 	protected float weight;
 	protected int age;
 	protected int currentTime;
+	public boolean active;
+	protected Pheromone pheromone;
 
 	public Entity(String id, Node n) {
 		type = ".";
@@ -40,13 +42,14 @@ public abstract class Entity implements IInteract {
 		energy = 100.0f;
 		weight = 1.f;
 		age=0;
+		
 	}
 
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
 	}
 
-	public final MOVE getMove(HashMap<String,Integer>observations) {
+	public final MOVE getMove(HashMap<String,Object>observations) {
 		MOVE m = getTheMove(observations);
 		if (m != MOVE.NEUTRAL)
 			energy -= weight * MOVEMENT_ENERGY_COST_CONSTANT;
@@ -54,7 +57,7 @@ public abstract class Entity implements IInteract {
 		return m;
 	}
 	public final int getAge() {return age;}
-	public abstract MOVE getTheMove(HashMap<String,Integer>observations);
+	public abstract MOVE getTheMove(HashMap<String,Object>observations);
 	public abstract boolean shouldInteract();
 	@Override
 	public void interact(Entity e) {
@@ -117,4 +120,5 @@ public abstract class Entity implements IInteract {
 		node = n;
 	}
 	public String getId() {return id;}
+	public Pheromone getPheromone(){return pheromone;}
 }

@@ -59,7 +59,7 @@ public class Main {
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager);
 
 		try {
-			//controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
+			controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
 			controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

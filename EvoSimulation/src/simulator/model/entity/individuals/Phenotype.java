@@ -42,7 +42,7 @@ public class Phenotype extends LinkedList<Symbol>{
 			}
 		}
 	}
-	public Symbol getNext(HashMap<String, Integer>observations) {
+	public Symbol getNext(HashMap<String, Object>observations) {
 		int cont=0;
 		int limit=50;
 		if(!valid)return null;
@@ -61,7 +61,7 @@ public class Phenotype extends LinkedList<Symbol>{
 				if(current.equals("posF ")) {//monary
 					Symbol cond = it.next();
 					current=cond;
-					c = observations.get(cond.getRealValue())>0;
+					c = (int)observations.get(cond.getRealValue())>0;
 				}
 				else {
 					Symbol l = current;
@@ -69,16 +69,16 @@ public class Phenotype extends LinkedList<Symbol>{
 					Symbol r = it.next();
 					switch (op.getRealValue()) {
 						case "<":
-							c=observations.get(l.getRealValue())<observations.get(r.getRealValue());
+							c=(int)observations.get(l.getRealValue())<(int)observations.get(r.getRealValue());
 							break;
 						case ">":
-							c=observations.get(l.getRealValue())>observations.get(r.getRealValue());
+							c=(int)observations.get(l.getRealValue())>(int)observations.get(r.getRealValue());
 							break;
 						case "<=":
-							c=observations.get(l.getRealValue())<=observations.get(r.getRealValue());
+							c=(int)observations.get(l.getRealValue())<=(int)observations.get(r.getRealValue());
 							break;
 						case ">=":
-							c=observations.get(l.getRealValue())>=observations.get(r.getRealValue());
+							c=(int)observations.get(l.getRealValue())>=(int)observations.get(r.getRealValue());
 							break;
 					}
 					current=r;

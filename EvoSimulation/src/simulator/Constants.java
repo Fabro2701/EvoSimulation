@@ -9,6 +9,7 @@ public final class Constants {
 	public static float LIVE_ENERGY_COST_CONSTANT = 0.3f;
 	public static float HEAT_LIVE_ENERGY_COST_CONSTANT = 0.0015f;
 	public static float FOOD_ENERGY_GIVEN_CONSTANT = 10.0f;
+	public static final int PHEROMONE_LENGTH = 8;
 
 	public enum MAP_TYPE {
 		LAND, VOID;
