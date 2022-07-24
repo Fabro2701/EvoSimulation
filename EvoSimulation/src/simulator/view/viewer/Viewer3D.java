@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -31,7 +32,7 @@ public class Viewer3D extends AbstractViewer{
 	private KeyListener keyListener;
 	
 	public Viewer3D(Controller ctrl) {
-		super(ctrl);
+		super(ctrl,700,700);
 		
 		xSkew=1.0f;
 		ySkew=1.0f;
@@ -88,7 +89,9 @@ public class Viewer3D extends AbstractViewer{
     			
     			if(e.getWheelRotation()!=0) {
     				xs+=e.getWheelRotation();
+    				ys+=e.getWheelRotation();
     				updateImage();
+    				repaint();
     			}
     			//System.out.println(e.getWheelRotation()); 
     		}
@@ -133,10 +136,7 @@ public class Viewer3D extends AbstractViewer{
 		this.addMouseWheelListener(mouseAdapter);
 		
 	}
-	public void config() {
-		//image = new BufferedImage(this.getWidth(), this.getHeight(),BufferedImage.TYPE_INT_RGB);
 	
-	}
 	
 	@Override
 	public void onRegister(List<Entity> entities, Map map, int time) {
@@ -170,20 +170,21 @@ public class Viewer3D extends AbstractViewer{
 		//Graphics2D g2d = (Graphics2D)image.getGraphics();
 		bufferGraphics.setColor(new Color(0,0,0,255));
 		bufferGraphics.fillRect(0, 0, bufferImage.getWidth(), bufferImage.getHeight());
-		bufferGraphics.setColor(new Color(255,255,255,100));
+		bufferGraphics.setColor(new Color(0,255,0,150));
 		float inskew = 2.0f;
 
-		Point2D point1;
-		Point2D point2;
+		Point2D point1=null;
+		Point2D point2=null;
+		Point2D point3=null;
 		
-		
-		
+	
 		for(int i=0;i<reducedImg.getHeight();i++) {
 			for(int j=0;j<reducedImg.getWidth();j++) {
 				
 				point1 = transform3D(new Point3D(j * xs, 
-						 						(int) (new Color(reducedImg.getRGB(j, i),false).getGreen() * inskew), 
+						 						(int) (new Color(reducedImg.getRGB(j, i),true).getGreen() * inskew), 
 						 						 i * ys));
+				
 				
 				if(j<reducedImg.getWidth()-1) {
 					
@@ -191,22 +192,18 @@ public class Viewer3D extends AbstractViewer{
 				             new Point3D((j+1) * xs, 
 							 (int) (new Color(reducedImg.getRGB(j+1, i),false).getGreen() * inskew), 
 							  i * ys));
-					//g2d.fillOval(point1.x, point1.y, 20, 20);
-					
-					//System.out.println(point1.x + originX+" "+point1.y + originY+"  "+point2.x + originX+" "+point2.y + originY);
-					//try {
 					bufferGraphics.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
-					
+
+
 				
 				}
 				if(i<reducedImg.getHeight()-1) { 
 
-					point2 = transform3D(
+					point3 = transform3D(
 							new Point3D(j * xs,
 											 (int) (new Color(reducedImg.getRGB(j, i+1),false).getGreen() * inskew), 
 											 (i + 1) * ys));
-					
-					bufferGraphics.drawLine(point1.x + originX, point1.y + originY, point2.x + originX, point2.y + originY);
+					bufferGraphics.drawLine(point1.x + originX, point1.y + originY, point3.x + originX, point3.y + originY);
 				}
 			}
 		}

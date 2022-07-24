@@ -41,7 +41,6 @@ public class LauncherGUI extends javax.swing.JFrame {
 		public void changeView(String key) {
 			for(String k:viewersMap.keySet()) {
 				if(k.equals(key)) {
-					System.out.println(key);
 					viewer = viewersMap.get(key);
 					viewer.activate();
 					jScrollPane1.setViewportView(viewer);

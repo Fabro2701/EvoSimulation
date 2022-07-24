@@ -52,7 +52,7 @@ public abstract class Entity implements IInteract {
 	public final MOVE getMove(HashMap<String,Object>observations) {
 		MOVE m = getTheMove(observations);
 		if (m != MOVE.NEUTRAL)
-			energy -= weight * MOVEMENT_ENERGY_COST_CONSTANT;
+			energy -= weight * this.node.elevation * MOVEMENT_ENERGY_COST_CONSTANT;
 
 		return m;
 	}

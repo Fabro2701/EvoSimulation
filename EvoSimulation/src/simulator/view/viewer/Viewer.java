@@ -19,7 +19,7 @@ import simulator.model.map.Map;
 public class Viewer extends AbstractViewer {
 
 	public Viewer(Controller ctrl) {
-		super(ctrl);
+		super(ctrl,500,500);
 		// initGUI();
 
 		//addEntityViewers();
