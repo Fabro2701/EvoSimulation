@@ -126,6 +126,14 @@ public class Grammar {
 		Symbol _greater = g.new Symbol(">",Grammar.SymbolType.Terminal);
 		Symbol _lessE = g.new Symbol("<=",Grammar.SymbolType.Terminal);
 		Symbol _greaterE = g.new Symbol(">=",Grammar.SymbolType.Terminal);
+		Symbol _0 = g.new Symbol("0",Grammar.SymbolType.Terminal);
+		Symbol _1 = g.new Symbol("1",Grammar.SymbolType.Terminal);
+		Symbol _2 = g.new Symbol("2",Grammar.SymbolType.Terminal);
+		Symbol _3 = g.new Symbol("3",Grammar.SymbolType.Terminal);
+		Symbol _4 = g.new Symbol("4",Grammar.SymbolType.Terminal);
+		Symbol _5 = g.new Symbol("5",Grammar.SymbolType.Terminal);
+		Symbol _6 = g.new Symbol("6",Grammar.SymbolType.Terminal);
+		Symbol _7 = g.new Symbol("7",Grammar.SymbolType.Terminal);
 
 		Symbol CODE = g.new Symbol("CODE",Grammar.SymbolType.NTerminal);
 		Symbol LINE = g.new Symbol("LINE",Grammar.SymbolType.NTerminal);
@@ -134,6 +142,8 @@ public class Grammar {
 		Symbol COND = g.new Symbol("COND",Grammar.SymbolType.NTerminal);
 		Symbol OBS = g.new Symbol("OBS",Grammar.SymbolType.NTerminal);
 		Symbol OP = g.new Symbol("OP",Grammar.SymbolType.NTerminal);
+		Symbol Pi = g.new Symbol("Pi",Grammar.SymbolType.NTerminal);
+		Symbol V = g.new Symbol("V",Grammar.SymbolType.NTerminal);
 
 		
 		List<Production> pCode = new ArrayList<Production>();
@@ -174,8 +184,12 @@ public class Grammar {
 		List<Production> pCond = new ArrayList<Production>();
 		Production pCond1 = g.new Production(_parent1,_posF,OBS,_parent2);
 		Production pCond2 = g.new Production(_parent1,OBS,OP,OBS,_parent2);
+		Production pCond3 = g.new Production(_parent1,V,OP,Pi,_parent2);
+		Production pCond4 = g.new Production(_parent1,Pi,OP,Pi,_parent2);
 		pCond.add(pCond1);
 		pCond.add(pCond2);
+		pCond.add(pCond3);
+		pCond.add(pCond4);
 		g.addRule(COND,pCond);
 
 		
@@ -200,6 +214,44 @@ public class Grammar {
 		pOps.add(pOps3);
 		pOps.add(pOps4);
 		g.addRule(OP,pOps);
+		
+		List<Production> pPis = new ArrayList<Production>();
+		Production pPis0 = g.new Production(_0);
+		Production pPis1 = g.new Production(_1);
+		Production pPis2 = g.new Production(_2);
+		Production pPis3 = g.new Production(_3);
+		Production pPis4 = g.new Production(_4);
+		Production pPis5 = g.new Production(_5);
+		Production pPis6 = g.new Production(_6);
+		Production pPis7 = g.new Production(_7);
+		pPis.add(pPis0);
+		pPis.add(pPis1);
+		pPis.add(pPis2);
+		pPis.add(pPis3);
+		pPis.add(pPis4);
+		pPis.add(pPis5);
+		pPis.add(pPis6);
+		pPis.add(pPis7);
+		g.addRule(Pi,pPis);
+		
+		List<Production> pVs = new ArrayList<Production>();
+		Production pVs0 = g.new Production(_0);
+		Production pVs1 = g.new Production(_1);
+		Production pVs2 = g.new Production(_2);
+		Production pVs3 = g.new Production(_3);
+		Production pVs4 = g.new Production(_4);
+		Production pVs5 = g.new Production(_5);
+		Production pVs6 = g.new Production(_6);
+		Production pVs7 = g.new Production(_7);
+		pVs.add(pVs0);
+		pVs.add(pVs1);
+		pVs.add(pVs2);
+		pVs.add(pVs3);
+		pVs.add(pVs4);
+		pVs.add(pVs5);
+		pVs.add(pVs6);
+		pVs.add(pVs7);
+		g.addRule(V,pVs);
 		
 		g.setInitial(CODE);
 	}

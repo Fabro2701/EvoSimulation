@@ -13,7 +13,6 @@ public class FoodEntity extends PasiveEntity {
 		super(id, n);
 		type = "f";
 		img = new ImageIcon("resources/entities/food.png").getImage();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class Pheromone extends ArrayList<Float>{
 	public void init(Entity e) {
 		this.add(e.active?1.f:0.f);
 		this.add(e.weight);
-		this.add(0.f);
+		this.add((float)e.age);
 		this.add(0.f);
 		this.add(0.f);
 		this.add(0.f);
