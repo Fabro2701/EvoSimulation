@@ -25,9 +25,9 @@ public abstract class ActiveEntity extends Entity {
 	@Override
 	public void update(EvoSimulator evoSimulator) {
 		super.update(evoSimulator);
-		age++;
 		if (alive && energy <= 0.0f) {
 			this.vanish();
+			evoSimulator.addEntity(new FoodEntity(this.id,this.node));
 		}
 		energy -= weight * LIVE_ENERGY_COST_CONSTANT;
 		energy -= this.node.temperature * HEAT_LIVE_ENERGY_COST_CONSTANT;

@@ -95,14 +95,15 @@ public class EvoSimulator {
 
 		// entities interactions
 		for (Entity e1 : entities) {	
-			for (Entity e2 : entities) {
-				if(e1!=e2) {
-					if (Util.areCloseEnough(e1, e2)) {
-						e1.interact(e2);
+			if(e1.shouldInteract()) {
+				for (Entity e2 : entities) {
+					if(e1!=e2) {
+						if (Util.areCloseEnough(e1, e2)) {
+							e1.interact(e2);
+						}
 					}
 				}
 			}
-			
 		}
 
 		// remove entities

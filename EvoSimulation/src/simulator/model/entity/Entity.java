@@ -47,12 +47,13 @@ public abstract class Entity implements IInteract {
 
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
+		age++;
 	}
 
 	public final MOVE getMove(HashMap<String,Object>observations) {
 		MOVE m = getTheMove(observations);
 		if (m != MOVE.NEUTRAL)
-			energy -= weight * this.node.elevation * MOVEMENT_ENERGY_COST_CONSTANT;
+			energy -= weight * this.node.elevation * MOVEMENT_ENERGY_COST_CONSTANT;//we ve to look to the next node
 
 		return m;
 	}

@@ -7,6 +7,10 @@ import simulator.model.map.Node;
 public abstract class GIndividual extends AbstractIndividual{
 	protected Grammar grammar;
 	protected Genotype genotype;
+	public GIndividual(String id, Node n) {
+		super(id, n);
+		// TODO Auto-generated constructor stub
+	}
 	public Grammar getGrammar() {
 		return grammar;
 	}
@@ -33,10 +37,7 @@ public abstract class GIndividual extends AbstractIndividual{
 
 	protected Phenotype phenotype;
 	
-	public GIndividual(String id, Node n) {
-		super(id, n);
-		// TODO Auto-generated constructor stub
-	}
+	
 
 
 }

@@ -55,7 +55,7 @@ public class PopulationAgeStats extends StatsData{
 	public void onEntityDead(int time, Entity e) {
 		alivePopulation--;
 	
-		if(e.getAge()>max) {
+		if(e.getAge()>max&&e.shouldInteract()) {
 			System.out.println("max: "+e.getAge());
 			System.out.println(((GIndividual)e).getPhenotype().getVisualCode());
 		}
