@@ -16,9 +16,18 @@ import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 
+/**
+ * AbstractViewer class is used to switch between View models in the simulation
+ * @author fabrizioortega
+ *
+ */
 public abstract class AbstractViewer extends JLabel implements SimulatorObserver, Scrollable{
+	
+	//two variables that get updated as the simulation runs
 	protected List<Entity> entities;
 	protected Image mapImg;
+	
+	
 	protected BufferedImage bufferImage;
 	protected Graphics2D bufferGraphics;
 	protected boolean active;
@@ -31,9 +40,15 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 		this.setIcon(new ImageIcon(bufferImage));
 		
 	}
+	/**
+	 * Activate the viewer
+	 */
 	public void activate() {
 		active=true;
 	}
+	/**
+	 * Deactivate the viewer
+	 */
 	public void deactivate() {
 		active=false;
 	}

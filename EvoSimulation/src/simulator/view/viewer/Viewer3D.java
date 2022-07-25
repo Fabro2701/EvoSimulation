@@ -21,12 +21,20 @@ import simulator.model.map.Map;
 
 import util.Util;
 
+
+/**
+ * Viewer3D 3D view of the simulation
+ * @author fabrizioortega
+ *
+ */
 public class Viewer3D extends AbstractViewer{
+	
+	//variables to control the render
 	private float xSkew;
 	private float ySkew;
 	int originX;
 	int originY;
-	int xs;
+	int xs;//square size
 	int ys;
 	private MouseAdapter mouseAdapter;
 	private KeyListener keyListener;
@@ -91,7 +99,6 @@ public class Viewer3D extends AbstractViewer{
     				xs+=e.getWheelRotation();
     				ys+=e.getWheelRotation();
     				updateImage();
-    				repaint();
     			}
     			//System.out.println(e.getWheelRotation()); 
     		}
@@ -126,7 +133,7 @@ public class Viewer3D extends AbstractViewer{
 					float decreaseFactor = 1000.0f;
 	    			xSkew+=(float)dx/decreaseFactor;
 					ySkew+=(float)dy/decreaseFactor;
-					//System.out.println(xSkew+" "+ySkew);
+					
 					updateImage();
 				}
 			}
@@ -143,17 +150,18 @@ public class Viewer3D extends AbstractViewer{
 		this.mapImg = map.getElevationImage();
 		this.entities = entities;
 		updateImage();
-		repaint();
 	}
 
-	
+	/**
+	 * Update only if it is active to optimize
+	 */
 	@Override
 	public void onUpdate(List<Entity> entities, Map map, int time) {
 		if(active) {
 			this.mapImg = map.getElevationImage();		
 			this.entities=entities;
 			updateImage();
-			repaint();
+			
 		}
 		
 	}
@@ -165,19 +173,24 @@ public class Viewer3D extends AbstractViewer{
 		g2d.drawImage(imgS, 0, 0, size, size, null);
 		return image2;
 	}
+	/**
+	 * Render the 3d image
+	 */
 	public void updateImage() {
+		//rescale the image otherwise will be too big
 		BufferedImage reducedImg = reduceImage(mapImg);
-		//Graphics2D g2d = (Graphics2D)image.getGraphics();
+		
 		bufferGraphics.setColor(new Color(0,0,0,255));
 		bufferGraphics.fillRect(0, 0, bufferImage.getWidth(), bufferImage.getHeight());
 		bufferGraphics.setColor(new Color(0,255,0,150));
-		float inskew = 2.0f;
+		
+		float inskew = 2.0f;//factor to make more viewable the hills
 
 		Point2D point1=null;
 		Point2D point2=null;
 		Point2D point3=null;
 		
-	
+		//map render
 		for(int i=0;i<reducedImg.getHeight();i++) {
 			for(int j=0;j<reducedImg.getWidth();j++) {
 				
@@ -208,8 +221,9 @@ public class Viewer3D extends AbstractViewer{
 			}
 		}
 		
+		//entities render
 		for(Entity e:entities) {
-			Point2D scaledCoord = new Point2D(e.node.x/10,e.node.y/10);
+			Point2D scaledCoord = new Point2D(e.node.x/10,e.node.y/10);// /10 because we rescale from 500 to 50px
 			Point2D p1 = transform3D(
 		             new Point3D(scaledCoord.x * xs, 
 		            		 	(int) (new Color(reducedImg.getRGB(scaledCoord.x, scaledCoord.y),false).getGreen() * inskew), 
@@ -217,7 +231,7 @@ public class Viewer3D extends AbstractViewer{
 			bufferGraphics.drawImage(e.getImage(), p1.x+originX, p1.y+originY, null);
 		}
 		
-
+		repaint();
 	}
 	@Override
 	public void paintComponent(Graphics g) {
@@ -228,7 +242,13 @@ public class Viewer3D extends AbstractViewer{
 		this.xSkew+=change;
 		updateImage();
 	}
+	/**
+	 * Transform to 2d 
+	 * @param point3D
+	 * @return
+	 */
 	public Point2D transform3D(Point3D point3D) {
+		//different angles 
 		return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z - point3D.x) * ySkew));
 		//return new Point2D((int)((point3D.x + point3D.z)*xSkew), (int) (((-point3D.y) + point3D.z) * ySkew));
 	}
