@@ -27,7 +27,12 @@ public class Grammar {
 			this.name = name;
 			realValue = name;
 		}
-		public String getRealValue() {return name;}
+		public Symbol(String name, String realValue, SymbolType type) {
+			this.type = type;
+			this.name = name;
+			this.realValue = realValue;
+		}
+		public String getRealValue() {return realValue;}
 		public SymbolType getType() {return type;}
 		@Override
 		public String toString() {return type==SymbolType.NTerminal?"<"+name+">":name;}
@@ -103,11 +108,11 @@ public class Grammar {
 		this();
 		Grammar g=this;
 		
-		Symbol right = g.new Symbol("RIGHT",Grammar.SymbolType.Terminal);
-		Symbol left = g.new Symbol("LEFT",Grammar.SymbolType.Terminal);
-		Symbol up = g.new Symbol("UP",Grammar.SymbolType.Terminal);
-		Symbol down = g.new Symbol("DOWN",Grammar.SymbolType.Terminal);
-		Symbol neutral = g.new Symbol("NEUTRAL",Grammar.SymbolType.Terminal);
+		Symbol right = g.new Symbol("RIGHT","\"RIGHT\"",Grammar.SymbolType.Terminal);
+		Symbol left = g.new Symbol("LEFT","\"LEFT\"",Grammar.SymbolType.Terminal);
+		Symbol up = g.new Symbol("UP","\"UP\"",Grammar.SymbolType.Terminal);
+		Symbol down = g.new Symbol("DOWN","\"DOWN\"",Grammar.SymbolType.Terminal);
+		Symbol neutral = g.new Symbol("NEUTRAL","\"NEUTRAL\"",Grammar.SymbolType.Terminal);
 		Symbol _if = g.new Symbol("if",Grammar.SymbolType.Terminal);
 		Symbol _then = g.new Symbol("_then_",Grammar.SymbolType.Terminal);
 		Symbol _else = g.new Symbol("else",Grammar.SymbolType.Terminal);
@@ -175,21 +180,23 @@ public class Grammar {
 		g.addRule(ACTION, pAction);
 		
 		List<Production> pIf = new ArrayList<Production>();
-		Production pIf1 = g.new Production(_if,COND,_brack1,LINE,_brack2,_else,_brack1,LINE,_brack2,_endif);
-		Production pIf2 = g.new Production(_if,COND,_brack1,LINE,_brack2,_endif);
+		Production pIf1 = g.new Production(_if,COND,_brack1,LINE,_brack2,_else,_brack1,LINE,_brack2);
+		Production pIf2 = g.new Production(_if,COND,_brack1,LINE,_brack2);
 		pIf.add(pIf1);
 		pIf.add(pIf2);
 		g.rules.put(IF,pIf);
 		
 		List<Production> pCond = new ArrayList<Production>();
-		Production pCond1 = g.new Production(_parent1,_posF,OBS,_parent2);
+		Production pCond1 = g.new Production(_parent1,OBS,_parent2);
 		Production pCond2 = g.new Production(_parent1,OBS,OP,OBS,_parent2);
-		Production pCond3 = g.new Production(_parent1,V,OP,Pi,_parent2);
-		Production pCond4 = g.new Production(_parent1,Pi,OP,Pi,_parent2);
+		Production pCond3 = g.new Production(_parent1,OBS,OP,V,_parent2);
+		Production pCond4 = g.new Production(_parent1,V,OP,Pi,_parent2);
+		Production pCond5 = g.new Production(_parent1,Pi,OP,Pi,_parent2);
 		pCond.add(pCond1);
 		pCond.add(pCond2);
 		pCond.add(pCond3);
-		pCond.add(pCond4);
+		//pCond.add(pCond4);
+		//pCond.add(pCond5);
 		g.addRule(COND,pCond);
 
 		
@@ -259,7 +266,7 @@ public class Grammar {
 		Grammar g = new Grammar("s");
 		System.out.println(g);
 		Chromosome c = new Chromosome(100);
-		//c.setArrayIntToCodon(1,0, 1,0,1,2,3,3,0,2,1,1,0,3,0,3, 1,0,1,0,3,1,0,0,1, 0,0,1,0,1,0,  2);
+		c.setArrayIntToCodon(1,0, 1,0,1,2,3,3,0,2,1,1,0,3,0,3, 1,0,1,0,3,1,0,0,1, 0,0,1,0,1,0,  2);
 		
 		Phenotype pt = new Phenotype(c.parseGrammar(g));
 		

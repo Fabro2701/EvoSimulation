@@ -50,7 +50,7 @@ public abstract class Entity implements IInteract {
 		age++;
 	}
 
-	public final MOVE getMove(HashMap<String,Object>observations) {
+	public final MOVE getMove(HashMap<String,String>observations) {
 		MOVE m = getTheMove(observations);
 		if (m != MOVE.NEUTRAL)
 			energy -= weight * this.node.elevation * MOVEMENT_ENERGY_COST_CONSTANT;//we ve to look to the next node
@@ -58,7 +58,7 @@ public abstract class Entity implements IInteract {
 		return m;
 	}
 	public final int getAge() {return age;}
-	public abstract MOVE getTheMove(HashMap<String,Object>observations);
+	public abstract MOVE getTheMove(HashMap<String,String>observations);
 	public abstract boolean shouldInteract();
 	@Override
 	public void interact(Entity e) {

@@ -28,14 +28,14 @@ public class Evaluator {
 			
 			String result=this._evaluate(query);
 			
-			System.out.println(result);
+			//System.out.println(result);
 			
 			_current++;
 			_current%=_statements.size();
 			
 			try {
 				MOVE move = MOVE.valueOf(result);
-				System.out.println("-");
+				//System.out.println("-");
 				return move;
 			}catch (Exception e) {
 				
@@ -158,11 +158,11 @@ public class Evaluator {
 		this._variables.putAll(obs);
 	}
 	public static void main(String args[]) {
-		String test1 = "3+3*(5+3); \"RIGHT\"; true&&false||true;if(3+5>9){\"LEFT\";\"DOWN\";"
-				+ "if(x){3+2;}}";
+		String test1 = "3+3*(5+3); \"RIGHT\"; true&&false||true;if(3+5<9){\"LEFT\";\"DOWN\";"
+				+ "if(x){3+2;}else{1;}}";
 		Parser parser = new Parser();
 		JSONObject program = parser.parse(test1);
-		System.out.println(program.toString(4));
+		//System.out.println(program.toString(4));
 		
 		Evaluator evaluator = new Evaluator(program);
 		evaluator._variables.put("x", "false");

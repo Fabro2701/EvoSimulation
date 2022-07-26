@@ -17,7 +17,7 @@ public class SimpleUPEntity extends SimpleRandomEntity {
 	}
 
 	@Override
-	public MOVE getTheMove(HashMap<String,Object>observations) {
+	public MOVE getTheMove(HashMap<String,String>observations) {
 		return MOVE.UP;
 	}
 

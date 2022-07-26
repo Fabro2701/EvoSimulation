@@ -21,7 +21,7 @@ public class MyIndividual extends GIndividual{
 		img = new ImageIcon("resources/entities/myentity.png").getImage();
 		grammar = new Grammar("s");
 		genotype = new Genotype(e.genotype.get(0));
-		mutate();
+		//mutate();
 		//if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
 		LinkedList<Symbol> crom = genotype.get(0).parseGrammar(grammar);
 		
@@ -38,8 +38,10 @@ public class MyIndividual extends GIndividual{
 		img = new ImageIcon("resources/entities/myentity.png").getImage();
 		grammar = new Grammar("s");
 		Chromosome c = new Chromosome(50);
-
-		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0, 1);
+		
+		System.out.println(grammar);
+		
+		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,2,3,1,0,0,3, 1,0,1,0,1,1,0,0,1, 0,2,1,1,0,0,1,0, 4);
 		LinkedList<Symbol> crom = c.parseGrammar(grammar);
 		
 		genotype = new Genotype(c);
@@ -59,17 +61,17 @@ public class MyIndividual extends GIndividual{
 	public void update(EvoSimulator simulator) {
 		super.update(simulator);
 		if(((float)age/50000.0f)>RandomSingleton.nextFloat()) {
-			simulator.addEntity(new MyIndividual(this));
+			//simulator.addEntity(new MyIndividual(this));
 			//simulator.addEntity(new MyIndividual(this));
 		}
 		
 	}
 	@Override
-	public MOVE getTheMove(HashMap<String,Object>observations) {
-		Symbol moveS = phenotype.getNext(observations);
-		if(moveS==null)return MOVE.NEUTRAL;		
+	public MOVE getTheMove(HashMap<String,String>observations) {
+		MOVE move = phenotype.getNext(observations);
+		if(move==null)return MOVE.NEUTRAL;		
 		
-		return MOVE.valueOf(moveS.getRealValue());
+		return move;
 	}
 	@Override
 	public JSONObject toJSON() {
@@ -80,17 +82,17 @@ public class MyIndividual extends GIndividual{
 		MyIndividual m = new MyIndividual("-1",null);
 		System.out.println(m.phenotype.getVisualCode());
 		
-		HashMap<String,Integer>r = new HashMap<String,Integer>();
+		HashMap<String,String>r = new HashMap<String,String>();
 		
-		r.put("u_f_d", 0);
-		r.put("d_f_d", 0);
-		r.put("l_f_d", 0);
-		r.put("r_f_d", 0);
+		r.put("u_f_d", "0");
+		r.put("d_f_d", "1");
+		r.put("l_f_d", "0");
+		r.put("r_f_d", "0");
 	
-		/*System.out.println(m.getTheMove(r));
 		System.out.println(m.getTheMove(r));
 		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));*/
+		System.out.println(m.getTheMove(r));
+		System.out.println(m.getTheMove(r));
 	}
 	
 

@@ -7,7 +7,10 @@ import java.util.LinkedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import grammar.Evaluator;
 import grammar.Grammar.Symbol;
+import grammar.Parser;
+import simulator.Constants.MOVE;
 
 /**
  * 
@@ -19,6 +22,7 @@ public class Phenotype extends LinkedList<Symbol>{
 	Iterator<Symbol>it;
 	Symbol current;
 	boolean valid;
+	Evaluator evaluator;
 	public Phenotype() {
 		super();
 		valid=false;
@@ -26,86 +30,14 @@ public class Phenotype extends LinkedList<Symbol>{
 	public Phenotype(LinkedList<Symbol>l) {
 		super(l);
 		valid=true;
+		Parser parser = new Parser();
+		evaluator = new Evaluator(parser.parse(this.getVisualCode()));
 	}
-	public void jumpToEndIf(){
-		int cont=0;
-		while(true) {
-			current=it.next();
-			if(current.equals("{")) {
-				cont++;
-			}
-			else if(current.equals("}")) {
-				cont--;
-			}
-			if(cont==0) {
-				break;
-			}
-		}
+	public MOVE getNext(HashMap<String,String>observations) {
+		evaluator.addObservations(observations);
+		return evaluator.getNext();
 	}
-	public Symbol getNext(HashMap<String, Object>observations) {
-		int cont=0;
-		int limit=50;
-		if(!valid)return null;
-		if(it==null||!it.hasNext())it=this.iterator();
-		current=it.next();
-		boolean jump=false;
-		while(true) {
-			cont++;
-			if(current.equals("UP")||current.equals("DOWN")||current.equals("LEFT")||current.equals("RIGHT")||current.equals("NEUTRAL")) {
-				return current;
-			}
-			else if(current.equals("if")) {
-				it.next();//(
-				boolean c=false;
-				current =it.next();
-				if(current.equals("posF ")) {//monary
-					Symbol cond = it.next();
-					current=cond;
-					c = (int)observations.get(cond.getRealValue())>0;
-				}
-				else {
-					Symbol l = current;
-					Symbol op = it.next();
-					Symbol r = it.next();
-					switch (op.getRealValue()) {
-						case "<":
-							c=(int)observations.get(l.getRealValue())<(int)observations.get(r.getRealValue());
-							break;
-						case ">":
-							c=(int)observations.get(l.getRealValue())>(int)observations.get(r.getRealValue());
-							break;
-						case "<=":
-							c=(int)observations.get(l.getRealValue())<=(int)observations.get(r.getRealValue());
-							break;
-						case ">=":
-							c=(int)observations.get(l.getRealValue())>=(int)observations.get(r.getRealValue());
-							break;
-					}
-					current=r;
-				}
-				if(!c) {
-					it.next();//)
-					jump=true;
-					jumpToEndIf();
-				}
-			}
-			else if(current.equals("else")) {
-				if(jump) {
-					it.next();
-					jump=false;
-				}
-				else {
-					jumpToEndIf();
-				}
-			}
-			else {
-				if(!it.hasNext())it=this.iterator();
-				current=it.next();
-			}
-			if(cont>=limit)return null;
-		}
-		
-	}
+	
 	
 	private void setVisualization() {
 		StringBuilder s = new StringBuilder();

@@ -429,7 +429,8 @@ public class Parser {
 				+ "       neutral=true;\n"
 				+ "   }\n"
 				+ "}";
-		String e2 = "if(x){;}";
+		String e2 = "if(x)"
+				+ "{	a_E_f=3;}";
 		Parser parser = new Parser();
 		System.out.println(parser.parse(e2).toString(4));
 		

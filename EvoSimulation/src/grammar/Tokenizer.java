@@ -46,7 +46,7 @@ public class Tokenizer {
 	}
 	public JSONObject getNextToken() {
 		if(!this.hasMoreTokens()) {
-			System.err.println("No more tokens");
+			//System.err.println("No more tokens");
 			return null;
 		}
 		
@@ -63,22 +63,22 @@ public class Tokenizer {
 			
 			
 			if(tokenValue==null) {
-				System.out.println(0);
+				//System.out.println(0);
 				continue;
 			}
 			if(tokenType == null) {
-				System.out.println(1);
+				//System.out.println(1);
 				return this.getNextToken();
 			}
 
-			System.out.println("2  "+tokenValue);
+			//System.out.println("2  "+tokenValue);
 			return new JSONObject().put("type", tokenType).put("value",tokenValue);
 		}
-		System.err.println("Unexpected token "+string.charAt(0));
+		//System.err.println("Unexpected token "+string.charAt(0));
 		return null;
 	}
 	private String _match(String regexp, String string) {
-		System.out.println(regexp+ "   -   <"+string+">");
+		//System.out.println(regexp+ "   -   <"+string+">");
 		Pattern p = Pattern.compile(regexp);
 		Matcher m = p.matcher(string); 
 		if(!m.find()||m.start()!=0) {

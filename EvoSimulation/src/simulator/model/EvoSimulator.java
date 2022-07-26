@@ -28,9 +28,9 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 
 	}
-	private HashMap<String,Object>getObservations(Entity e){
+	private HashMap<String,String>getObservations(Entity e){
 		
-		HashMap<String,Object> r = new HashMap<String,Object>();
+		HashMap<String,String> r = new HashMap<String,String>();
 		
 		int dist=30;
 		
@@ -60,11 +60,11 @@ public class EvoSimulator {
 			}
 			
 		}
-		r.put("l_f_d", l_f_d);
-		r.put("r_f_d", r_f_d);
-		r.put("d_f_d", d_f_d);
-		r.put("u_f_d", u_f_d);
-		//if(e.getId().equals("4"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
+		r.put("l_f_d", String.valueOf(l_f_d));
+		r.put("r_f_d", String.valueOf(r_f_d));
+		r.put("d_f_d", String.valueOf(d_f_d));
+		r.put("u_f_d", String.valueOf(u_f_d));
+		if(e.getId().equals("-1"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
 		/*for(int x=-dist;x<=dist;x++) {
 			for(int y=-dist;y<=dist;y++) {
 				if(x<0) {
