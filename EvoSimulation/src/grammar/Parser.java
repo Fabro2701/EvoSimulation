@@ -54,7 +54,7 @@ public class Parser {
 		_eat("(");
 		JSONObject test =this.Expression();
 		_eat(")");
-		JSONObject consequent =this.Statement();
+		JSONObject consequent =this.Statement();//BlockStatement or inline if
 		JSONObject alternate = null;
 		if(this._lookahead!=null&&this._lookahead.getString("type").equals("else")) {
 			_eat("else");
@@ -96,8 +96,6 @@ public class Parser {
 	private JSONObject BlockStatement() {
 		_eat("{");
 		JSONArray body = !this._lookahead.getString("type").equals("}")?this.StatementList("}"):null;
-		System.out.println("body ");
-		System.out.println(body);
 		_eat("}");
 		return new JSONObject().put("type", "BlockStatement")
 							   .put("body", body);
@@ -125,11 +123,10 @@ public class Parser {
 	private JSONObject AssignmentExpression() {
 		JSONObject left = this.LogicalORExpression();
 		if(!_isAssigmentOp(this._lookahead.getString("type")))return left;
-		System.out.println(left);
 		return new JSONObject().put("type", "AssignmentExpression")
 						       .put("left", _checkValidAssignmentTarget(left))
 							   .put("operator", this.AssignmentOperator().getString("value"))
-							   .put("right", this.AdditiveExpression());
+							   .put("right", this.LogicalORExpression());
 		
 	}
 	
@@ -168,7 +165,7 @@ public class Parser {
 		JSONObject right = null;
 		while(this._lookahead.getString("type").equals("LOGICAL_OR")) {
 			op = this._eat("LOGICAL_OR");
-			right = this.MultiplicativeExpression();
+			right = this.LogicalANDExpression();
 			left = new JSONObject().put("type", "LogicalExpression")
 								   .put("operator", op.getString("value"))
 								   .put("left",left)
@@ -192,7 +189,7 @@ public class Parser {
 		JSONObject right = null;
 		while(this._lookahead.getString("type").equals("LOGICAL_AND")) {
 			op = this._eat("LOGICAL_AND");
-			right = this.MultiplicativeExpression();
+			right = this.EqualityExpression();
 			left = new JSONObject().put("type", "LogicalExpression")
 								   .put("operator", op.getString("value"))
 								   .put("left",left)
@@ -217,8 +214,8 @@ public class Parser {
 		JSONObject right = null;
 		while(this._lookahead.getString("type").equals("EQUALITY_OPERATOR")) {
 			op = this._eat("EQUALITY_OPERATOR");
-			right = this.MultiplicativeExpression();
-			left = new JSONObject().put("type", "BinaryExpression")
+			right = this.RelationalExpression();
+			left = new JSONObject().put("type", "LogicalExpression")
 								   .put("operator", op.getString("value"))
 								   .put("left",left)
 								   .put("right", right);
@@ -244,8 +241,8 @@ public class Parser {
 		JSONObject right = null;
 		while(this._lookahead.getString("type").equals("RELATIONAL_OPERATOR")) {
 			op = this._eat("RELATIONAL_OPERATOR");
-			right = this.MultiplicativeExpression();
-			left = new JSONObject().put("type", "BinaryExpression")
+			right = this.AdditiveExpression();
+			left = new JSONObject().put("type", "LogicalExpression")
 								   .put("operator", op.getString("value"))
 								   .put("left",left)
 								   .put("right", right);
@@ -284,9 +281,9 @@ public class Parser {
 		JSONObject right = null;
 		while(this._lookahead.getString("type").equals("MULTIPLICATIVE_OPERATOR")) {
 			op = this._eat("MULTIPLICATIVE_OPERATOR");
-			right = this.PrimaryExpression();
+			right = this.UnaryExpression();
 			left = new JSONObject().put("type", "BinaryExpression")
-								   .put("operator", op)
+							       .put("operator", op.getString("value"))
 								   .put("left",left)
 								   .put("right", right);
 		}
@@ -412,13 +409,33 @@ public class Parser {
 	}
 	
 	public static void main(String args[]) {
-		String e = "   --x; ";
+		String e = "if (u>d){\n"
+				+ "   up=true;\n"
+				+ "}\n"
+				+ "else{\n"
+				+ "   if(d&&true){\n"
+				+ "       down=true;\n"
+				+ "   }\n"
+				+ "}\n"
+				+ "\n"
+				+ "if (r>l){\n"
+				+ "   right=true;\n"
+				+ "}\n"
+				+ "else{\n"
+				+ "   if(l||true){\n"
+				+ "       left=true;\n"
+				+ "   }\n"
+				+ "   else{\n"
+				+ "       neutral=true;\n"
+				+ "   }\n"
+				+ "}";
+		String e2 = "if(true){;}3;";
 		Parser parser = new Parser();
-		System.out.println(parser.parse(e).toString(4));
+		System.out.println(parser.parse(e2).toString(4));
 		
 		
 		Pattern p = Pattern.compile("^\\blet\\b");
-		Matcher m = p.matcher("let x =12;"); 
+		Matcher m = p.matcher(" let x =12;"); 
 		System.out.println(m.find());
 		//System.out.println(m.end());
 	}
