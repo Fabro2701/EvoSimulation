@@ -32,7 +32,7 @@ public class Tokenizer {
 			   		   {"^&&","LOGICAL_AND"},
 			   		   {"^\\|\\|","LOGICAL_OR"},
 			   		   {"^!","LOGICAL_NOT"},
-					   {"^\".*\"","STRING"}};
+					   {"^\"[^\"]*\"","STRING"}};
 	public void init(String string) {
 		_cursor=0;
 		_string=string;

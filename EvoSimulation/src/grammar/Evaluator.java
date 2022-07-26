@@ -1,34 +1,54 @@
 package grammar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.Constants.MOVE;
 
 public class Evaluator {
-	JSONArray statements;
-	int current;
+	ArrayList<JSONObject>_statements;
+	HashMap<String,String>_variables;//for simplicity all variables are global
+	int _current;
 	public Evaluator(JSONObject program){
-		statements = program.getJSONArray("body");
-		current=0;
+		_variables = new HashMap<String,String>();
+		
+		_statements = new ArrayList<JSONObject>();
+		for(Object o:program.getJSONArray("body")) {
+			_statements.add((JSONObject)o);
+		}
+		_current=0;
 	}
 	public MOVE getNext() {
 		while(true) {
-			JSONObject query = statements.getJSONObject(current);
+			if(_current == 0) _deleteMarkedStatements();
+			JSONObject query = _statements.get(_current);
 			
 			String result=this._evaluate(query);
 			
 			System.out.println(result);
 			
-			current++;
-			current%=statements.length();
+			_current++;
+			_current%=_statements.size();
 			
 			try {
 				MOVE move = MOVE.valueOf(result);
 				System.out.println("-");
 				return move;
-			}catch (IllegalArgumentException e) {
+			}catch (Exception e) {
 				
+			}
+			
+		}
+	}
+	private void _deleteMarkedStatements() {
+		for(int i=0;i<_statements.size();i++) {
+			JSONObject o = _statements.get(i);
+			if(o.has("marked")) {
+				_statements.remove(i);
+				i--;
 			}
 		}
 	}
@@ -62,13 +82,23 @@ public class Evaluator {
 		}
 		if(type.equals("BlockStatement")) {
 			JSONArray body = query.getJSONArray("body");
-			//put all body statements into the statements ArrayList (create one) and mark then 
-			//when the iterator ends the array delete the marked statements
-			
+		
+			for(int i=0;i<body.length();i++) {
+				
+				this._statements.add(_current+i+1,body.getJSONObject(i).put("marked", true));
+			}
+		
+			//pending...
 			//another idea: do the written before and each marked statement has also a list of conditions
 			//that have been tested positive in all the father blocks
 			
 			//all this to preserve a more accurate and reliable cursor of the program
+			//use a queue to store the test conditions 
+			return null;
+		}
+		if(type.equals("Identifier")) {
+			String name = query.getString("name");
+			return _variables.get(name);
 		}
 		return null;
 	}
@@ -86,6 +116,21 @@ public class Evaluator {
 				break;
 			case "&&":
 				result = Boolean.valueOf(_evaluate(left)) && Boolean.valueOf(_evaluate(right));
+				break;
+			case "<":
+				result = Integer.valueOf(_evaluate(left)) < Integer.valueOf(_evaluate(right));
+				break;
+			case "<=":
+				result = Integer.valueOf(_evaluate(left)) <= Integer.valueOf(_evaluate(right));
+				break;
+			case ">":
+				result = Integer.valueOf(_evaluate(left)) > Integer.valueOf(_evaluate(right));
+				break;
+			case ">=":
+				result = Integer.valueOf(_evaluate(left)) >= Integer.valueOf(_evaluate(right));
+				break;
+			case "==":
+				result = Integer.valueOf(_evaluate(left)) == Integer.valueOf(_evaluate(right));
 				break;
 		}
 		return result.toString();
@@ -109,13 +154,19 @@ public class Evaluator {
 		return result.toString();
 		
 	}
+	public void addObservations(HashMap<String,String>obs) {
+		this._variables.putAll(obs);
+	}
 	public static void main(String args[]) {
-		String test1 = "3+3*5+3;\"RIGHT\";true&&false||true;if(true){\"LEFT\";}";
+		String test1 = "3+3*(5+3); \"RIGHT\"; true&&false||true;if(3+5>9){\"LEFT\";\"DOWN\";"
+				+ "if(x){3+2;}}";
 		Parser parser = new Parser();
 		JSONObject program = parser.parse(test1);
 		System.out.println(program.toString(4));
 		
 		Evaluator evaluator = new Evaluator(program);
+		evaluator._variables.put("x", "false");
+		evaluator.getNext();
 		evaluator.getNext();
 		evaluator.getNext();
 		evaluator.getNext();
