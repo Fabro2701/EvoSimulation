@@ -22,11 +22,19 @@ public class Chromosome {
 	List<Codon>codons;
 	int length;
 	
+
 	public Chromosome(int l) {
 		length = l;
-		codons = new ArrayList<Codon>();
+		codons = new ArrayList<Codon>(length);
 		for(int i=0; i<length; i++) {
 			codons.add(new Codon());
+		}
+	}
+	public Chromosome(Chromosome copy) {
+		length = copy.length;
+		codons = new ArrayList<Codon>(length);
+		for(int i=0; i<length; i++) {
+			codons.add(new Codon(copy.codons.get(i)));
 		}
 	}
 	public Chromosome(JSONObject o) {
@@ -92,7 +100,7 @@ public class Chromosome {
 			codons.get(RandomSingleton.nextInt(codons.size())).setInt(RandomSingleton.nextInt(256-1));;
 		}
 	}
-	class Codon{
+	public class Codon{
 		BitSet bits;
 		int intValue;
 		public Codon() {
@@ -107,13 +115,20 @@ public class Chromosome {
 			bits = new BitSet(8);
 			intValue = o.getInt("intValue");
 		}
+		public Codon(Codon copy) {
+			bits = new BitSet(8);
+			intValue = copy.intValue;
+		}
 		public void setInt(int v) {
 			intValue=v;
 		}
+		public int getIntValue() {return this.intValue;}
 		public JSONObject toJSON() {
 			return new JSONObject().put("intValue", intValue);
 		}
 	}
+	public int getLength() {return this.length;}
+	public Codon getCodon(int i) {return this.codons.get(i);}
 	public JSONObject toJSON() {
 		JSONArray arr = new JSONArray();
 		for(Codon c:codons) {

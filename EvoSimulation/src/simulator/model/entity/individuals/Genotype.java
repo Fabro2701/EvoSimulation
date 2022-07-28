@@ -18,6 +18,9 @@ public class Genotype extends ArrayList<Chromosome>{
 		super();
 		this.add(new Chromosome(c.getJSONObject("chromosome")));
 	}
+	public Chromosome getChromosome() {
+		return this.get(0);
+	}
 	public JSONObject toJSON() {
 		return new JSONObject().put("chromosome", this.get(0).toJSON());
 	}

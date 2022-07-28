@@ -40,10 +40,10 @@
             "type":"reg",
             "data":{
                 "time":0,
-                "times":100,
+                "times":200,
                 "interval":100,
                 "typeTo":"mi",
-                "amount":5
+                "amount":30
             }
         }
     ]

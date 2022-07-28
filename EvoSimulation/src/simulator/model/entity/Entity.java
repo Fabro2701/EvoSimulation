@@ -21,7 +21,7 @@ import simulator.model.map.Node;
 import simulator.view.viewer.Viewer;
 import statistics.StatsManager;
 
-public abstract class Entity implements IInteract {
+public abstract class Entity implements IInteract{
 	protected String type;
 	protected String id;
 	protected Image img;
