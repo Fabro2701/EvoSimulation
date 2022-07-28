@@ -20,6 +20,7 @@ public abstract class ActiveEntity extends Entity {
 	@Override
 	protected void getFood(FoodEntity foodEntity) {
 		energy += (float) foodEntity.getFoodAmount() * FOOD_ENERGY_GIVEN_CONSTANT;
+		energy = energy>=500.0f?500.0f:energy;
 	}
 
 	@Override

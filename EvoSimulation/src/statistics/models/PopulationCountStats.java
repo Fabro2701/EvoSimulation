@@ -2,9 +2,10 @@ package statistics.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import simulator.model.entity.Entity;
 import statistics.StatsData;
-import statistics.StatsObserver;
 import statistics.visualizers.StatsVisualizer;
 
 public class PopulationCountStats extends StatsData{
@@ -38,24 +39,24 @@ public class PopulationCountStats extends StatsData{
 		linearData.get("totalPopulation").add(totalPopulation);
 		linearData.get("alivePopulation").add(alivePopulation);
 		
-		dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(currentTime));
+		//dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(currentTime));
 		dataset.addValue(Integer.valueOf(alivePopulation), "alivePopulation", Integer.valueOf(currentTime));
 		for(StatsVisualizer v:visualizers) {
 			v.update();
 		}
 	}
 	@Override 
-	public void onAdvance(int time) {
+	public void onAdvance(int time, List<Entity>entities) {
 		currentTime=time;
 		if(time%updateRate==0) {
-			dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(time));
+			//dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(time));
 			dataset.addValue(Integer.valueOf(alivePopulation), "alivePopulation", Integer.valueOf(time));
 		}
 	}
 	@Override
 	public void onEntityVanished(int time) {
 		alivePopulation--;
-		dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(currentTime));
+		//dataset.addValue(Integer.valueOf(totalPopulation), "totalPopulation", Integer.valueOf(currentTime));
 		dataset.addValue(Integer.valueOf(alivePopulation), "alivePopulation", Integer.valueOf(currentTime));
 		for(StatsVisualizer v:visualizers) {
 			v.update();

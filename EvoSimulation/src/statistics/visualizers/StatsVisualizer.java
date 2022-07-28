@@ -53,7 +53,7 @@ public class StatsVisualizer extends JFrame{
 	}
 
 	public void update() {
-		 
+		 //this.repaint();
 			
 	}
 	

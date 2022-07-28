@@ -19,8 +19,6 @@ import simulator.Constants.MOVE;
  */
 public class Phenotype extends LinkedList<Symbol>{
 	String visualization;
-	Iterator<Symbol>it;
-	Symbol current;
 	boolean valid;
 	Evaluator evaluator;
 	public Phenotype() {
@@ -33,7 +31,15 @@ public class Phenotype extends LinkedList<Symbol>{
 		Parser parser = new Parser();
 		evaluator = new Evaluator(parser.parse(this.getVisualCode()));
 	}
+	public Phenotype(JSONObject o) {
+		super();
+		valid=true;
+		Parser parser = new Parser();
+		visualization = o.getString("code");
+		evaluator = new Evaluator(parser.parse(visualization));
+	}
 	public MOVE getNext(HashMap<String,String>observations) {
+		if(!valid)return MOVE.NEUTRAL;
 		evaluator.addObservations(observations);
 		return evaluator.getNext();
 	}
@@ -89,11 +95,6 @@ public class Phenotype extends LinkedList<Symbol>{
 		return visualization;
 	}
 	public JSONObject toJSON() {
-		JSONArray arr = new JSONArray();
-		
-		for(Symbol s:this){
-			arr.put(s.getRealValue());
-		}
-		return new JSONObject().put("symbols", arr);
+		return new JSONObject().put("code", this.getVisualCode());
 	}
 }

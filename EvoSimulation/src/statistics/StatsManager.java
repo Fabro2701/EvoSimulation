@@ -37,9 +37,9 @@ public class StatsManager implements StatsObserver{
 		}
 	}
 	@Override
-	public void onAdvance(int time) {
+	public void onAdvance(int time, List<Entity>entities) {
 		for(StatsObserver observer:observers) {
-			observer.onAdvance(time);
+			observer.onAdvance(time, entities);
 		}
 	}
 	@Override

@@ -12,8 +12,13 @@ public class MyIndividualBuilder extends EntityBuilder{
 	}
 	@Override
 	public Entity createTheInstance(JSONObject o, Controller ctrl) {
-		return new MyIndividual(o.getString("id"),
-									  ctrl.getNodeAt(o.getInt("x"),o.getInt("y"))
-									  );
+		if(o.has("genotype")) { 
+			return new MyIndividual(o.getString("id"),
+									ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),
+									o.getJSONObject("genotype"),
+									o.getJSONObject("phenotype"),
+									o.getFloat("energy"));
+		}
+		return new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")));
 	}
 }

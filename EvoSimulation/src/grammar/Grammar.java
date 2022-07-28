@@ -139,6 +139,9 @@ public class Grammar {
 		Symbol _5 = g.new Symbol("5",Grammar.SymbolType.Terminal);
 		Symbol _6 = g.new Symbol("6",Grammar.SymbolType.Terminal);
 		Symbol _7 = g.new Symbol("7",Grammar.SymbolType.Terminal);
+		Symbol _plus = g.new Symbol("+",Grammar.SymbolType.Terminal);
+		Symbol _times = g.new Symbol("*",Grammar.SymbolType.Terminal);
+		Symbol _minus = g.new Symbol("-",Grammar.SymbolType.Terminal);
 
 		Symbol CODE = g.new Symbol("CODE",Grammar.SymbolType.NTerminal);
 		Symbol LINE = g.new Symbol("LINE",Grammar.SymbolType.NTerminal);
@@ -149,6 +152,8 @@ public class Grammar {
 		Symbol OP = g.new Symbol("OP",Grammar.SymbolType.NTerminal);
 		Symbol Pi = g.new Symbol("Pi",Grammar.SymbolType.NTerminal);
 		Symbol V = g.new Symbol("V",Grammar.SymbolType.NTerminal);
+		Symbol AR = g.new Symbol("AR",Grammar.SymbolType.NTerminal);
+		Symbol AREXP = g.new Symbol("AREXP",Grammar.SymbolType.NTerminal);
 
 		
 		List<Production> pCode = new ArrayList<Production>();
@@ -189,14 +194,14 @@ public class Grammar {
 		List<Production> pCond = new ArrayList<Production>();
 		Production pCond1 = g.new Production(_parent1,OBS,_parent2);
 		Production pCond2 = g.new Production(_parent1,OBS,OP,OBS,_parent2);
-		Production pCond3 = g.new Production(_parent1,OBS,OP,V,_parent2);
 		Production pCond4 = g.new Production(_parent1,V,OP,Pi,_parent2);
 		Production pCond5 = g.new Production(_parent1,Pi,OP,Pi,_parent2);
+		Production pCond6 = g.new Production(_parent1,_parent1,AREXP,_parent2,OP,_parent1,AREXP,_parent2,_parent2);
 		pCond.add(pCond1);
 		pCond.add(pCond2);
-		pCond.add(pCond3);
 		//pCond.add(pCond4);
 		//pCond.add(pCond5);
+		pCond.add(pCond6);
 		g.addRule(COND,pCond);
 
 		
@@ -260,17 +265,38 @@ public class Grammar {
 		pVs.add(pVs7);
 		g.addRule(V,pVs);
 		
+		List<Production> pARs = new ArrayList<Production>();
+		Production pARs0 = g.new Production(_plus);
+		Production pARs1 = g.new Production(_times);
+		Production pARs2 = g.new Production(_minus);
+		pARs.add(pARs0);
+		pARs.add(pARs1);
+		pARs.add(pARs2);
+		g.addRule(AR,pARs);
+		
+		List<Production> pAREXPs = new ArrayList<Production>();
+		Production pAREXPs0 = g.new Production(OBS);
+		Production pAREXPs1 = g.new Production(V);
+		Production pAREXPs2 = g.new Production(AREXP,AR,AREXP);
+		pAREXPs.add(pAREXPs0);
+		pAREXPs.add(pAREXPs1);
+		pAREXPs.add(pAREXPs2);
+		g.addRule(AREXP,pAREXPs);
+		
 		g.setInitial(CODE);
 	}
 	public static void main(String args[]) {
 		Grammar g = new Grammar("s");
 		System.out.println(g);
-		Chromosome c = new Chromosome(100);
-		c.setArrayIntToCodon(1,0, 1,0,1,2,3,3,0,2,1,1,0,3,0,3, 1,0,1,0,3,1,0,0,1, 0,0,1,0,1,0,  2);
+		for(int i=0;i<30;i++) {
+			Chromosome c = new Chromosome(50);
+			//c.setArrayIntToCodon(1,0, 1,0,1,2,3,3,0,2,1,1,0,3,0,3, 1,0,1,0,3,1,0,0,1, 0,0,1,0,1,0,  2);
+			
+			Phenotype pt = new Phenotype(c.parseGrammar(g));
+			
+			System.out.println(pt.getVisualCode());
+		}
 		
-		Phenotype pt = new Phenotype(c.parseGrammar(g));
-		
-		System.out.println(pt.getVisualCode());
 		
 		
 	}

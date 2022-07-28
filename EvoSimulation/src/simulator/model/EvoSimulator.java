@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
+import simulator.model.entity.individuals.GIndividual;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
@@ -20,12 +21,14 @@ public class EvoSimulator {
 	private List<SimulatorObserver> observers;
 	private List<Entity> entities;
 	private int time;
+	long startTime;
 
 	public EvoSimulator() {
 		this.time = 0;
 		this.map = new Map("test1");
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
+		startTime=System.currentTimeMillis();
 
 	}
 	private HashMap<String,String>getObservations(Entity e){
@@ -64,7 +67,7 @@ public class EvoSimulator {
 		r.put("r_f_d", String.valueOf(r_f_d));
 		r.put("d_f_d", String.valueOf(d_f_d));
 		r.put("u_f_d", String.valueOf(u_f_d));
-		if(e.getId().equals("-1"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
+		//if(e.getId().equals("-1"))System.out.println(r.get("l_f_d")+" "+r.get("u_f_d")+" "+r.get("r_f_d")+" "+r.get("d_f_d"));
 		/*for(int x=-dist;x<=dist;x++) {
 			for(int y=-dist;y<=dist;y++) {
 				if(x<0) {
@@ -74,11 +77,28 @@ public class EvoSimulator {
 		
 		return r;
 	}
+	int max=500;
 	public void update() {
-		//if(time%100==0)System.out.println(time);
+		if(time%100==0) {
+			long currentTime = System.currentTimeMillis();
+			System.out.println("-------- Simulation velocity-1: "+(currentTime-this.startTime));
+			startTime = currentTime;
+		}
 		for(int i=0;i<entities.size();i++) {
 			entities.get(i).update(this);
 		}
+		if(time%1000==0) {
+			System.out.println(time);
+			for(int i=0;i<entities.size();i++) {
+				if(entities.get(i).getAge()>max) {
+					max=entities.get(i).getAge();
+					System.out.println("new max "+max);
+					System.out.println(((GIndividual)entities.get(i)).getPhenotype().getVisualCode());
+				}
+			}
+		}
+		
+		
 
 		// entities movements
 		for (Entity ae : entities) {
@@ -117,7 +137,7 @@ public class EvoSimulator {
 		for (SimulatorObserver observer : observers) {
 			observer.onUpdate(entities, map, time);
 		}
-		StatsManager.getInstance().onAdvance(time);
+		StatsManager.getInstance().onAdvance(time, entities);
 		time++;
 
 	}
@@ -149,7 +169,6 @@ public class EvoSimulator {
 		for (Entity e : entities) {
 			entitiesArr.put(e.toJSON());
 		}
-		return new JSONObject().put("time", time).put("entites", entitiesArr).put("map", map.toJSON())// ?too heavy
-		;
+		return new JSONObject().put("time", time).put("entities", entitiesArr);//.put("map", map.toJSON())// ?too heavy
 	}
 }

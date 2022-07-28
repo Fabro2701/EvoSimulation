@@ -22,6 +22,7 @@ public class Evaluator {
 		_current=0;
 	}
 	public MOVE getNext() {
+		int cont=0;
 		while(true) {
 			if(_current == 0) _deleteMarkedStatements();
 			JSONObject query = _statements.get(_current);
@@ -32,7 +33,8 @@ public class Evaluator {
 			
 			_current++;
 			_current%=_statements.size();
-			
+			cont++;
+			if(cont>=100)return MOVE.NEUTRAL;
 			try {
 				MOVE move = MOVE.valueOf(result);
 				//System.out.println("-");

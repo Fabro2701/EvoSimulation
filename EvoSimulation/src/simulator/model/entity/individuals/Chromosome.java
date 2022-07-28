@@ -5,6 +5,9 @@ import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import grammar.Grammar;
 import grammar.Grammar.Production;
 import grammar.Grammar.Symbol;
@@ -26,6 +29,14 @@ public class Chromosome {
 			codons.add(new Codon());
 		}
 	}
+	public Chromosome(JSONObject o) {
+		length = o.getInt("length");
+		codons = new ArrayList<Codon>(length);
+		JSONArray arr = o.getJSONArray("codons");
+		for(int i=0; i<length; i++) {
+			codons.add(new Codon(arr.getJSONObject(i).getInt("intValue")));
+		}
+	}
 	public void setIntToCodon(int i, int v) {
 		codons.set(i, new Codon(v));
 	}
@@ -41,7 +52,7 @@ public class Chromosome {
 		LinkedList<Symbol> terminals = new LinkedList<Symbol>();
 		// = new ArrayList<Production>(); 
 		// ps.addAll(0,g.productions.get(init));
-		int limit=50;
+		int limit=100;
 		int i=0;
 		int cont=0;
 		int calls=0;
@@ -76,7 +87,7 @@ public class Chromosome {
 		return terminals;
 	}
 	public void mutate(float mutationProb) {
-		float r = (0.01f+mutationProb)/255.0f;
+		float r = (0.005f+mutationProb)/255.0f;
 		if(RandomSingleton.nextFloat()<r) {
 			codons.get(RandomSingleton.nextInt(codons.size())).setInt(RandomSingleton.nextInt(256-1));;
 		}
@@ -92,9 +103,23 @@ public class Chromosome {
 			bits = new BitSet(8);
 			intValue = n;
 		}
+		public Codon(JSONObject o) {
+			bits = new BitSet(8);
+			intValue = o.getInt("intValue");
+		}
 		public void setInt(int v) {
 			intValue=v;
 		}
-		
+		public JSONObject toJSON() {
+			return new JSONObject().put("intValue", intValue);
+		}
+	}
+	public JSONObject toJSON() {
+		JSONArray arr = new JSONArray();
+		for(Codon c:codons) {
+			arr.put(c.toJSON());
+		}
+		return new JSONObject().put("length", this.length)
+							   .put("codons", arr);
 	}
 }

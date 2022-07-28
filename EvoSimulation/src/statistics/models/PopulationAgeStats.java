@@ -2,9 +2,9 @@ package statistics.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import simulator.model.entity.Entity;
-import simulator.model.entity.individuals.GIndividual;
 import statistics.StatsData;
 import statistics.visualizers.StatsVisualizer;
 
@@ -41,23 +41,31 @@ public class PopulationAgeStats extends StatsData{
 		}
 	}
 	@Override 
-	public void onAdvance(int time) {
+	public void onAdvance(int time, List<Entity>entities) {
 		currentTime=time;
+		int avg=0;
+		int max=0;
 		if(time%updateRate==0) {
-			//dataset.addValue(Float.valueOf(avg), "avgAge", Integer.valueOf(currentTime));
+			for(Entity e:entities) {
+				max=Math.max(max, e.getAge());
+				avg+=e.getAge();
+			}avg/=entities.size();
+			dataset.addValue(Float.valueOf(avg), "avgAge", Integer.valueOf(currentTime));
 			dataset.addValue(Float.valueOf(max), "maxAge", Integer.valueOf(currentTime));
 		}
+		
 		for(StatsVisualizer v:visualizers) {
 			v.update();
 		}
 	}
 	@Override
 	public void onEntityDead(int time, Entity e) {
-		alivePopulation--;
+		
+		/*alivePopulation--;
 	
 		if(e.getAge()>max&&e.shouldInteract()) {
-			System.out.println("max: "+e.getAge());
-			System.out.println(((GIndividual)e).getPhenotype().getVisualCode());
+			//System.out.println("max: "+e.getAge());
+			//System.out.println(((GIndividual)e).getPhenotype().getVisualCode());
 		}
 		max = max>e.getAge()?max:e.getAge();
 		
@@ -66,7 +74,7 @@ public class PopulationAgeStats extends StatsData{
 		dataset.addValue(Float.valueOf(max), "maxAge", Integer.valueOf(currentTime));
 		for(StatsVisualizer v:visualizers) {
 			v.update();
-		}
+		}*/
 	}
 	@Override
 	public HashMap<String, ArrayList<Integer>> getLinearData(){

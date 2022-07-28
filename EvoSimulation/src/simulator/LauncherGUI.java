@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import simulator.control.Controller;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.AbstractViewer;
+import simulator.view.viewer.EmptyViewer;
 import simulator.view.viewer.Viewer;
 import simulator.view.viewer.Viewer3D;
 
@@ -35,6 +36,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 			viewersMap = new HashMap<String,AbstractViewer>();
 			viewersMap.put(jrbTemperatureView.getActionCommand(), new Viewer(controller));
 			viewersMap.put(jrb3DView.getActionCommand(), new Viewer3D(controller));
+			viewersMap.put(jrbNone.getActionCommand(), new EmptyViewer(controller));
 			changeView(jrbTemperatureView.getActionCommand());
 		}
 		
@@ -105,6 +107,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jrbTemperatureView = new javax.swing.JRadioButton();
         jrb3DView = new javax.swing.JRadioButton();
+        jrbNone = new javax.swing.JRadioButton();
         
         
 
@@ -184,6 +187,14 @@ public class LauncherGUI extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(jrbNone);
+        jrbNone.setText("None");
+        jrbNone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbNodeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,9 +215,12 @@ public class LauncherGUI extends javax.swing.JFrame {
                         .addComponent(jbAddEvent)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jrbTemperatureView)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jrbTemperatureView)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jrbNone))
                             .addComponent(jrb3DView))))
-                .addContainerGap(725, Short.MAX_VALUE))
+                .addContainerGap(648, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,14 +238,16 @@ public class LauncherGUI extends javax.swing.JFrame {
                             .addComponent(jbAddEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jrbTemperatureView)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbTemperatureView)
+                            .addComponent(jrbNone))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jrb3DView)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
-    }// </editor-fold>                     
+    }// </editor-fold>                   
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
@@ -244,7 +260,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	         try {
 	        	 controller.run(1);
 	         } catch (Exception e) {
-	        	 System.out.println(e);
+	        	 e.printStackTrace();
 	        	 JOptionPane.showMessageDialog(this, e);
 	             return;
 	         }
@@ -294,6 +310,9 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void jrb3DViewActionPerformed(java.awt.event.ActionEvent evt) {                                          
     	viewsController.changeView(evt.getActionCommand());
     }      
+    private void jrbNodeActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    	viewsController.changeView(evt.getActionCommand());
+    } 
 	/**
      * @param args the command line arguments
      */
@@ -338,6 +357,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     //private Viewer viewer;
     //private Viewer3D jp3DViewer;
     private javax.swing.JRadioButton jrb3DView;
+    private javax.swing.JRadioButton jrbNone;
     private javax.swing.JRadioButton jrbTemperatureView;
     // End of variables declaration                   
 

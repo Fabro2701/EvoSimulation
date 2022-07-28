@@ -59,15 +59,27 @@ public class Main {
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager);
 
 		try {
-			//controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
-			controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
+			int op=0;
+			if(op==0) {
+				controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
+				controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
+			}
+			else {
+				controller.loadEntities(new FileInputStream("resources/loads/simulations/filename.json"));
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//controller.run(100000);
-		SwingUtilities.invokeLater(() -> {
-			new LauncherGUI(controller).setVisible(true);
-		});
+		
+		
+		int op=1;
+		if(op==0)controller.run(100000);
+		else if(op==1){
+			SwingUtilities.invokeLater(() -> {
+				new LauncherGUI(controller).setVisible(true);
+			});
+		}
+		
 	}
 }

@@ -23,7 +23,7 @@ public abstract class PasiveEntity extends Entity {
 
 	@Override
 	protected void getFood(FoodEntity foodEntity) {
-		// pasive entities doesnt eat
+		// pasive entities dont eat
 
 	}
 
