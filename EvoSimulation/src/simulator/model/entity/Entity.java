@@ -33,6 +33,7 @@ public abstract class Entity implements IInteract{
 	protected int currentTime;
 	public boolean active;
 	protected Pheromone pheromone;
+	protected int reproductionRestTime;
 
 	public Entity(String id, Node n) {
 		type = ".";
@@ -42,6 +43,7 @@ public abstract class Entity implements IInteract{
 		energy = 100.0f;
 		weight = 1.f;
 		age=0;
+		reproductionRestTime=0;
 		
 	}
 

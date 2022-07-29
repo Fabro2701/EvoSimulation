@@ -32,6 +32,8 @@ public abstract class ActiveEntity extends Entity {
 		}
 		energy -= weight * LIVE_ENERGY_COST_CONSTANT;
 		energy -= this.node.temperature * HEAT_LIVE_ENERGY_COST_CONSTANT;
+		
+		reproductionRestTime--;
 	}
 
 	@Override
