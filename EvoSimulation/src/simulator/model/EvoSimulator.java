@@ -101,16 +101,9 @@ public class EvoSimulator {
 		
 
 		// entities movements
-		for (Entity ae : entities) {
-			MOVE move = ae.getMove(getObservations(ae));
-			Pair<Integer, Integer> change = move.getPosChange();
-			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(ae.node.x + change.first,
-					ae.node.y + change.second);
-			newPos.first = Math.abs(newPos.first);
-			newPos.second = Math.abs(newPos.second);
-			newPos.first = newPos.first >= map.WIDTH ? map.WIDTH - 1 : newPos.first;
-			newPos.second = newPos.second >= map.HEIGHT ? map.HEIGHT - 1 : newPos.second;
-			ae.setNewNode(this.getNodeAt(newPos.first, newPos.second));
+		for (Entity e : entities) {
+			MOVE move = e.getMove(getObservations(e));
+			e.setNewNode(map.getValidMove(e.node, move));
 		}
 
 		// entities interactions
@@ -167,7 +160,7 @@ public class EvoSimulator {
 	public JSONObject toJSON() {
 		JSONArray entitiesArr = new JSONArray();
 		for (Entity e : entities) {
-			entitiesArr.put(e.toJSON());
+			if(e.getEnergy()>0.0f)entitiesArr.put(e.toJSON());
 		}
 		return new JSONObject().put("time", time).put("entities", entitiesArr);//.put("map", map.toJSON())// ?too heavy
 	}

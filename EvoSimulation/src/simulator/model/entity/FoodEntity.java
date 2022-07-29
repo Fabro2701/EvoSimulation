@@ -7,12 +7,17 @@ import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public class FoodEntity extends PasiveEntity {
-	protected int foodAmount = 10;
+	protected int foodAmount ;
 
 	public FoodEntity(String id, Node n) {
 		super(id, n);
 		type = "f";
 		img = new ImageIcon("resources/entities/food.png").getImage();
+		foodAmount = 10;
+	}
+	public FoodEntity(String id, Node n, int foodAmount) {
+		this(id, n);
+		this.foodAmount = foodAmount;
 	}
 
 	@Override

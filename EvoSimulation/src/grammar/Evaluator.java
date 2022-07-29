@@ -25,6 +25,9 @@ public class Evaluator {
 		int cont=0;
 		while(true) {
 			if(_current == 0) _deleteMarkedStatements();
+			if(_statements.size()==0) {
+				System.out.println(_statements);
+			}
 			JSONObject query = _statements.get(_current);
 			
 			String result=this._evaluate(query);

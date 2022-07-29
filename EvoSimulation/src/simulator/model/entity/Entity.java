@@ -43,7 +43,7 @@ public abstract class Entity implements IInteract{
 		energy = 100.0f;
 		weight = 1.f;
 		age=0;
-		reproductionRestTime=0;
+		reproductionRestTime=300;
 		
 	}
 
@@ -114,7 +114,9 @@ public abstract class Entity implements IInteract{
 	public boolean isAlive() {
 		return alive;
 	}
-
+	public float getEnergy() {
+		return this.energy;
+	}
 	public final Image getImage() {
 		return img;
 	}

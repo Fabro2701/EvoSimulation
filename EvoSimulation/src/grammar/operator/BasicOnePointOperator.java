@@ -12,7 +12,7 @@ public class BasicOnePointOperator extends GrammarOperator{
 		Chromosome c1 = g1.getChromosome();
 		Chromosome c2 = g2.getChromosome();
 		for(int i = 0;i<c1.getLength();i++) {
-			if(c1.getCodon(i)!=c2.getCodon(i))break;
+			if(c1.getCodon(i).getModValue()!=c2.getCodon(i).getModValue())break;
 			else {
 				crossPoint=i;
 			}
@@ -23,6 +23,7 @@ public class BasicOnePointOperator extends GrammarOperator{
 			child1.setIntToCodon(i, c2.getCodon(i).getIntValue());
 			child2.setIntToCodon(i, c1.getCodon(i).getIntValue());
 		}
+	
 		return new Pair<Genotype, Genotype>(new Genotype(child1),new Genotype(child2));
 	}
 

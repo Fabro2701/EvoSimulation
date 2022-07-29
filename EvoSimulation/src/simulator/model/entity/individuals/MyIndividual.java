@@ -62,10 +62,11 @@ public class MyIndividual extends GIndividual{
 		type = "mi";
 		img = new ImageIcon("resources/entities/myentity.png").getImage();
 		grammar = new Grammar("s");
-		Chromosome c = new Chromosome(50);
+		Chromosome c = new Chromosome(70);
 		
 		
-		if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,2,3,1,0,0,3, 1,0,1,0,1,1,0,0,1, 0,2,1,1,0,0,1,0, 4);
+		//if(id.equals("-1"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,2,3,1,0,0,3, 1,0,1,0,1,1,0,0,1, 0,2,1,1,0,0,1,0, 4);
+		//c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,2,3,1,0,0,3, 1,0,1,0,1,1,0,0,1, 0,2,1,1,0,0,1,0, 4);
 		LinkedList<Symbol> crom = c.parseGrammar(grammar);
 		
 		genotype = new Genotype(c);
@@ -91,8 +92,11 @@ public class MyIndividual extends GIndividual{
 		
 		this.genotype = new Genotype(genotype);
 		
-
-		this.phenotype = new Phenotype(phenotype);
+		if(phenotype.getString("code").equals("")) {
+			vanish();
+			this.phenotype = new Phenotype();
+		}
+		else this.phenotype = new Phenotype(phenotype);
 		
 		childs = new ArrayList<Entity>();
 
@@ -126,7 +130,8 @@ public class MyIndividual extends GIndividual{
 	@Override
 	public void recieveActiveEntityInteraction(Entity e) {
 		if(this.reproductionRestTime<=0) {
-			if(this.energy>=100.0f) {
+			
+			if(this.energy>=50.0f) {
 				Pair<Genotype,Genotype> p = new BasicOnePointOperator().crossover(this.genotype, ((MyIndividual)e).getGenotype());
 				childs.add(new MyIndividual(this,p.first));
 				childs.add(new MyIndividual(this,p.second));

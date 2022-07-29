@@ -9,7 +9,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.json.JSONArray;;
+import org.json.JSONArray;
+
+import simulator.Constants.MOVE;
+import util.Pair;;
 
 public class Map {
 	private Node[][] nodes;
@@ -39,6 +42,24 @@ public class Map {
 			}
 		}
 
+	}
+	/**
+	 * Returns the result position of the node + move 
+	 * the borderlands are connected
+	 * @param node
+	 * @param move
+	 * @return
+	 */
+	public Node getValidMove(Node node, MOVE move) {
+		Pair<Integer, Integer> change = move.getPosChange();
+		Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(node.x + change.first,
+				node.y + change.second);
+	
+		newPos.first = newPos.first<0?(this.WIDTH)-newPos.first:newPos.first;
+		newPos.second = newPos.second<0?(this.HEIGHT)-newPos.second:newPos.second;
+		newPos.first %= this.WIDTH;
+		newPos.second %= this.HEIGHT;
+		return this.nodes[newPos.first][newPos.second];
 	}
 
 	public JSONArray toJSON() {

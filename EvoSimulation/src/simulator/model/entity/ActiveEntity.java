@@ -20,7 +20,7 @@ public abstract class ActiveEntity extends Entity {
 	@Override
 	protected void getFood(FoodEntity foodEntity) {
 		energy += (float) foodEntity.getFoodAmount() * FOOD_ENERGY_GIVEN_CONSTANT;
-		energy = energy>=500.0f?500.0f:energy;
+		energy = energy>=300.0f?300.0f:energy;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public abstract class ActiveEntity extends Entity {
 		super.update(evoSimulator);
 		if (alive && energy <= 0.0f) {
 			this.vanish();
-			evoSimulator.addEntity(new FoodEntity(this.id,this.node));
+			evoSimulator.addEntity(new FoodEntity(this.id,this.node,3));
 		}
 		energy -= weight * LIVE_ENERGY_COST_CONSTANT;
 		energy -= this.node.temperature * HEAT_LIVE_ENERGY_COST_CONSTANT;

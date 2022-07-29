@@ -48,6 +48,9 @@ public class Chromosome {
 	public void setIntToCodon(int i, int v) {
 		codons.set(i, new Codon(v));
 	}
+	public void setModToCodon(int i, int v) {
+		codons.get(i).modValue=v;
+	}
 	public void setArrayIntToCodon(int ...v) {
 		for(int i=0;i<v.length;i++) {
 			codons.set(i, new Codon(v[i]));
@@ -69,6 +72,7 @@ public class Chromosome {
 			int m = ps.size();
 			//int r = Util.toInt(codons.get(i).bits.get(0, Util.log2(m)));
 			int r = codons.get(i).intValue%m;
+			this.setModToCodon(i, r);
 			q.addAll(0, ps.get(r).terms);
 			
 			//terminals.add(g.new Terminal("("));
@@ -103,6 +107,7 @@ public class Chromosome {
 	public class Codon{
 		BitSet bits;
 		int intValue;
+		int modValue;
 		public Codon() {
 			bits = new BitSet(8);
 			intValue = RandomSingleton.nextInt(256-1);
@@ -123,6 +128,7 @@ public class Chromosome {
 			intValue=v;
 		}
 		public int getIntValue() {return this.intValue;}
+		public int getModValue() {return this.modValue;}
 		public JSONObject toJSON() {
 			return new JSONObject().put("intValue", intValue);
 		}
