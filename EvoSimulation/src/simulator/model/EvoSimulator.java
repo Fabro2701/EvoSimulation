@@ -29,6 +29,8 @@ public class EvoSimulator {
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
 		startTime=System.currentTimeMillis();
+		//modulo para visualizar el codigo de las entites tomando el .json al guardar la simu 
+		//ordenando de menor a mayor por age
 
 	}
 	private HashMap<String,String>getObservations(Entity e){

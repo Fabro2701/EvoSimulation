@@ -2,48 +2,39 @@
 {
     "events": [
         {
-            "type":"fe",
-            "data":{
-                "time":0,
-                "center":250,
-                "amount":1,
-                "radius":100
-            }
-        },
-        {
             "type":"fg",
             "data":{
                 "time":0,
                 "times":200,
-                "interval":300,
-                "centerX":250,
-                "centerY":250,
-                "amount":10,
-                "radiusX":240,
-                "radiusY":240
+                "interval":200,
+                "centerX":500,
+                "centerY":500,
+                "amount":60,
+                "radiusX":499,
+                "radiusY":499
             }
         },
-        {
+	{
             "type":"fg",
             "data":{
-                "time":0,
-                "times":2,
+                "time":4000,
+                "times":200,
                 "interval":200,
-                "centerX":250,
-                "centerY":250,
-                "amount":5,
-                "radiusX":100,
-                "radiusY":100
+                "centerX":500,
+                "centerY":500,
+                "amount":20,
+                "radiusX":499,
+                "radiusY":499
             }
         },
         {
             "type":"reg",
             "data":{
                 "time":0,
-                "times":200,
+                "times":400,
                 "interval":100,
                 "typeTo":"mi",
-                "amount":30
+                "amount":80
             }
         }
     ]

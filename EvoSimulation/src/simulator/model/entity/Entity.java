@@ -80,7 +80,7 @@ public abstract class Entity implements IInteract{
 
 	public JSONObject toJSON() {
 		return new JSONObject().put("type", type).put("data",
-				new JSONObject().put("id", id).put("x", node.x).put("y", node.y)
+				new JSONObject().put("id", id).put("x", node.x).put("y", node.y).put("age", age)
 		// .put("image", JSONObject.NULL)
 		);
 	}
