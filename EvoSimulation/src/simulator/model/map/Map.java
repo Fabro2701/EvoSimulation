@@ -38,7 +38,7 @@ public class Map {
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
 				Color color = new Color(attributesImg.getRGB(x, y), false);
-				nodes[x][y] = new Node(x, y, color.getRed(), color.getGreen());
+				nodes[y][x] = new Node(x, y, color.getRed(), color.getGreen());
 			}
 		}
 
@@ -59,7 +59,7 @@ public class Map {
 		newPos.second = newPos.second<0?(this.HEIGHT)-newPos.second:newPos.second;
 		newPos.first %= this.WIDTH;
 		newPos.second %= this.HEIGHT;
-		return this.nodes[newPos.first][newPos.second];
+		return this.nodes[newPos.second][newPos.first];
 	}
 
 	public JSONArray toJSON() {
@@ -97,6 +97,6 @@ public class Map {
 	 */
 	public Node getNodeAt(int x, int y) {
 		// TODO Auto-generated method stub
-		return nodes[x][y];
+		return nodes[y][x];
 	}
 }

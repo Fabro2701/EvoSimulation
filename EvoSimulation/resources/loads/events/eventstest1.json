@@ -14,7 +14,7 @@
             "type":"fg",
             "data":{
                 "time":0,
-                "times":100,
+                "times":200,
                 "interval":300,
                 "centerX":250,
                 "centerY":250,
