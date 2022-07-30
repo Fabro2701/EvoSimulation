@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JScrollPane;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import simulator.control.Controller;
 import simulator.events.Event;
 import simulator.events.EventManager;
@@ -20,12 +25,19 @@ import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.view.viewer.AbstractViewer;
+import simulator.view.viewer.Viewer;
 import util.Pair;
 
 public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 
+	public SimpleMazeFitnessTest(JScrollPane viewPane) {
+		super(viewPane);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
-	public Pair<Integer, Float> evaluate(Entity e) {
+	public Pair<Integer, Float> evaluate(JSONObject o) {
 		Pair<Integer, Float> fitness = new Pair<Integer, Float>(0,0.f);
 		EventManager eventManager = new EventManager();
 
@@ -48,21 +60,34 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		EvoSimulator simulator = new EvoSimulator("simpleMaze1");
 		Controller ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager);
 		
+
+		
 		try {
 			ctrl.loadEvents(new FileInputStream("resources/loads/events/simpleMazeEvents.json"));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		ctrl.loadEntities(new JSONArray().put(o));
 		
-		int timeLimit=1000;
-		while(true) {
-			ctrl.run(1);
-			
-			if(simulator.getTime()>=timeLimit) {
-				break;
-			}
-		}
+		AbstractViewer viewer = new Viewer(ctrl,700,700);
+		viewer.activate();
+		viewPane.setViewportView(viewer);
+		viewPane.repaint();
+		
+		int timeLimit=10000;
+		new Thread() {
+        	public void run() {
+        		while(true) {
+        			ctrl.run(1);
+        			
+        			if(simulator.getTime()>=timeLimit) {
+        				break;
+        			}
+        		}
+        	}
+        }.start();
+		
 		return fitness;
 	}
 

@@ -149,7 +149,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
         	public void run() {
         		 ctrl.run(500000);
         	}
-        }.start();;
+        }.start();
        
     }                                       
 

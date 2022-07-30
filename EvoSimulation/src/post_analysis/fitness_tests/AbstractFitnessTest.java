@@ -1,11 +1,15 @@
 package post_analysis.fitness_tests;
 
-import simulator.model.entity.Entity;
+import javax.swing.JScrollPane;
+
+import org.json.JSONObject;
+
 import util.Pair;
 
 public abstract class AbstractFitnessTest {
-	public AbstractFitnessTest() {
-		
+	protected JScrollPane viewPane;
+	public AbstractFitnessTest(JScrollPane viewPane) {
+		this.viewPane=viewPane;
 	}
-	public abstract Pair<Integer,Float>  evaluate(Entity e);
+	public abstract Pair<Integer,Float>  evaluate(JSONObject o);
 }

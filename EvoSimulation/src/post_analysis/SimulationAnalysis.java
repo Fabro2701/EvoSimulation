@@ -1,6 +1,5 @@
 package post_analysis;
 
-import java.awt.Component;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Vector;
@@ -16,10 +15,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import post_analysis.fitness_tests.SimpleMazeFitnessTest;
+
 public class SimulationAnalysis extends javax.swing.JFrame {
 	private DefaultTableModel tableModel;
 	private Vector<Vector<Object>> data;
 	private Vector<String> visualizations;
+	private JSONArray arr;
     /**
      * Creates new form SimulationAnalysis
      */
@@ -52,11 +54,12 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     	
     	try {
 			JSONObject o = new JSONObject(new JSONTokener(new FileInputStream(fileName)));
-			JSONArray arr = o.getJSONArray("entities");
+			this.arr = o.getJSONArray("entities");
 			data = new Vector<Vector<Object>>(arr.length());
 			visualizations = new Vector<String>(arr.length());
 			for(int i = 0; i<arr.length(); i++) {
 				Vector<Object>v = new Vector<Object>();
+				if(arr.getJSONObject(i).getString("type").equals("f"))continue;
 				v.add(arr.getJSONObject(i).getJSONObject("data").getString("id"));
 				v.add(arr.getJSONObject(i).getJSONObject("data").getInt("age"));
 				if(arr.getJSONObject(i).getJSONObject("data").has("phenotype")) {
@@ -83,7 +86,11 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     	label.setText("<html>" + this.visualizations.get(selectedRow).replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("    ", "&emsp ") + "</html>");
     	//label.setAlignmentX(Component.RIGHT_ALIGNMENT);
     	//label.setAlignmentY(Component.TOP_ALIGNMENT);
-		this.visualizationPane.setViewportView(label);
+    	
+		//this.visualizationPane.setViewportView(label);
+		
+    	SimpleMazeFitnessTest t = new SimpleMazeFitnessTest(this.visualizationPane);
+    	t.evaluate(this.arr.getJSONObject(selectedRow));
 	}
 	/**
      * This method is called from within the constructor to initialize the form.
