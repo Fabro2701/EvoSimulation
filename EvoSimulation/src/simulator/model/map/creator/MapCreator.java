@@ -28,8 +28,9 @@ public class MapCreator extends javax.swing.JFrame {
 	 * Creates new form MapCreator
 	 */
 	public MapCreator() {
-		initComponents();
 		panelManager = new PanelManager();
+		initComponents();
+		
 	}
 
 	protected class PanelManager {
@@ -64,6 +65,12 @@ public class MapCreator extends javax.swing.JFrame {
 				e.printStackTrace();
 			}
 		}
+
+		public void globalResize(int w, int h) {
+			terrainPanel.resizeCanvas(w,h);
+			attributesPanel.resizeCanvas(w,h);
+			elevationPanel.resizeCanvas(w,h);
+		}
 	}
 
 	/**
@@ -76,9 +83,9 @@ public class MapCreator extends javax.swing.JFrame {
 	private void initComponents() {
 
 		jtpMainPanel = new javax.swing.JTabbedPane();
-		terrainPanel = new TerrainPanel();
-		attributesPanel = new AttributesPanel();
-		elevationPanel = new ElevationPanel();
+		terrainPanel = new TerrainPanel(panelManager);
+		attributesPanel = new AttributesPanel(panelManager);
+		elevationPanel = new ElevationPanel(panelManager);
 		jMenuBar1 = new javax.swing.JMenuBar();
 		jMenu1 = new javax.swing.JMenu();
 		jmiOpen = new javax.swing.JMenuItem();

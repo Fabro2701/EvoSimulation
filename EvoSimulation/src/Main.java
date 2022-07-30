@@ -59,7 +59,7 @@ public class Main {
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager);
 
 		try {
-			int op=1;
+			int op=0;
 			if(op==0) {
 				controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
 				//controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));

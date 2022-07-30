@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import javax.swing.ImageIcon;
 
 import simulator.Constants.MAP_TYPE;
+import simulator.model.map.creator.MapCreator.PanelManager;
 
 /**
  * TerrainPanel creates the enumeration distinction of the map nodes
@@ -18,8 +19,8 @@ import simulator.Constants.MAP_TYPE;
  */
 public class TerrainPanel extends AbstractCreatorPanel {
 
-	public TerrainPanel() {
-		super();
+	public TerrainPanel(PanelManager panelManager) {
+		super(panelManager);
 		ctrl = new TerrainPanel.Controller(1000, 1000, new Color(0, 0, 0, 255));
 		modificationPanel.setViewportView(ctrl.img);
 	}
@@ -68,23 +69,7 @@ public class TerrainPanel extends AbstractCreatorPanel {
 			}
 		}
 
-		/**
-		 * Resize the current canvas Pending global resizing
-		 * 
-		 * @param w
-		 * @param h
-		 */
-		public void resize(int w, int h) {
-			Image tmp = bufferImage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-
-			width = w;
-			height = h;
-			bufferImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			bufferGraphics = bufferImage.createGraphics();
-			bufferGraphics.drawImage(tmp, 0, 0, null);
-
-			img.setIcon(new ImageIcon(bufferImage));
-		}
+		
 	}
 
 	@Override
@@ -238,11 +223,13 @@ public class TerrainPanel extends AbstractCreatorPanel {
 	}
 
 	private void jtfSizeXActionPerformed(java.awt.event.ActionEvent evt) {
-		((Controller) ctrl).resize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
+		panelManager.globalResize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
+		//((Controller) ctrl).resize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
 	}
 
 	private void jtfSizeYActionPerformed(java.awt.event.ActionEvent evt) {
-		((Controller) ctrl).resize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
+		panelManager.globalResize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
+		//((Controller) ctrl).resize(Integer.valueOf(jtfSizeX.getText()), Integer.valueOf(jtfSizeY.getText()));
 	}
 
 	private void jsStrokeSizeStateChanged(javax.swing.event.ChangeEvent evt) {

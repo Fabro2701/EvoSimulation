@@ -10,8 +10,8 @@
                 "centerX":500,
                 "centerY":500,
                 "amount":60,
-                "radiusX":-1,
-                "radiusY":-1
+                "radiusX":499,
+                "radiusY":499
             }
         },
 	{
@@ -23,8 +23,8 @@
                 "centerX":500,
                 "centerY":500,
                 "amount":20,
-                "radiusX":-1,
-                "radiusY":-1
+                "radiusX":499,
+                "radiusY":499
             }
         },
         {

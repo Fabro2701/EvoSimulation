@@ -45,7 +45,7 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
 
-		EvoSimulator simulator = new EvoSimulator();
+		EvoSimulator simulator = new EvoSimulator("simpleMaze1");
 		Controller ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager);
 		
 		try {

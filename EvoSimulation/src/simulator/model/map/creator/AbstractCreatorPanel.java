@@ -3,6 +3,7 @@ package simulator.model.map.creator;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
+import simulator.model.map.creator.MapCreator.PanelManager;
+
 /**
  * AbstractCreatorPanel incorporates common behaviours of the components of
  * MapCreator, like get and set of bufferImage; the Controller,
@@ -25,15 +28,19 @@ import javax.swing.Scrollable;
  */
 public abstract class AbstractCreatorPanel extends JPanel {
 	private static final long serialVersionUID = 2L;
-
+	protected PanelManager panelManager;
 	protected Controller ctrl;
 
-	public AbstractCreatorPanel() {
+	public AbstractCreatorPanel(PanelManager panelManager) {
 		initComponents();
+		this.panelManager=panelManager;
 	}
 
 	public BufferedImage getBufferImage() {
 		return ctrl.bufferImage;
+	}
+	public void resizeCanvas(int w,int h) {
+		ctrl.resize(w,h);
 	}
 
 	/**
@@ -82,6 +89,24 @@ public abstract class AbstractCreatorPanel extends JPanel {
 			bufferGraphics.setColor(initColor);
 			bufferGraphics.fillRect(0, 0, width, height);
 
+		}
+		/**
+		 * Resize the current canvas 
+		 * 
+		 * @param w
+		 * @param h
+		 */
+		public void resize(int w, int h) {
+			Image tmp = bufferImage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+
+			width = w;
+			height = h;
+			bufferImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			bufferGraphics = bufferImage.createGraphics();
+			bufferGraphics.drawImage(tmp, 0, 0, null);
+
+			img.setIcon(new ImageIcon(bufferImage));
+			
 		}
 
 		protected class ModificationImage extends JLabel implements Scrollable {

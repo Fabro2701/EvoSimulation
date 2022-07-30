@@ -16,6 +16,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import simulator.model.map.creator.MapCreator.PanelManager;
+
 /**
  * Creates the elevation attribute of a map
  * 
@@ -23,8 +25,8 @@ import javax.swing.SwingUtilities;
  */
 public class ElevationPanel extends AbstractCreatorPanel {
 
-	public ElevationPanel() {
-		super();
+	public ElevationPanel(PanelManager panelManager) {
+		super(panelManager);
 		ctrl = new ElevationPanel.Controller(1000, 1000, new Color(255, 255 / 2, 0, 255));
 		modificationPanel.setViewportView(ctrl.img);
 		viewPanel.setViewportView(ctrl.viewObserver);
@@ -86,10 +88,13 @@ public class ElevationPanel extends AbstractCreatorPanel {
 		protected class ViewImage extends AbstractCreatorPanel.Controller.ViewImage {
 			int reducedWidth, reducedHeight;
 			BufferedImage buffer;
-
+			int ownWidth,ownHeight;
 			public ViewImage() {
-				reducedWidth = 100;
-				reducedHeight = 100;
+				ownWidth=700;
+				ownHeight=700;
+				reducedWidth = Controller.this.width/5;
+				reducedHeight = Controller.this.height/5;
+				
 				KeyListener keyListener = new KeyListener() {
 
 					@Override
@@ -194,12 +199,14 @@ public class ElevationPanel extends AbstractCreatorPanel {
 			}
 
 			public void update(BufferedImage image) {
+				reducedWidth = Controller.this.width/5;
+				reducedHeight = Controller.this.height/5;
 				buffer = image;
-				BufferedImage transformedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+				BufferedImage transformedImage = new BufferedImage(this.ownWidth, this.ownHeight, BufferedImage.TYPE_INT_ARGB);
 				BufferedImage reducedImage = reduceImage(image, reducedWidth, reducedHeight);
 				Graphics2D g2d = transformedImage.createGraphics();
 				g2d.setColor(Color.black);
-				g2d.fillRect(0, 0, width, height);
+				g2d.fillRect(0, 0, this.ownWidth, this.ownHeight);
 				g2d.setColor(Color.green);
 
 				Point2D point1;

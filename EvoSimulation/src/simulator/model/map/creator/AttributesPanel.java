@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import simulator.model.map.creator.MapCreator.PanelManager;
+
 /**
  * AttributesPanel creates the attributes of the map (Temperature, Radiation)
  * 
@@ -16,8 +18,8 @@ import javax.swing.ImageIcon;
  */
 public class AttributesPanel extends AbstractCreatorPanel {
 
-	public AttributesPanel() {
-		super();
+	public AttributesPanel(PanelManager panelManager) {
+		super(panelManager);
 		ctrl = new AttributesPanel.Controller(1000, 1000, new Color(0, 0, 0));
 		modificationPanel.setViewportView(ctrl.img);
 	}
