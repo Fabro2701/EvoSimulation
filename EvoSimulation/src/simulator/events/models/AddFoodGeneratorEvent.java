@@ -24,6 +24,15 @@ public class AddFoodGeneratorEvent extends MultipleTimeEvent{
 
 	@Override
 	public void execute(Controller ctrl) {
+		
+		if(radiusX==-1) {
+			centerX = ctrl.getMap().WIDTH/2;
+			radiusX = ctrl.getMap().WIDTH/2 -1;
+		}
+		if(radiusY==-1) {
+			centerY = ctrl.getMap().HEIGHT/2;
+			radiusY = ctrl.getMap().HEIGHT/2 -1;
+		}
 		JSONArray arr = new JSONArray();
 		
 		for(int i=0;i<amount;i++) {

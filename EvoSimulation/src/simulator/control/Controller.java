@@ -13,6 +13,7 @@ import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 /**
@@ -88,6 +89,9 @@ public class Controller {
 
 	public void addEvent(InputStream in) {
 		eventManager.addEvent(eventFactory.createInstance(new JSONObject(new JSONTokener(in)), this));
+	}
+	public Map getMap() {
+		return simulator.getMap();
 	}
 
 }

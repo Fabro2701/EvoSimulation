@@ -1,4 +1,4 @@
-package postAnalysis;
+package post_analysis;
 
 import java.awt.Component;
 import java.io.FileInputStream;

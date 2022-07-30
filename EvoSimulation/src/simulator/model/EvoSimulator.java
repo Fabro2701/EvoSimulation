@@ -24,14 +24,14 @@ public class EvoSimulator {
 	long startTime;
 
 	public EvoSimulator() {
+		this("test1000");
+	}
+	public EvoSimulator(String map) {
 		this.time = 0;
-		this.map = new Map("test1000");
+		this.map = new Map(map);
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
 		startTime=System.currentTimeMillis();
-		//modulo para visualizar el codigo de las entites tomando el .json al guardar la simu 
-		//ordenando de menor a mayor por age
-
 	}
 	private HashMap<String,String>getObservations(Entity e){
 		
