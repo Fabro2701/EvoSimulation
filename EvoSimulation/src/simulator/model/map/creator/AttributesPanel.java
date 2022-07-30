@@ -18,7 +18,7 @@ public class AttributesPanel extends AbstractCreatorPanel {
 
 	public AttributesPanel() {
 		super();
-		ctrl = new AttributesPanel.Controller(500, 500, new Color(0, 0, 0));
+		ctrl = new AttributesPanel.Controller(1000, 1000, new Color(0, 0, 0));
 		modificationPanel.setViewportView(ctrl.img);
 	}
 

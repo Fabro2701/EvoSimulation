@@ -35,7 +35,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 		public ViewersController() {
 			viewersMap = new HashMap<String,AbstractViewer>();
 			viewersMap.put(jrbTemperatureView.getActionCommand(), new Viewer(controller));
-			viewersMap.put(jrb3DView.getActionCommand(), new Viewer3D(controller));
+			//viewersMap.put(jrb3DView.getActionCommand(), new Viewer3D(controller));
 			viewersMap.put(jrbNone.getActionCommand(), new EmptyViewer(controller));
 			changeView(jrbTemperatureView.getActionCommand());
 		}

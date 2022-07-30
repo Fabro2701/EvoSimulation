@@ -37,8 +37,8 @@ public class Map {
 
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
-				Color color = new Color(attributesImg.getRGB(x, y), false);
-				nodes[y][x] = new Node(x, y, color.getRed(), color.getGreen());
+				Color color = new Color(attributesImg.getRGB(x, y), true);
+				nodes[y][x] = new Node(x, y, color.getRed()/255, color.getGreen()/255);
 			}
 		}
 

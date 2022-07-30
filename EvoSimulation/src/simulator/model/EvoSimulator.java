@@ -25,7 +25,7 @@ public class EvoSimulator {
 
 	public EvoSimulator() {
 		this.time = 0;
-		this.map = new Map("test1");
+		this.map = new Map("test1000");
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
 		startTime=System.currentTimeMillis();
@@ -35,7 +35,7 @@ public class EvoSimulator {
 		
 		HashMap<String,String> r = new HashMap<String,String>();
 		
-		int dist=30;
+		int dist=200;
 		
 		int u_f_d=0;
 		int d_f_d=0;

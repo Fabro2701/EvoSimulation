@@ -25,7 +25,7 @@ public class ElevationPanel extends AbstractCreatorPanel {
 
 	public ElevationPanel() {
 		super();
-		ctrl = new ElevationPanel.Controller(500, 500, new Color(255, 255 / 2, 0, 255));
+		ctrl = new ElevationPanel.Controller(1000, 1000, new Color(255, 255 / 2, 0, 255));
 		modificationPanel.setViewportView(ctrl.img);
 		viewPanel.setViewportView(ctrl.viewObserver);
 	}

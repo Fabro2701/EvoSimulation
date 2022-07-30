@@ -20,7 +20,7 @@ public class TerrainPanel extends AbstractCreatorPanel {
 
 	public TerrainPanel() {
 		super();
-		ctrl = new TerrainPanel.Controller(500, 500, new Color(0, 0, 0, 255));
+		ctrl = new TerrainPanel.Controller(1000, 1000, new Color(0, 0, 0, 255));
 		modificationPanel.setViewportView(ctrl.img);
 	}
 
@@ -133,14 +133,14 @@ public class TerrainPanel extends AbstractCreatorPanel {
 
 		jLabel3.setText("Canvas Size");
 
-		jtfSizeX.setText("500");
+		jtfSizeX.setText("1000");
 		jtfSizeX.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jtfSizeXActionPerformed(evt);
 			}
 		});
 
-		jtfSizeY.setText("500");
+		jtfSizeY.setText("1000");
 		jtfSizeY.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jtfSizeYActionPerformed(evt);
