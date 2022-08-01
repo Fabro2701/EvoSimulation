@@ -35,10 +35,14 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		super(viewPane);
 		// TODO Auto-generated constructor stub
 	}
+	public SimpleMazeFitnessTest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
-	public Pair<Integer, Float> evaluate(JSONObject o) {
-		Pair<Integer, Float> fitness = new Pair<Integer, Float>(0,0.f);
+	public int evaluate(JSONObject o) {
+		int fitness = 0;
 		EventManager eventManager = new EventManager();
 
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();
@@ -68,15 +72,21 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		o.getJSONObject("data").put("id","-1");
+		o.getJSONObject("data").put("x",0);
+		o.getJSONObject("data").put("y",0);
 		ctrl.loadEntities(new JSONArray().put(o));
-		
-		AbstractViewer viewer = new Viewer(ctrl,700,700);
+		Entity entity = simulator.getEntity("-1");
+		/*AbstractViewer viewer = new Viewer(ctrl,700,700);
 		viewer.activate();
 		viewPane.setViewportView(viewer);
-		viewPane.repaint();
+		viewPane.repaint();*/
 		
-		int timeLimit=10000;
-		new Thread() {
+		int timeLimit=100;
+		ctrl.run(timeLimit);
+	
+		
+		/*new Thread() {
         	public void run() {
         		while(true) {
         			ctrl.run(1);
@@ -86,8 +96,8 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
         			}
         		}
         	}
-        }.start();
-		
+        }.start();*/
+		fitness = entity.getAge();
 		return fitness;
 	}
 

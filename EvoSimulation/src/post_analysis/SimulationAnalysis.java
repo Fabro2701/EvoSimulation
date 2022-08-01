@@ -2,7 +2,13 @@ package post_analysis;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Future;
 
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
@@ -16,12 +22,12 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import post_analysis.fitness_tests.SimpleMazeFitnessTest;
+import util.Pair;
 
 public class SimulationAnalysis extends javax.swing.JFrame {
 	private DefaultTableModel tableModel;
 	private Vector<Vector<Object>> data;
-	private Vector<String> visualizations;
-	private JSONArray arr;
+	private JSONArray entities;
     /**
      * Creates new form SimulationAnalysis
      */
@@ -36,39 +42,62 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     	Vector<String> header = new Vector<String>();
     	header.add("id");
     	header.add("age");
+    	header.add("fitness");
     	tableModel.setDataVector(data, header);
-        jTable1.setCellSelectionEnabled(true);
+    	jTable1.setCellSelectionEnabled(true);
     	
-    	 ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
-    	    cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    	    cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
-    	        public void valueChanged(ListSelectionEvent e) {
-    	        	_selectionChanged(jTable1.getSelectedRow());
-
-    	
-    	        }
-    	      });
+		ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
+		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+		        public void valueChanged(ListSelectionEvent e) {
+		        	_selectionChanged(jTable1.getSelectedRow());
+	
+		
+		        }
+		});
+		
+		class Task implements Callable<Integer>{
+			JSONObject e;
+			public Task(JSONObject e) {
+				this.e=e;
+			}
+			@Override
+			public Integer call() throws Exception {
+				return new SimpleMazeFitnessTest().evaluate(e);
+			}
+			
+		}
+    	List<Task>tasks = new ArrayList<Task>();
+    	for(int i=0;i<this.entities.length();i++) {
+    		tasks.add(new Task(this.entities.getJSONObject(i)));
+    	}
+    	List<Future<Integer>> results = ForkJoinPool.commonPool().invokeAll(tasks);
+    	for(int i=0;i<results.size();i++) {
+    		try {
+				this.data.get(i).set(2,results.get(i).get().intValue());
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ExecutionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    	}
 	}
+    
     private void setData(String fileName) {
-    	
-    	
     	try {
 			JSONObject o = new JSONObject(new JSONTokener(new FileInputStream(fileName)));
-			this.arr = o.getJSONArray("entities");
+			JSONArray arr = o.getJSONArray("entities");
+			entities = new JSONArray();
 			data = new Vector<Vector<Object>>(arr.length());
-			visualizations = new Vector<String>(arr.length());
 			for(int i = 0; i<arr.length(); i++) {
 				Vector<Object>v = new Vector<Object>();
 				if(arr.getJSONObject(i).getString("type").equals("f"))continue;
+				entities.put(arr.getJSONObject(i));
 				v.add(arr.getJSONObject(i).getJSONObject("data").getString("id"));
 				v.add(arr.getJSONObject(i).getJSONObject("data").getInt("age"));
-				if(arr.getJSONObject(i).getJSONObject("data").has("phenotype")) {
-					visualizations.add(arr.getJSONObject(i).getJSONObject("data").getJSONObject("phenotype").getString("code"));
 
-				}
-				else {
-					visualizations.add("");
-				}
 				data.add(v);
 			}
 			
@@ -83,14 +112,14 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     private void _selectionChanged(int selectedRow) {
 		// TODO Auto-generated method stub
     	JLabel label = new JLabel();
-    	label.setText("<html>" + this.visualizations.get(selectedRow).replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("    ", "&emsp ") + "</html>");
+    	label.setText("<html>" + this.entities.getJSONObject(selectedRow).getJSONObject("data").getJSONObject("phenotype").getString("code").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("    ", "&emsp ") + "</html>");
     	//label.setAlignmentX(Component.RIGHT_ALIGNMENT);
     	//label.setAlignmentY(Component.TOP_ALIGNMENT);
     	
-		//this.visualizationPane.setViewportView(label);
+		this.visualizationPane.setViewportView(label);
 		
-    	SimpleMazeFitnessTest t = new SimpleMazeFitnessTest(this.visualizationPane);
-    	t.evaluate(this.arr.getJSONObject(selectedRow));
+    	/*SimpleMazeFitnessTest t = new SimpleMazeFitnessTest(this.visualizationPane);
+    	t.evaluate(this.entities.getJSONObject(selectedRow));*/
 	}
 	/**
      * This method is called from within the constructor to initialize the form.
@@ -101,7 +130,6 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
     	tableModel = new DefaultTableModel(0,0);
-    	tableModel.setColumnIdentifiers(new String[] {"id","age"});
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable(tableModel);
         visualizationPane = new javax.swing.JScrollPane();

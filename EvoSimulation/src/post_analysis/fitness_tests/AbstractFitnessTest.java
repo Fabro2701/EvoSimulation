@@ -11,5 +11,7 @@ public abstract class AbstractFitnessTest {
 	public AbstractFitnessTest(JScrollPane viewPane) {
 		this.viewPane=viewPane;
 	}
-	public abstract Pair<Integer,Float>  evaluate(JSONObject o);
+	public AbstractFitnessTest() {
+	}
+	public abstract int evaluate(JSONObject o);
 }

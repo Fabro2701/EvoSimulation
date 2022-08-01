@@ -28,7 +28,7 @@ public class Viewer extends AbstractViewer {
 		this(ctrl,1000,1000);
 		// initGUI();
 
-		//addEntityViewers();
+		addEntityViewers();
 		//repaint();
 	}
 	public Viewer(Controller ctrl, int w, int h) {
@@ -79,7 +79,7 @@ public class Viewer extends AbstractViewer {
 		super.paintComponent(g);
 	}
 	
-	private void addEntityViewers() {
+	public void addEntityViewers() {
 		JFrame father = (JFrame) SwingUtilities.getWindowAncestor(this);
 		MouseListener mouse = new MouseListener() {
 
@@ -92,7 +92,7 @@ public class Viewer extends AbstractViewer {
 					// System.out.println("ent "+e.node.x+" "+e.node.y);
 					if (Math.abs(e.node.x - point.x) + Math.abs(e.node.x - point.x) <= selectionRatio) {
 						openEntityDialog(e);
-
+						Viewer.this.entityViewer.setEntity(e);
 					}
 				}
 			}

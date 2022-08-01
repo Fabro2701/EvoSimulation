@@ -1,19 +1,7 @@
 
 {
     "events": [
-        {
-            "type":"fg",
-            "data":{
-                "time":0,
-                "times":200,
-                "interval":200,
-                "centerX":500,
-                "centerY":500,
-                "amount":60,
-                "radiusX":499,
-                "radiusY":499
-            }
-        },
+ 
 	{
             "type":"fg",
             "data":{
@@ -23,18 +11,8 @@
                 "centerX":500,
                 "centerY":500,
                 "amount":20,
-                "radiusX":499,
-                "radiusY":499
-            }
-        },
-        {
-            "type":"reg",
-            "data":{
-                "time":0,
-                "times":400,
-                "interval":100,
-                "typeTo":"mi",
-                "amount":80
+                "radiusX":-1,
+                "radiusY":-1
             }
         }
     ]

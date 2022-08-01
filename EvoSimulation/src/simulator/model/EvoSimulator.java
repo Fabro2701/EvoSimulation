@@ -158,7 +158,12 @@ public class EvoSimulator {
 	public int getTime() {
 		return time;
 	}
-
+	public Entity getEntity(String id) {
+		for(Entity e:entities) {
+			if(e.getId().equals(id))return e;
+		}
+		return null;
+	}
 	public JSONObject toJSON() {
 		JSONArray entitiesArr = new JSONArray();
 		for (Entity e : entities) {
