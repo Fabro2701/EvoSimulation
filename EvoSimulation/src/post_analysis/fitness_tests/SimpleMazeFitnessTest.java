@@ -25,18 +25,22 @@ import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
-import simulator.view.viewer.AbstractViewer;
-import simulator.view.viewer.Viewer;
-import util.Pair;
+
 
 public class SimpleMazeFitnessTest extends AbstractFitnessTest{
-
+	int timeLimit;
 	public SimpleMazeFitnessTest(JScrollPane viewPane) {
 		super(viewPane);
+		this.timeLimit = 100;
 		// TODO Auto-generated constructor stub
 	}
 	public SimpleMazeFitnessTest() {
+		this(100);
+		// TODO Auto-generated constructor stub
+	}
+	public SimpleMazeFitnessTest(int timeLimit) {
 		super();
+		this.timeLimit = timeLimit;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -82,7 +86,6 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		viewPane.setViewportView(viewer);
 		viewPane.repaint();*/
 		
-		int timeLimit=100;
 		ctrl.run(timeLimit);
 	
 		

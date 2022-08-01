@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
+import simulator.view.EntityViewer;
 import simulator.view.TimeLabel;
 import simulator.view.viewer.AbstractViewer;
 import simulator.view.viewer.EmptyViewer;
 import simulator.view.viewer.Viewer;
-import simulator.view.viewer.Viewer3D;
 
 public class LauncherGUI extends javax.swing.JFrame {
 	private Controller controller;
@@ -22,13 +22,15 @@ public class LauncherGUI extends javax.swing.JFrame {
 	private AbstractViewer viewer;
 	private boolean simStop;
 	private ViewersController viewsController;
+	EntityViewer entityViewer;
 	
 	public LauncherGUI(Controller controller) {
 		simStop = false;
 		this.controller = controller;
 		initComponents();
-        configureComponents();
+		entityViewer = new EntityViewer();
         viewsController = new ViewersController();
+        configureComponents();
 	}
 	
 	class ViewersController{
@@ -65,24 +67,10 @@ public class LauncherGUI extends javax.swing.JFrame {
     }
 
     private void configureComponents() {
-		// TODO Auto-generated method stub
-    	//simulator.update();
-    	//SwingUtilities.invokeLater(()->{StatsVisualizer sv = new StatsVisualizer(new PopulationCountStats());});
+    	jTabbedPane1.addTab("Code", entityViewer.getCodeComponent());
+    	jTabbedPane1.addTab("FitnessScores", entityViewer.geFitnessScoresComponent());
     	
-    	
-    	
-    	
-    	/*Node ini = controller.getNodeAt(0, 0);
-    	Entity e1 = new SimpleRandomEntity("1",ini);
-    	Entity e2 = new SimpleRandomEntity("2",ini);
-    	Entity e3 = new SimpleRandomEntity("3",ini);
-    	controller.addEntity(e1);
-    	controller.addEntity(e2);
-    	controller.addEntity(e3);
-    	JSONArray arr = new JSONArray().put(e1.toJSON()).put(e2.toJSON()).put(e3.toJSON());
-    	JSONObject ob = new JSONObject().put("entities",arr);
-    	System.out.println(ob.toString(4));*/
-    	
+    	viewersMap.get(jrbTemperatureView.getActionCommand()).addEntityObserver(entityViewer);
 	}
 
 	/** This method is called from within the constructor to
@@ -108,8 +96,10 @@ public class LauncherGUI extends javax.swing.JFrame {
         jrbTemperatureView = new javax.swing.JRadioButton();
         jrb3DView = new javax.swing.JRadioButton();
         jrbNone = new javax.swing.JRadioButton();
-        
-        
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,9 +181,39 @@ public class LauncherGUI extends javax.swing.JFrame {
         jrbNone.setText("None");
         jrbNone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbNodeActionPerformed(evt);
+                jrbNoneActionPerformed(evt);
             }
         });
+
+        jScrollPane2.setBorder(new javax.swing.border.MatteBorder(null));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 753, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 479, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab1", jPanel1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 753, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 479, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel2);
+
+        jScrollPane2.setViewportView(jTabbedPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,7 +222,10 @@ public class LauncherGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -219,14 +242,17 @@ public class LauncherGUI extends javax.swing.JFrame {
                                 .addComponent(jrbTemperatureView)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jrbNone))
-                            .addComponent(jrb3DView))))
-                .addContainerGap(648, Short.MAX_VALUE))
+                            .addComponent(jrb3DView))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -247,7 +273,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                   
+    }// </editor-fold>                         
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
@@ -310,7 +336,7 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void jrb3DViewActionPerformed(java.awt.event.ActionEvent evt) {                                          
     	viewsController.changeView(evt.getActionCommand());
     }      
-    private void jrbNodeActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void jrbNoneActionPerformed(java.awt.event.ActionEvent evt) {                                           
     	viewsController.changeView(evt.getActionCommand());
     } 
 	/**
@@ -345,17 +371,19 @@ public class LauncherGUI extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify                   
-    private javax.swing.ButtonGroup buttonGroup1;                
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbAddEntity;
     private javax.swing.JButton jbAddEvent;
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
     private javax.swing.JLabel jlSimulationTime;
     private javax.swing.JPanel jpTime;
-    //private Viewer viewer;
-    //private Viewer3D jp3DViewer;
     private javax.swing.JRadioButton jrb3DView;
     private javax.swing.JRadioButton jrbNone;
     private javax.swing.JRadioButton jrbTemperatureView;

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
+import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 
@@ -90,9 +91,10 @@ public class Viewer extends AbstractViewer {
 				// System.out.println(point);
 				for (Entity e : entities) {
 					// System.out.println("ent "+e.node.x+" "+e.node.y);
-					if (Math.abs(e.node.x - point.x) + Math.abs(e.node.x - point.x) <= selectionRatio) {
-						openEntityDialog(e);
-						Viewer.this.entityViewer.setEntity(e);
+					
+					if (Math.sqrt(Math.pow(e.node.x - point.x, 2)+Math.pow(e.node.y - point.y, 2)) <= selectionRatio) {
+						//openEntityDialog(e);
+						if(e instanceof ActiveEntity)Viewer.this.entityViewer.setEntity(e);
 					}
 				}
 			}

@@ -49,7 +49,7 @@ public class PopulationAgeStats extends StatsData{
 			for(Entity e:entities) {
 				max=Math.max(max, e.getAge());
 				avg+=e.getAge();
-			}avg/=entities.size();
+			}avg/=entities.size()>0?entities.size():10000000;
 			dataset.addValue(Float.valueOf(avg), "avgAge", Integer.valueOf(currentTime));
 			dataset.addValue(Float.valueOf(max), "maxAge", Integer.valueOf(currentTime));
 		}
