@@ -10,7 +10,7 @@
                 "interval":100,
                 "centerX":500,
                 "centerY":500,
-                "amount":20,
+                "amount":10,
                 "radiusX":-1,
                 "radiusY":-1
             }

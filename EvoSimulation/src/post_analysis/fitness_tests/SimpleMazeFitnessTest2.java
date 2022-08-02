@@ -33,19 +33,19 @@ import simulator.view.viewer.AbstractViewer;
 import simulator.view.viewer.Viewer;
 
 
-public class SimpleMazeFitnessTest extends AbstractFitnessTest{
+public class SimpleMazeFitnessTest2 extends AbstractFitnessTest{
 	int timeLimit;
 	AbstractViewer viewer;
-	public SimpleMazeFitnessTest(JScrollPane viewPane) {
+	public SimpleMazeFitnessTest2(JScrollPane viewPane) {
 		super(viewPane);
 		this.timeLimit = 1000;
 		// TODO Auto-generated constructor stub
 	}
-	public SimpleMazeFitnessTest() {
+	public SimpleMazeFitnessTest2() {
 		this(100);
 		// TODO Auto-generated constructor stub
 	}
-	public SimpleMazeFitnessTest(int timeLimit) {
+	public SimpleMazeFitnessTest2(int timeLimit) {
 		super();
 		this.timeLimit = timeLimit;
 		// TODO Auto-generated constructor stub
@@ -72,13 +72,12 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
 
-		EvoSimulator simulator = new EvoSimulator("simpleMaze1");
+		EvoSimulator simulator = new EvoSimulator("simpleMaze2");
 		Controller ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager);
 		
-
 		
 		try {
-			ctrl.loadEvents(new FileInputStream("resources/loads/events/simpleMazeEvents.json"));
+			ctrl.loadEvents(new FileInputStream("resources/loads/events/simpleMazeEvents2.json"));
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

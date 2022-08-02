@@ -193,7 +193,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jcbExperiments.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SimpleMazeTest", "X" }));
+        jcbExperiments.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SimpleMazeTest", "SimpleMazeTest2" }));
         jcbExperiments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbExperimentsActionPerformed(evt);
