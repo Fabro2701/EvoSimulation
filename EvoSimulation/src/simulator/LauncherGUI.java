@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,7 +31,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 		simStop = false;
 		this.controller = controller;
 		initComponents();
-		entityViewer = new EntityViewer();
+		entityViewer = new EntityViewer(jspExperimentViewer);
         viewsController = new ViewersController();
         configureComponents();
 	}
@@ -71,6 +74,8 @@ public class LauncherGUI extends javax.swing.JFrame {
     	jTabbedPane1.addTab("FitnessScores", entityViewer.geFitnessScoresComponent());
     	
     	viewersMap.get(jrbTemperatureView.getActionCommand()).addEntityObserver(entityViewer);
+    	
+    	
 	}
 
 	/** This method is called from within the constructor to
@@ -98,8 +103,9 @@ public class LauncherGUI extends javax.swing.JFrame {
         jrbNone = new javax.swing.JRadioButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jpExperiments = new javax.swing.JPanel();
+        jspExperimentViewer = new javax.swing.JScrollPane();
+        jcbExperiments = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,31 +193,37 @@ public class LauncherGUI extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(new javax.swing.border.MatteBorder(null));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 753, Short.MAX_VALUE)
+        jcbExperiments.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SimpleMazeTest", "X" }));
+        jcbExperiments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbExperimentsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpExperimentsLayout = new javax.swing.GroupLayout(jpExperiments);
+        jpExperiments.setLayout(jpExperimentsLayout);
+        jpExperimentsLayout.setHorizontalGroup(
+            jpExperimentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpExperimentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpExperimentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jspExperimentViewer, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpExperimentsLayout.createSequentialGroup()
+                        .addComponent(jcbExperiments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 645, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 479, Short.MAX_VALUE)
+        jpExperimentsLayout.setVerticalGroup(
+            jpExperimentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpExperimentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jspExperimentViewer, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbExperiments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab1", jPanel1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 753, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 479, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab2", jPanel2);
+        jTabbedPane1.addTab("Experiments", jpExperiments);
 
         jScrollPane2.setViewportView(jTabbedPane1);
 
@@ -273,7 +285,7 @@ public class LauncherGUI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                         
+    }// </editor-fold>                          
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
@@ -339,6 +351,9 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void jrbNoneActionPerformed(java.awt.event.ActionEvent evt) {                                           
     	viewsController.changeView(evt.getActionCommand());
     } 
+    private void jcbExperimentsActionPerformed(java.awt.event.ActionEvent evt) {     
+    	this.entityViewer.runExperiment(this.jcbExperiments.getSelectedItem().toString());
+    }
 	/**
      * @param args the command line arguments
      */
@@ -373,8 +388,6 @@ public class LauncherGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify                   
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -382,11 +395,14 @@ public class LauncherGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbAddEvent;
     private javax.swing.JButton jbPause;
     private javax.swing.JButton jbPlay;
+    private javax.swing.JComboBox<String> jcbExperiments;
     private javax.swing.JLabel jlSimulationTime;
+    private javax.swing.JPanel jpExperiments;
     private javax.swing.JPanel jpTime;
     private javax.swing.JRadioButton jrb3DView;
     private javax.swing.JRadioButton jrbNone;
     private javax.swing.JRadioButton jrbTemperatureView;
+    private javax.swing.JScrollPane jspExperimentViewer;
     // End of variables declaration                   
 
 }

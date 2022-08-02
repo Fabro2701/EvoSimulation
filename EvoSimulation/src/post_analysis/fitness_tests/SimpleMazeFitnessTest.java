@@ -4,8 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,13 +29,17 @@ import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.view.viewer.AbstractViewer;
+import simulator.view.viewer.Viewer;
 
 
 public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 	int timeLimit;
+	AbstractViewer viewer;
+	Entity entity;
 	public SimpleMazeFitnessTest(JScrollPane viewPane) {
 		super(viewPane);
-		this.timeLimit = 100;
+		this.timeLimit = 1000;
 		// TODO Auto-generated constructor stub
 	}
 	public SimpleMazeFitnessTest() {
@@ -80,13 +88,22 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		o.getJSONObject("data").put("x",0);
 		o.getJSONObject("data").put("y",0);
 		ctrl.loadEntities(new JSONArray().put(o));
-		Entity entity = simulator.getEntity("-1");
-		/*AbstractViewer viewer = new Viewer(ctrl,700,700);
-		viewer.activate();
-		viewPane.setViewportView(viewer);
-		viewPane.repaint();*/
+		entity = simulator.getEntity("-1");
+		if(viewPane!=null) {
+				viewer = new Viewer(ctrl,700,700);
+				viewer.activate();
+				viewPane.setViewportView(viewer);
+				viewer.repaint();
+	        	this.runCtrl(ctrl, this.timeLimit);
+	        			
+		}
+		else {
+			
+			ctrl.run(timeLimit);
+			fitness = entity.getAge();
+		}
 		
-		ctrl.run(timeLimit);
+		
 	
 		
 		/*new Thread() {
@@ -100,8 +117,24 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
         		}
         	}
         }.start();*/
-		fitness = entity.getAge();
+		
 		return fitness;
+	}
+	public void runCtrl(Controller ctrl, int n) {
+		if ( n>0 && this.entity.isAlive()) {
+	         try {
+	        	 ctrl.run(1);
+	         } catch (Exception e) {
+	        	 e.printStackTrace();
+	             return;
+	         }
+	         SwingUtilities.invokeLater( new Runnable() {
+	        	@Override
+	     		public void run() {
+	        		runCtrl(ctrl, n-1);
+	     		}
+	         });
+	   } 
 	}
 
 }

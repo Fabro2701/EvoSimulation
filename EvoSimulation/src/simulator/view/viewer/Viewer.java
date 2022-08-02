@@ -55,7 +55,6 @@ public class Viewer extends AbstractViewer {
 		if(active) {
 			this.mapImg = map.getAttributesImage();
 			this.entities = entities;
-			// setEntitiesImage(entities);
 			updateImage();
 			repaint();
 		}
@@ -126,8 +125,5 @@ public class Viewer extends AbstractViewer {
 		this.addMouseListener(mouse);
 	}
 
-	private void openEntityDialog(Entity e) {
-		e.openDialog(this);
 
-	}
 }
