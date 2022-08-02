@@ -73,8 +73,6 @@ public abstract class Entity implements IInteract{
 	protected abstract void getFood(FoodEntity foodEntity);
 
 	public void vanish() {
-		StatsManager.getInstance().onEntityVanished(-1);
-		StatsManager.getInstance().onEntityDead(-1,this);
 		alive = false;
 	}
 

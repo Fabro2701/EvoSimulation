@@ -28,6 +28,7 @@ import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.StatsManager;
 import statistics.models.PopulationAgeStats;
 import statistics.models.PopulationCountStats;
 import statistics.visualizers.AreaChartVisualizer;
@@ -46,7 +47,11 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
     }
 
     private void _config() {
-    	
+    	StatsManager statsManager = new StatsManager();
+    	StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(statsManager), "Age Population");
+    	StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(statsManager), "Population status");
+
+		
 		
 		EventManager eventManager = new EventManager();
 
@@ -68,7 +73,8 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 
 		simulator = new EvoSimulator();
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager);
-
+		ctrl.setStatsManager(statsManager);
+		
 		try {
 			int op=0;
 			if(op==0) {
@@ -196,13 +202,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-    	StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(), "Age Population");
-
-		
-    	SwingUtilities.invokeLater(() -> {
-        	StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(), "Population status");
-
-		});
+    	
         SwingUtilities.invokeLater(() -> {
         	new OptimizedLauncherGUI().setVisible(true);
         });

@@ -21,6 +21,7 @@ import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.StatsManager;
 import statistics.models.PopulationAgeStats;
 import statistics.models.PopulationCountStats;
 import statistics.visualizers.AreaChartVisualizer;
@@ -34,8 +35,9 @@ public class Main {
 
 	public static void main(String args[]) {
 
-		StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(), "Population status");
-		StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(), "Age Population");
+		StatsManager statsManager = new StatsManager();
+    	//StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(statsManager), "Age Population");
+    	//StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(statsManager), "Population status");
 
 		EventManager eventManager = new EventManager();
 
@@ -57,7 +59,8 @@ public class Main {
 
 		simulator = new EvoSimulator();
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager);
-
+		controller.setStatsManager(statsManager);
+		
 		try {
 			int op=0;
 			if(op==0) {

@@ -15,6 +15,7 @@ import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import statistics.StatsManager;
 
 /**
  * Controller class
@@ -27,6 +28,7 @@ public class Controller {
 	private BuilderBasedFactory<Entity> entityFactory;
 	private BuilderBasedFactory<Event> eventFactory;
 	private EventManager eventManager;
+	private StatsManager statsManager;
 
 	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory,
 			BuilderBasedFactory<Event> eventFactory, EventManager eventManager) {
@@ -34,6 +36,9 @@ public class Controller {
 		this.entityFactory = entityFactory;
 		this.eventFactory = eventFactory;
 		this.eventManager = eventManager;
+	}
+	public void setStatsManager(StatsManager statsManager) {
+		this.statsManager = statsManager;
 	}
 
 	public void addObserver(SimulatorObserver observer) {
@@ -48,7 +53,7 @@ public class Controller {
 		for (int i = 0; i < runs; i++) {
 			eventManager.update(this, simulator.getTime());
 			simulator.update();
-
+			if(statsManager!=null)statsManager.onUpdate(simulator);
 		}
 	}
 

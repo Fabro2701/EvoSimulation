@@ -132,7 +132,6 @@ public class EvoSimulator {
 		for (SimulatorObserver observer : observers) {
 			observer.onUpdate(entities, map, time);
 		}
-		StatsManager.getInstance().onAdvance(time, entities);
 		time++;
 
 	}
@@ -144,7 +143,6 @@ public class EvoSimulator {
 
 	public void addEntity(Entity entity) {
 		entities.add(entity);
-		StatsManager.getInstance().onEntityAdded(time);
 	}
 
 	public Node getNodeAt(int x, int y) {
@@ -163,6 +161,9 @@ public class EvoSimulator {
 			if(e.getId().equals(id))return e;
 		}
 		return null;
+	}
+	public List<Entity> getEntities(){
+		return this.entities;
 	}
 	public JSONObject toJSON() {
 		JSONArray entitiesArr = new JSONArray();

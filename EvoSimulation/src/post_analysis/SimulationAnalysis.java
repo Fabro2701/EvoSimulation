@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 
@@ -22,7 +24,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import post_analysis.fitness_tests.SimpleMazeFitnessTest;
-import util.Pair;
 
 public class SimulationAnalysis extends javax.swing.JFrame {
 	private DefaultTableModel tableModel;
@@ -63,7 +64,7 @@ public class SimulationAnalysis extends javax.swing.JFrame {
 			}
 			@Override
 			public Integer call() throws Exception {
-				return new SimpleMazeFitnessTest().evaluate(e);
+				return new SimpleMazeFitnessTest(1000).evaluate(e);
 			}
 			
 		}
@@ -71,18 +72,29 @@ public class SimulationAnalysis extends javax.swing.JFrame {
     	for(int i=0;i<this.entities.length();i++) {
     		tasks.add(new Task(this.entities.getJSONObject(i)));
     	}
-    	List<Future<Integer>> results = ForkJoinPool.commonPool().invokeAll(tasks);
-    	for(int i=0;i<results.size();i++) {
-    		try {
-				this.data.get(i).set(2,results.get(i).get().intValue());
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ExecutionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-    	}
+    	ExecutorService service = Executors.newCachedThreadPool();
+    	List<Future<Integer>> results;
+		try {
+			results = service.invokeAll(tasks);
+			for(int i=0;i<results.size();i++) {
+	    		try {
+					this.data.get(i).set(2,results.get(i).get().intValue());
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	    	}
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		finally {
+			service.shutdown();
+		}
+    	
 	}
     
     private void setData(String fileName) {

@@ -40,10 +40,7 @@ public class EntityViewer{
 		fitnessScoresComponent.getModel().setValueAt(new SimpleMazeFitnessTest2(10000).evaluate(e.toJSON()), 1, 1);
 	}
 	public void runExperiment(String test) {
-		System.out.println(test);
-			experimentsMap.get(test).evaluate(e.toJSON());
-			
-		
+		experimentsMap.get(test).evaluate(e.toJSON());
 	}
 	public JLabel getCodeComponent() {
 		return codeComponent;

@@ -1,82 +1,30 @@
 package test;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.ActionListener;
 
-import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class B extends JFrame {
 	public B() {
-		System.out.println(simulator.Constants.MAP_TYPE.LAND);
-		BufferedImage i;
-		try {
-			i = ImageIO.read(new File("resources/entities/entity1.png"));
-			for (int x = 0; x < 10; x++) {
-				for (int y = 0; y < 10; y++) {
-					System.out.print(new Color(i.getRGB(x, y), true) + "   ");
+		JPanel mainpanel = new JPanel();
+		this.setContentPane(mainpanel);
+		
+		JButton b1 = new JButton("1");
+		JButton b2 = new JButton("2");
+		b1.addActionListener((evt)-> {
 
-				}
-				System.out.println();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		JPanel main = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.setColor(new Color(0, 255, 0, 100));
-				g.fillRect(0, 0, 300, 300);
-				g.setColor(new Color(0, 255, 0, 100));
-				g.fillRect(0, 0, 150, 150);
-				g.setColor(new Color(255, 0, 0, 100));
-				g.fillRect(0, 0, 300, 100);
-			}
-		};
-		main.setMinimumSize(new Dimension(300, 300));
-		main.setPreferredSize(new Dimension(300, 300));
-		JPanel op1 = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.setColor(Color.blue);
-				g.fillRect(0, 0, 300, 300);
-			}
-		};
-		op1.setMinimumSize(new Dimension(300, 300));
-		op1.setPreferredSize(new Dimension(300, 300));
-		JPanel op2 = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.setColor(Color.red);
-				g.fillRect(0, 0, 300, 300);
-			}
-		};
-		op2.setMinimumSize(new Dimension(100, 100));
-		op2.setPreferredSize(new Dimension(100, 100));
-
-		this.setContentPane(main);
-
-		// main.add(op1);op1.add(op2);
-		// main.add(op1);
-
-		this.setMinimumSize(new Dimension(300, 300));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// op1=op2;
-
-		// op1.repaint();
-		// main=op1;
-
+			mainpanel.add(b2);
+			B.this.pack();
+			B.this.repaint();
+		});
+		
+		
+		mainpanel.add(b1);
+		//mainpanel.add(b2);
+		this.pack();
 	}
 
 	public static void main(String args[]) {
