@@ -26,8 +26,11 @@ import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
 import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
+import simulator.factories.builders.stats.PopulationAgeBuilder;
+import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.StatsData;
 import statistics.StatsManager;
 import statistics.models.PopulationAgeStats;
 import statistics.models.PopulationCountStats;
@@ -47,12 +50,13 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
     }
 
     private void _config() {
-    	StatsManager statsManager = new StatsManager();
-    	StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(statsManager), "Age Population");
-    	StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(statsManager), "Population status");
+    	List<Builder<StatsData>> statsBuilders = new ArrayList<Builder<StatsData>>();
+		statsBuilders.add(new PopulationAgeBuilder());
+		statsBuilders.add(new PopulationCountBuilder());
 
-		
-		
+		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(statsBuilders);
+		StatsManager statsManager = new StatsManager(statsFactory);
+    	
 		EventManager eventManager = new EventManager();
 
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();

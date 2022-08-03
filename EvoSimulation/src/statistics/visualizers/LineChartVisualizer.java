@@ -2,26 +2,21 @@ package statistics.visualizers;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
 import statistics.StatsData;
 
 public class LineChartVisualizer extends StatsVisualizer{
 
-	public LineChartVisualizer(StatsData data, String name) {
-		super(data);
-		chart = ChartFactory.createLineChart(  
+	public LineChartVisualizer(StatsData data, String name, String x, String y) {
+		JFreeChart chart = ChartFactory.createLineChart(  
 		        name, 
-		        "Time", 
-		        "Number Population",  
+		        x, 
+		        y,  
 		        data.getDataSet()  
 		        ); 
-		ChartPanel panel = new ChartPanel(chart);  
-	    setContentPane(panel);	
-		//initComponents();
-		this.pack();
-	    this.setSize(300, 300);  
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		this.panel = new ChartPanel(chart);  
+
 	}
 
 }

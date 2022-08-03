@@ -10,15 +10,13 @@ import statistics.visualizers.StatsVisualizer;
 
 public abstract class StatsData implements StatsObserver{
 	protected DefaultCategoryDataset dataset;  
-	protected List<StatsVisualizer>visualizers;
+	protected int updateRate;
 	
-	public StatsData(StatsManager manager) {
-		manager.addObserver(this);
+	public StatsData(int updateRate) {
+		this.updateRate = updateRate;
+		//manager.addObserver(this);
 		dataset = new DefaultCategoryDataset();
-		visualizers = new ArrayList<StatsVisualizer>();
 	}
-	public void addVisualizer(StatsVisualizer visualizer) {
-		visualizers.add(visualizer);
-	}
+	
 	public DefaultCategoryDataset getDataSet() {return dataset;}
 }

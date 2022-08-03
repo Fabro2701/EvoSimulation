@@ -8,11 +8,10 @@ public class PopulationCountStats extends StatsData{
 	
 	private int totalPopulation;
 	private int alivePopulation;
-	private int updateRate=20;
 	private int currentTime=0;
 	
-	public PopulationCountStats(StatsManager manager) {
-		super(manager);
+	public PopulationCountStats(int updateRate) {
+		super(updateRate);
 		totalPopulation=0;
 		alivePopulation=0;
 	}

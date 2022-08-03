@@ -50,4 +50,8 @@ public final class Constants {
 
 		public abstract Pair<Integer, Integer> getPosChange();
 	}
+	
+	//builder types
+	public static final String PopulationAgeBuilder_TYPE = "pa";
+	public static final String PopulationCountBuilder_TYPE = "pc";
 }

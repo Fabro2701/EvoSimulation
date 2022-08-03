@@ -13,11 +13,10 @@ public class PopulationAgeStats extends StatsData{
 	private float avg;
 	private int max;
 	private int alivePopulation;
-	private int updateRate=20;
 	private int currentTime=0;
 	
-	public PopulationAgeStats(StatsManager manager) {
-		super(manager);
+	public PopulationAgeStats(int updateRate) {
+		super(updateRate);
 		avg=0.0f;
 		max=0;
 		alivePopulation=0;
@@ -45,8 +44,5 @@ public class PopulationAgeStats extends StatsData{
 			dataset.addValue(Float.valueOf(max), "maxAge", Integer.valueOf(currentTime));
 		}
 		
-		for(StatsVisualizer v:visualizers) {
-			v.update();
-		}
 	}
 }

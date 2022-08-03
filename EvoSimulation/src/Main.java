@@ -19,14 +19,12 @@ import simulator.factories.builders.events.AddEntitiesEventBuilder;
 import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
 import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
+import simulator.factories.builders.stats.PopulationAgeBuilder;
+import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.StatsData;
 import statistics.StatsManager;
-import statistics.models.PopulationAgeStats;
-import statistics.models.PopulationCountStats;
-import statistics.visualizers.AreaChartVisualizer;
-import statistics.visualizers.LineChartVisualizer;
-import statistics.visualizers.StatsVisualizer;
 
 public class Main {
 
@@ -34,11 +32,13 @@ public class Main {
 	private static Controller controller;
 
 	public static void main(String args[]) {
+		List<Builder<StatsData>> statsBuilders = new ArrayList<Builder<StatsData>>();
+		statsBuilders.add(new PopulationAgeBuilder());
+		statsBuilders.add(new PopulationCountBuilder());
 
-		StatsManager statsManager = new StatsManager();
-    	//StatsVisualizer ap = new LineChartVisualizer(new PopulationAgeStats(statsManager), "Age Population");
-    	//StatsVisualizer ps = new AreaChartVisualizer(new PopulationCountStats(statsManager), "Population status");
-
+		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(statsBuilders);
+		StatsManager statsManager = new StatsManager(statsFactory);
+    	
 		EventManager eventManager = new EventManager();
 
 		List<Builder<Event>> eventBuilders = new ArrayList<Builder<Event>>();

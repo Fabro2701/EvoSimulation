@@ -11,19 +11,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import statistics.StatsData;
 
-public class StatsVisualizer extends JFrame{
+public class StatsVisualizer{
 	
-	private StatsData data;
-	protected JFreeChart chart;
+	protected JPanel panel;
 	
-	public StatsVisualizer(StatsData data) {
-		this.data=data;
-		this.data.addVisualizer(this);
+	public StatsVisualizer() {
 		
 	}
-	public void update() {
-		 //this.repaint();
-			
+	public JPanel getPanel() {
+		return this.panel;
 	}
+
 	
 }

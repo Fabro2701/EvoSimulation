@@ -5,28 +5,19 @@ import java.awt.Toolkit;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
 import statistics.StatsData;
 
 public class AreaChartVisualizer extends StatsVisualizer{
 
-	public AreaChartVisualizer(StatsData data, String name) {
-		super(data);
-		chart = ChartFactory.createAreaChart(  
+	public AreaChartVisualizer(StatsData data, String name, String x, String y) {
+		JFreeChart chart = ChartFactory.createAreaChart(  
 		        name, 
-		        "Time", 
-		        "Number Population",  
+		        x, 
+		        y,  
 		        data.getDataSet()  
 		        ); 
-		ChartPanel panel = new ChartPanel(chart);  
-	    setContentPane(panel);	
-		//initComponents();
-		this.pack();
-	    this.setSize(300, 300);  
-	    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-	    this.setLocation(0,screen.height-300);
-		//this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		this.panel = new ChartPanel(chart);  
 	}
-
 }

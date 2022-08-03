@@ -9,23 +9,17 @@ import statistics.StatsData;
 
 public class BarChartVisualizer extends StatsVisualizer{
 
-	public BarChartVisualizer(StatsData data, String name) {
-		super(data);
+	public BarChartVisualizer(StatsData data, String name, String x, String y) {
 		JFreeChart chart=ChartFactory.createBarChart(  
-				name, //Chart Title  
-		        "", // Category axis  
-		        "Population", // Value axis  
+				name, 
+		        x, 
+		        y, 
 		        data.getDataSet(),  
 		        PlotOrientation.VERTICAL,  
 		        true,true,false  
 		       );  
-		ChartPanel panel = new ChartPanel(chart);  
-	    setContentPane(panel);	
-		//initComponents();
-		this.pack();
-	    this.setSize(300, 300);  
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		this.panel = new ChartPanel(chart);  
+
 	}
 
 }
