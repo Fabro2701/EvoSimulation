@@ -38,8 +38,8 @@ import statistics.StatsManager;
 
 public class Main {
 
-	private static EvoSimulator simulator; 
-	private static Controller controller;
+	private static EvoSimulator simulator;
+	private static Controller controller; 
 
 	public static void main(String args[]) {
 		/*List<Builder<StatsData>> statsBuilders = new ArrayList<Builder<StatsData>>();
