@@ -1,0 +1,12 @@
+[
+{
+ type:"cd",
+ data:{
+       title:"Child Depth",
+       x:"Time",
+       y:"",
+       updateRate:300,
+       visualizer:"box"
+      }
+}
+]

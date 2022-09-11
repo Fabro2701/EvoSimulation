@@ -1,0 +1,41 @@
+
+{
+    "events": [
+	{
+            "type":"afcg",
+            "data":{
+                "time":2,
+                "times":500,
+                "interval":200,
+                "factor":0.2
+            }
+        },
+        {
+            "type":"arecg",
+            "data":{
+	        "id":"r",
+                "time":0,
+                "times":300,
+                "interval":300,
+                "typeTo":"mi",
+                "amount":400,
+	        "init":"simulator.model.entity.initializer.SensibleInitializer",
+	        "properties":{
+			     "maxDepth":30
+			    },
+	 	"class":"simulator.model.entity.individuals.MyIndividual"
+            }
+        },
+        {
+	 "type":"ss",
+	  "data":{
+                "time":10000,
+                "times":5,
+                "interval":20000,
+		"filename":"test1",
+		"replacement":false
+		}
+	}
+    ]
+}
+    
