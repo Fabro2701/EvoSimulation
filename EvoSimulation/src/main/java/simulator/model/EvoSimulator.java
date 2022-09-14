@@ -39,17 +39,18 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		startTime=System.currentTimeMillis();
-		this.optimizer = new UniformGridOptimizer(this,2,2);
+		this.optimizer = new UniformGridOptimizer(this,3,3);
 		//this.optimizer = new BasicOptimizer(this);
+		
 		this.commonGrammar = new BiasedGrammar();
 		this.commonGrammar.parseBNF("defaultBias");
+		
 		this.commonGrammar.calculateAttributes();
 		this.commonGrammar2 = new IntronGrammar();
-		//this.commonGrammar2.parseBNF("defaultIntron");
 	}
 	
 	int max=500;
-	public void update() {
+	public void step() {
 		time++;
 		if(entities.size()==0&&entitiesBuffer.size()==0)return;
 		if(debug) {
@@ -147,5 +148,12 @@ public class EvoSimulator {
 	}
 	public void setCommonGrammar(AbstractGrammar commonGrammar) {
 		this.commonGrammar = commonGrammar;
+	}
+	public void reset() {
+		this.entities.clear();
+		this.entitiesBuffer.clear();
+		this.time = 0;
+		this.commonGrammar = new BiasedGrammar();
+		this.commonGrammar.parseBNF("defaultBias");
 	}
 }

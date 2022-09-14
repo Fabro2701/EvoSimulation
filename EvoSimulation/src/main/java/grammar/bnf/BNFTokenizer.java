@@ -1,11 +1,12 @@
 package grammar.bnf;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
-public class Tokenizer {
+public class BNFTokenizer {
 	private int _cursor;
 	private String _string;
 	
@@ -16,7 +17,8 @@ public class Tokenizer {
 			   		   {"^->","->"},//rule declaration
 			   		   {"^<[\\d]+>","MERIT"},
 			   		   {"^<[\\w]+>","NTSYMBOL"},
-			   		   {"^\'[^\']*\'","TSYMBOL"}};
+			   		   {"^'[\\w\\W&&[^']]+'","TSYMBOL"},
+			   		   {"^[\\w\\W&&[^|]&&[^.]&&[^\\s]]+","TSYMBOL"}};
 	public void init(String string) {
 		_cursor=0;
 		_string=string;
@@ -28,6 +30,7 @@ public class Tokenizer {
 	public boolean hasMoreTokens() {
 		return this._cursor < this._string.length();
 	}
+	boolean debug = false;
 	public JSONObject getNextToken() {
 		if(!this.hasMoreTokens()) {
 			//System.err.println("No more tokens");
@@ -47,18 +50,18 @@ public class Tokenizer {
 			
 			
 			if(tokenValue==null) {
-				//System.out.println(0);
+				if(debug)System.out.println(0);
 				continue;
 			}
 			if(tokenType == null) {
-				//System.out.println(1);
+				if(debug)System.out.println(1);
 				return this.getNextToken();
 			}
 
-			//System.out.println("2  "+tokenValue);
+			if(debug)System.out.println("2  "+tokenValue);
 			return new JSONObject().put("type", tokenType).put("value",tokenValue);
 		}
-		//System.err.println("Unexpected token "+string.charAt(0));
+		System.err.println("Unexpected token "+string.charAt(0));
 		return null;
 	}
 	/**
@@ -68,7 +71,7 @@ public class Tokenizer {
 	 * @return
 	 */
 	private String _match(String regexp, String string) {
-		//System.out.println(regexp+ "   -   < "+string+" >");
+		if(debug)System.out.println(regexp+ "   -   < "+string+" >");
 		Pattern p = Pattern.compile(regexp);
 		Matcher m = p.matcher(string); 
 		if(!m.find()||m.start()!=0) {

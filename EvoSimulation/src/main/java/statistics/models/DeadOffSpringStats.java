@@ -23,7 +23,7 @@ public class DeadOffSpringStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {			
 			((DefaultCategoryDataset)dataset).addValue((float)contGeneration/updateRate, "contGeneration", Integer.valueOf(currentTime));

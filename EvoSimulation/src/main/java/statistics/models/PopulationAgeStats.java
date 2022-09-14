@@ -34,7 +34,7 @@ public class PopulationAgeStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		List<Entity>entities = simulator.getEntities();
 		currentTime=simulator.getTime();
 		double avg=0;

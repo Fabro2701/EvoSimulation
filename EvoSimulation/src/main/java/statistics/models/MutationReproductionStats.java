@@ -25,7 +25,7 @@ public class MutationReproductionStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			

@@ -48,4 +48,8 @@ public class EventManager {
             return 0;
 		}
 	}
+
+	public void reset() {
+		events = new PriorityQueue<Event>(new EventComparator());
+	}
 }

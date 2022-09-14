@@ -132,12 +132,13 @@ public class StatsManager extends JFrame implements StatsObserver{
 	public void onRegister() {}
 	
 	/**
-	 * OnUpdate the StatsObserver childs
+	 * onStep the StatsObserver children
 	 */
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
+		if(simulator.getEntities().size()<50)return;
 		for(StatsObserver o:observers) {
-			o.onUpdate(simulator);
+			o.onStep(simulator);
 		}
 	}
 	@Override 

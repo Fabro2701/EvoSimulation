@@ -30,7 +30,7 @@ public class PopulationCountStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			long cont=simulator.getEntities().stream().filter(e->e instanceof MyIndividual).count();

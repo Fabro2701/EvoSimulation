@@ -110,6 +110,11 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		
 		return fitness;
 	}
+	@Override
+	public int evaluate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }

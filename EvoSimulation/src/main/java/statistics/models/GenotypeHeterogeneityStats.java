@@ -27,7 +27,7 @@ public class GenotypeHeterogeneityStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			List<Genotype> genos = simulator.getEntities().stream().filter(e->!(e instanceof FoodEntity)).map(e->((MyIndividual)e).getGenotype())

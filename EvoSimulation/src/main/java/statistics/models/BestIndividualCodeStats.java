@@ -23,7 +23,7 @@ public class BestIndividualCodeStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			Entity entity = simulator.getEntities().stream().filter(e->e instanceof GIndividual).max(Comparator.comparing(Entity::getAge)).get();

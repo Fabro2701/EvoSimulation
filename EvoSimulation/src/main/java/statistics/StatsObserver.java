@@ -5,7 +5,7 @@ import simulator.model.EvoSimulator;
 public interface StatsObserver {
 	default public void onRegister() {}
 	
-	default public void onUpdate(EvoSimulator simulator) {}
+	default public void onStep(EvoSimulator simulator) {}
 	
 	default public void onMutation() {}
 	default public void onReproduction() {}

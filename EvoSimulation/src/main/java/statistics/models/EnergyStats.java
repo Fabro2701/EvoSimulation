@@ -22,7 +22,7 @@ public class EnergyStats extends StatsData{
 	}
 
 	@Override 
-	public void onUpdate(EvoSimulator simulator) {
+	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			float sum = simulator.getEntities().stream().map(e->e instanceof FoodEntity?((FoodEntity)e).getFoodAmount():3.f)

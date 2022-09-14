@@ -5,7 +5,7 @@
             "type":"afcg",
             "data":{
                 "time":2,
-                "times":500,
+                "times":50000,
                 "interval":200,
                 "factor":0.2
             }
@@ -15,7 +15,7 @@
             "data":{
 	        "id":"r",
                 "time":0,
-                "times":300,
+                "times":30000,
                 "interval":300,
                 "typeTo":"mi",
                 "amount":400,

@@ -13,11 +13,11 @@ import org.json.JSONObject;
 
 public class BNFParser {
 	protected String _string;
-	protected Tokenizer _tokenizer;
+	protected BNFTokenizer _tokenizer;
 	protected JSONObject _lookahead;
 	public BNFParser() {
 		_string = new String();
-		_tokenizer = new Tokenizer();
+		_tokenizer = new BNFTokenizer();
 	}
 	public JSONObject parse(String string){
 		_string = string;
@@ -84,7 +84,10 @@ public class BNFParser {
 	}
 	protected JSONObject TSymbol() {
 		String literal = _eat("TSYMBOL").getString("value");
-		return new JSONObject().put("type", "Terminal").put("id", literal.substring(1, literal.length()-1));
+		if(literal.charAt(0)=='\'') {
+			return new JSONObject().put("type", "Terminal").put("id", literal.substring(1, literal.length()-1));
+		}
+		return new JSONObject().put("type", "Terminal").put("id", literal);
 	}
 	protected JSONObject NTSymbol() {
 		String literal = _eat("NTSYMBOL").getString("value");
@@ -134,7 +137,7 @@ public class BNFParser {
 		}
 		String e3 = sb.toString();
 		BNFParser parser = new BNFParser();
-		System.out.println(parser.parse(e1).toString(4));
+		System.out.println(parser.parse(e3).toString(4));
 		
 		
 		

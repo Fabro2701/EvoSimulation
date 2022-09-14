@@ -35,32 +35,33 @@ public class Controller {
 	private StatsManager statsManager;
 	private IdGenerator idGenerator;
 
-	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory,
-			BuilderBasedFactory<Event> eventFactory, EventManager eventManager, StatsManager statsManager) {
+	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory, BuilderBasedFactory<Event> eventFactory, EventManager eventManager, StatsManager statsManager) {
 		this.simulator = simulator;
-		
 		this.entityFactory = entityFactory;
 		this.eventFactory = eventFactory;
 		this.eventManager = eventManager;
 		this.statsManager = statsManager;
-		
 		this.idGenerator = new IdGenerator();
 	}
 	
-
+	/**
+	 * Add a {@link SimulatorObserver} to the simulator
+	 * @param observer
+	 */
 	public void addObserver(SimulatorObserver observer) {
 		simulator.addObserver(observer);
-
 	}
 
+	/**
+	 * Steps the {@link Controller#simulator} and updates {@link Controller#eventManager} and {@link Controller#statsManager} 'runs' times
+	 * @param runs Number of steps to be taken
+	 */
 	public void run(int runs) {
-		if (runs <= 0)
-			return;
-
+		if (runs <= 0) return;
 		for (int i = 0; i < runs; i++) {
 			eventManager.update(this, simulator.getTime());
-			simulator.update();
-			statsManager.onUpdate(simulator);
+			simulator.step();
+			statsManager.onStep(simulator);
 		}
 	}
 
@@ -72,47 +73,114 @@ public class Controller {
 						.put("x", RandomSingleton.nextInt(simulator.getMap().WIDTH))
 						.put("y", RandomSingleton.nextInt(simulator.getMap().HEIGHT)));
 		simulator.addEntity(entityFactory.createInstance(o, this));
-
 	}
 
+	/**
+	 * Create and insert the {@link Entity} found in the stream into the {@link Controller#simulator}
+	 * using the {@link Controller#entityFactory}
+	 * @param in
+	 */
 	public void loadEntities(InputStream in) {
 		loadEntities(new JSONObject(new JSONTokener(in)).getJSONArray("entities"));
 	}
 
+	/**
+	 * Create and insert the {@link Entity} found in the JSONArray into the {@link Controller#simulator}
+	 * using the {@link Controller#entityFactory}
+	 * @param jsonInput
+	 */
 	public void loadEntities(JSONArray jsonInput) {
 		for (int i = 0; i < jsonInput.length(); i++) {
 			simulator.addEntity(entityFactory.createInstance(jsonInput.getJSONObject(i), this));
 		}
 	}
+	
+	/**
+	 * Insert the entities into the {@link Controller#simulator}
+	 * @param entities Entities to be insterted
+	 */
 	public void loadEntities(List<Entity> entities) {
 		simulator.addEntities(entities);
 	}
 
+	/**
+	 * Create and insert the {@link Event}s found in the stream into the {@link Controller#eventManager}
+	 * using the {@link Controller#eventFactory}
+	 * @param in
+	 */
 	public void loadEvents(InputStream in) {
 		loadEvents(new JSONObject(new JSONTokener(in)).getJSONArray("events"));
 	}
 
+	/**
+	 * Create and insert the {@link Event}s found in the JSONArray into the {@link Controller#eventManager}
+	 * using the {@link Controller#eventFactory}
+	 * @param jsonInput
+	 */
 	public void loadEvents(JSONArray jsonInput) {
 		for (int i = 0; i < jsonInput.length(); i++) {
 			eventManager.addEvent(eventFactory.createInstance(jsonInput.getJSONObject(i), this));
 		}
 	}
 
+	/**
+	 * Add a single {@link Event} into the {@link Controller#eventManager} using the {@link Controller#eventFactory}
+	 * @param in
+	 */
+	public void addEvent(InputStream in) {
+		eventManager.addEvent(eventFactory.createInstance(new JSONObject(new JSONTokener(in)), this));
+	}
+	
+	/**
+	 * Auxliliary method for getting the {@link Node} of a given set of coords
+	 * @param x
+	 * @param y
+	 * @return the {@link Node} with coords (x,y)
+	 */
 	public Node getNodeAt(int x, int y) {
 		return simulator.getNodeAt(x, y);
 	}
 
-	public void addEvent(InputStream in) {
-		eventManager.addEvent(eventFactory.createInstance(new JSONObject(new JSONTokener(in)), this));
+	/**
+	 * 
+	 * @return A valid random {@link Node}
+	 */
+	public Node randomNode() {
+		return simulator.getMap().getRandomNode();
 	}
+	
+	/**
+	 * 
+	 * @return The next id provided by {@link Controller#idGenerator}
+	 */
+	public String getNextId() {
+		return idGenerator.getNextId();
+	}
+	
+	/**
+	 * 
+	 * @return {@link Controller#simulator} JSON
+	 */
+	public JSONObject getSimulatorJSON() {
+		return simulator.toJSON();
+	}
+	
+	/**
+	 * Resets dynamic elements like {@link Controller#simulator} {@link Controller#eventManager} {@link Controller#idGenerator}
+	 * in order to reuse the {@link Controller} object without having to reload unnecesary attributes
+	 */
+	public void reset() {
+		this.simulator.reset();
+		this.eventManager.reset();
+		this.idGenerator = new IdGenerator();
+	}
+	
+	//GETTERS AND SETTERS
 	public Map getMap() {
 		return simulator.getMap();
 	}
 	public StatsManager getStatsManager() {
 		return statsManager;
-	}
-	public Node randomNode() {
-		return simulator.getMap().getRandomNode();
 	}
 	public List<Entity>getEntities(){
 		return this.simulator.getEntities();
@@ -125,11 +193,5 @@ public class Controller {
 	}
 	public AbstractGrammar getCommonGrammar2() {
 		return simulator.getCommonGrammar2();
-	}
-	public String getNextId() {
-		return idGenerator.getNextId();
-	}
-	public JSONObject getSimulatorJSON() {
-		return simulator.toJSON();
 	}
 }
