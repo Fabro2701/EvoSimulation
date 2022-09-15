@@ -6,11 +6,20 @@ public class Node {
 	public int x, y;
 	public float temperature, radiation, elevation;
 
-	public Node(int x, int y, int r, int g) {
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 * @param r temperature (red)
+	 * @param g radiation (green)
+	 * @param elevation elevation (green)
+	 */
+	public Node(int x, int y, float r, float g, float elevation) {
 		this.x = x;
 		this.y = y;
-		temperature = r;
-		radiation = g;
+		this.temperature = r;
+		this.radiation = g;
+		this.elevation = elevation;
 	}
 
 	public JSONObject toJSON() {
@@ -27,4 +36,10 @@ public class Node {
 	// return "("+Float.toString(temperature)+" - "+Float.toString(radiation)+" -
 	// "+Float.toString(food)+")";
 	// }
+	public static void main(String args[]) {
+		Node n = new Node(0,0,250/255f, 100/255f, 0);
+		System.out.println(n.elevation);
+		System.out.println(n.temperature);
+		System.out.println(n.radiation);
+	}
 }

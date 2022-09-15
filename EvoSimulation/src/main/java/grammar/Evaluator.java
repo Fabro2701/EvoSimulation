@@ -62,7 +62,7 @@ public class Evaluator {
 			
 			//result could be null or a Literal which in this case corresponds to an MOVE
 			String result=this._evaluate(query);
-						
+						System.out.println("res: "+result);
 			_current++;
 			_current%=_statements.size();
 			
@@ -70,7 +70,7 @@ public class Evaluator {
 			//there could be a program with a no guaranteed Literal to be reached, this way we avoid infinite loop
 			if(cont>=100)return MOVE.NEUTRAL;
 			
-			//if result is null the we continue with the while loop
+			//if result is null then we continue with the while loop
 			try {
 				MOVE move = MOVE.valueOf(result);
 				return move;
@@ -127,6 +127,12 @@ public class Evaluator {
 		//this is our returning statements in this case a MOVE
 		if(type.contains("Literal")) {
 			return query.getString("value");
+		}
+
+		//Return expression
+		if(type.equals("ReturnStatement")) {
+			return query.getJSONObject("expression").getString("name");
+			//return _evaluate(query.getJSONObject("expression"));
 		}
 		
 		//Normal expression
@@ -336,23 +342,15 @@ public class Evaluator {
 		this._variables.putAll(obs);
 	}
 	public static void main(String args[]) {
-		String test1 = "if(x && y){\n"
-					 + "	\"RIGHT\";\n"
-					 + "	if(y){\n"
-					 + "		\"UP\";\n"
-					 + "	}\n"
-					 + "    else{\n"
-					 + "        \"NEUTRAL\";"
-					 + "        \"LEFT\";"
-					 + "    }\n"
-					 + "    \"DOWN\";\n"
+		String test1 = "if(true){\n"
+					 + "	return RIGHT;\n"
 					 + "}";
 		Parser parser = new Parser();
 		JSONObject program = parser.parse(test1);
 		System.out.println(program.toString(4));
 		
 		Evaluator evaluator = new Evaluator(program);
-		evaluator._variables.put("x", "true");
+		evaluator._variables.put("RIGHT", "RIGHT");
 		evaluator._variables.put("y", "true");
 		System.out.println("Resulting move1: "+evaluator.getNext());
 		System.out.println("Resulting move2: "+evaluator.getNext());

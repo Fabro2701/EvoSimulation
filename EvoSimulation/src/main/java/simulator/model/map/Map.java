@@ -19,15 +19,17 @@ public class Map {
 	private Node[][] nodes;
 	private BufferedImage attributesImg;
 	private BufferedImage elevationImg;
+	private String fileName;
 	public int HEIGHT, WIDTH;
 
 	public Map(String fileName) {
+		this.fileName = fileName;
 		try {
 			this.attributesImg = ImageIO.read(new File("resources/maps/" + fileName + "/attributes.png"));
 			this.elevationImg = ImageIO.read(new File("resources/maps/" + fileName + "/elevation.png"));
 
-			if (attributesImg.getHeight() != elevationImg.getHeight())
-				System.out.println("Images dimensions are not equal");
+			if (attributesImg.getHeight() != elevationImg.getHeight() || attributesImg.getWidth() != elevationImg.getWidth())
+				System.err.println("Map loading: Images dimensions are not equal");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -39,7 +41,7 @@ public class Map {
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
 				Color color = new Color(attributesImg.getRGB(x, y), true);
-				nodes[y][x] = new Node(x, y, color.getRed()/255, color.getGreen()/255);
+				nodes[y][x] = new Node(x, y, color.getRed()/255f, color.getGreen()/255f, new Color(this.elevationImg.getRGB(x, y)).getGreen()/255f);
 			}
 		}
 

@@ -44,11 +44,20 @@ public class Parser {
 				return this.BlockStatement();
 			case "let":
 				return this.VariableStatement();
+			case "return":
+				return this.ReturnStatement();
 			default:
 				return this.ExpressionStatement();
 		}
 	}
 	
+	private JSONObject ReturnStatement() {
+		_eat("return");
+		JSONObject expression = this.Expression();
+		_eat(";");
+		return new JSONObject().put("type", "ReturnStatement")
+				   .put("expression", expression);
+	}
 	private JSONObject IfStatement() {
 		_eat("if");
 		_eat("(");
@@ -429,7 +438,7 @@ public class Parser {
 				+ "       neutral=true;\n"
 				+ "   }\n"
 				+ "}";
-		String e2 = "if(distLEFT>p[7]RIGHT){\"DOWN\";}";
+		String e2 = "if(distLEFT>p[7]RIGHT){return DOWN;}";
 		Parser parser = new Parser();
 		System.out.println(parser.parse(e2).toString(4));
 		

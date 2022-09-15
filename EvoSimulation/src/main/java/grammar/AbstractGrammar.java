@@ -335,5 +335,8 @@ public abstract class AbstractGrammar {
 		}
 		
 	}
+	public void reset() {
+		
+	}
 	
 }

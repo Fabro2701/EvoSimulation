@@ -17,8 +17,8 @@ public class BNFTokenizer {
 			   		   {"^->","->"},//rule declaration
 			   		   {"^<[\\d]+>","MERIT"},
 			   		   {"^<[\\w]+>","NTSYMBOL"},
-			   		   {"^'[\\w\\W&&[^']]+'","TSYMBOL"},
-			   		   {"^[\\w\\W&&[^|]&&[^.]&&[^\\s]]+","TSYMBOL"}};
+			   		   {"^'[\\w\\W&&[^'<]]+'","TSYMBOL"},
+			   		   {"^[\\w\\W&&[^|.\\s]]+","TSYMBOL"}};
 	public void init(String string) {
 		_cursor=0;
 		_string=string;
@@ -44,7 +44,6 @@ public class BNFTokenizer {
 		for(int i=0;i<Spec.length;i++) {
 			regexp=Spec[i][0];
 			tokenType=Spec[i][1];
-			
 			
 			tokenValue = this._match(regexp,string);
 			

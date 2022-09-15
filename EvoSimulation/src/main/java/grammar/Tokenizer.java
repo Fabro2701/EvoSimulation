@@ -17,6 +17,7 @@ public class Tokenizer {
 			   		   {"^[(]","("},
 			   		   {"^[)]",")"},
 			   		   {"^[,]",","},
+			   		   {"^\\breturn\\b","return"},
 			   		   {"^\\blet\\b","let"},
 			   		   {"^\\bif\\b","if"},
 			   		   {"^\\belse\\b","else"},
