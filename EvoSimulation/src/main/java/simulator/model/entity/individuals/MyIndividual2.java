@@ -125,8 +125,8 @@ public class MyIndividual2 extends MyIndividual{
 		
 	}
 	@Override
-	public MOVE getTheMove(HashMap<String,String>observations) {
-		MOVE move = phenotype.getNext(observations);
+	public MOVE getTheMove() {
+		MOVE move = phenotype.getNext(this.observationManager.getVariables());
 		if(move==null)return MOVE.NEUTRAL;		
 		
 		return move;

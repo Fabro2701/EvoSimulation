@@ -2,7 +2,7 @@ package simulator.model.entity;
 
 import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.DEFAULT_INITIAL_ENERGY;
-import static simulator.Constants.DEFAULT_WEIGHT;
+import static simulator.Constants.DEFAULT_INITIAL_WEIGHT;
 import static simulator.Constants.DEFAULT_INITIAL_REST_TIME;
 import static simulator.Constants.jsonView;
 
@@ -16,21 +16,14 @@ import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public abstract class Entity implements IInteract{
-	protected String type;
-	protected String id;
+	protected String type, id;
 	protected Image img;
 	public Node node;
-	public boolean active;
 	protected boolean alive;
-	protected float energy;
-	protected float weight;
-	protected int age;
-	protected int currentTime;
+	protected float energy, weight;
+	protected int age, currentTime, reproductionRestTime, generation, foodEaten;
 	protected Pheromone pheromone;
-	protected int reproductionRestTime;
-	protected  Controller ctrl;
-	protected int generation;
-	protected int foodEaten;
+	protected Controller ctrl;
 
 	public Entity(String id, Node n, Controller ctrl) {
 		this.ctrl=ctrl;
@@ -39,26 +32,40 @@ public abstract class Entity implements IInteract{
 		this.node = n;
 		this.alive = true;
 		this.energy = DEFAULT_INITIAL_ENERGY;
-		this.weight = DEFAULT_WEIGHT;
+		this.weight = DEFAULT_INITIAL_WEIGHT;
 		this.age = 0;
 		this.reproductionRestTime = DEFAULT_INITIAL_REST_TIME;
 		this.generation = 0;
 	}
 
+	/**
+	 * Updates the {@link Entity#age} and {@link Entity#currentTime}
+	 * @param evoSimulator
+	 */
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
 		age++;
 	}
-
-	public final MOVE getMove(HashMap<String,String>observations) {
-		MOVE m = getTheMove(observations);
+	
+	/**
+	 * Updates the {@link Entity#energy} depending on the {@link Entity#getTheMove} result
+	 * @param observations
+	 * @return resulting move
+	 */
+	public final MOVE getMove() {
+		MOVE m = getTheMove();
 		if (m != MOVE.NEUTRAL)
 			energy -= weight  * MOVEMENT_ENERGY_COST_CONSTANT;
 			//* this.node.elevation
 		return m;
 	}
-	public final int getAge() {return age;}
-	public abstract MOVE getTheMove(HashMap<String,String>observations);
+	protected abstract MOVE getTheMove();
+	
+	public void updateObservations(EvoSimulator evoSimulator) {
+		currentTime=evoSimulator.getTime();
+		age++;
+	}
+	
 	public abstract boolean shouldInteract();
 	@Override
 	public void interact(Entity e) {
@@ -120,5 +127,8 @@ public abstract class Entity implements IInteract{
 	}
 	public int getFoodEaten() {
 		return this.foodEaten;
+	}
+	public int getAge() {
+		return age;
 	}
 }

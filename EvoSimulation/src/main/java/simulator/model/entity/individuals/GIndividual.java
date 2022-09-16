@@ -1,40 +1,30 @@
 package simulator.model.entity.individuals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import grammar.AbstractGrammar;
-import simulator.Constants.MOVE;
 import simulator.control.Controller;
-import simulator.model.entity.observations.AbstractObservation;
-import simulator.model.entity.observations.ClosestEntityDistanceObservation;
-import simulator.model.entity.observations.ClosestEntityPheromoneObservation;
-import simulator.model.entity.observations.EntitiesCountObservation;
+import simulator.model.EvoSimulator;
+import simulator.model.entity.Entity;
+import simulator.model.entity.observations.ObservationManager;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public abstract class GIndividual extends AbstractIndividual{
 	protected AbstractGrammar grammar;
 	protected Genotype genotype;
-	protected List<AbstractObservation>_observations;
+	protected ObservationManager observationManager;
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
-		this._observations = new ArrayList<AbstractObservation>();
-		this._observations.add(new ClosestEntityDistanceObservation(this, MOVE.UP));
-		this._observations.add(new ClosestEntityDistanceObservation(this, MOVE.DOWN));
-		this._observations.add(new ClosestEntityDistanceObservation(this, MOVE.LEFT));
-		this._observations.add(new ClosestEntityDistanceObservation(this, MOVE.RIGHT));
-		this._observations.add(new EntitiesCountObservation(this, MOVE.UP));
-		this._observations.add(new EntitiesCountObservation(this, MOVE.DOWN));
-		this._observations.add(new EntitiesCountObservation(this, MOVE.LEFT));
-		this._observations.add(new EntitiesCountObservation(this, MOVE.RIGHT));
-		this._observations.add(new ClosestEntityPheromoneObservation(this, MOVE.UP));
-		this._observations.add(new ClosestEntityPheromoneObservation(this, MOVE.DOWN));
-		this._observations.add(new ClosestEntityPheromoneObservation(this, MOVE.LEFT));
-		this._observations.add(new ClosestEntityPheromoneObservation(this, MOVE.RIGHT));
-		// TODO Auto-generated constructor stub
+		observationManager = new ObservationManager(this);
 	}
-	public List<AbstractObservation> getObservations(){
-		return this._observations;
+	public void updateObservations(List<Entity>entities, Map map) {
+		observationManager.update(entities, map);
+	}
+	@Override
+	public void update(EvoSimulator evoSimulator) {
+		super.update(evoSimulator);
+		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 	}
 	public AbstractGrammar getGrammar() {
 		return grammar;

@@ -159,8 +159,8 @@ public class MyIndividual extends GIndividual{
 		
 	}
 	@Override
-	public MOVE getTheMove(HashMap<String,String>observations) {
-		MOVE move = phenotype.getNext(observations);
+	public MOVE getTheMove() {
+		MOVE move = phenotype.getNext(this.observationManager.getVariables());
 		if(move==null)return MOVE.NEUTRAL;		
 		
 		return move;
@@ -198,15 +198,15 @@ public class MyIndividual extends GIndividual{
 		
 		HashMap<String,String>r = new HashMap<String,String>();
 		
-		r.put("countUP", "0");
-		r.put("countRIGHT", "1");
-		r.put("countLEFT", "0");
-		r.put("countDOWN", "0");
-	
-		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));
-		System.out.println(m.getTheMove(r));
+//		r.put("countUP", "0");
+//		r.put("countRIGHT", "1");
+//		r.put("countLEFT", "0");
+//		r.put("countDOWN", "0");
+//	
+//		System.out.println(m.getTheMove(r));
+//		System.out.println(m.getTheMove(r));
+//		System.out.println(m.getTheMove(r));
+//		System.out.println(m.getTheMove(r));
 		
 		//new SimpleMazeFitnessTest(100).evaluate(m.toJSON());
 		//System.out.println(m.toJSON().toString(4));

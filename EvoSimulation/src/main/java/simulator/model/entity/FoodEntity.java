@@ -3,6 +3,7 @@ package simulator.model.entity;
 import javax.swing.ImageIcon;
 
 import simulator.Constants;
+import simulator.Constants.MOVE;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;

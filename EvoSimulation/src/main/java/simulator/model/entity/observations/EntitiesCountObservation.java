@@ -13,9 +13,8 @@ import util.Util;
 
 public class EntitiesCountObservation extends AbstractObservation{
 	private MOVE dir;
-	
-	public EntitiesCountObservation(Entity e, MOVE dir) {
-		super(e);
+
+	public EntitiesCountObservation(MOVE dir) {
 		this.dir = dir;
 	}
 	@Override
@@ -27,9 +26,9 @@ public class EntitiesCountObservation extends AbstractObservation{
 		//double dist;
 		int viewAx = 150;
 		//double viewD = ((double)viewAx*Math.sqrt(2))/2.0;
-		int x = -_entity.node.x + viewAx/2, y = -_entity.node.y + viewAx/2;
+		int x = -entity.node.x + viewAx/2, y = -entity.node.y + viewAx/2;
 		for(Entity e:entities) {
-			if(e != this._entity) {
+			if(e != entity) {
 				if(Util.isInQuadrant(dir, e.node.x - x, e.node.y - y, viewAx)) {
 				    cont++;
 				}

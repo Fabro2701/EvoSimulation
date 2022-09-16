@@ -62,7 +62,7 @@ public class Evaluator {
 			
 			//result could be null or a Literal which in this case corresponds to an MOVE
 			String result=this._evaluate(query);
-						System.out.println("res: "+result);
+			
 			_current++;
 			_current%=_statements.size();
 			

@@ -7,9 +7,11 @@ import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 
 public abstract class AbstractObservation {
-	Entity _entity;
-	public AbstractObservation(Entity e) {
-		this._entity=e;
+	Entity entity;
+	public AbstractObservation() {
 	}
 	public abstract HashMap<String, String>getObservation(List<Entity>entities, Map map);
+	public void setEntity(Entity entity) {
+		this.entity = entity;
+	}
 }

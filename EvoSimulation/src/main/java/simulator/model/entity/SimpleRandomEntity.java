@@ -19,7 +19,7 @@ public class SimpleRandomEntity extends ActiveEntity {
 	}
 
 	@Override
-	public MOVE getTheMove(HashMap<String,String>observations) {
+	public MOVE getTheMove() {
 		return MOVE.values()[RandomSingleton.nextInt(MOVE.values().length)];
 	}
 	/*
