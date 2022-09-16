@@ -28,7 +28,7 @@ public class ClosestEntityPheromoneObservation extends AbstractObservation{
 		int viewAx = 150;
 		//double viewD = ((double)viewAx*Math.sqrt(2))/2.0;
 		int x = -entity.node.x + viewAx/2, y = -entity.node.y + viewAx/2;
-		for(Entity e:entities) {
+		for(Entity e:this.manager.getVisibleEntities()) {
 			if(e != entity) {
 				if(Util.isInQuadrant(dir, e.node.x - x, e.node.y - y, viewAx)) {
 					dist = Util.nodeDistance(entity.node, e.node);

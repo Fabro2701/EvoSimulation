@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import simulator.Constants;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import statistics.visualizers.AreaChartVisualizer;
@@ -45,6 +46,17 @@ public class StatsManager extends JFrame implements StatsObserver{
 	public StatsManager() {
 		observers = new ArrayList<StatsObserver>();
 	}
+    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory){
+    	this();
+    	this.modelFactory = modelFactory;
+    	loadConfig(config);
+    	Dimension d = new Dimension(700,700);
+    	this.setMaximumSize(d);
+    	this.setMinimumSize(d);
+    	this.setPreferredSize(d);
+    	this.pack();
+    	this.setVisible(true);
+    }
 	/**
 	 * Load the default models
 	 * @param modelFactory factory
@@ -52,18 +64,8 @@ public class StatsManager extends JFrame implements StatsObserver{
 	public StatsManager(BuilderBasedFactory<StatsData> modelFactory){
 		this("default",modelFactory);
 	}
-    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory){
-    	this.modelFactory = modelFactory;
-    	observers = new ArrayList<StatsObserver>();
-    	loadConfig(config);
-    	Dimension d = new Dimension(700,700);
-    	this.setMaximumSize(d);
-    	this.setMinimumSize(d);
-    	this.setPreferredSize(d);
-    	this.setVisible(true);
-    }
     /**
-     * Load from filename the models to be displayed
+     * Loads from filename the models to be displayed
      * @param filename
      */
     public void loadConfig(String filename) {
@@ -81,7 +83,8 @@ public class StatsManager extends JFrame implements StatsObserver{
 			e.printStackTrace();
 		}
     	
-    	_panel = new JPanel(new GridLayout(3, 3));//this will be dynamically resized
+    	_panel = this.generateProperPanel(config.length());
+    	//_panel = new JPanel(new GridLayout(3, 3));//this will be dynamically resized
     	this.setContentPane(_panel);
     	
     	//read 
@@ -95,6 +98,11 @@ public class StatsManager extends JFrame implements StatsObserver{
     		_panel.add(visu.getPanel());
     	}
     	this.pack();
+    }
+    private JPanel generateProperPanel(int num) {
+    	final double ratio = Constants.STATS_PANEL_RATIO;
+    	int rows = (int)Math.ceil(num/ratio);
+    	return new JPanel(new GridLayout(rows, (int) ratio));
     }
     /**
      * Return a StatsVisualizer depending on the "visualizer" json attribute

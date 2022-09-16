@@ -36,13 +36,17 @@ public class ObservationManager {
 		observations.add(new ClosestEntityPheromoneObservation(MOVE.LEFT));
 		observations.add(new ClosestEntityPheromoneObservation(MOVE.RIGHT));
 		
-		observations.stream().forEach(o -> o.setEntity(entity));
+		observations.stream().forEach(o -> {
+			o.setEntity(entity);
+			o.setManager(this);
+		});
+		
 	}
 	public void update(List<Entity>entities, Map map) {
 		if(time%refreshRate == 0) {
 			this.setCommonVariables(entities, map);
 			observations.stream().forEach(
-					o -> this.variables.putAll(o.getObservation(visibleEntities, map))
+					o -> this.variables.putAll(o.getObservation(entities, map))
 			);
 		}
 		time++;

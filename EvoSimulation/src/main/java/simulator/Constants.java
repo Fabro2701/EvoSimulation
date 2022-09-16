@@ -19,6 +19,8 @@ public final class Constants {
 	public static final int RECOVERY_REST_TIME = 300;
 	public static final float DEFAULT_INITIAL_WEIGHT = 1f;
 	public static final int DEFAULT_OBSERVATIONS_REFRESH_RATE = 1;
+	
+	public static final int STATS_PANEL_RATIO = 3;
 
 	public enum MAP_TYPE {
 		LAND, VOID;//not used yet

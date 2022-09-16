@@ -8,10 +8,14 @@ import simulator.model.map.Map;
 
 public abstract class AbstractObservation {
 	Entity entity;
+	ObservationManager manager;
 	public AbstractObservation() {
 	}
 	public abstract HashMap<String, String>getObservation(List<Entity>entities, Map map);
 	public void setEntity(Entity entity) {
 		this.entity = entity;
+	}
+	public void setManager(ObservationManager manager) {
+		this.manager = manager;
 	}
 }
