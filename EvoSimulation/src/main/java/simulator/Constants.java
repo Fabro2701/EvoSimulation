@@ -21,6 +21,9 @@ public final class Constants {
 	public static final int DEFAULT_OBSERVATIONS_REFRESH_RATE = 1;
 	
 	public static final int STATS_PANEL_RATIO = 3;
+	
+	public static final float ENTITY_OBSERVATION_DISTANCE = 120f;//observation radius
+	
 
 	public enum MAP_TYPE {
 		LAND, VOID;//not used yet

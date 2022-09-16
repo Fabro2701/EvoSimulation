@@ -24,15 +24,16 @@ public class ClosestEntityDistanceObservation extends AbstractObservation{
 		
 		double minDist = Double.MAX_VALUE;
 		double dist;
-		int viewAx = 150;
-		//double viewD = ((double)viewAx*Math.sqrt(2))/2.0;
-		int x = -entity.node.x + viewAx/2, y = -entity.node.y + viewAx/2;
+		Entity cEntity = null;
+		int viewAx = (int) Constants.ENTITY_OBSERVATION_DISTANCE;
+		int x = entity.node.x - viewAx, y = entity.node.y - viewAx;
 		for(Entity e:this.manager.getVisibleEntities()) {
 			if(e != entity) {
 				if(Util.isInQuadrant(dir, e.node.x - x, e.node.y - y, viewAx)) {
 					dist = Util.nodeDistance(entity.node, e.node);
 			    	if(dist  < minDist) {
 						minDist = dist;
+						cEntity = e;
 					}
 				    
 				}
@@ -41,7 +42,7 @@ public class ClosestEntityDistanceObservation extends AbstractObservation{
 		}
 		
 		o.put("dist"+dir, String.valueOf((int)minDist));
-		
+		this.manager.getClosestEntity().put(this.dir, cEntity);
 		
 		return o;
 	}

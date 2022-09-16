@@ -24,10 +24,10 @@ public class ClosestEntityPheromoneObservation extends AbstractObservation{
 		Pheromone p = new Pheromone();
 		
 		double minDist = Double.MAX_VALUE;
-		double dist;
-		int viewAx = 150;
-		//double viewD = ((double)viewAx*Math.sqrt(2))/2.0;
-		int x = -entity.node.x + viewAx/2, y = -entity.node.y + viewAx/2;
+		double dist;		
+		Entity cEntity = null;
+		int viewAx = (int) Constants.ENTITY_OBSERVATION_DISTANCE;
+		int x = entity.node.x - viewAx, y = entity.node.y - viewAx;
 		for(Entity e:this.manager.getVisibleEntities()) {
 			if(e != entity) {
 				if(Util.isInQuadrant(dir, e.node.x - x, e.node.y - y, viewAx)) {
@@ -35,16 +35,16 @@ public class ClosestEntityPheromoneObservation extends AbstractObservation{
 			    	if(dist  < minDist) {
 						minDist = dist;
 						p = e.getPheromone();
+						cEntity = e;
 					}
-				    
 				}
-			    	
 			}
 		}
 		
 		for(int i=0;i<Constants.PHEROMONE_LENGTH;i++) {
 			o.put("p["+i+"]"+dir, String.valueOf(p.get(i).intValue()));
 		}
+		this.manager.getClosestEntity().put(this.dir, cEntity);
 		
 		
 		return o;
