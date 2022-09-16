@@ -8,7 +8,7 @@ import java.util.EnumMap;
 
 import javax.swing.ImageIcon;
 
-import simulator.Constants.MAP_TYPE;
+import simulator.Constants.NODE_TYPE;
 import simulator.model.map.creator.MapCreator.PanelManager;
 
 /**
@@ -28,19 +28,19 @@ public class TerrainPanel extends AbstractCreatorPanel {
 	protected class Controller extends AbstractCreatorPanel.Controller {
 		protected int strokeSize;
 		// selection is the current MAP_TYPE (Land,Void)
-		protected MAP_TYPE selection;
+		protected NODE_TYPE selection;
 		// featureMap map of MAP_TYPE's
-		protected EnumMap<MAP_TYPE, Color> featureMap;
+		protected EnumMap<NODE_TYPE, Color> featureMap;
 
 		public Controller(int width, int height, Color initColor) {
 			super(width, height, initColor);
 
-			strokeSize = 50;
+			strokeSize = 50; 
 
-			featureMap = new EnumMap<MAP_TYPE, Color>(MAP_TYPE.class);
-			featureMap.put(MAP_TYPE.LAND, new Color(255, 255, 255, 255));
-			featureMap.put(MAP_TYPE.VOID, new Color(0, 0, 0, 255));
-			selection = MAP_TYPE.LAND;
+			featureMap = new EnumMap<NODE_TYPE, Color>(NODE_TYPE.class);
+			featureMap.put(NODE_TYPE.LAND, new Color(255, 255, 255, 255));
+			featureMap.put(NODE_TYPE.VOID, new Color(0, 0, 0, 255));
+			selection = NODE_TYPE.LAND;
 
 			img = new ModificationImage(new ImageIcon(bufferImage));
 
@@ -63,9 +63,9 @@ public class TerrainPanel extends AbstractCreatorPanel {
 
 		public void setSelection(String selectedItem) {
 			if (selectedItem.equals("Land")) {
-				selection = MAP_TYPE.LAND;
+				selection = NODE_TYPE.LAND;
 			} else {
-				selection = MAP_TYPE.VOID;
+				selection = NODE_TYPE.VOID;
 			}
 		}
 

@@ -193,7 +193,7 @@ public class MyIndividual extends GIndividual{
 	}
 	
 	public static void main(String args[]) {
-		MyIndividual m = new MyIndividual("-2",new Node(0,0,255,255,255),null);
+		MyIndividual m = new MyIndividual("-2",new Node(0,0,255,255,255,null),null);
 		System.out.println(m.phenotype.getVisualCode());
 		
 		HashMap<String,String>r = new HashMap<String,String>();

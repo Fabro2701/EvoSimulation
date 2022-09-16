@@ -32,7 +32,9 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 	protected BufferedImage bufferImage;
 	protected Graphics2D bufferGraphics;
 	protected boolean active;
+	Controller ctrl;
 	public AbstractViewer(Controller ctrl, int width, int height) {
+		this.ctrl = ctrl;
 		bufferImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		bufferGraphics = bufferImage.createGraphics();
 		ctrl.addObserver(this);

@@ -1,9 +1,10 @@
 package test;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class B extends JFrame {
 	String s;
@@ -28,6 +29,8 @@ public class B extends JFrame {
 		return s;
 	}
 	public static void main(String args[]) {
+		
+		System.out.println(new Color(new Color(123,255,200,100).getRGB()&2147483647));
 		
 		B b1 = new B("a1");
 		B b2 = b1;

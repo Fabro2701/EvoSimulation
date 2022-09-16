@@ -1,5 +1,6 @@
 package simulator.view.viewer;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +13,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.Node;
+
+import simulator.Constants.NODE_TYPE;
 import simulator.control.Controller;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
@@ -61,8 +65,18 @@ public class Viewer extends AbstractViewer {
 	}
 
 	public void updateImage() {
-		
+		bufferGraphics.setColor(Color.white);
+		bufferGraphics.fillRect(0, 0, this.getHeight(), this.getWidth());
 		bufferGraphics.drawImage(mapImg, 0, 0, null);
+//		Map map = ctrl.getMap();
+//		for (int i = 0; i < mapImg.getHeight(null); i ++) {
+//			for (int j = 0; j < mapImg.getWidth(null); j ++) {
+//				if(map.getNodeAt(j, i).type == NODE_TYPE.LAND) {
+//					
+//				}
+//			}
+//		}
+		bufferGraphics.setColor(Color.white);
 		int gridSize = 20;
 		for (int i = 0; i < this.getHeight(); i += gridSize) {
 			for (int j = 0; j < this.getWidth(); j += gridSize) {

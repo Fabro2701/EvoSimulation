@@ -18,7 +18,7 @@
                 "times":30000,
                 "interval":300,
                 "typeTo":"mi",
-                "amount":400,
+                "amount":4,
 	        "init":"simulator.model.entity.initializer.SensibleInitializer",
 	        "properties":{
 			     "maxDepth":30

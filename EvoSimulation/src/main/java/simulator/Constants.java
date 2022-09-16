@@ -25,7 +25,7 @@ public final class Constants {
 	public static final float ENTITY_OBSERVATION_DISTANCE = 120f;//observation radius
 	
 
-	public enum MAP_TYPE {
+	public enum NODE_TYPE {
 		LAND, VOID;//not used yet
 	}
 

@@ -8,14 +8,12 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar;
 import grammar.BiasedGrammar;
-import grammar.Grammar;
 import grammar.IntronGrammar;
 import simulator.model.entity.Entity;
-import simulator.model.entity.individuals.GIndividual;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.Optimizer;
-import simulator.model.optimizer.UniformGridOptimizer;
 
 /**
  * EvoSimulator class
@@ -52,8 +50,8 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		this.optimizer = new UniformGridOptimizer(this,3,3);
-		//this.optimizer = new BasicOptimizer(this);
+		//this.optimizer = new UniformGridOptimizer(this,3,3);
+		this.optimizer = new BasicOptimizer(this);
 		
 		this.commonGrammar = new BiasedGrammar();
 		this.commonGrammar.parseBNF("defaultBias");
@@ -160,7 +158,8 @@ public class EvoSimulator {
 		}
 		return new JSONObject().put("time", time)//.put("map", map.toJSON())// ?too heavy
 							   .put("entities", entitiesArr)
-							   .put("commonGrammar", commonGrammar.toString());
+							   .put("commonGrammar", commonGrammar.toString())
+							   .put("map", map.getFileName());
 	}
 	
 	/**
