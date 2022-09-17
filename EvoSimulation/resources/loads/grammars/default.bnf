@@ -5,7 +5,9 @@
 <OBS> ->  'count'<M>|  'dist'<M>|'p[' <Pidx> ']'<M>.
 <OP> -> '<'|>|'<='|>=.
 <AR> -> +|*|-.
-<ACTION> -> RIGHT|LEFT|UP|DOWN|NEUTRAL.
+<ACTION> -> <MOVE>|<CACTION>.
+<MOVE> -> RIGHT|LEFT|UP|DOWN|NEUTRAL.
+<CACTION> -> CHASE_<M>.
 <M> -> RIGHT|LEFT|UP|DOWN.
 <V> -> 0|1|2|3|4|5|6|7.
 <Pidx> -> 0|1|2|3|4|5|6|7.

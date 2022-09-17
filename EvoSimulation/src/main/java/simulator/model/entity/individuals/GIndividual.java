@@ -13,6 +13,7 @@ import simulator.model.map.Node;
 public abstract class GIndividual extends AbstractIndividual{
 	protected AbstractGrammar grammar;
 	protected Genotype genotype;
+	protected Phenotype phenotype;
 	protected ObservationManager observationManager;
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
@@ -50,7 +51,6 @@ public abstract class GIndividual extends AbstractIndividual{
 		this.phenotype = phenotype;
 	}
 
-	protected Phenotype phenotype;
 	
 	
 

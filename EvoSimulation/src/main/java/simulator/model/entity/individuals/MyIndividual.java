@@ -26,20 +26,29 @@ import simulator.model.map.Node;
 import util.Pair;
 
 public class MyIndividual extends GIndividual{
-	protected List<Entity>childs;
+	protected List<Entity>children;
 
+	/**
+	 * Base Constructor
+	 * @param ctrl
+	 * @param id
+	 * @param n
+	 */
+	private MyIndividual(Controller ctrl, String id, Node n) {
+		super(id, n, ctrl);
+		type = "mi";
+		img = new ImageIcon("resources/entities/myentity.png").getImage();
+		grammar = ctrl.getCommonGrammar();
+		children = new ArrayList<Entity>();
+	}
 	/**
 	 * Main constructor used by factories for creating random entities
 	 * @param id
 	 * @param n node
 	 * @param ctrl
 	 */
-	public MyIndividual(String id, Node n, Controller ctrl) {
-		super(id, n, ctrl);
-		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
-		//grammar = new Grammar("s");
-		grammar = ctrl.getCommonGrammar();
+	public MyIndividual(String id, Node node, Controller ctrl) {
+		this(ctrl, id, node);
 		Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
 		
 						   
@@ -60,7 +69,7 @@ public class MyIndividual extends GIndividual{
 		}
 		else phenotype = new Phenotype(crom);
 		
-		childs = new ArrayList<Entity>();
+		
 
 	}
 	/**
@@ -70,11 +79,7 @@ public class MyIndividual extends GIndividual{
 	 * @param generation The greatest generation of parents
 	 */
 	public MyIndividual(Genotype geno, Controller ctrl, int generation) {
-		super(ctrl.getNextId(), ctrl.randomNode(), ctrl);
-		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
-		//grammar = new Grammar("s");
-		grammar = ctrl.getCommonGrammar();
+		this(ctrl, ctrl.getNextId(), ctrl.randomNode());
 		genotype = new Genotype(geno.get(0));
 		mutate();
 		LinkedList<Symbol> crom = grammar.parse(genotype.get(0));
@@ -86,7 +91,6 @@ public class MyIndividual extends GIndividual{
 		}
 		else phenotype = new Phenotype(crom);
 		
-		childs = new ArrayList<Entity>();
 		this.generation =  generation+1;
 
 	}
@@ -97,11 +101,7 @@ public class MyIndividual extends GIndividual{
 	 * @param generation The greatest generation of parents
 	 */
 	public MyIndividual(String id, Node node, Chromosome c, Controller ctrl) {
-		super(id, node, ctrl);
-		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
-		//grammar = new Grammar("s");
-		grammar = ctrl.getCommonGrammar();
+		this(ctrl, id, node);
 		genotype = new Genotype(c);
 		LinkedList<Symbol> crom = grammar.parse(genotype.get(0));
 		
@@ -116,28 +116,16 @@ public class MyIndividual extends GIndividual{
 			//System.out.println(phenotype.getVisualCode());
 		}
 		
-		childs = new ArrayList<Entity>();
 	}
 	public MyIndividual(String id, Node node, String code, Controller ctrl) {
-		super(id, node, ctrl);
-		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
+		this(ctrl, id, node);
 		
 		genotype = null;
-		//System.out.println("parsing "+code);
 		phenotype = new Phenotype(code);
-		childs = new ArrayList<Entity>();
 	}
-	public MyIndividual(String id, Node n, JSONObject genotype, JSONObject phenotype, float energy, Controller ctrl) {
-		super(id, n, ctrl);
+	public MyIndividual(String id, Node node, JSONObject genotype, JSONObject phenotype, float energy, Controller ctrl) {
+		this(ctrl, id, node);
 		this.energy=energy;
-		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
-		//grammar = new Grammar("s");
-		grammar = ctrl.getCommonGrammar();
-		
-
-		
 		this.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {
@@ -145,9 +133,6 @@ public class MyIndividual extends GIndividual{
 			this.phenotype = new Phenotype();
 		}
 		else this.phenotype = new Phenotype(phenotype);
-		
-		childs = new ArrayList<Entity>();
-
 		
 	}
 	public void mutate() {
@@ -160,19 +145,33 @@ public class MyIndividual extends GIndividual{
 	public void update(EvoSimulator simulator) {
 		super.update(simulator);
 		
-		if(childs.size()!=0) {
-			simulator.addEntity(childs.get(0));
-			simulator.addEntity(childs.get(1));
-			childs.clear();
+		if(children.size()!=0) {
+			simulator.addEntity(children.get(0));
+			simulator.addEntity(children.get(1));
+			children.clear();
 		}
 		
 	}
 	@Override
 	public MOVE getTheMove() {
 		MOVE move = phenotype.getNext(this.observationManager.getVariables());
-		if(move==null)return MOVE.NEUTRAL;		
+
+		if(move==null)return MOVE.NEUTRAL;
 		
+		if(move.isPseudo()) {
+			return calculatePseudoMove(move);
+		}
 		return move;
+	}
+	private MOVE calculatePseudoMove(MOVE move) {
+		String[] rs = move.toString().split("_");
+		MOVE m = MOVE.valueOf(rs[1]);
+		//CHASE
+		Entity e = this.observationManager.getClosestEntity().get(m);
+
+		if(e==null)return MOVE.NEUTRAL;
+		
+		return util.Util.getNextMoveTo(this.node, e.node, ctrl.getMap());
 	}
 	@Override
 	public void recieveActiveEntityInteraction(Entity e) {
@@ -180,8 +179,8 @@ public class MyIndividual extends GIndividual{
 			if(this.getClass().equals(e.getClass())&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
 				ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
 				Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
-				childs.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
-				childs.add(new MyIndividual(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
+				children.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
+				children.add(new MyIndividual(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
 				
 				this.setReproductionRestTime(RECOVERY_REST_TIME);
 				e.setReproductionRestTime(RECOVERY_REST_TIME);

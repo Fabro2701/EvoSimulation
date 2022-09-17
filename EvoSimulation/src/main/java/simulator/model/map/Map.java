@@ -103,12 +103,14 @@ public class Map {
 				return searchNextNonVoid(this.nodes[newPos.second][newPos.first], move);
 			}
 			else {
+				
 				return getValidWallRestrictedMove(node, move);
 			}
 		}		
 	}
 	private Node searchNextNonVoid(Node node, MOVE move) {
 		int x= node.x,y=node.y;
+		int cont=0;
 		while(this.nodes[y][x].type == NODE_TYPE.VOID) {
 			Pair<Integer, Integer> change = move.getPosChange();
 			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(node.x + change.first,
@@ -120,9 +122,27 @@ public class Map {
 			
 			x = newPos.first;
 			y = newPos.second;
+			cont++;
+			if(cont>=Math.max(this.HEIGHT, this.WIDTH)) {
+				System.err.println("node loop: "+node+"  "+move);
+				return this.getRandomNode();
+			}
 		}
 		return this.nodes[y][x];
 	}
+//	node loop: {"elevation":0.49803922,"x":1,"temperature":0.67058825,"y":562,"radiaton":0.29411766,"type":"VOID"}  RIGHT
+//	node loop: {"elevation":0.49803922,"x":1,"temperature":0.67058825,"y":571,"radiaton":0.27450982,"type":"VOID"}  RIGHT
+//	-------- Simulation velocity-1: 2187
+//	node loop: {"elevation":0.49803922,"x":998,"temperature":0,"y":463,"radiaton":0,"type":"VOID"}  LEFT
+//	-------- Simulation velocity-1: 2143
+//	-------- Simulation velocity-1: 1818
+//	max: 599
+//	max: 4
+//	node loop: {"elevation":0.49803922,"x":513,"temperature":0,"y":1,"radiaton":0,"type":"VOID"}  DOWN
+//	-------- Simulation velocity-1: 2040
+//	node loop: {"elevation":0.49803922,"x":511,"temperature":0,"y":1,"radiaton":0,"type":"VOID"}  DOWN
+//	node loop: {"elevation":0.49803922,"x":998,"temperature":0,"y":467,"radiaton":0,"type":"VOID"}  LEFT
+//	
 	/**
 	 * Returns the resulting position of the node + move 
 	 * the borderlands cannot be passed
@@ -153,8 +173,8 @@ public class Map {
 	 */
 	public Node getValidMove(Node node, MOVE move) {
 		if(move == MOVE.NEUTRAL)return node;
-		//return getValidWallRestrictedMove(node,move);
-		return getValidModuloMove(node,move);
+		return getValidWallRestrictedMove(node,move);
+		//return getValidModuloMove(node,move);
 	}
 
 	public JSONArray toJSON() {

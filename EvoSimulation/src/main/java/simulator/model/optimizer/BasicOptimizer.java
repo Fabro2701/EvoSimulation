@@ -20,11 +20,11 @@ public class BasicOptimizer extends Optimizer{
 	@Override
 	public void update(Map map, List<Entity> entities, int time) {
 		
-		
+
 		for (Entity e : entities) {
 			e.update(simulator);
 		}
-		
+
 		// entities movements
 		for (Entity e : entities) {
 			MOVE move = e.getMove();

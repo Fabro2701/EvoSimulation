@@ -10,6 +10,7 @@ import simulator.control.Controller;
 import simulator.events.MultipleTimeEvent;
 import simulator.model.entity.Entity;
 import simulator.model.entity.FoodEntity;
+import simulator.model.map.Node;
 
 /**
  * AddFoodConditionGeneratorEvent creates an certain amount of food 
@@ -43,21 +44,16 @@ public class AddFoodConditionGeneratorEvent extends MultipleTimeEvent{
 		JSONArray arr = new JSONArray();
 		
 
-		int centerX = ctrl.getMap().WIDTH/2;
-		int centerY= ctrl.getMap().WIDTH/2;
-		int radiusX = ctrl.getMap().WIDTH/2 -1;
-		int radiusY = ctrl.getMap().HEIGHT/2 -1;
+		
 		for(int i=0;i<foodAmount;i++) {
-			int x = RandomSingleton.nextInt(1+radiusX*2)-radiusX;
-			int y = RandomSingleton.nextInt(1+radiusY*2)-radiusY;
-			
+			Node node = ctrl.randomNode();
 			//we create a JSONObject, ctrl will instantiate the real object
 			JSONObject o = new JSONObject();
 			o.put("type", "f");
 			JSONObject data = new JSONObject();
 			data.put("id", "0");
-			data.put("x", centerX+x);
-			data.put("y", centerY+y);
+			data.put("x", node.x);
+			data.put("y", node.y);
 			o.put("data", data);
 			
 			arr.put(o);

@@ -17,7 +17,6 @@ public class Parser {
 		_string = string;
 		_tokenizer.init(string);
 		
-		
 		this._lookahead = this._tokenizer.getNextToken();
 		return this.Program();
 	}

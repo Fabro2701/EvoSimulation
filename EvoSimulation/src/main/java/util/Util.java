@@ -1,7 +1,10 @@
 package util;
 
 import static simulator.Constants.INTERACTION_DISTANCE;
-import static simulator.Constants.MOVE.*;
+import static simulator.Constants.MOVE.DOWN;
+import static simulator.Constants.MOVE.LEFT;
+import static simulator.Constants.MOVE.RIGHT;
+import static simulator.Constants.MOVE.UP;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -9,13 +12,30 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.Chromosome;
 import simulator.model.entity.individuals.Genotype;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class Util {
+
+	public static MOVE getNextMoveTo(Node node, Node node2, Map map) {
+		double minDist = 100000d;
+		MOVE move = MOVE.NEUTRAL;
+		for(MOVE m:MOVE.values()) {
+			if(!m.isPseudo()) {
+				double dist = nodeDistance(map.getValidMove(node, m), node2);
+				if(dist<minDist) {
+					minDist = dist;
+					move = m;
+				}
+			}
+		}
+		return move;
+	}
 	public static boolean isInQuadrant(MOVE m, int x, int y, int l) {
 		switch(m) {
 			case DOWN:

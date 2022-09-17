@@ -28,7 +28,7 @@ public class Node {
 
 	public JSONObject toJSON() {
 		return new JSONObject().put("x", x).put("y", y).put("temperature", temperature).put("radiaton", radiation)
-				.put("elevation", elevation);
+				.put("elevation", elevation).put("type", type);
 	}
 
 	@Override

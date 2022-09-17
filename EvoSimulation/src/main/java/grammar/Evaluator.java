@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.Constants.MOVE;
+import util.Util;
 
 /**
  * Evaluator evaluates a given AST and returns the next MOVE storing the cursor of the program
@@ -75,6 +76,10 @@ public class Evaluator {
 				MOVE move = MOVE.valueOf(result);
 				return move;
 			}catch (Exception e) {
+//				if(result!=null&&result.contains("_")) {
+//					String[] rs = result.split("_");
+//					Util.calculateMove(rs[0],MOVE.valueOf(rs[1]));
+//				}
 				//continue with the next statement
 			}
 			

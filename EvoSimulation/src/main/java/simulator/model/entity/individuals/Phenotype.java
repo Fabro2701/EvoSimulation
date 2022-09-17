@@ -17,7 +17,7 @@ import simulator.Constants.MOVE;
  *
  */
 public class Phenotype extends LinkedList<Symbol>{
-	String visualization;
+	String visualization, code;
 	boolean valid;
 	Evaluator evaluator;
 	public Phenotype() {
@@ -31,9 +31,11 @@ public class Phenotype extends LinkedList<Symbol>{
 		evaluator = new Evaluator(parser.parse(this.getVisualCode()));
 	}
 	public Phenotype(String code) {
+		super();
 		valid=true;
 		Parser parser = new Parser();
 		evaluator = new Evaluator(parser.parse(code));
+		visualization = code;
 	}
 	public Phenotype(JSONObject o) {
 		super();
@@ -97,6 +99,14 @@ public class Phenotype extends LinkedList<Symbol>{
 			setVisualization();
 		}
 		return visualization;
+	}
+	public String getCode() {
+		if(code==null) {
+			StringBuilder st = new StringBuilder();
+			this.stream().forEach(s -> st.append(s));
+			code = st.toString();
+		}
+		return code;
 	}
 	public JSONObject toJSON() {
 		return new JSONObject().put("code", this.getVisualCode());

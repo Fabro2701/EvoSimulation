@@ -17,8 +17,8 @@ public class BNFTokenizer {
 			   		   {"^->","->"},//rule declaration
 			   		   {"^<[\\d]+>","MERIT"},
 			   		   {"^<[\\w]+>","NTSYMBOL"},
-			   		   {"^'[\\w\\W&&[^'<]]+'","TSYMBOL"},
-			   		   {"^[\\w\\W&&[^|.\\s]]+","TSYMBOL"}};
+			   		   {"^'[^']+'","TSYMBOL"},
+			   		   {"^[^|.<\\s]+","TSYMBOL"}};
 	public void init(String string) {
 		_cursor=0;
 		_string=string;

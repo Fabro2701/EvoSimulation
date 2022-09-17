@@ -85,7 +85,7 @@ public class Main {
 		
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
-		simulator = new EvoSimulator("testvoid2");simulator.setDebug(true);
+		simulator = new EvoSimulator("test1000void");simulator.setDebug(true);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		
 		try {

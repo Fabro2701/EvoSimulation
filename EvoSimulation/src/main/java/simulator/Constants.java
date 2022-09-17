@@ -31,22 +31,36 @@ public final class Constants {
 
 	public enum MOVE { 
 		
-		UP(new Pair<>(0, -1)) {
+		UP(new Pair<>(0, -1),false) {
 		},
-		RIGHT(new Pair<>(1, 0)) {
+		RIGHT(new Pair<>(1, 0),false) {
 		},
-		DOWN(new Pair<>(0, 1)) {
+		DOWN(new Pair<>(0, 1),false) {
 		},
-		LEFT(new Pair<>(-1, 0)) {
+		LEFT(new Pair<>(-1, 0),false) {
 		},
-		NEUTRAL(new Pair<>(0, 0)) {
+		NEUTRAL(new Pair<>(0, 0),false) {
+		},
+		//pseudo moves
+		CHASE_UP(new Pair<>(0, -1),true) {
+		},
+		CHASE_RIGHT(new Pair<>(1, 0),true) {
+		},
+		CHASE_DOWN(new Pair<>(0, 1),true) {
+		},
+		CHASE_LEFT(new Pair<>(-1, 0),true) {
 		};
 		Pair<Integer, Integer>change;
+		boolean pseudo;
 		public Pair<Integer, Integer> getPosChange(){
 			return change;
 		}
-		private MOVE(Pair<Integer, Integer>change) {
+		public boolean isPseudo() {
+			return pseudo;
+		}
+		private MOVE(Pair<Integer, Integer>change, boolean pseudo) {
 			this.change = change;
+			this.pseudo = pseudo;
 		}
 	}
 	
