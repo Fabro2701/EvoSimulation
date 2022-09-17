@@ -6,4 +6,7 @@ public interface IInteract {
 	public default void myInteract(Entity e) {};
 
 	public default void recieveActiveEntityInteraction(Entity e) {};
+	
+	public default void recieveActiveEntityReproductionInteraction(Entity e) {};
+	public default void recieveActiveEntityAttackInteraction(Entity e) {};
 }

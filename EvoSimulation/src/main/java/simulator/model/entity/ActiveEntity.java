@@ -1,19 +1,20 @@
 package simulator.model.entity;
 
 import static simulator.Constants.FOOD_ENERGY_GIVEN_CONSTANT;
-import static simulator.Constants.HEAT_LIVE_ENERGY_COST_CONSTANT;
 import static simulator.Constants.LIVE_ENERGY_COST_CONSTANT;
 
+import simulator.Constants.ACTION;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public abstract class ActiveEntity extends Entity {
-
+	ACTION action;
 	public ActiveEntity(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		pheromone = new Pheromone();
 		pheromone.init(this);
+		this.action = ACTION.NOTHING;
 	}
 
 	@Override
@@ -38,9 +39,27 @@ public abstract class ActiveEntity extends Entity {
 
 	@Override
 	public void myInteract(Entity e) {
-		e.recieveActiveEntityInteraction(this);
+		if(e instanceof PasiveEntity) {
+			e.recieveActiveEntityInteraction(this);
+			return;
+		}
+		if(action == ACTION.REPRODUCTION) {
+			e.recieveActiveEntityReproductionInteraction(this);
+		}
+		else if(action == ACTION.ATTACK) {
+			e.recieveActiveEntityAttackInteraction(this);
+		}
+		//e.recieveActiveEntityInteraction(this);
 	}
 	@Override
 	public boolean shouldInteract() {return true;}
+
+	public ACTION getAction() {
+		return action;
+	}
+
+	public void setAction(ACTION action) {
+		this.action = action;
+	}
 
 }

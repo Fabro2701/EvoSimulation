@@ -5,11 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.events.MultipleTimeEvent;
 import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.entity.initializer.AbstractInitializer;
+import simulator.model.map.Node;
 
 public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 	private String typeTo;
@@ -56,8 +56,9 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 				if(id.equals("r"))data.put("id", ctrl.getNextId());
 				else data.put("id", this.id);
 				
-				data.put("x", RandomSingleton.nextInt(ctrl.getMap().WIDTH));
-				data.put("y", RandomSingleton.nextInt(ctrl.getMap().HEIGHT));
+				Node node = ctrl.randomNode();
+				data.put("x", node.x);
+				data.put("y", node.y);
 				o.put("data", data);
 				arr.put(o);
 			}

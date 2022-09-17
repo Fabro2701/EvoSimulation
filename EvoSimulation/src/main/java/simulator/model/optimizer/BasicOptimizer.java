@@ -30,6 +30,13 @@ public class BasicOptimizer extends Optimizer{
 			MOVE move = e.getMove();
 			e.setNewNode(map.getValidMove(e.node, move));
 		}
+		
+		// entities actions
+		for (Entity e : entities) {
+			if(e instanceof ActiveEntity) {
+				((ActiveEntity)e).setAction(e.getAction());
+			}
+		}
 
 		// entities interactions
 		for (Entity e1 : entities) {	

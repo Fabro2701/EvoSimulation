@@ -14,6 +14,8 @@ public final class Constants {
 	public static final float REPRODUCTION_COST = 20.f;
 	
 	public static final int CHROMOSOME_LENGTH = 70;
+	public static final int PLOIDY = 2;
+	
 	public static final float DEFAULT_INITIAL_ENERGY = 100f;
 	public static final int DEFAULT_INITIAL_REST_TIME = 300;
 	public static final int RECOVERY_REST_TIME = 300;
@@ -26,9 +28,12 @@ public final class Constants {
 	
 
 	public enum NODE_TYPE {
-		LAND, VOID;//not used yet
+		LAND, VOID;
 	}
 
+	public enum ACTION {
+		NOTHING, REPRODUCTION, ATTACK;
+	}
 	public enum MOVE { 
 		
 		UP(new Pair<>(0, -1),false) {
@@ -49,18 +54,26 @@ public final class Constants {
 		CHASE_DOWN(new Pair<>(0, 1),true) {
 		},
 		CHASE_LEFT(new Pair<>(-1, 0),true) {
+		},
+		RUNAWAY_UP(new Pair<>(0, -1),true) {
+		},
+		RUNAWAY_RIGHT(new Pair<>(1, 0),true) {
+		},
+		RUNAWAY_DOWN(new Pair<>(0, 1),true) {
+		},
+		RUNAWAY_LEFT(new Pair<>(-1, 0),true) {
 		};
 		Pair<Integer, Integer>change;
 		boolean pseudo;
+		private MOVE(Pair<Integer, Integer>change, boolean pseudo) {
+			this.change = change;
+			this.pseudo = pseudo;
+		}
 		public Pair<Integer, Integer> getPosChange(){
 			return change;
 		}
 		public boolean isPseudo() {
 			return pseudo;
-		}
-		private MOVE(Pair<Integer, Integer>change, boolean pseudo) {
-			this.change = change;
-			this.pseudo = pseudo;
 		}
 	}
 	

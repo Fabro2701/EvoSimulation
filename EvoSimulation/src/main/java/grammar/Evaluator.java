@@ -2,13 +2,12 @@ package grammar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
-import util.Util;
 
 /**
  * Evaluator evaluates a given AST and returns the next MOVE storing the cursor of the program
@@ -42,10 +41,10 @@ public class Evaluator {
 		_current=0;
 	}
 	/**
-	 * Returns the next MOVE in the program given the internal cursor 
+	 * Returns the next result in the program given the internal cursor 
 	 * @return
 	 */
-	public MOVE getNext() {
+	public String getNextResult() {
 		//cont tracks the number of statements processed 
 		int cont=0;
 		while(true) {
@@ -58,7 +57,7 @@ public class Evaluator {
 			if(deletions>0) {
 				_current%=_statements.size();
 				//_current--;//we go back the previous statement (not really beacuse we have to advande to the next)
-				return getNext();//we call getNext again to make sure the next statement is retested
+				return getNextResult();//we call getNext again to make sure the next statement is retested
 			}
 			
 			//result could be null or a Literal which in this case corresponds to an MOVE
@@ -69,21 +68,27 @@ public class Evaluator {
 			
 			cont++;
 			//there could be a program with a no guaranteed Literal to be reached, this way we avoid infinite loop
-			if(cont>=100)return MOVE.NEUTRAL;
+			if(cont>=100)return null;
 			
-			//if result is null then we continue with the while loop
-			try {
-				MOVE move = MOVE.valueOf(result);
-				return move;
-			}catch (Exception e) {
-//				if(result!=null&&result.contains("_")) {
-//					String[] rs = result.split("_");
-//					Util.calculateMove(rs[0],MOVE.valueOf(rs[1]));
-//				}
-				//continue with the next statement
-			}
+			if(result!=null)return result;
 			
 		}
+	}
+	public MOVE getNextMove() {
+		String result = this.getNextResult();
+		try {
+			MOVE move = MOVE.valueOf(result);
+			return move;
+		}catch (Exception e) {}
+		return MOVE.NEUTRAL;
+	}
+	public ACTION getNextAction() {
+		String result = this.getNextResult();
+		try {
+			ACTION action = ACTION.valueOf(result);
+			return action;
+		}catch (Exception e) {}
+		return ACTION.NOTHING;
 	}
 	/**
 	 * Delete marked statements (with index >= idx) whose conditions are no longer true 
@@ -127,6 +132,10 @@ public class Evaluator {
 	 * @return
 	 */
 	private String _evaluate(JSONObject query) {
+//		System.out.println(query.toString(4));
+//		for(String k:this._variables.keySet()) {
+//			System.out.print(this._variables.get(k)+" ");
+//		}System.out.println();
 		String type = query.getString("type");
 		
 		//this is our returning statements in this case a MOVE
@@ -357,16 +366,16 @@ public class Evaluator {
 		Evaluator evaluator = new Evaluator(program);
 		evaluator._variables.put("RIGHT", "RIGHT");
 		evaluator._variables.put("y", "true");
-		System.out.println("Resulting move1: "+evaluator.getNext());
-		System.out.println("Resulting move2: "+evaluator.getNext());
+		System.out.println("Resulting move1: "+evaluator.getNextMove());
+		System.out.println("Resulting move2: "+evaluator.getNextMove());
 		evaluator._variables.put("y", "true");
 		for(JSONObject o:evaluator._statements) {
 			//System.out.println(o.toString(4));
 		}
-		System.out.println("Resulting move3: "+evaluator.getNext());
-		System.out.println("Resulting move4: "+evaluator.getNext());
-		System.out.println("Resulting move5: "+evaluator.getNext());
-		System.out.println("Resulting move6: "+evaluator.getNext());
-		System.out.println("Resulting move7: "+evaluator.getNext());
+		System.out.println("Resulting move3: "+evaluator.getNextMove());
+		System.out.println("Resulting move4: "+evaluator.getNextMove());
+		System.out.println("Resulting move5: "+evaluator.getNextMove());
+		System.out.println("Resulting move6: "+evaluator.getNextMove());
+		System.out.println("Resulting move7: "+evaluator.getNextMove());
 	}
 }

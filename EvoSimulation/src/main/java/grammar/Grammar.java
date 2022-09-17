@@ -163,7 +163,7 @@ public class Grammar extends AbstractGrammar{
 			
 			LinkedList<Symbol> l = g.parse(c);
 			l.forEach(e->System.out.print(e+" "));
-			Phenotype pt = new Phenotype(l);
+			Phenotype pt = new Phenotype();
 			System.out.println("\nvisual: ");
 			System.out.println(pt.getVisualCode());
 			System.out.println("-----------------");

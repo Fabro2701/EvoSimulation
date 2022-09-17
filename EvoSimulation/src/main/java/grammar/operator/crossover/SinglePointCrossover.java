@@ -10,18 +10,24 @@ public class SinglePointCrossover extends CrossoverOperation{
 	@Override
 	public Pair<Genotype, Genotype> crossover(Genotype g1, Genotype g2) {
 		
-		
-		Chromosome c1 = g1.getChromosome();
-		Chromosome c2 = g2.getChromosome();
-		
-		int crossPoint = RandomSingleton.nextInt(c1.getLength());
-		
-		Chromosome child1 = new Chromosome(c1);
-		Chromosome child2 = new Chromosome(c2);
-		for(int i=crossPoint;i<child1.getLength();i++) {
-			child1.setIntToCodon(i, c2.getCodon(i).getIntValue());
-			child2.setIntToCodon(i, c1.getCodon(i).getIntValue());
+		Genotype gchild1 = new Genotype();
+		Genotype gchild2 = new Genotype();
+		for(int i=0;i<g1.size();i++) {
+			Chromosome c1 = g1.getChromosome(i);
+			Chromosome c2 = g2.getChromosome(i);
+			
+			int crossPoint = RandomSingleton.nextInt(c1.getLength());
+			
+			Chromosome child1 = new Chromosome(c1);
+			Chromosome child2 = new Chromosome(c2);
+			for(int j=crossPoint;j<child1.getLength();j++) {
+				child1.setIntToCodon(j, c2.getCodon(j).getIntValue());
+				child2.setIntToCodon(j, c1.getCodon(j).getIntValue());
+			}
+			gchild1.add(child1);
+			gchild2.add(child2);
 		}
+		
 		
 		/*int crossPoint=0;
 		Chromosome c1 = g1.getChromosome();
@@ -39,7 +45,7 @@ public class SinglePointCrossover extends CrossoverOperation{
 			child2.setIntToCodon(i, c1.getCodon(i).getIntValue());
 		}*/
 	
-		return new Pair<Genotype, Genotype>(new Genotype(child1),new Genotype(child2));
+		return new Pair<Genotype, Genotype>(gchild1, gchild2);
 	}
 
 	

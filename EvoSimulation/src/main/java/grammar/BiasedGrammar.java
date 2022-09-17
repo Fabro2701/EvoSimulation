@@ -171,7 +171,7 @@ public class BiasedGrammar extends AbstractGrammar{
 		if(debug)System.out.println("maxfoodeaten: "+e.getFoodEaten());
 		DerivationTree t = new DerivationTree(this);
 		
-		boolean b = t.buildFromChromosome(((GIndividual)e).getGenotype().getChromosome());
+		boolean b = t.buildFromChromosome(((GIndividual)e).getGenotype().getChromosome(0));//pending
 		if(debug)System.out.println("initial tree: ");
 		if(debug)System.out.println(t);
 		

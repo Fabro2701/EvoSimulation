@@ -16,7 +16,9 @@ import org.json.JSONObject;
 import grammar.AbstractGrammar.Symbol;
 import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
+import model.Constants;
 import post_analysis.fitness_tests.SimpleMazeFitnessTest;
+import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
@@ -38,7 +40,8 @@ public class MyIndividual extends GIndividual{
 		super(id, n, ctrl);
 		type = "mi";
 		img = new ImageIcon("resources/entities/myentity.png").getImage();
-		grammar = ctrl.getCommonGrammar();
+		moveGrammar = ctrl.getCommonGrammar();
+		actionGrammar = ctrl.getCommonGrammar2();
 		children = new ArrayList<Entity>();
 	}
 	/**
@@ -49,28 +52,21 @@ public class MyIndividual extends GIndividual{
 	 */
 	public MyIndividual(String id, Node node, Controller ctrl) {
 		this(ctrl, id, node);
-		Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
 		
-						   
-		//if(id.equals("-2"))c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0,  0);
-		if(id.equals("-2")) {
-			img = new ImageIcon("resources/entities/myentity2.png").getImage();
-			c.setArrayIntToCodon(200,200,0,  200,0,0,0,0,0,0, 200,200,0,0,70,0,70,  200,0,0,0,150,0,150, 200,200,0,0,200,0,200,  0,0);
+		genotype = new Genotype();
+		phenotype = new Phenotype();
+		for(int i=0; i<Constants.PLOIDY;i++) {
+			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
+			genotype.addChromosome(c);
+			LinkedList<Symbol> crom=null;
+			if(i==0) crom = moveGrammar.parse(c);
+			else if(i==1) crom = actionGrammar.parse(c);
+			phenotype.setSymbol(i, crom);
+			if(phenotype.valid==false) {
+				ctrl.getStatsManager().onDeadOffSpring(0);
+				vanish();
+			}
 		}
-
-		LinkedList<Symbol> crom = grammar.parse(c);
-		
-		genotype = new Genotype(c);
-		
-		if(crom==null) {
-			ctrl.getStatsManager().onDeadOffSpring(0);
-			vanish();
-			phenotype = new Phenotype();
-		}
-		else phenotype = new Phenotype(crom);
-		
-		
-
 	}
 	/**
 	 * Constructor invoked by reproduction methods 
@@ -80,16 +76,20 @@ public class MyIndividual extends GIndividual{
 	 */
 	public MyIndividual(Genotype geno, Controller ctrl, int generation) {
 		this(ctrl, ctrl.getNextId(), ctrl.randomNode());
-		genotype = new Genotype(geno.get(0));
+		genotype = new Genotype(geno);
+		phenotype = new Phenotype();
 		mutate();
-		LinkedList<Symbol> crom = grammar.parse(genotype.get(0));
-		
-		if(crom==null) {
-			ctrl.getStatsManager().onDeadOffSpring(1);
-			vanish();
-			phenotype = new Phenotype();
+		for(int i=0; i<Constants.PLOIDY;i++) {
+			Chromosome c = geno.getChromosome(i);
+			LinkedList<Symbol> crom=null;
+			if(i==0) crom = moveGrammar.parse(c);
+			else if(i==1) crom = actionGrammar.parse(c);
+			phenotype.setSymbol(i, crom);
+			if(phenotype.valid==false) {
+				ctrl.getStatsManager().onDeadOffSpring(0);
+				vanish();
+			}
 		}
-		else phenotype = new Phenotype(crom);
 		
 		this.generation =  generation+1;
 
@@ -102,8 +102,8 @@ public class MyIndividual extends GIndividual{
 	 */
 	public MyIndividual(String id, Node node, Chromosome c, Controller ctrl) {
 		this(ctrl, id, node);
-		genotype = new Genotype(c);
-		LinkedList<Symbol> crom = grammar.parse(genotype.get(0));
+		//genotype = new Genotype(c); pending
+		LinkedList<Symbol> crom = moveGrammar.parse(genotype.get(0));
 		
 		if(crom==null) {
 			ctrl.getStatsManager().onDeadOffSpring(0);
@@ -112,7 +112,7 @@ public class MyIndividual extends GIndividual{
 		}
 		else {
 			
-			phenotype = new Phenotype(crom);
+			///phenotype = new Phenotype(crom);pending
 			//System.out.println(phenotype.getVisualCode());
 		}
 		
@@ -136,7 +136,7 @@ public class MyIndividual extends GIndividual{
 		
 	}
 	public void mutate() {
-		if(RandomSingleton.nextFloat()<this.node.radiation+0.05f) {
+		if(RandomSingleton.nextFloat()<this.node.radiation+0.01f) {
 			new SingleCodonFlipMutation().mutate(genotype);
 			ctrl.getStatsManager().onMutation();
 		}
@@ -154,8 +154,7 @@ public class MyIndividual extends GIndividual{
 	}
 	@Override
 	public MOVE getTheMove() {
-		MOVE move = phenotype.getNext(this.observationManager.getVariables());
-
+		MOVE move = phenotype.getNextMove(this.observationManager.getVariables());
 		if(move==null)return MOVE.NEUTRAL;
 		
 		if(move.isPseudo()) {
@@ -163,20 +162,38 @@ public class MyIndividual extends GIndividual{
 		}
 		return move;
 	}
+	@Override
+	public ACTION getAction() {		
+		ACTION action = phenotype.getNextAction(this.observationManager.getVariables());
+		if(action==null)return ACTION.NOTHING;
+		return action;
+	}
 	private MOVE calculatePseudoMove(MOVE move) {
 		String[] rs = move.toString().split("_");
+		String action = rs[0];
 		MOVE m = MOVE.valueOf(rs[1]);
-		//CHASE
+		
 		Entity e = this.observationManager.getClosestEntity().get(m);
-
 		if(e==null)return MOVE.NEUTRAL;
 		
-		return util.Util.getNextMoveTo(this.node, e.node, ctrl.getMap());
+		
+		if(action.equals("CHASE")) {
+			return util.Util.getNextMoveTo(this.node, e.node, ctrl.getMap());
+		}
+		else if(action.equals("RUNAWAY")) {
+			return util.Util.getNextMoveAwayFrom(this.node, e.node, ctrl.getMap());
+		}
+		
+		System.out.println("Action: "+action+" not found");
+		return null;
+		
 	}
 	@Override
-	public void recieveActiveEntityInteraction(Entity e) {
+	public void recieveActiveEntityReproductionInteraction(Entity e) {
 		if(this.getReproductionRestTime()<=0) {
-			if(this.getClass().equals(e.getClass())&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
+			if(this.getClass().equals(e.getClass())){//&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
+
+				//System.out.println("reproductioning");
 				ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
 				Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
 				children.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
@@ -191,6 +208,12 @@ public class MyIndividual extends GIndividual{
 		}
 	}
 	@Override
+	public void recieveActiveEntityAttackInteraction(Entity e) {
+		//System.out.println("attacking");
+		this.energy -= 25f;
+		e.setEnergy(e.getEnergy()-5f);
+	}
+	@Override
 	public JSONObject toJSON() {
 		JSONObject o = super.toJSON();
 		o.getJSONObject("data").put("phenotype", phenotype.toJSON())
@@ -200,7 +223,7 @@ public class MyIndividual extends GIndividual{
 		return o;
 	}
 	
-	public static void main(String args[]) {
+	public static void maina(String args[]) {
 		MyIndividual m = new MyIndividual("-2",new Node(0,0,255,255,255,null),null);
 		System.out.println(m.phenotype.getVisualCode());
 		

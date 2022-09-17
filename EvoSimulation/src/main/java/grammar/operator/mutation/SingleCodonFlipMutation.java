@@ -8,8 +8,9 @@ public class SingleCodonFlipMutation extends MutationOperation{
 
 	@Override
 	public void mutate(Genotype g) {
-		Chromosome c = g.getChromosome();
-		c.getCodon(RandomSingleton.nextInt(c.getLength())).setInt(RandomSingleton.nextInt(256));
+		for(Chromosome c:g) {
+			c.getCodon(RandomSingleton.nextInt(c.getLength())).setInt(RandomSingleton.nextInt(256));
+		}
 	}
 
 }

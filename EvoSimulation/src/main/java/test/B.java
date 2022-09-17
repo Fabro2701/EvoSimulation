@@ -6,8 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class B extends JFrame {
+import simulator.Constants.ACTION;
+
+public class B<T> extends JFrame {
 	String s;
+	T a;
 	public B(String s) {
 		this.s=s;
 	}
@@ -32,7 +35,7 @@ public class B extends JFrame {
 		
 		System.out.println(new Color(new Color(123,255,200,100).getRGB()&2147483647));
 		
-		B b1 = new B("a1");
+		B<ACTION> b1 = new B("a1");Object o=null;
 		B b2 = b1;
 		B b3 = b2;
 		System.out.println(b3);

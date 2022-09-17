@@ -62,6 +62,13 @@ public class UniformGridOptimizer extends Optimizer{
 				MOVE move = e.getMove();
 				e.setNewNode(map.getValidMove(e.node, move));
 			}
+			
+			// entities actions
+			for (Entity e : inEntities) {
+				if(e instanceof ActiveEntity) {
+					((ActiveEntity)e).setAction(e.getAction());
+				}
+			}
 
 			// entities interactions
 			for (Entity e1 : inEntities) {	

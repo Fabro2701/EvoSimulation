@@ -11,7 +11,8 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public abstract class GIndividual extends AbstractIndividual{
-	protected AbstractGrammar grammar;
+	protected AbstractGrammar moveGrammar;
+	protected AbstractGrammar actionGrammar;
 	protected Genotype genotype;
 	protected Phenotype phenotype;
 	protected ObservationManager observationManager;
@@ -26,13 +27,6 @@ public abstract class GIndividual extends AbstractIndividual{
 	public void update(EvoSimulator evoSimulator) {
 		super.update(evoSimulator);
 		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
-	}
-	public AbstractGrammar getGrammar() {
-		return grammar;
-	}
-
-	public void setGrammar(AbstractGrammar grammar) {
-		this.grammar = grammar;
 	}
 
 	public Genotype getGenotype() {

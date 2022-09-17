@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import grammar.AbstractGrammar;
 import grammar.BiasedGrammar;
 import grammar.Grammar;
-import grammar.IntronGrammar;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
@@ -59,7 +58,8 @@ public class EvoSimulator {
 		this.commonGrammar.parseBNF("default");
 		
 		//this.commonGrammar.calculateAttributes();
-		this.commonGrammar2 = new IntronGrammar();
+		this.commonGrammar2 = new Grammar();
+		this.commonGrammar2.parseBNF("default2");
 		
 		this.startTime = System.currentTimeMillis();
 	}

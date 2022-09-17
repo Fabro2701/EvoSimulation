@@ -1,15 +1,16 @@
 package simulator.model.entity;
 
-import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.DEFAULT_INITIAL_ENERGY;
-import static simulator.Constants.DEFAULT_INITIAL_WEIGHT;
 import static simulator.Constants.DEFAULT_INITIAL_REST_TIME;
+import static simulator.Constants.DEFAULT_INITIAL_WEIGHT;
+import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.jsonView;
 
 import java.awt.Image;
-import java.util.HashMap;
+
 import org.json.JSONObject;
 
+import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
@@ -58,6 +59,9 @@ public abstract class Entity implements IInteract{
 			energy -= weight  * MOVEMENT_ENERGY_COST_CONSTANT;
 			//* this.node.elevation
 		return m;
+	}
+	public ACTION getAction() {
+		return ACTION.NOTHING;
 	}
 	protected abstract MOVE getTheMove();
 	

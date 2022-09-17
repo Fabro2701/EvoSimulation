@@ -21,7 +21,21 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class Util {
-
+	
+	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
+		double maxDist = -1d;
+		MOVE move = MOVE.NEUTRAL;
+		for(MOVE m:MOVE.values()) {
+			if(!m.isPseudo()) {
+				double dist = nodeDistance(map.getValidMove(node, m), node2);
+				if(dist>maxDist) {
+					maxDist = dist;
+					move = m;
+				}
+			}
+		}
+		return move;
+	}
 	public static MOVE getNextMoveTo(Node node, Node node2, Map map) {
 		double minDist = 100000d;
 		MOVE move = MOVE.NEUTRAL;
@@ -69,14 +83,17 @@ public class Util {
 	}
 	public static float genotypeSimilarity(Genotype g1, Genotype g2) {
 		float similarity=0.0f;
-		Chromosome c1 = g1.getChromosome();
-		Chromosome c2 = g2.getChromosome();
-		
-		for(int i=0;i<c1.getLength() && i<c1.getUsedCodons() && i<c2.getUsedCodons();i++) {
-			similarity+=c1.getCodon(i).getIntValue()==c2.getCodon(i).getIntValue()?1.f:0.f;
+		for(int i=0;i<g1.size();i++) {
+			Chromosome c1 = g1.getChromosome(i);
+			Chromosome c2 = g2.getChromosome(i);
+			
+			for(int j=0;j<c1.getLength() && j<c1.getUsedCodons() && j<c2.getUsedCodons();j++) {
+				similarity+=c1.getCodon(j).getIntValue()==c2.getCodon(j).getIntValue()?1.f:0.f;
+			}
+			similarity /= (float)Math.min(Math.min(c1.getUsedCodons(),c2.getUsedCodons()),c1.getLength());
+			
 		}
-		similarity /= (float)Math.min(Math.min(c1.getUsedCodons(),c2.getUsedCodons()),c1.getLength());
-		return similarity;
+		return similarity/2f;
 	}
 	public static BufferedImage copyImage(BufferedImage source){
 	    BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());

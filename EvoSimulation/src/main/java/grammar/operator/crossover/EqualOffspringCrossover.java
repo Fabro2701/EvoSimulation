@@ -8,14 +8,19 @@ public class EqualOffspringCrossover extends CrossoverOperation{
 
 	@Override
 	public Pair<Genotype, Genotype> crossover(Genotype g1, Genotype g2) {
-		Chromosome c1 = g1.getChromosome();
-		Chromosome c2 = g2.getChromosome();
+		Genotype gchild1 = new Genotype();
+		Genotype gchild2 = new Genotype();
+		for(int i=0;i<g1.size();i++) {
+			Chromosome c1 = g1.getChromosome(i);
+			Chromosome c2 = g2.getChromosome(i);
 
-		Chromosome child1 = new Chromosome(c1);
-		Chromosome child2 = new Chromosome(c2);
+			gchild1.add(new Chromosome(c1));
+			gchild2.add(new Chromosome(c2));
+		}
+		
 	
-	
-		return new Pair<Genotype, Genotype>(new Genotype(child1),new Genotype(child2));
+		
+		return new Pair<Genotype, Genotype>(gchild1, gchild2);
 	}
 
 	

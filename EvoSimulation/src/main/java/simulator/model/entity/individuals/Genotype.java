@@ -10,16 +10,24 @@ import org.json.JSONObject;
  *
  */
 public class Genotype extends ArrayList<Chromosome>{
-	public Genotype(Chromosome c) {
+	public Genotype() {
 		super();
-		this.add(c);
+	}
+	public Genotype(Genotype copy) {
+		super();
+		for(Chromosome c:copy) {
+			this.add(new Chromosome(c));
+		}
 	}
 	public Genotype(JSONObject c) {
 		super();
 		this.add(new Chromosome(c.getJSONObject("chromosome")));
 	}
-	public Chromosome getChromosome() {
-		return this.get(0);
+	public void addChromosome(Chromosome c) {
+		this.add(c);
+	}
+	public Chromosome getChromosome(int i) {
+		return this.get(i);
 	}
 	public JSONObject toJSON() {
 		return new JSONObject().put("chromosome", this.get(0).toJSON());
