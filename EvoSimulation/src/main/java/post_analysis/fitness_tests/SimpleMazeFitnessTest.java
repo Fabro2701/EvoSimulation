@@ -29,6 +29,7 @@ import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.view.viewer.AbstractViewer;
 import simulator.view.viewer.Viewer;
+import statistics.StatsData;
 import statistics.StatsManager;
 
 
@@ -110,10 +111,28 @@ public class SimpleMazeFitnessTest extends AbstractFitnessTest{
 		
 		return fitness;
 	}
+	
 	@Override
 	public int evaluate() {
-		// TODO Auto-generated method stub
-		return 0;
+		int fitness = 0;
+		if(viewPane!=null) {
+			viewer = new Viewer(ctrl,700,700);
+			viewer.activate();
+			viewPane.setViewportView(viewer);
+			viewer.repaint();
+        	this.runCtrl(ctrl, this.timeLimit);
+	        			
+		}
+		else {
+			for(int i=0;i<this.timeLimit&&this.entity.isAlive();i++) {
+				ctrl.run(1);
+				//System.out.println(entity.getAge());
+			}
+			//ctrl.run(timeLimit);
+			//this.runCtrl(ctrl, this.timeLimit);
+			fitness = entity.getAge();
+		}
+		return fitness;
 	}
 	
 

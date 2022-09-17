@@ -118,7 +118,16 @@ public class MyIndividual extends GIndividual{
 		
 		childs = new ArrayList<Entity>();
 	}
-	
+	public MyIndividual(String id, Node node, String code, Controller ctrl) {
+		super(id, node, ctrl);
+		type = "mi";
+		img = new ImageIcon("resources/entities/myentity.png").getImage();
+		
+		genotype = null;
+		//System.out.println("parsing "+code);
+		phenotype = new Phenotype(code);
+		childs = new ArrayList<Entity>();
+	}
 	public MyIndividual(String id, Node n, JSONObject genotype, JSONObject phenotype, float energy, Controller ctrl) {
 		super(id, n, ctrl);
 		this.energy=energy;

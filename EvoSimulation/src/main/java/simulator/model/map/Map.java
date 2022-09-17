@@ -98,12 +98,30 @@ public class Map {
 				newPos.second = newPos.second<0?(this.HEIGHT)+newPos.second:newPos.second;
 				newPos.first %= this.WIDTH;
 				newPos.second %= this.HEIGHT;
-				return getValidModuloMove(this.nodes[newPos.second][newPos.first], move);
+				//System.out.println(node+" "+move);
+				//return getValidModuloMove(this.nodes[newPos.second][newPos.first], move);
+				return searchNextNonVoid(this.nodes[newPos.second][newPos.first], move);
 			}
 			else {
 				return getValidWallRestrictedMove(node, move);
 			}
 		}		
+	}
+	private Node searchNextNonVoid(Node node, MOVE move) {
+		int x= node.x,y=node.y;
+		while(this.nodes[y][x].type == NODE_TYPE.VOID) {
+			Pair<Integer, Integer> change = move.getPosChange();
+			Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(node.x + change.first,
+					node.y + change.second);
+			newPos.first = newPos.first<0?(this.WIDTH)+newPos.first:newPos.first;
+			newPos.second = newPos.second<0?(this.HEIGHT)+newPos.second:newPos.second;
+			newPos.first %= this.WIDTH;
+			newPos.second %= this.HEIGHT;
+			
+			x = newPos.first;
+			y = newPos.second;
+		}
+		return this.nodes[y][x];
 	}
 	/**
 	 * Returns the resulting position of the node + move 

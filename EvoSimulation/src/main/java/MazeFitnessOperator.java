@@ -9,6 +9,7 @@ import model.individual.Individual;
 import model.module.operator.fitness.FitnessEvaluationOperator;
 import post_analysis.fitness_tests.AbstractFitnessTest;
 import post_analysis.fitness_tests.SimpleMazeFitnessTest;
+import simulator.model.entity.individuals.MyIndividual;
 
 
 public class MazeFitnessOperator extends FitnessEvaluationOperator{
@@ -26,11 +27,10 @@ public class MazeFitnessOperator extends FitnessEvaluationOperator{
 	@Override
 	public float evaluate(Individual ind) {
 		test.reset();
-		Parser parser = new Parser();
-		Evaluator evaluator = new Evaluator(parser.parse(ind.getPhenotype().getVisualCode()));
+	
+		MyIndividual mi = new MyIndividual("-1", test.getCtrl().getNodeAt(0, 0), ind.getPhenotype().getVisualCode(), test.getCtrl());
 		
-		//MyIndividual mi = new MyIndividual(-1, test.getCtrl().getNodeAt(0, 0), evaluator., test.getCtrl());
-		
+		test.setEntity(mi);
 		test.evaluate();
 		return test.getResult();
 	}

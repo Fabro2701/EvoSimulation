@@ -14,7 +14,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-
+import simulator.Constants.NODE_TYPE;
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
@@ -190,10 +190,15 @@ public class Viewer3D extends AbstractViewer{
 		Point2D point2=null;
 		Point2D point3=null;
 		
+		Map map = this.ctrl.getMap();
+		
+		int factorx = mapImg.getHeight(null)/reducedImg.getHeight();
+		int factory = mapImg.getWidth(null)/reducedImg.getWidth();
 		//map render
-		for(int i=0;i<reducedImg.getHeight();i++) {
-			for(int j=0;j<reducedImg.getWidth();j++) {
-				
+		for(int j=0;j<reducedImg.getWidth();j++) {
+			for(int i=0;i<reducedImg.getHeight();i++) {
+				if(map.getNodeAt(j*factorx, i*factory).type == NODE_TYPE.VOID)continue;
+				//System.out.println(j+" "+i);
 				point1 = transform3D(new Point3D(j * xs, 
 						 						(int) (new Color(reducedImg.getRGB(j, i),true).getGreen() * inskew), 
 						 						 i * ys));
@@ -222,9 +227,8 @@ public class Viewer3D extends AbstractViewer{
 		}
 		
 		//entities render
-		int factorx = mapImg.getHeight(null)/reducedImg.getHeight();
-		int factory = mapImg.getWidth(null)/reducedImg.getWidth();
 		for(Entity e:entities) {
+			if(e.node.type == NODE_TYPE.VOID)continue;
 			Point2D scaledCoord = new Point2D(e.node.x/factorx, e.node.y/factory);
 			Point2D p1 = transform3D(
 		             new Point3D(scaledCoord.x * xs, 

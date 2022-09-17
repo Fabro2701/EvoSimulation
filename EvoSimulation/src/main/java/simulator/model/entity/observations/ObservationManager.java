@@ -66,6 +66,7 @@ public class ObservationManager {
 		
 		//double viewD = ((double)150*Math.sqrt(2))/2.0;
 		float viewD = Constants.ENTITY_OBSERVATION_DISTANCE;
+		
 		for(Entity e2:entities) {
 			if(entity!=e2 && Util.nodeDistance(entity.node, e2.node) < viewD) {
 				visibleEntities.add(e2);

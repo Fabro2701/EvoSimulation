@@ -2,6 +2,8 @@ package post_analysis.fitness_tests;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -14,6 +16,7 @@ import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import statistics.StatsManager;
 
 public abstract class AbstractFitnessTest {
 	protected JScrollPane viewPane;
@@ -29,7 +32,7 @@ public abstract class AbstractFitnessTest {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 		EventManager eventManager = new EventManager();
 		simulator = new EvoSimulator("simpleMaze1");
-		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager, null);
+		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager, new StatsManager());
 		
 		try {
 			ctrl.loadEvents(new FileInputStream("resources/loads/events/simpleMazeEvents.json"));
@@ -68,6 +71,8 @@ public abstract class AbstractFitnessTest {
 	}
 	public void setEntity(Entity entity) {
 		this.entity = entity;
+		List<Entity>ents = new ArrayList<Entity>();ents.add(entity);
+		this.ctrl.loadEntities(ents);
 	}
 	public Controller getCtrl() {
 		return ctrl;

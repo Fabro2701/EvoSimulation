@@ -30,6 +30,11 @@ public class Phenotype extends LinkedList<Symbol>{
 		Parser parser = new Parser();
 		evaluator = new Evaluator(parser.parse(this.getVisualCode()));
 	}
+	public Phenotype(String code) {
+		valid=true;
+		Parser parser = new Parser();
+		evaluator = new Evaluator(parser.parse(code));
+	}
 	public Phenotype(JSONObject o) {
 		super();
 		valid=true;

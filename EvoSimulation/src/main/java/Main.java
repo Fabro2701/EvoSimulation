@@ -69,7 +69,8 @@ public class Main {
 		eventBuilders.add(new AddRandomEntitiesConditionGeneratorEventBuilder());
 		eventBuilders.add(new SaveSimulationEventBuilder());
 		
-		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);*/
+		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(eventBuilders);
+		*/
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>("eventsFactory");
 
 		/*List<Builder<Entity>> entityBuilders = new ArrayList<Builder<Entity>>();
@@ -79,10 +80,12 @@ public class Main {
 		entityBuilders.add(new MyIndividualBuilder());
 		entityBuilders.add(new MyIndividual2Builder());
 
-		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);*/
+		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(entityBuilders);
+		*/
+		
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
-		simulator = new EvoSimulator("testvoid");simulator.setDebug(true);
+		simulator = new EvoSimulator("testvoid2");simulator.setDebug(true);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		
 		try {
