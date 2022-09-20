@@ -27,15 +27,25 @@
             }
         },
         {
-	 "type":"ss",
-	  "data":{
+	    "type":"ss",
+	    "data":{
                 "time":10000,
                 "times":5,
                 "interval":20000,
-		"filename":"test1",
-		"replacement":false
+				"filename":"test1",
+				"replacement":false
+				}
+		}	,
+        {
+	    "type":"sti",
+	    "data":{
+                "time":2000,
+                "times":5,
+                "interval":5000,
+				"filename":"test1",
+				"replacement":false
+				}
 		}
-	}
     ]
 }
     

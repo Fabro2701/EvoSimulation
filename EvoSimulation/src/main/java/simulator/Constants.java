@@ -95,6 +95,7 @@ public final class Constants {
 	public static final String AddRandomEntitiesConditionGeneratorBuilder_TYPE = "arecg";
 	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "reg";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";
+	public static final String SaveStatsImageBuilder_TYPE = "sti";
 	
 
 	public static final String FoodEntityBuilder_TYPE = "f";

@@ -12,7 +12,6 @@ import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.MyIndividual;
-import simulator.model.entity.individuals.MyIndividual2;
 import statistics.StatsData;
 
 public class ChildDepthStats extends StatsData{

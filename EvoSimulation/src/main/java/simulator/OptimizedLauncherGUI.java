@@ -17,7 +17,6 @@ import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.builders.Builder;
 import simulator.factories.builders.entity.FoodEntityBuilder;
-import simulator.factories.builders.entity.MyIndividual2Builder;
 import simulator.factories.builders.entity.MyIndividualBuilder;
 import simulator.factories.builders.entity.SimpleRandomEntityBuilder;
 import simulator.factories.builders.entity.SimpleUPEntityBuilder;
