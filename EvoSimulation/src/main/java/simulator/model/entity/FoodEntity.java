@@ -18,7 +18,7 @@ public class FoodEntity extends PasiveEntity {
 	public FoodEntity(String id, Node n, float foodAmount, int lifeTime, Controller ctrl) {
 		super(id, n, ctrl);
 		type = "f";
-		img = new ImageIcon("resources/entities/food.png").getImage();
+		//img = new ImageIcon("resources/entities/food.png").getImage();
 		this.foodAmount = foodAmount;
 		this.lifeTime = lifeTime;
 	}

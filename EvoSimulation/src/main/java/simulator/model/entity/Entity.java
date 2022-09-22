@@ -3,6 +3,7 @@ package simulator.model.entity;
 import static simulator.Constants.DEFAULT_INITIAL_ENERGY;
 import static simulator.Constants.DEFAULT_INITIAL_REST_TIME;
 import static simulator.Constants.DEFAULT_INITIAL_WEIGHT;
+import static simulator.Constants.MAX_ENERGY;
 import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.jsonView;
 
@@ -12,7 +13,10 @@ import org.json.JSONObject;
 
 import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
+import simulator.Constants.STATE;
 import simulator.control.Controller;
+import simulator.control.ImageController;
+import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
@@ -25,6 +29,9 @@ public abstract class Entity implements IInteract{
 	protected int age, currentTime, reproductionRestTime, generation, foodEaten;
 	protected Pheromone pheromone;
 	protected Controller ctrl;
+	protected ImageController imgController;
+	STATE currentstate;
+	State<Image>currentImgState;
 
 	public Entity(String id, Node n, Controller ctrl) {
 		this.ctrl=ctrl;
@@ -37,15 +44,19 @@ public abstract class Entity implements IInteract{
 		this.age = 0;
 		this.reproductionRestTime = DEFAULT_INITIAL_REST_TIME;
 		this.generation = 0;
+		this.imgController = ctrl.getImgController();
+		this.currentstate = STATE.REST;
+		this.updateImage();
 	}
 
 	/**
-	 * Updates the {@link Entity#age} and {@link Entity#currentTime}
+	 * Updates the {@link Entity#age}, {@link Entity#currentTime}, {@link Entity#currentImgState}, {@link Entity#img} 
 	 * @param evoSimulator
 	 */
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
 		age++;
+		this.updateImage();
 	}
 	
 	/**
@@ -55,9 +66,14 @@ public abstract class Entity implements IInteract{
 	 */
 	public final MOVE getMove() {
 		MOVE m = getTheMove();
-		if (m != MOVE.NEUTRAL)
-			energy -= weight  * MOVEMENT_ENERGY_COST_CONSTANT;
-			//* this.node.elevation
+		if (m != MOVE.NEUTRAL) {
+			this.setCurrentstate(STATE.MOVE);
+			this.decreaseEnergy((weight + this.node.elevation)  * MOVEMENT_ENERGY_COST_CONSTANT);
+			//actually we should take the resulting node of the move
+		}
+		else {
+			this.setCurrentstate(STATE.REST);
+		}
 		return m;
 	}
 	public ACTION getAction() {
@@ -96,6 +112,11 @@ public abstract class Entity implements IInteract{
 		);
 	}
 
+	protected void updateImage() {
+		this.currentImgState = this.imgController.getNextImage(this.getClass(), currentImgState, currentstate);
+		this.img = currentImgState.execute();
+		
+	}
 	@Override
 	public String toString() {
 		return toJSON().toString(jsonView);
@@ -134,5 +155,25 @@ public abstract class Entity implements IInteract{
 	}
 	public int getAge() {
 		return age;
+	}
+	public float decreaseEnergy(float d) {
+		this.energy-=d;
+		Math.min(energy, MAX_ENERGY);		
+		return this.energy;
+	}
+	public float increaseEnergy(float d) {
+		this.energy+=d;
+		Math.min(energy, MAX_ENERGY);		
+		return this.energy;
+	}
+
+	public STATE getCurrentstate() {
+		return currentstate;
+	}
+
+	public void setCurrentstate(STATE state) {
+		//System.out.println(this.currentstate+"  ----> "+state);
+		//if(state.compareTo(this.currentstate)<0) this.currentstate = state;
+		this.currentstate = state;
 	}
 }

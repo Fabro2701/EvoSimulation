@@ -1,10 +1,15 @@
 package simulator.model.entity;
 
+import static simulator.Constants.ENTITY_FOOD_FACTOR;
 import static simulator.Constants.FOOD_ENERGY_GIVEN_CONSTANT;
 import static simulator.Constants.LIVE_ENERGY_COST_CONSTANT;
 
+import java.awt.Image;
+
 import simulator.Constants.ACTION;
+import simulator.Constants.STATE;
 import simulator.control.Controller;
+import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
@@ -19,9 +24,9 @@ public abstract class ActiveEntity extends Entity {
 
 	@Override
 	protected void getFood(FoodEntity foodEntity) {
-		energy += (float) foodEntity.getFoodAmount() * FOOD_ENERGY_GIVEN_CONSTANT;
-		energy = energy>=300.0f?300.0f:energy;
+		this.increaseEnergy(foodEntity.getFoodAmount() * FOOD_ENERGY_GIVEN_CONSTANT);
 		foodEaten++;
+		this.setCurrentstate(STATE.EAT);
 	}
 
 	@Override
@@ -31,10 +36,10 @@ public abstract class ActiveEntity extends Entity {
 			this.vanish();
 			//evoSimulator.addEntity(new FoodEntity(this.id,this.node,3.f,ctrl));
 		}
-		energy -= weight * LIVE_ENERGY_COST_CONSTANT;
-		//energy -= this.node.temperature * HEAT_LIVE_ENERGY_COST_CONSTANT;
+		this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
+		this.setReproductionRestTime(getReproductionRestTime() - 1);
+
 		
-		setReproductionRestTime(getReproductionRestTime() - 1);
 	}
 
 	@Override
@@ -54,10 +59,13 @@ public abstract class ActiveEntity extends Entity {
 	@Override
 	public boolean shouldInteract() {return true;}
 
+	public void eatMe(ActiveEntity e) {
+		e.increaseEnergy(this.weight * ENTITY_FOOD_FACTOR * FOOD_ENERGY_GIVEN_CONSTANT);
+		this.vanish();
+	}
 	public ACTION getAction() {
 		return action;
 	}
-
 	public void setAction(ACTION action) {
 		this.action = action;
 	}

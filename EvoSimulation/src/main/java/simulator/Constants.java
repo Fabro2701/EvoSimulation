@@ -5,13 +5,16 @@ import util.Pair;
 public final class Constants {
 	public static int jsonView = 0;
 	public static final int INTERACTION_DISTANCE = 4;
-	public static float MOVEMENT_ENERGY_COST_CONSTANT = 0.05f;
-	public static float LIVE_ENERGY_COST_CONSTANT = 0.15f;
-	public static float HEAT_LIVE_ENERGY_COST_CONSTANT = 0.0015f;
-	public static float FOOD_ENERGY_GIVEN_CONSTANT = 6.0f;
+	public static final float MOVEMENT_ENERGY_COST_CONSTANT = 0.05f;
+	public static final float LIVE_ENERGY_COST_CONSTANT = 0.15f;
+	public static final float FOOD_ENERGY_GIVEN_CONSTANT = 6.0f;
 	public static final int PHEROMONE_LENGTH = 8;
 	public static final int FOOD_LIVE_TIME = 400;
 	public static final float REPRODUCTION_COST = 20.f;
+	public static final float ENTITY_FOOD_FACTOR = 50.f;
+	public static final float MAX_ENERGY = 300.f;
+	public static final float ATTACKER_ENERGY_COST = 5f;
+	public static final float ATTACKED_ENERGY_COST = 25f;
 	
 	public static final int CHROMOSOME_LENGTH = 70;
 	public static final int PLOIDY = 2;
@@ -22,7 +25,7 @@ public final class Constants {
 	public static final float DEFAULT_INITIAL_WEIGHT = 1f;
 	public static final int DEFAULT_OBSERVATIONS_REFRESH_RATE = 1;
 	
-	public static final int STATS_PANEL_RATIO = 3;
+	public static final int STATS_PANEL_RATIO = 3;//aspect ratio
 	
 	public static final float ENTITY_OBSERVATION_DISTANCE = 120f;//observation radius
 	
@@ -33,6 +36,9 @@ public final class Constants {
 
 	public enum ACTION {
 		NOTHING, REPRODUCTION, ATTACK;
+	}
+	public enum STATE {
+		EAT, MOVE, REST;
 	}
 	public enum MOVE { 
 		

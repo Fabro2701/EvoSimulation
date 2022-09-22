@@ -1,8 +1,10 @@
 package simulator.model.entity.individuals;
 
 import static simulator.Constants.CHROMOSOME_LENGTH;
-import static simulator.Constants.REPRODUCTION_COST;
 import static simulator.Constants.RECOVERY_REST_TIME;
+import static simulator.Constants.REPRODUCTION_COST;
+import static simulator.Constants.ATTACKER_ENERGY_COST;
+import static simulator.Constants.ATTACKED_ENERGY_COST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,12 +19,12 @@ import grammar.AbstractGrammar.Symbol;
 import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
 import model.Constants;
-import post_analysis.fitness_tests.SimpleMazeFitnessTest;
 import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
+import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
 import simulator.model.map.Node;
 import util.Pair;
@@ -39,7 +41,7 @@ public class MyIndividual extends GIndividual{
 	private MyIndividual(Controller ctrl, String id, Node n) {
 		super(id, n, ctrl);
 		type = "mi";
-		img = new ImageIcon("resources/entities/myentity.png").getImage();
+		//img = new ImageIcon("resources/entities/myentity.png").getImage();
 		moveGrammar = ctrl.getCommonGrammar();
 		actionGrammar = ctrl.getCommonGrammar2();
 		children = new ArrayList<Entity>();
@@ -184,7 +186,7 @@ public class MyIndividual extends GIndividual{
 			return util.Util.getNextMoveAwayFrom(this.node, e.node, ctrl.getMap());
 		}
 		
-		System.out.println("Action: "+action+" not found");
+		System.err.println("Action: "+action+" not found");
 		return null;
 		
 	}
@@ -202,16 +204,20 @@ public class MyIndividual extends GIndividual{
 				this.setReproductionRestTime(RECOVERY_REST_TIME);
 				e.setReproductionRestTime(RECOVERY_REST_TIME);
 				
-				this.energy-=REPRODUCTION_COST;
-				e.setEnergy(e.getEnergy()-REPRODUCTION_COST);;
+				this.decreaseEnergy(REPRODUCTION_COST);
+				e.decreaseEnergy(REPRODUCTION_COST);
 			}
 		}
 	}
 	@Override
 	public void recieveActiveEntityAttackInteraction(Entity e) {
 		//System.out.println("attacking");
-		this.energy -= 25f;
-		e.setEnergy(e.getEnergy()-5f);
+		this.decreaseEnergy(ATTACKED_ENERGY_COST);
+		e.decreaseEnergy(ATTACKER_ENERGY_COST);
+		
+		if(this.energy <= 0f) {
+			this.eatMe((ActiveEntity)e);
+		}
 	}
 	@Override
 	public JSONObject toJSON() {

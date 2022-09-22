@@ -34,6 +34,7 @@ public class Controller {
 	private EventManager eventManager;
 	private StatsManager statsManager;
 	private IdGenerator idGenerator;
+	private ImageController imgController;
 
 	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory, BuilderBasedFactory<Event> eventFactory, EventManager eventManager, StatsManager statsManager) {
 		this.simulator = simulator;
@@ -42,6 +43,7 @@ public class Controller {
 		this.eventManager = eventManager;
 		this.statsManager = statsManager;
 		this.idGenerator = new IdGenerator();
+		this.imgController = new ImageController();
 	}
 	
 	/**
@@ -193,5 +195,13 @@ public class Controller {
 	}
 	public AbstractGrammar getCommonGrammar2() {
 		return simulator.getCommonGrammar2();
+	}
+
+	public ImageController getImgController() {
+		return imgController;
+	}
+
+	public void setImgController(ImageController imgController) {
+		this.imgController = imgController;
 	}
 }
