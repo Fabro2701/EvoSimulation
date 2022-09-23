@@ -33,5 +33,6 @@ public class BestIndividualCodeStats extends StatsData{
 		
 		}
 	}
+
 	
 }

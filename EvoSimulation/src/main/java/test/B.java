@@ -33,8 +33,8 @@ public class B<T> extends JFrame {
 	}
 	public static void main(String args[]) {
 		
-		System.out.println(new Color(new Color(123,255,200,100).getRGB()&2147483647));
-		
+		//System.out.println(new Color(new Color(123,255,200,100).getRGB()&2147483647));
+		System.out.println(Integer.MAX_VALUE>>1);
 		B<ACTION> b1 = new B("a1");Object o=null;
 		B b2 = b1;
 		B b3 = b2;

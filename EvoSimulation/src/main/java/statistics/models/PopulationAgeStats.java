@@ -48,7 +48,6 @@ public class PopulationAgeStats extends StatsData{
 				max = stats.getMax();
 				
 				((DefaultCategoryDataset)dataset).addValue(avg, "avgAge"+c.getSimpleName(), Integer.valueOf(currentTime));
-				System.out.println("max: "+max);
 				((DefaultCategoryDataset)dataset).addValue(Float.valueOf(max), "maxAge"+c.getSimpleName(), Integer.valueOf(currentTime));
 
 			}
@@ -62,4 +61,5 @@ public class PopulationAgeStats extends StatsData{
 		}
 		
 	}
+
 }

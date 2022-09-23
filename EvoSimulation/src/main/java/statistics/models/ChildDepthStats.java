@@ -40,7 +40,6 @@ public class ChildDepthStats extends StatsData{
 				avg = stats.getAverage();
 				max = stats.getMax();
 				((DefaultCategoryDataset)dataset).addValue(avg, "avgGen"+c.getSimpleName(), Integer.valueOf(currentTime));
-				System.out.println("max: "+max);
 				((DefaultCategoryDataset)dataset).addValue(Float.valueOf(max), "maxGen"+c.getSimpleName(), Integer.valueOf(currentTime));
 
 			}
@@ -48,5 +47,6 @@ public class ChildDepthStats extends StatsData{
 			//((DefaultBoxAndWhiskerXYDataset)dataset).add(new Date(currentTime), BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(values));
 		}
 	}
+
 	
 }

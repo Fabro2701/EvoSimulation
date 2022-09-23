@@ -212,6 +212,7 @@ public class MyIndividual extends GIndividual{
 	@Override
 	public void recieveActiveEntityAttackInteraction(Entity e) {
 		//System.out.println("attacking");
+		
 		this.decreaseEnergy(ATTACKED_ENERGY_COST);
 		e.decreaseEnergy(ATTACKER_ENERGY_COST);
 		

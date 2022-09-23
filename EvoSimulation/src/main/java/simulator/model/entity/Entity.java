@@ -26,7 +26,7 @@ public abstract class Entity implements IInteract{
 	public Node node;
 	protected boolean alive;
 	protected float energy, weight;
-	protected int age, currentTime, reproductionRestTime, generation, foodEaten;
+	protected int age, currentTime, reproductionRestTime, generation, foodEaten, attackRestTime;
 	protected Pheromone pheromone;
 	protected Controller ctrl;
 	protected ImageController imgController;
@@ -43,6 +43,7 @@ public abstract class Entity implements IInteract{
 		this.weight = DEFAULT_INITIAL_WEIGHT;
 		this.age = 0;
 		this.reproductionRestTime = DEFAULT_INITIAL_REST_TIME;
+		this.attackRestTime = DEFAULT_INITIAL_REST_TIME;
 		this.generation = 0;
 		this.imgController = ctrl.getImgController();
 		this.currentstate = STATE.REST;
@@ -175,5 +176,13 @@ public abstract class Entity implements IInteract{
 		//System.out.println(this.currentstate+"  ----> "+state);
 		//if(state.compareTo(this.currentstate)<0) this.currentstate = state;
 		this.currentstate = state;
+	}
+
+	public int getAttackRestTime() {
+		return attackRestTime;
+	}
+
+	public void setAttackRestTime(int attackRestTime) {
+		this.attackRestTime = attackRestTime;
 	}
 }

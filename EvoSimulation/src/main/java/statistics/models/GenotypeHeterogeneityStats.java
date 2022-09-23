@@ -40,5 +40,5 @@ public class GenotypeHeterogeneityStats extends StatsData{
 			((DefaultCategoryDataset)dataset).addValue(avg, "Heterogeneity", Integer.valueOf(currentTime));
 		}
 	}
-	
+
 }

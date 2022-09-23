@@ -45,7 +45,9 @@ public class Controller {
 		this.idGenerator = new IdGenerator();
 		this.imgController = new ImageController();
 	}
-	
+	public void saveSimulation() {
+		this.simulator.setSave(true);
+	}
 	/**
 	 * Add a {@link SimulatorObserver} to the simulator
 	 * @param observer

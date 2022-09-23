@@ -33,7 +33,7 @@ public class UniformGridOptimizer extends Optimizer{
 	public UniformGridOptimizer(EvoSimulator simulator, int xDivision, int yDivision) {
 		this.simulator = simulator;
 		this.xDivision = xDivision;
-		this.yDivision = xDivision;
+		this.yDivision = yDivision;
 		unitsPerGridx = (float)simulator.getMap().WIDTH/xDivision;
 		unitsPerGridy = (float)simulator.getMap().HEIGHT/yDivision;
 		grids = new Grid[yDivision][xDivision];

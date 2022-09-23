@@ -3,6 +3,7 @@ package simulator.model.entity;
 import static simulator.Constants.ENTITY_FOOD_FACTOR;
 import static simulator.Constants.FOOD_ENERGY_GIVEN_CONSTANT;
 import static simulator.Constants.LIVE_ENERGY_COST_CONSTANT;
+import static simulator.Constants.RECOVERY_REST_TIME;
 
 import java.awt.Image;
 
@@ -37,7 +38,9 @@ public abstract class ActiveEntity extends Entity {
 			//evoSimulator.addEntity(new FoodEntity(this.id,this.node,3.f,ctrl));
 		}
 		this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
-		this.setReproductionRestTime(getReproductionRestTime() - 1);
+		
+		this.setReproductionRestTime(this.getReproductionRestTime() - 1);
+		this.setAttackRestTime(this.getAttackRestTime() - 1);
 
 		
 	}
@@ -52,7 +55,11 @@ public abstract class ActiveEntity extends Entity {
 			e.recieveActiveEntityReproductionInteraction(this);
 		}
 		else if(action == ACTION.ATTACK) {
-			e.recieveActiveEntityAttackInteraction(this);
+			if(this.attackRestTime <= 0) {
+				e.recieveActiveEntityAttackInteraction(this);
+				this.setAttackRestTime(RECOVERY_REST_TIME/2);
+			}
+			
 		}
 		//e.recieveActiveEntityInteraction(this);
 	}

@@ -127,6 +127,9 @@ public class StatsManager extends JFrame implements StatsObserver{
     	}
     	return null;
     }
+    public List<StatsObserver>getModels(){
+    	return this.observers;
+    }
     /**
      * Add a child StatsObserver to be managed
      * @param observer
@@ -166,5 +169,10 @@ public class StatsManager extends JFrame implements StatsObserver{
 		for(StatsObserver o:observers) {
 			o.onDeadOffSpring(type);
 		}
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -142,28 +142,29 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
         this.jbStart.setEnabled(false);
         new Thread() {
         	public void run() {
-        		 ctrl.run(500000);
+        		 ctrl.run(Integer.MAX_VALUE>>1);
         	}
         }.start();
        
     }                                       
 
-    private void jbSaveActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        String filename = this.jtfFileName.getText();
-        JSONObject o = simulator.toJSON();
-        try {
-        	//File myObj = new File("resources/loads/simulations/"+filename+".json");myObj.createNewFile();
-			PrintWriter out = new PrintWriter(new FileWriter("resources/loads/simulations/"+filename+".json"));
-			out.write(o.toString());
-			out.close();
-			out = new PrintWriter(new FileWriter("resources/loads/grammars/"+filename+".bnf"));
-			out.write(simulator.getCommonGrammar().toString());
-			out.close();
-			System.out.println("Done");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    private void jbSaveActionPerformed(java.awt.event.ActionEvent evt) {      
+    	this.ctrl.saveSimulation();
+//        String filename = this.jtfFileName.getText();
+//        JSONObject o = simulator.toJSON();
+//        try {
+//        	//File myObj = new File("resources/loads/simulations/"+filename+".json");myObj.createNewFile();
+//			PrintWriter out = new PrintWriter(new FileWriter("resources/loads/simulations/"+filename+".json"));
+//			out.write(o.toString());
+//			out.close();
+//			out = new PrintWriter(new FileWriter("resources/loads/grammars/"+filename+".bnf"));
+//			out.write(simulator.getCommonGrammar().toString());
+//			out.close();
+//			System.out.println("Done");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }                                      
 
     /**

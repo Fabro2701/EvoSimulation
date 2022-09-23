@@ -31,5 +31,5 @@ public class EnergyStats extends StatsData{
 			((DefaultCategoryDataset)dataset).addValue(sum, "energy", Integer.valueOf(currentTime));
 		}
 	}
-	
+
 }

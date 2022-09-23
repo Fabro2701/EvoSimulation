@@ -36,5 +36,5 @@ public class DeadOffSpringStats extends StatsData{
 		if(type==0)contGeneration++;
 		else contCrossover++;
 	}
-	
+
 }

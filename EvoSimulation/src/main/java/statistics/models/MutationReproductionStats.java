@@ -43,5 +43,6 @@ public class MutationReproductionStats extends StatsData{
 	public void onReproduction() {
 		reproductions++;
 	}
+
 	
 }

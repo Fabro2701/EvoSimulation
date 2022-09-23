@@ -1,5 +1,8 @@
 package simulator.model;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +16,7 @@ import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import simulator.model.optimizer.BasicOptimizer;
+import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.model.optimizer.Optimizer;
 
 /**
@@ -34,10 +38,11 @@ public class EvoSimulator {
 
 	private long startTime;
 	private boolean debug=false;
+	private boolean save=false;
 	
 	
 	public EvoSimulator() {
-		this("test1000");
+		this("test1000void2");
 	}
 	/**
 	 * 
@@ -50,8 +55,8 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		//this.optimizer = new UniformGridOptimizer(this,3,3);
-		this.optimizer = new BasicOptimizer(this);
+		this.optimizer = new UniformGridOptimizer(this,3,3);
+		//this.optimizer = new BasicOptimizer(this);
 		
 		//this.commonGrammar = new BiasedGrammar();
 		this.commonGrammar = new Grammar();
@@ -63,7 +68,7 @@ public class EvoSimulator {
 		
 		this.startTime = System.currentTimeMillis();
 	}
-	
+
 	/**
 	 * Step the simulator once
 	 */
@@ -72,10 +77,11 @@ public class EvoSimulator {
 		if(entities.size()==0 && entitiesBuffer.size()==0)return;//for performance
 		
 		if(debug) {
-			if(time%100==0) {
+			if(time%500==0) {
 				long currentTime = System.currentTimeMillis();
 				System.out.println("-------- Simulation velocity-1: "+(currentTime-this.startTime));
 				startTime = currentTime;
+				System.out.println("Current time: "+this.time);
 			}
 		}
 		
@@ -98,8 +104,30 @@ public class EvoSimulator {
 		for (SimulatorObserver observer : observers) {
 			observer.onUpdate(entities, map, time);
 		}
+		
+		if(save) {
+			this.saveSimulation();
+			save=false;
+		}
 	}
 
+	/**
+	 * Save simulation in json format
+	 */
+	private void saveSimulation() {
+		String filename = "test";
+        JSONObject o = this.toJSON();
+        try {
+        	//File myObj = new File("resources/loads/simulations/"+filename+".json");myObj.createNewFile();
+			PrintWriter out = new PrintWriter(new FileWriter("resources/loads/simulations/"+filename+".json"));
+			out.write(o.toString());
+			out.close();
+			System.out.println("Simulation saved successfully");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Add an {@link SimulatorObserver}
 	 * @param observer
@@ -160,8 +188,9 @@ public class EvoSimulator {
 		}
 		return new JSONObject().put("time", time)//.put("map", map.toJSON())// ?too heavy
 							   .put("entities", entitiesArr)
-							   .put("commonGrammar", commonGrammar.toString())
-							   .put("map", map.getFileName());
+							   .put("map", map.getFileName())
+							   .put("move_grammar", this.commonGrammar.toString())
+							   .put("action_grammar", this.commonGrammar2.toString());
 	}
 	
 	/**
@@ -195,5 +224,8 @@ public class EvoSimulator {
 	}
 	public List<Entity> getEntities(){
 		return this.entities;
+	}
+	public void setSave(boolean save) {
+		this.save = save;
 	}
 }

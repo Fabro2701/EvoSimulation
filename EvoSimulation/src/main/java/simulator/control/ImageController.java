@@ -20,7 +20,7 @@ public class ImageController {
 	public ImageController() {
 		images = new HashMap<Class<?>,FSM<STATE, Image>>();
 		images.put(MyIndividual.class, ImageController.createMyIndividualFSM());
-		images.put(FoodEntity.class, ImageController.creatFoodFSM());
+		images.put(FoodEntity.class, ImageController.createFoodFSM());
 	}
 	public State<Image> getNextImage(Class<?>clazz, State<Image>current, STATE state) {
 		return images.get(clazz).run(current, state);
@@ -46,7 +46,7 @@ public class ImageController {
 		Transition<STATE>toEatTranstitionT1 = new TrueTransition<STATE>(eatState2);
 		Transition<STATE>toEatTranstitionT2 = new TrueTransition<STATE>(eatState3);
 		Transition<STATE>toEatTranstitionT3 = new TrueTransition<STATE>(eatState4);
-		Transition<STATE>toEatTranstitionT4 = new TrueTransition<STATE>(restState);
+		Transition<STATE>toEatTranstitionT4 = new TrueTransition<STATE>(restState);//change with compound state
 
 		
 		fsm.addTransition(restState, toRestTranstition);
@@ -68,7 +68,7 @@ public class ImageController {
 		fsm.setCurrent(restState);
 		return fsm;
 	}
-	private static FSM<STATE, Image> creatFoodFSM() {
+	private static FSM<STATE, Image> createFoodFSM() {
 		FSM<STATE, Image> fsm = new FSM<STATE, Image>();
 		
 		Image img = new ImageIcon("resources/entities/food.png").getImage();

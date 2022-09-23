@@ -5,16 +5,16 @@ import util.Pair;
 public final class Constants {
 	public static int jsonView = 0;
 	public static final int INTERACTION_DISTANCE = 4;
-	public static final float MOVEMENT_ENERGY_COST_CONSTANT = 0.05f;
-	public static final float LIVE_ENERGY_COST_CONSTANT = 0.15f;
+	public static final float MOVEMENT_ENERGY_COST_CONSTANT = 0.01f;
+	public static final float LIVE_ENERGY_COST_CONSTANT = 0.19f;
 	public static final float FOOD_ENERGY_GIVEN_CONSTANT = 6.0f;
 	public static final int PHEROMONE_LENGTH = 8;
 	public static final int FOOD_LIVE_TIME = 400;
 	public static final float REPRODUCTION_COST = 20.f;
-	public static final float ENTITY_FOOD_FACTOR = 50.f;
+	public static final float ENTITY_FOOD_FACTOR = 25.f;
 	public static final float MAX_ENERGY = 300.f;
-	public static final float ATTACKER_ENERGY_COST = 5f;
-	public static final float ATTACKED_ENERGY_COST = 25f;
+	public static final float ATTACKER_ENERGY_COST = 20f;
+	public static final float ATTACKED_ENERGY_COST = 50f;
 	
 	public static final int CHROMOSOME_LENGTH = 70;
 	public static final int PLOIDY = 2;
@@ -100,6 +100,7 @@ public final class Constants {
 	public static final String AddFoodGeneratorEventBuilder_TYPE = "fg";
 	public static final String AddRandomEntitiesConditionGeneratorBuilder_TYPE = "arecg";
 	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "reg";
+	public static final String RefreshStatsBuilder_TYPE = "rs";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";
 	public static final String SaveStatsImageBuilder_TYPE = "sti";
 	

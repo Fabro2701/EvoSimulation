@@ -10,4 +10,6 @@ public interface StatsObserver {
 	default public void onMutation() {}
 	default public void onReproduction() {}
 	default public void onDeadOffSpring(int type) {}
+
+	public void clear();
 }
