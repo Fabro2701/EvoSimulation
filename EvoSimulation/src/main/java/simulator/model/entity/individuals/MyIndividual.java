@@ -192,22 +192,20 @@ public class MyIndividual extends GIndividual{
 	}
 	@Override
 	public void recieveActiveEntityReproductionInteraction(Entity e) {
-		if(this.getReproductionRestTime()<=0) {
-			if(this.getClass().equals(e.getClass())){//&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
+		if(this.getClass().equals(e.getClass())){//&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
 
-				//System.out.println("reproductioning");
-				ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
-				Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
-				children.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
-				children.add(new MyIndividual(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
-				
-				this.setReproductionRestTime(RECOVERY_REST_TIME);
-				e.setReproductionRestTime(RECOVERY_REST_TIME);
-				
-				this.decreaseEnergy(REPRODUCTION_COST);
-				e.decreaseEnergy(REPRODUCTION_COST);
-			}
+			//System.out.println("reproductioning");
+			ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
+			Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
+			children.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
+			children.add(new MyIndividual(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
+			
+			
+			
+			this.decreaseEnergy(REPRODUCTION_COST);
+			e.decreaseEnergy(REPRODUCTION_COST);
 		}
+		
 	}
 	@Override
 	public void recieveActiveEntityAttackInteraction(Entity e) {

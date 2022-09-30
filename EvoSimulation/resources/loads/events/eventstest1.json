@@ -50,7 +50,7 @@
 	    "type":"rs",
 	    "data":{
                 "time":20000,
-                "times":5,
+                "times":20,
                 "interval":50100
 				}
 		}

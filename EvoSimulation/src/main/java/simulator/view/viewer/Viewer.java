@@ -29,15 +29,15 @@ import simulator.model.map.Map;
  */
 public class Viewer extends AbstractViewer {
 
+	public Viewer(Controller ctrl, int w, int h) {
+		super(ctrl,w,h);
+	}
 	public Viewer(Controller ctrl) {
 		this(ctrl,1000,1000);
 		// initGUI();
 
 		addEntityViewers();
 		//repaint();
-	}
-	public Viewer(Controller ctrl, int w, int h) {
-		super(ctrl,w,h);
 	}
 
 	@Override

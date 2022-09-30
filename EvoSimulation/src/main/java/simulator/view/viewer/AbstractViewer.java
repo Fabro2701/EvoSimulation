@@ -31,8 +31,10 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 	
 	protected BufferedImage bufferImage;
 	protected Graphics2D bufferGraphics;
-	protected boolean active;
+	protected boolean active = false;
 	Controller ctrl;
+	
+	
 	public AbstractViewer(Controller ctrl, int width, int height) {
 		this.ctrl = ctrl;
 		bufferImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
@@ -61,32 +63,26 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 	}
 	@Override
 	public abstract void onRegister(List<Entity> entities, Map map, int time);
-
 	@Override
 	public abstract void onUpdate(List<Entity> entities, Map map, int time);
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
 	public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean getScrollableTracksViewportHeight() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
