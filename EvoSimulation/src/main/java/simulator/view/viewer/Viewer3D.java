@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import simulator.Constants.NODE_TYPE;
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
@@ -41,7 +42,7 @@ public class Viewer3D extends AbstractViewer{
 	float zfar=1000f,znear=0.1f;
 	float a=(float)width/(float)height,f=90f,q=zfar/(zfar-znear);
 	float frad = (float) (1f/ (float)Math.tan(f*0.5f/180f*3.14159f));
-	float offset = 8f;
+	float offset = 20f;
 	float time = 0.0f;
 	Vector3D camera;
 	Vector3D lookDir;
@@ -54,7 +55,7 @@ public class Viewer3D extends AbstractViewer{
 		this(ctrl,700,700);
 		
 		this.mesh = new Mesh();
-		this.mesh.setTriangles(Triangulate.convert("test1000", 5f));
+		this.mesh.setTriangles(Triangulate.convert("test1000void2", 5f, 100,100));
 		this.projectionMatrix = Matrix.Matrix_MakeProjection(f, a, znear, zfar);
 		
 		camera = new Vector3D(0f,0f,0f);
@@ -164,22 +165,22 @@ public class Viewer3D extends AbstractViewer{
 	        this.requestFocusInWindow();
 		}
 	}
-	private BufferedImage reduceImage(Image img) {
-		int size=50;
-		Image imgS = img.getScaledInstance(size, size, Image.SCALE_SMOOTH);
-		BufferedImage image2 = new BufferedImage(size,size,BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage reduceImage(Image img, int width, int height) {
+		Image imgS = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		BufferedImage image2 = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = (Graphics2D)image2.createGraphics();
-		g2d.drawImage(imgS, 0, 0, size, size, null);
+		g2d.drawImage(imgS, 0, 0, width, height, null);
 		return image2;
 	}
 	/**
 	 * Render the 3d image
 	 */
 	public void updateImage() {
-		System.out.println("look: "+lookDir);
-		System.out.println("camera: "+camera);
+		System.out.println(this.mesh.triangles.size()+" triangles");
+		//System.out.println("look: "+lookDir);
+		//System.out.println("camera: "+camera);
 		//rescale the image otherwise will be too big
-		BufferedImage reducedImg = reduceImage(mapImg);
+		BufferedImage reducedImg = reduceImage(mapImg, 100, 100);
 		
 		bufferGraphics.setColor(Color.black);
 		bufferGraphics.fillRect(0, 0, bufferImage.getWidth(), bufferImage.getHeight());
@@ -187,8 +188,8 @@ public class Viewer3D extends AbstractViewer{
 		
 		Map map = this.ctrl.getMap();
 		
-		int factorx = mapImg.getHeight(null)/reducedImg.getHeight();
-		int factory = mapImg.getWidth(null)/reducedImg.getWidth();
+		int factory = mapImg.getHeight(null)/reducedImg.getHeight();
+		int factorx = mapImg.getWidth(null)/reducedImg.getWidth();
 		
 		Matrix zrotation = Matrix.Matrix_MakeRotationZ(time);
 		Matrix xrotation = Matrix.Matrix_MakeRotationX(time);
@@ -214,6 +215,7 @@ public class Viewer3D extends AbstractViewer{
 		List<Triangle>trianglesToRaster = new ArrayList<Triangle>();
 		
 		for(Triangle tri:mesh.getTriangles()) {
+			if(map.getNodeAt((int)tri.points[0].x*factorx, (int)tri.points[0].y*factory).type == NODE_TYPE.VOID)continue;
 			Triangle triTransformed = new Triangle(Vector3D.multiplyMatrix(tri.points[0], matWorld),
 												   Vector3D.multiplyMatrix(tri.points[1], matWorld),
 												   Vector3D.multiplyMatrix(tri.points[2], matWorld));
@@ -363,6 +365,23 @@ public class Viewer3D extends AbstractViewer{
 //			bufferGraphics.drawImage(e.getImage(), p1.x+originX, p1.y+originY, null);
 //		}
 //		
+		for(Entity e:entities) {
+			Vector3D env = new Vector3D(e.node.x/factorx, e.node.y/factory, e.node.elevation*5f);
+			Vector3D triTransformed = Vector3D.multiplyMatrix(env, matWorld);
+			Vector3D triViewed = Vector3D.multiplyMatrix(triTransformed, matView);
+			Vector3D triProjected = Vector3D.multiplyMatrix(triViewed, projectionMatrix);
+			
+			triProjected = Vector3D.div(triProjected, triProjected.w);
+			triProjected.x *= -1.0f;
+			triProjected.y *= -1.0f;
+			Vector3D offsetView = new Vector3D(1f,1f,0f);
+			triProjected = Vector3D.add(triProjected, offsetView);
+			triProjected.x *= 0.5f * (float)this.getWidth();
+			triProjected.y *= 0.5f * (float)this.getHeight();
+			
+	
+			bufferGraphics.drawImage(e.getImage(), (int)triProjected.x, (int)triProjected.y, null);
+		}
 		repaint();
 	}
 	@Override
