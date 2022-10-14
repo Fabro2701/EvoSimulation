@@ -9,6 +9,9 @@ public class RandomSingleton {
     private RandomSingleton() {
     	_rnd = new Random(98);
     }
+    private RandomSingleton(long s) {
+    	_rnd = new Random(s);
+    }
 
     public static RandomSingleton getInstance() {
         if(instance == null) {
@@ -26,4 +29,7 @@ public class RandomSingleton {
     public static double nextFloat() {
         return getInstance()._rnd.nextFloat();
    }
+    public static void setSeed(long s) {
+    	instance = new RandomSingleton(s);
+    }
 }

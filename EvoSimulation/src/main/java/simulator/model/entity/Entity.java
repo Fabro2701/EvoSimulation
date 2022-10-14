@@ -116,7 +116,6 @@ public abstract class Entity implements IInteract{
 	protected void updateImage() {
 		this.currentImgState = this.imgController.getNextImage(this.getClass(), currentImgState, currentstate);
 		this.img = currentImgState.execute();
-		
 	}
 	@Override
 	public String toString() {

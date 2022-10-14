@@ -176,7 +176,7 @@ public class Viewer3D extends AbstractViewer{
 	 * Render the 3d image
 	 */
 	public void updateImage() {
-		System.out.println(this.mesh.triangles.size()+" triangles");
+		//System.out.println(this.mesh.triangles.size()+" triangles");
 		//System.out.println("look: "+lookDir);
 		//System.out.println("camera: "+camera);
 		//rescale the image otherwise will be too big

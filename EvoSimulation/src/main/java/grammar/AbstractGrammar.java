@@ -320,7 +320,9 @@ public abstract class AbstractGrammar {
 		//System.out.println("Quitting "+query._symbol+" method");
 		return b;
 	}
-	
+	public HashMap<Symbol,Rule> getRules(){
+		return this._rulesProductions;
+	}
 	public static void main(String args[]) {
 		AbstractGrammar g = new Grammar();
 		g.parseBNF("test");
