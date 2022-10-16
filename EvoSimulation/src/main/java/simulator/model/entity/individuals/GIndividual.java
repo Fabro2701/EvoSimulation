@@ -1,5 +1,6 @@
 package simulator.model.entity.individuals;
 
+import java.util.HashMap;
 import java.util.List;
 
 import grammar.AbstractGrammar;
@@ -11,14 +12,19 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public abstract class GIndividual extends AbstractIndividual{
-	protected AbstractGrammar moveGrammar;
-	protected AbstractGrammar actionGrammar;
 	protected Genotype genotype;
 	protected Phenotype phenotype;
+	
 	protected ObservationManager observationManager;
+	
+	protected java.util.Map<String, AbstractGrammar>grammars;
+	
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
+		
+		//grammars = new HashMap<String, AbstractGrammar>();
+		
 	}
 	public void updateObservations(List<Entity>entities, Map map) {
 		observationManager.update(entities, map);
@@ -40,13 +46,8 @@ public abstract class GIndividual extends AbstractIndividual{
 	public Phenotype getPhenotype() {
 		return phenotype;
 	}
-
+	
 	public void setPhenotype(Phenotype phenotype) {
 		this.phenotype = phenotype;
 	}
-
-	
-	
-
-
 }

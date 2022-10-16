@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import grammar.AbstractGrammar;
-import grammar.Grammar;
+import grammar.StandardGrammar;
 import simulator.RandomSingleton;
 import simulator.events.Event;
 import simulator.events.EventManager;
@@ -188,15 +188,6 @@ public class Controller {
 	}
 	public List<Entity>getEntities(){
 		return this.simulator.getEntities();
-	}
-	public AbstractGrammar getCommonGrammar() {
-		return simulator.getCommonGrammar();
-	}
-	public void setCommonGrammar(AbstractGrammar commonGrammar) {
-		simulator.setCommonGrammar(commonGrammar);
-	}
-	public AbstractGrammar getCommonGrammar2() {
-		return simulator.getCommonGrammar2();
 	}
 
 	public ImageController getImgController() {

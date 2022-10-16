@@ -23,10 +23,10 @@ import simulator.model.entity.individuals.Phenotype;
  * @author fabrizioortega
  *
  */
-public class Grammar extends AbstractGrammar{
+public class StandardGrammar extends AbstractGrammar{
 
 
-	public Grammar() {
+	public StandardGrammar() {
 		super();
 		
 	}
@@ -53,7 +53,7 @@ public class Grammar extends AbstractGrammar{
 			
 			//terminals.add(g.new Terminal("("));
 			calls++;
-			while(!q.isEmpty() && q.getFirst().getType()==Grammar.SymbolType.Terminal) {
+			while(!q.isEmpty() && q.getFirst().getType()==AbstractGrammar.SymbolType.Terminal) {
 				if(!q.getFirst().toString().equals(")"))cont++;
 				terminals.add(q.pop());
 			}
@@ -76,16 +76,14 @@ public class Grammar extends AbstractGrammar{
 	@Override
 	public void parseBNF(String filename) {
 		StringBuilder sb = new StringBuilder();
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("resources/loads/grammars/"+filename+".bnf")));
+		//try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("resources/loads/grammars/"+filename+".bnf")));){
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));){
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);
 				aux = reader.readLine();
 			}
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String string = sb.toString();
@@ -98,7 +96,7 @@ public class Grammar extends AbstractGrammar{
 			JSONObject rule = rules.getJSONObject(i);
 			
 			String name = rule.getJSONObject("name").getString("id");
-			Symbol nameS = new Symbol(name,Grammar.SymbolType.NTerminal);
+			Symbol nameS = new Symbol(name,AbstractGrammar.SymbolType.NTerminal);
 			
 			if(i==0)this.setInitial(nameS);
 			
@@ -110,11 +108,11 @@ public class Grammar extends AbstractGrammar{
 				for(int k=0; k<p.length();k++) {
 					JSONObject s = p.getJSONObject(k);
 					if(s.getString("type").equals("Terminal")) {
-						Symbol inS = new Symbol(s.getString("id"),Grammar.SymbolType.Terminal);
+						Symbol inS = new Symbol(s.getString("id"),AbstractGrammar.SymbolType.Terminal);
 						production.add(inS);
 					}
 					else {
-						Symbol inS = new Symbol(s.getString("id"),Grammar.SymbolType.NTerminal);
+						Symbol inS = new Symbol(s.getString("id"),AbstractGrammar.SymbolType.NTerminal);
 						production.add(inS);
 					}
 				}
@@ -125,8 +123,6 @@ public class Grammar extends AbstractGrammar{
 			r.addAll(ps);
 			addRule(nameS,r);
 		}
-		
-		
 	}
 	public void addRule(Symbol s, Rule r) {
 		_rulesProductions.put(s, r);
@@ -149,7 +145,7 @@ public class Grammar extends AbstractGrammar{
 		return sb.toString();
 	}
 	public static void main(String args[]) {
-		Grammar g = new Grammar();
+		StandardGrammar g = new StandardGrammar();
 		g.parseBNF("default");
 		System.out.println(g);
 		

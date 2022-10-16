@@ -6,7 +6,7 @@ import java.util.List;
 import simulator.model.entity.individuals.Chromosome;
 import simulator.model.entity.individuals.Phenotype;
 
-public class IntronGrammar extends Grammar{
+public class IntronGrammar extends StandardGrammar{
 	public LinkedList<Symbol> parse(Chromosome c){
 		Symbol t = this.getInitial();
 		List<Production> ps;
@@ -35,7 +35,7 @@ public class IntronGrammar extends Grammar{
 			
 			//terminals.add(g.new Terminal("("));
 			calls++;
-			while(!q.isEmpty() && q.getFirst().getType()==Grammar.SymbolType.Terminal) {
+			while(!q.isEmpty() && q.getFirst().getType()==AbstractGrammar.SymbolType.Terminal) {
 				if(!q.getFirst().toString().equals(")"))cont++;
 				terminals.add(q.pop());
 			}

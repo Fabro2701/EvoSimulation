@@ -48,7 +48,7 @@ public class BiasedGrammar extends AbstractGrammar{
 			q.addAll(0, ps);
 			
 			calls++;
-			while(!q.isEmpty() && q.getFirst().getType()==Grammar.SymbolType.Terminal) {
+			while(!q.isEmpty() && q.getFirst().getType()==AbstractGrammar.SymbolType.Terminal) {
 				terminals.add(q.pop());
 			}
 			
@@ -118,7 +118,7 @@ public class BiasedGrammar extends AbstractGrammar{
 			Rule ruleO = new Rule();
 			
 			String name = rule.getJSONObject("name").getString("id");
-			Symbol nameS = new Symbol(name,Grammar.SymbolType.NTerminal);
+			Symbol nameS = new Symbol(name,AbstractGrammar.SymbolType.NTerminal);
 			
 			if(i==0)this.setInitial(nameS);
 			ruleO.set_symbol(nameS);
@@ -136,11 +136,11 @@ public class BiasedGrammar extends AbstractGrammar{
 				for(int k=0; k<symbols.length();k++) {
 					JSONObject s = symbols.getJSONObject(k);
 					if(s.getString("type").equals("Terminal")) {
-						Symbol inS = new Symbol(s.getString("id"),Grammar.SymbolType.Terminal);
+						Symbol inS = new Symbol(s.getString("id"),AbstractGrammar.SymbolType.Terminal);
 						production.add(inS);
 					}
 					else {
-						Symbol inS = new Symbol(s.getString("id"),Grammar.SymbolType.NTerminal);
+						Symbol inS = new Symbol(s.getString("id"),AbstractGrammar.SymbolType.NTerminal);
 						production.add(inS);
 					}
 				}

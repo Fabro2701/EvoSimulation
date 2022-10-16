@@ -1,0 +1,2 @@
+grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
+			action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".

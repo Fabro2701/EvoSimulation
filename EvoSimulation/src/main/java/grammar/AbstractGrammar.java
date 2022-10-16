@@ -24,7 +24,6 @@ public abstract class AbstractGrammar {
 
 	public AbstractGrammar() {
 		_rulesProductions = new HashMap<Symbol,Rule>();
-
 	}
 	public abstract LinkedList<Symbol> parse(Chromosome c);
 	public abstract void parseBNF(String filename);
@@ -324,7 +323,7 @@ public abstract class AbstractGrammar {
 		return this._rulesProductions;
 	}
 	public static void main(String args[]) {
-		AbstractGrammar g = new Grammar();
+		AbstractGrammar g = new StandardGrammar();
 		g.parseBNF("test");
 		g.calculateAttributes();
 		

@@ -1,23 +1,24 @@
 package simulator.model;
 
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar;
-import grammar.BiasedGrammar;
-import grammar.Grammar;
+import simulator.control.SetupController;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
-import simulator.model.optimizer.BasicOptimizer;
-import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.model.optimizer.Optimizer;
+import simulator.model.optimizer.UniformGridOptimizer;
 
 /**
  * EvoSimulator class
@@ -33,12 +34,13 @@ public class EvoSimulator {
 	
 	private Optimizer optimizer;
 	
-	private AbstractGrammar commonGrammar;
-	private AbstractGrammar commonGrammar2;
+	private java.util.Map<String, AbstractGrammar>commonGrammars;
 
 	private long startTime;
 	private boolean debug=false;
 	private boolean save=false;
+	
+	private SetupController setupCtrl;
 	
 	
 	public EvoSimulator() {
@@ -46,7 +48,7 @@ public class EvoSimulator {
 	}
 	/**
 	 * 
-	 * @param map Map direction
+	 * @param map Map dir
 	 */
 	public EvoSimulator(String map) {
 		this.time = 0;
@@ -58,13 +60,14 @@ public class EvoSimulator {
 		this.optimizer = new UniformGridOptimizer(this,3,3);
 		//this.optimizer = new BasicOptimizer(this);
 		
+		
+		
 		//this.commonGrammar = new BiasedGrammar();
-		this.commonGrammar = new Grammar();
-		this.commonGrammar.parseBNF("default");
+//		this.commonGrammar = new StandardGrammar();
+//		this.commonGrammar.parseBNF("default");
 		
 		//this.commonGrammar.calculateAttributes();
-		this.commonGrammar2 = new Grammar();
-		this.commonGrammar2.parseBNF("default2");
+		
 		
 		this.startTime = System.currentTimeMillis();
 	}
@@ -95,9 +98,9 @@ public class EvoSimulator {
 		}
 		
 		if(time%300==0) {
-			if(commonGrammar instanceof BiasedGrammar){
-				((BiasedGrammar)commonGrammar).globalUpdate(entities);
-			}
+//			if(commonGrammar instanceof BiasedGrammar){
+//				((BiasedGrammar)commonGrammar).globalUpdate(entities);
+//			}
 		}
 		
 		//update observers
@@ -186,11 +189,14 @@ public class EvoSimulator {
 		for (Entity e : entities) {
 			if(e.getEnergy()>0.0f)entitiesArr.put(e.toJSON());
 		}
+		JSONArray grammars = new JSONArray();
+		for(String key:this.commonGrammars.keySet()) {
+			grammars.put(this.commonGrammars.get(key).toString());
+		}
 		return new JSONObject().put("time", time)//.put("map", map.toJSON())// ?too heavy
 							   .put("entities", entitiesArr)
 							   .put("map", map.getFileName())
-							   .put("move_grammar", this.commonGrammar.toString())
-							   .put("action_grammar", this.commonGrammar2.toString());
+							   .put("grammars", grammars);
 	}
 	
 	/**
@@ -200,21 +206,22 @@ public class EvoSimulator {
 		this.entities.clear();
 		this.entitiesBuffer.clear();
 		this.time = 0;
-		this.commonGrammar.reset();
+		for(String key:this.commonGrammars.keySet()) {
+			this.commonGrammars.get(key).reset();
+		}
+	}
+	
+	public void setupGrammars(String filename) {
+		this.commonGrammars = new LinkedHashMap<String, AbstractGrammar>();
+		setupCtrl.getRule("GrammarDeclaration");
 	}
 	
 	//GETTERS AND SETTERS
 	public void setDebug(boolean b) {
 		this.debug=b;
 	}
-	public AbstractGrammar getCommonGrammar() {
-		return commonGrammar;
-	}
-	public AbstractGrammar getCommonGrammar2() {
-		return commonGrammar2;
-	}
-	public void setCommonGrammar(AbstractGrammar commonGrammar) {
-		this.commonGrammar = commonGrammar;
+	public java.util.Map<String, AbstractGrammar> getCommonGrammar() {
+		return commonGrammars;
 	}
 	public Map getMap() {
 		return map;

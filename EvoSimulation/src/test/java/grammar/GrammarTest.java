@@ -17,7 +17,7 @@ class GrammarTest {
 
 	@Test
 	void testAddRule() {
-		Grammar g = new Grammar();
+		StandardGrammar g = new StandardGrammar();
 		Symbol CODE = g.new Symbol("CODE",Grammar.SymbolType.NTerminal);
 		Symbol LINE = g.new Symbol("LINE",Grammar.SymbolType.NTerminal);
 		Rule pCode = g.new Rule();
@@ -30,8 +30,8 @@ class GrammarTest {
 		assertEquals(g.getRule(CODE).get(0).toString(),"<LINE>");
 		assertEquals(g.getRule(CODE).get(1).toString(),"<CODE> <LINE>");
 	}
-	Grammar testGrammar() {
-		Grammar g = new Grammar();
+	StandardGrammar testGrammar() {
+		StandardGrammar g = new StandardGrammar();
 		
 		Symbol right = g.new Symbol("\"RIGHT\"",Grammar.SymbolType.Terminal);
 		Symbol left = g.new Symbol("\"LEFT\"",Grammar.SymbolType.Terminal);
@@ -213,7 +213,7 @@ class GrammarTest {
 	}
 	@Test
 	void testGrammarString() {
-		Grammar g = this.testGrammar();
+		StandardGrammar g = this.testGrammar();
 		
 		assertEquals(g.getInitial().toString(),"<CODE>");
 		
@@ -233,7 +233,7 @@ class GrammarTest {
 	}
 	@Test
 	public void testParse() {
-		Grammar g = this.testGrammar();
+		StandardGrammar g = this.testGrammar();
 		Chromosome c = new Chromosome(50);
 		c.setArrayIntToCodon(1,0, 1,0,1,2,1,3,0,2,1,1,0,3,0,3, 1,0,1,0,1,1,0,0,1, 0,0,1,0,1,0,  0);
 		

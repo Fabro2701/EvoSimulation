@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import org.junit.jupiter.api.Test;
 
 import grammar.AbstractGrammar.Symbol;
-import grammar.Grammar;
+import grammar.StandardGrammar;
 import simulator.Constants.MOVE;
 
 class PhenotypeTest {
 
 	@Test
 	void testGetVisualCode() {
-		Grammar g = new Grammar();
+		StandardGrammar g = new StandardGrammar();
 		g.parseBNF("default");
 		
 		Chromosome c = new Chromosome(50);
@@ -49,7 +49,7 @@ class PhenotypeTest {
 	}
 	@Test
 	public void testGetNext() {
-		Grammar g = new Grammar();
+		StandardGrammar g = new StandardGrammar();
 		g.parseBNF("default");
 		
 		
