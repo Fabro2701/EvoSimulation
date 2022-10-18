@@ -18,8 +18,8 @@ public class SetupController {
 	public SetupController() {
 		
 	}
-	public JSONObject getRule(String key) {
-		return this.program.getJSONObject(key);
+	public ModuleController getModule(String key) {
+		return this.controllers.get(key);
 	}
 	public static SetupController from(String path) {
 		SetupController ctrl = new SetupController();
@@ -28,6 +28,7 @@ public class SetupController {
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);
+				sb.append("\n");
 				aux = reader.readLine();
 			}
 		} catch (IOException e) {

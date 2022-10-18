@@ -71,6 +71,9 @@ public class EvoSimulator {
 		
 		this.startTime = System.currentTimeMillis();
 	}
+	public void loadSetup(SetupController setup) {
+		setupCtrl = setup;
+	}
 
 	/**
 	 * Step the simulator once
@@ -234,5 +237,8 @@ public class EvoSimulator {
 	}
 	public void setSave(boolean save) {
 		this.save = save;
+	}
+	public SetupController getSetupCtrl() {
+		return setupCtrl;
 	}
 }

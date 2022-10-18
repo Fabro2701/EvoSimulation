@@ -197,4 +197,7 @@ public class Controller {
 	public void setImgController(ImageController imgController) {
 		this.imgController = imgController;
 	}
+	public SetupController getSetupCtrl() {
+		return simulator.getSetupCtrl();
+	}
 }

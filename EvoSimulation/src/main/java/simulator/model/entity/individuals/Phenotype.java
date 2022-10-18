@@ -3,15 +3,17 @@ package simulator.model.entity.individuals;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import grammar.Evaluator;
 import grammar.Parser;
-import model.Constants;
+import simulator.Constants;
 import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
 
@@ -23,7 +25,7 @@ import simulator.Constants.MOVE;
 public class Phenotype{
 	String visualization, code;
 	boolean valid;
-	Evaluator evaluatorMove,evaluatorAction;
+	Map<String,Evaluator> evaluators;
 	List<LinkedList<Symbol>> symbols;
 	Parser parser = new Parser();
 	public Phenotype() {
@@ -31,20 +33,17 @@ public class Phenotype{
 		symbols = new ArrayList<LinkedList<Symbol>>();
 		for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
 		valid=true;
-	}
-	public Phenotype(String code) {
-		this();
-		valid=true;
-		Parser parser = new Parser();
-		evaluatorMove = new Evaluator(parser.parse(code));
-		visualization = code;
+		evaluators = new LinkedHashMap<String, Evaluator>();
 	}
 	public Phenotype(JSONObject o) {
 		this();
 		valid=true;
 		Parser parser = new Parser();
 		visualization = o.getString("code");
-		evaluatorMove = new Evaluator(parser.parse(visualization));
+		//evaluatorMove = new Evaluator(parser.parse(visualization));
+	}
+	public Object getNext(String key, HashMap<String,String>observations) {
+		return evaluators.get(key).getNextAction();
 	}
 	public MOVE getNextMove(HashMap<String,String>observations) {
 		if(!valid)return MOVE.NEUTRAL;
@@ -56,16 +55,24 @@ public class Phenotype{
 		evaluatorAction.addObservations(observations); //already done
 		return evaluatorAction.getNextAction();
 	}
-	public void setSymbol(int i, LinkedList<Symbol> crom) {
-		this.symbols.set(i, crom);
+	public void setSymbol(String key, LinkedList<Symbol> crom) {
+		this.symbols.add(crom);
 		if(crom==null) {
 			this.valid=false;
 			return;
 		}
-		if(i==0)this.evaluatorMove = new Evaluator(parser.parse(symbolRepresentation(crom)));
-		if(i==1)this.evaluatorAction = new Evaluator(parser.parse(symbolRepresentation(crom)));
-
+		this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
 	}
+//	public void setSymbol(int i, LinkedList<Symbol> crom) {
+//		this.symbols.set(i, crom);
+//		if(crom==null) {
+//			this.valid=false;
+//			return;
+//		}
+//		if(i==0)this.evaluatorMove = new Evaluator(parser.parse(symbolRepresentation(crom)));
+//		if(i==1)this.evaluatorAction = new Evaluator(parser.parse(symbolRepresentation(crom)));
+//
+//	}
 	
 	
 	private void setVisualization() {

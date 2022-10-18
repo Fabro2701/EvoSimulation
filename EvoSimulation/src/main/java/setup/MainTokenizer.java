@@ -11,8 +11,10 @@ public class MainTokenizer {
 	private String _string;
 	
 	//Regular Expressions for each token type
-	String [][]Spec = {{"^\\s+",null},
+	String [][]Spec = {{"(?s)/\\*(.)*?\\*/",null},
+					   {"^\\s+",null},
 			   		   {"^grammars","GrammarController"},
+			   		   {"^actions","ActionsController"},
 			   		   {"^\"[^\"]*\"","STRING"}};
 	public void init(String string) {
 		_cursor=0;
@@ -25,7 +27,7 @@ public class MainTokenizer {
 	public boolean hasMoreTokens() {
 		return this._cursor < this._string.length();
 	}
-	boolean debug = false;
+	boolean debug = !false;
 	public JSONObject getNextToken() {
 		if(!this.hasMoreTokens()) {
 			//System.err.println("No more tokens");

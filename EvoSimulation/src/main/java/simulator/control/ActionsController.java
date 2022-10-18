@@ -7,12 +7,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar;
+import simulator.model.ActionI;
 
-public class GrammarController extends ModuleController{
-	Map<String, AbstractGrammar>grammars;
-	public GrammarController(JSONObject declaration) {
+public class ActionsController extends ModuleController{
+	Map<String, ActionI>actions;
+	public ActionsController(JSONObject declaration) {
 		super(declaration);
-		grammars = new LinkedHashMap<>();
+		actions = new LinkedHashMap<>();
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class GrammarController extends ModuleController{
 		}
 	}
 
-	public Map<String, AbstractGrammar> getGrammars() {
-		return grammars;
+	public Map<String, ActionI> getActions() {
+		return actions;
 	}
 }

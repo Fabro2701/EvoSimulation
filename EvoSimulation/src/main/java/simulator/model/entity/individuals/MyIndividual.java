@@ -1,24 +1,22 @@
 package simulator.model.entity.individuals;
 
-import static simulator.Constants.CHROMOSOME_LENGTH;
-import static simulator.Constants.RECOVERY_REST_TIME;
-import static simulator.Constants.REPRODUCTION_COST;
-import static simulator.Constants.ATTACKER_ENERGY_COST;
 import static simulator.Constants.ATTACKED_ENERGY_COST;
+import static simulator.Constants.ATTACKER_ENERGY_COST;
+import static simulator.Constants.CHROMOSOME_LENGTH;
+import static simulator.Constants.REPRODUCTION_COST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
+import java.util.Set;
 
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
-import model.Constants;
+import simulator.Constants;
 import simulator.Constants.ACTION;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
@@ -42,8 +40,7 @@ public class MyIndividual extends GIndividual{
 		super(id, n, ctrl);
 		type = "mi";
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
-		moveGrammar = ctrl.getCommonGrammar();
-		actionGrammar = ctrl.getCommonGrammar2();
+		
 		children = new ArrayList<Entity>();
 	}
 	/**
@@ -57,13 +54,12 @@ public class MyIndividual extends GIndividual{
 		
 		genotype = new Genotype();
 		phenotype = new Phenotype();
-		for(int i=0; i<Constants.PLOIDY;i++) {
+		for(String key:grammars.keySet()) {
 			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
 			genotype.addChromosome(c);
 			LinkedList<Symbol> crom=null;
-			if(i==0) crom = moveGrammar.parse(c);
-			else if(i==1) crom = actionGrammar.parse(c);
-			phenotype.setSymbol(i, crom);
+			crom = grammars.get(key).parse(c);
+			phenotype.setSymbol(key, crom);
 			if(phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				vanish();
@@ -81,12 +77,12 @@ public class MyIndividual extends GIndividual{
 		genotype = new Genotype(geno);
 		phenotype = new Phenotype();
 		mutate();
-		for(int i=0; i<Constants.PLOIDY;i++) {
-			Chromosome c = geno.getChromosome(i);
+		for(String key:grammars.keySet()) {
+			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
+			genotype.addChromosome(c);
 			LinkedList<Symbol> crom=null;
-			if(i==0) crom = moveGrammar.parse(c);
-			else if(i==1) crom = actionGrammar.parse(c);
-			phenotype.setSymbol(i, crom);
+			crom = grammars.get(key).parse(c);
+			phenotype.setSymbol(key, crom);
 			if(phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				vanish();

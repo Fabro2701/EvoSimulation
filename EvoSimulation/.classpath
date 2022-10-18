@@ -8,9 +8,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/jfreechart-1.5.2"/>
 	<classpathentry kind="lib" path="lib/json-20220320.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.5.3.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/GrammaticalEvolution"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

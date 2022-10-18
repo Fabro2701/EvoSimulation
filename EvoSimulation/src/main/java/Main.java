@@ -1,12 +1,11 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 
 import simulator.LauncherGUI;
 import simulator.control.Controller;
+import simulator.control.SetupController;
 import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
@@ -64,7 +63,9 @@ public class Main {
 		
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
+		SetupController setup = SetupController.from("resources/setup/defult.stp");
 		simulator = new EvoSimulator("test1000void");simulator.setDebug(true);
+		simulator.loadSetup(setup);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		
 		try {

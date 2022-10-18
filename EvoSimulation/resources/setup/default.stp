@@ -1,2 +1,8 @@
-grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
-			action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
+/*grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
+			  action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
+*/		
+actions := <move> UP{posx.y = posx+1;}
+				  RIGHT{;}
+				  NEUTRAL{;}|
+		   <action1> ATTACK{;}
+		   			 REST{;}.

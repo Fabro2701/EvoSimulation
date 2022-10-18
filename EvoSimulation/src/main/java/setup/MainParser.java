@@ -3,8 +3,9 @@ package setup;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,6 +46,8 @@ public class MainParser {
 		switch(type) {
 		case "GrammarController":
 			declaration = new GrammarParser().parse(this);
+		case "ActionsController":
+			declaration = new ActionsParser().parse(this);
 		
 		}
 		
@@ -148,6 +151,7 @@ public class MainParser {
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);
+				//sb.append("\n");
 				aux = reader.readLine();
 			}
 			
@@ -159,11 +163,15 @@ public class MainParser {
 		MainParser parser = new MainParser();
 		System.out.println(parser.parse(e3).toString(4));
 		
+	
 		
-		
-		//Pattern p = Pattern.compile("^\\blet\\b");
-		//Matcher m = p.matcher(" let x =12;"); 
-		//System.out.println(m.find());
-		//System.out.println(m.end());
+		String source = "/*/grammars := move;   \"grammar.StandardGrammar\"; \"resources/loads/grammars/default.bnf\"|\n"
+				+ "			action; \"grammar.StandardGrammar\"; \"resources/loads/grammars/default2.bnf\".\n"
+				+ "*/	";
+	    Pattern pattern = Pattern.compile("(?s)/\\*(.)*?\\*/");
+	    Matcher matcher = pattern.matcher(source);
+	    while (matcher.find()) {
+	    System.out.println(matcher.group());
+	    }
 	}
 }

@@ -1,10 +1,10 @@
 package simulator.model.entity.individuals;
 
-import java.util.HashMap;
 import java.util.List;
 
 import grammar.AbstractGrammar;
 import simulator.control.Controller;
+import simulator.control.GrammarController;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.observations.ObservationManager;
@@ -23,6 +23,7 @@ public abstract class GIndividual extends AbstractIndividual{
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
 		
+		grammars = ((GrammarController)ctrl.getSetupCtrl().getModule("GrammarController")).getGrammars();
 		//grammars = new HashMap<String, AbstractGrammar>();
 		
 	}

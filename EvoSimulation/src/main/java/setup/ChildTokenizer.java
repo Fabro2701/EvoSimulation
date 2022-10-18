@@ -26,7 +26,7 @@ public class ChildTokenizer {
 	public boolean hasMoreTokens() {
 		return this._cursor < this._string.length();
 	}
-	boolean debug = false;
+	boolean debug = !false;
 	public JSONObject getNextToken() {
 		if(!this.hasMoreTokens()) {
 			//System.err.println("No more tokens");
