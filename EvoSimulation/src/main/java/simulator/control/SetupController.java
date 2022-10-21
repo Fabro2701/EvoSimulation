@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -16,7 +17,7 @@ public class SetupController {
 	JSONObject program;
 	Map<String, ModuleController> controllers;
 	public SetupController() {
-		
+		controllers = new LinkedHashMap<String, ModuleController>();
 	}
 	public ModuleController getModule(String key) {
 		return this.controllers.get(key);

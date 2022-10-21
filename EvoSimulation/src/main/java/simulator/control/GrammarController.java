@@ -12,11 +12,11 @@ public class GrammarController extends ModuleController{
 	Map<String, AbstractGrammar>grammars;
 	public GrammarController(JSONObject declaration) {
 		super(declaration);
-		grammars = new LinkedHashMap<>();
 	}
 
 	@Override
 	protected void parse(JSONObject declaration) {
+		grammars = new LinkedHashMap<>();
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {
