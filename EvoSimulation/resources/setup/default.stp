@@ -16,7 +16,8 @@ actions := <move> UP{
 				  		}
 				  	   }
 				  NEUTRAL{
-				  		  test.f = 98f;
+				  		  let testt = new simulator.model.evaluation.ActionEvaluator$TestEv();
+				  		  testt.x;
 				  		 }|
 		   <action1> ATTACK{;}
 		   			 REST{;}.

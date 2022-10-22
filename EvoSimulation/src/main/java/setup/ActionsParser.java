@@ -416,10 +416,21 @@ public class ActionsParser extends ChildParser{
 				return this.ParenthesizedExpression();
 			case "IDENTIFIER":
 				return this.Identifier();
+			case "new":
+				return this.NewExpression();
 			default:
 				return this.LeftHandSideExpression();
 		}
 	}
+	private JSONObject NewExpression() {
+		this._eat("new");
+		
+		return new JSONObject().put("type", "NewExpression")
+							//   .put("callee", this.Identifier())
+							   .put("callee", this.MemberExpression())
+							   .put("arguments", this.Arguments());
+	}
+
 	private boolean _isLiteral(String s) {
 		return s.equals("NUMBER")||s.equals("STRING")||s.equals("true")||s.equals("false")||s.equals("null");
 	}

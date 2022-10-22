@@ -70,10 +70,12 @@ public class ActionEvaluator {
 		String type = query.getString("type");
 		
 		switch(type) {
-		case "AssignmentExpression":
-			return this.evalAssignmentExpression(query, env);
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
+		case "NewExpression":
+			return this.evalNewExpression(query, env);
+		case "AssignmentExpression":
+			return this.evalAssignmentExpression(query, env);
 		case "MemberExpression":
 			return this.evalMemberExpression(query, env);
 		case "CallExpression":
@@ -90,7 +92,6 @@ public class ActionEvaluator {
 			return this.evalIfStatement(query, env);
 		case "NumberLiteral":
 			return this.evalNumberLiteral(query);
-			//return Float.parseFloat(query.getString("value"));
 		case "Identifier":
 			return env.search(query.getString("name"));
 		case "EmptyStatement":
@@ -99,6 +100,36 @@ public class ActionEvaluator {
 			System.err.println("unsupported type: "+type);
 			return null;
 		}
+	}
+	private Object evalNewExpression(JSONObject query, Environment env) {
+		StringBuilder str = new StringBuilder();
+		
+		JSONObject callee = query.getJSONObject("callee");
+		str.append(callee.getJSONObject("property").getString("name"));
+		while(callee.has("object")) {
+			callee = callee.getJSONObject("object");
+			if(callee.has("property")) {
+				str.append(".").append(callee.getJSONObject("property").getString("name"));
+			}
+			else {
+				str.append(".").append(callee.getString("name"));
+			}
+		}
+		
+		String realname[] = str.toString().split("\\.");
+		str = new StringBuilder();
+		for(int i=realname.length-1;i>=0;i--) {
+			str.append(realname[i]).append(".");
+		}str.deleteCharAt(str.length()-1);
+		try {
+			Class<?>clazz = Class.forName(str.toString());
+			Object object = clazz.getConstructors()[0].newInstance(null);
+			return object;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	private Object evalNumberLiteral(JSONObject query) {
 		try {
