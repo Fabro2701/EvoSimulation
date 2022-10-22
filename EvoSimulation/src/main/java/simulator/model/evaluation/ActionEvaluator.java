@@ -20,7 +20,14 @@ import simulator.model.map.Map;
 public class ActionEvaluator {
 	public static class TestEv{
 		public int x=4;
+		public float f=4;
 		public TestEv2 test2 = new TestEv2();
+		public void setF(float x) {
+			this.f = x;
+		}
+		public void setX(int x) {
+			this.x = x;
+		}
 		public int getX() {
 			return x;
 		}
@@ -63,8 +70,8 @@ public class ActionEvaluator {
 		String type = query.getString("type");
 		
 		switch(type) {
-//		case "AssignmentExpression":
-//			return this.evalAssignmentExpression(query, env);
+		case "AssignmentExpression":
+			return this.evalAssignmentExpression(query, env);
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
 		case "MemberExpression":
@@ -215,57 +222,17 @@ public class ActionEvaluator {
 				     eval(declaration.getJSONObject("init"), env));
 	}
 	private Object evalAssignmentExpression(JSONObject query, Environment env) {
-//		JSONObject right = query.getJSONObject("right");
-//		JSONObject left = query.getJSONObject("left");
-//		String op = query.getString("operator");
-//		
-//		String attname = left.getString("name");
-//		if(this.variables.containsKey(attname)) {
-//			this.variables.put(attname, attname)
-//		}
-//		int idx = attname.lastIndexOf('.');
-//		if(idx == -1) {
-//			this.variables.put(attname, );
-//		}
-//		else {
-//			
-//		}
-//		String varname = attname.substring(0, idx); 
-		return null;
+		JSONObject right = query.getJSONObject("right");
+		JSONObject left = query.getJSONObject("left");
+		String op = query.getString("operator");
+		
+		Object lefto = eval(left, env);
+		Object righto = eval(right, env);
+		
+		lefto = righto;
+		return lefto;
 	}
-	private Object searchVar(String name) {
-		Object base = null;
-		try {
-			String[] path = name.split("\\.");
-			base = variables.get(path[0]);
-			for(int i=1;i<path.length;i++) {
-				String mName = "get"+(char)(path[i].charAt(0)-32)+path[i].substring(1, path[i].length());
-				base = base.getClass().getMethod(mName, null).invoke(base,null);
-				
-			}
-		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return base;
-	}
-	private float getValue(String name) {
-		Object var = searchVar(name);
-		Objects.requireNonNull(var);
-		return ((Float)var).floatValue();
-	}
-	private void setValue(Object var, String name, Object value) {
-		Objects.requireNonNull(var);
-		try {
-			Method m = var.getClass().getMethod("set"+(char)(name.charAt(0)-32), value.getClass());
-			m.invoke(var, value);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	public static void main(String args[]) {
 		SetupController stc = SetupController.from("resources/setup/default.stp");
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");

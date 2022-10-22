@@ -30,7 +30,7 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^\\btrue\\b","true"},
 					   		  {"^\\bfalse\\b","false"},
 					   		  {"^\\bnull\\b","null"},
-							  {"^[0-9f.]+","NUMBER"},
+							  {"^[0-9.]+f?","NUMBER"},
 					   		  {"^[\\w\\d]+","IDENTIFIER"},
 					   		  {"^[=!]=","EQUALITY_OPERATOR"},
 					   		  {"^=","SIMPLE_ASSIGN"},
