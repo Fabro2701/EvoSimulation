@@ -72,6 +72,8 @@ public class ActionEvaluator {
 		switch(type) {
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
+		case "ForStatement":
+			return this.evalForStatement(query, env);
 		case "NewExpression":
 			return this.evalNewExpression(query, env);
 		case "AssignmentExpression":
@@ -101,8 +103,32 @@ public class ActionEvaluator {
 			return null;
 		}
 	}
+	private Object evalForStatement(JSONObject query, Environment env) {
+		JSONObject init = query.has("init")?query.getJSONObject("init"):null;
+		JSONObject test = query.has("test")?query.getJSONObject("test"):null;
+		JSONObject update = query.has("update")?query.getJSONObject("update"):null;
+		JSONObject body = query.has("body")?query.getJSONObject("body"):null;
+		
+		Object r = null;
+		if(init!=null)eval(init, env);
+		for(;test!=null?(boolean)eval(test, env):true;) {
+			if(body!=null)r = eval(body, env);
+			if(update!=null)eval(update, env);
+		}
+
+		return r;
+	}
 	private Object evalNewExpression(JSONObject query, Environment env) {
 		StringBuilder str = new StringBuilder();
+		
+		JSONArray arguments = query.getJSONArray("arguments");
+		
+//		Class<?>clazzs[] = new Class<?>[arguments.length()];
+//		Object args[] = new Object[arguments.length()];
+//		for(int i=0;i<arguments.length();i++) {
+//			args[i] = eval(arguments.getJSONObject(i), env);
+//			clazzs[i] = args[i].getClass();
+//		}
 		
 		JSONObject callee = query.getJSONObject("callee");
 		str.append(callee.getJSONObject("property").getString("name"));
@@ -161,7 +187,7 @@ public class ActionEvaluator {
 			Method m = null;
 			//Method m = ob.getClass().getDeclaredMethod(property.getString("name"), clazzs);
 			for(Method mi:ob.getClass().getDeclaredMethods())if(mi.getName().equals(property.getString("name")))m=mi;
-			Class<?>prms[] = m.getParameterTypes();
+//			Class<?>prms[] = m.getParameterTypes();
 //			for(int i=0;i<arguments.length();i++) {
 //				args[i] = prms[i].cast(args[i]);
 //			}
@@ -221,7 +247,7 @@ public class ActionEvaluator {
 		case ">":
 			return (float)eval(left, env)>(float)eval(right, env);
 		case "<":
-			return (float)eval(left, env)-(float)eval(right, env);
+			return (int)eval(left, env)<(int)eval(right, env);
 		case "==":
 			return (float)eval(left, env)*(float)eval(right, env);
 		default:
@@ -236,7 +262,7 @@ public class ActionEvaluator {
 		
 		switch(op) {
 		case "+":
-			return (float)eval(left, env)+(float)eval(right, env);
+			return (int)eval(left, env)+(int)eval(right, env);
 		case "-":
 			return (float)eval(left, env)-(float)eval(right, env);
 		case "*":
@@ -253,14 +279,16 @@ public class ActionEvaluator {
 				     eval(declaration.getJSONObject("init"), env));
 	}
 	private Object evalAssignmentExpression(JSONObject query, Environment env) {
-		JSONObject right = query.getJSONObject("right");
 		JSONObject left = query.getJSONObject("left");
+		JSONObject right = query.getJSONObject("right");
 		String op = query.getString("operator");
 		
 		Object lefto = eval(left, env);
 		Object righto = eval(right, env);
 		
 		lefto = righto;
+		env.assign(left.getString("name"), lefto);
+		
 		return lefto;
 	}
 
@@ -269,7 +297,7 @@ public class ActionEvaluator {
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
 		java.util.Map<String, java.util.Map<String, ActionI>> acs = ac.getActions();
-		ActionI a = acs.get("move").get("NEUTRAL");
+		ActionI a = acs.get("move").get("LEFT");
 		
 		System.out.println(a.perform(null, null, null));
 		

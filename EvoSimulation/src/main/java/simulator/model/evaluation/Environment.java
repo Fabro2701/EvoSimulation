@@ -35,6 +35,7 @@ public class Environment {
 		return resolve(key).record.put(key, v);
 	}
 	public Object define(String key, Object v) {
+		if(this.record.containsKey(key))System.err.println("Variable "+key+" already exists");
 		this.record.put(key, v);
 		return v;
 	}

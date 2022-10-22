@@ -2,9 +2,9 @@
 			  action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
 */		
 actions := <move> UP{
-					 let x = 2*9+1;
-					 let y = 43;
-					 let z = x-y;
+					 let x = 0;
+					 x = x+1;
+					 x;
 					}
 				  RIGHT{
 				  		let y = 5;
@@ -15,7 +15,15 @@ actions := <move> UP{
 				  			let z = 3;
 				  		}
 				  	   }
+				  LEFT{
+				  	   let a = 0;
+				  	   for(let i=0;i<8;i=i+1){
+				  	   	a=a+2;
+				  	   }
+				  	   a;
+				  	  }
 				  NEUTRAL{
+				  		  let x=3;
 				  		  let testt = new simulator.model.evaluation.ActionEvaluator$TestEv();
 				  		  testt.x;
 				  		 }|

@@ -31,6 +31,8 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^\\btrue\\b","true"},
 					   		  {"^\\bfalse\\b","false"},
 					   		  {"^\\bnull\\b","null"},
+					   		  {"^\\bfor\\b","for"},
+					   		  {"^\\bwhile\\b","while"},
 							  {"^[0-9.]+f?","NUMBER"},
 					   		  {"^[\\w\\d\\$]+","IDENTIFIER"},
 					   		  {"^[=!]=","EQUALITY_OPERATOR"},

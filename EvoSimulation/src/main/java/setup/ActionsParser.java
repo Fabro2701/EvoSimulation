@@ -76,11 +76,59 @@ public class ActionsParser extends ChildParser{
 				return this.BlockStatement();
 			case "let":
 				return this.VariableStatement();
+			case "while":case "for":
+				return this.IterationStatement();
 			case "return":
 				return this.ReturnStatement();
 			default:
 				return this.ExpressionStatement();
 		}
+	}
+
+	private JSONObject IterationStatement() {
+		switch (this._lookahead.getString("type")) {
+		case "while":
+			return this.WhileStatement();
+		case "for":
+			return this.ForStatement();
+		default:
+			return null;
+		}
+	}
+
+	private JSONObject ForStatement() {
+		this._eat("for");
+		this._eat("(");
+		JSONObject init = !this._lookahead.getString("type").equals(";")?this.ForStatementInit():null;
+		this._eat(";");
+		JSONObject test = !this._lookahead.getString("type").equals(";")?this.Expression():null;
+		this._eat(";");
+		JSONObject update = !this._lookahead.getString("type").equals(")")?this.Expression():null;
+		this._eat(")");
+		JSONObject body = this.Statement();
+		return new JSONObject().put("type", "ForStatement")
+							   .put("init", init)
+							   .put("test", test)
+							   .put("update", update)
+							   .put("body", body);
+	}
+
+	private JSONObject ForStatementInit() {
+		if(this._lookahead.getString("type").equals("let")) {
+			return this.VariableStatement();
+		}
+		return this.Statement();
+	}
+
+	private JSONObject WhileStatement() {
+		this._eat("while");
+		this._eat("(");
+		JSONObject test = this.Expression();
+		this._eat(")");
+		JSONObject body = this.Statement();
+		return new JSONObject().put("type", "WhileStatement")
+							   .put("test", test)
+							   .put("body", body);
 	}
 
 	private JSONObject ReturnStatement() {
