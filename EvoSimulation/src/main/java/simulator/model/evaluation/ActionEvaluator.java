@@ -74,6 +74,8 @@ public class ActionEvaluator {
 			return this.eval(query.getJSONObject("expression"), env);
 		case "ForStatement":
 			return this.evalForStatement(query, env);
+		case "WhileStatement":
+			return this.evalWhileStatement(query, env);
 		case "NewExpression":
 			return this.evalNewExpression(query, env);
 		case "AssignmentExpression":
@@ -102,6 +104,16 @@ public class ActionEvaluator {
 			System.err.println("unsupported type: "+type);
 			return null;
 		}
+	}
+	private Object evalWhileStatement(JSONObject query, Environment env) {
+		JSONObject test = query.getJSONObject("test");
+		JSONObject body = query.getJSONObject("body");
+		
+		Object r = null;
+		while((boolean)eval(test, env)) {
+			r = eval(body, env);
+		}
+		return r;
 	}
 	private Object evalForStatement(JSONObject query, Environment env) {
 		JSONObject init = query.has("init")?query.getJSONObject("init"):null;
