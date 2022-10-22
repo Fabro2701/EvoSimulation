@@ -13,17 +13,23 @@ public class Environment {
 		record = new HashMap<String, Object>();
 	}
 	public Object search(String key) {
+		Objects.requireNonNull(key);
 		return resolve(key).record.get(key);
 	}
 	private Environment resolve(String key) {
-		Objects.requireNonNull(key);
 		
 		if(this.record.containsKey(key)) {
 			return this;
 		}
 		else {
-			return parent==null?null:parent.resolve(key);
+			if(parent==null) {
+				System.err.println(key+" not found");
+			}
+			else {
+				return parent.resolve(key);
+			}
 		}
+		return null;
 	}
 	public Object assign(String key, Object v) {
 		return resolve(key).record.put(key, v);

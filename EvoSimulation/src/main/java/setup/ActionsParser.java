@@ -159,7 +159,7 @@ public class ActionsParser extends ChildParser{
 		
 	}
 	private JSONObject _checkValidAssignmentTarget(JSONObject o) {
-		return o.getString("type").equals("Identifier")?o:null;
+		return o.getString("type").equals("Identifier")||o.getString("type").equals("MemberExpression")?o:null;
 	}
 	private boolean _isAssigmentOp(String s) {
 		return s.equals("SIMPLE_ASSIGN")||s.equals("COMPLEX_ASSIGN");
@@ -343,8 +343,65 @@ public class ActionsParser extends ChildParser{
 	   *   ;
 	   */
 	private JSONObject LeftHandSideExpression() {
-		return this.PrimaryExpression();
+		return this.CallMemberExpression();
 	}
+	private JSONObject CallMemberExpression() {
+		JSONObject member = this.MemberExpression();
+		if(this._lookahead.getString("type").equals("(")) {
+			return this._CallMemberExpression(member);
+		}
+		return member;
+	}
+
+	private JSONObject _CallMemberExpression(JSONObject callee) {
+		JSONObject callExpression = new JSONObject().put("type", "CallExpression")
+													.put("callee", callee)
+													.put("arguments", this.Arguments());
+		if(this._lookahead.getString("type").equals("(")) {
+			callExpression = this._CallMemberExpression(callExpression);
+		}
+		return callExpression;
+	}
+
+	private JSONArray Arguments() {
+		this._eat("(");
+		JSONArray argumentList = !this._lookahead.getString("type").equals(")")?this.ArgumentList():new JSONArray();
+		this._eat(")");
+		return argumentList;
+	}
+
+	private JSONArray ArgumentList() {
+		JSONArray argumentList = new JSONArray();
+		do {//we know it has at least one
+			argumentList.put(this.AssignmentExpression());
+		}while(this._lookahead.getString("type").equals(",")&&this._eat(",")!=null);
+		return argumentList;
+	}
+
+	private JSONObject MemberExpression() {
+		JSONObject object = this.PrimaryExpression();
+		while(this._lookahead.getString("type").equals(".")||this._lookahead.getString("type").equals("[")) {
+			if(this._lookahead.getString("type").equals(".")) {
+				this._eat(".");
+				JSONObject property = this.Identifier();
+				object = new JSONObject().put("type", "MemberExpression")
+										 .put("computed", false)
+										 .put("object", object)
+										 .put("property", property);
+			}
+			if(this._lookahead.getString("type").equals("[")) {
+				this._eat("[");
+				JSONObject property = this.Expression();
+				this._eat("]");
+				object = new JSONObject().put("type", "MemberExpression")
+										 .put("computed", true)
+										 .put("object", object)
+										 .put("property", property);
+			}
+		}
+		return object;
+	}
+
 	/**
 	   * PrimaryExpression
 	   *   : Literal
@@ -411,7 +468,14 @@ public class ActionsParser extends ChildParser{
 	}
 	private JSONObject NumberLiteral() {
 		JSONObject token = _eat("NUMBER");
-		return new JSONObject().put("type", "NumberLiteral").put("value", token.getString("value"));
+		JSONObject o = new JSONObject().put("type", "NumberLiteral").put("value", token.getString("value"));
+		if(token.getString("value").contains("f")||token.getString("value").contains(".")) {
+			o.put("class", Float.class.getName());
+		}
+		else {
+			o.put("class", Integer.class.getName());
+		}
+		return o;
 	}
 	private JSONObject StringLiteral() {
 		JSONObject token = _eat("STRING");

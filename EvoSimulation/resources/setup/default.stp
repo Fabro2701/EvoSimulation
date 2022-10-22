@@ -15,6 +15,6 @@ actions := <move> UP{
 				  			let z = 3;
 				  		}
 				  	   }
-				  NEUTRAL{;}|
+				  NEUTRAL{(test.getTest2()).y;}|
 		   <action1> ATTACK{;}
 		   			 REST{;}.
