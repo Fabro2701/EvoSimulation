@@ -2,30 +2,21 @@ grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default
 			  action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
 	
 actions := <move> UP{
-					 let x = 0;
-					 x = x+1;
-					 x;
+					 let land = "simulator.Constants$NODE_TYPE.LAND";
+					 if(e.node.y>0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == land){
+					 	e.node.setY(e.node.y-1);
+					 }
 					}
 				  RIGHT{
-				  		let y = 5;
-				  		if(1f>1f){
-				  			let x = 1+y;
-				  		}
-				  		else{
-				  			let z = 3;
-				  		}
+					  if(e.node.x<map.WIDTH-1){
+						 	e.node.setX(e.node.x+1);
+						 }
 				  	   }
 				  LEFT{
-				  	   let a = 0;
-				  	   for(let i=0;i<8;i=i+1){
-				  	   	a=a+2;
-				  	   }
-				  	   a;
+				  	   ;
 				  	  }
 				  NEUTRAL{
-				  		  let x=3;
-				  		  let testt = new simulator.model.evaluation.ActionEvaluator$TestEv();
-				  		  testt.x;
+				  		  ;
 				  		 }|
 		   <action> ATTACK{;}
 		   			 REST{;}.

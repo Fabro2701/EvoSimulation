@@ -96,14 +96,32 @@ public class ActionEvaluator {
 			return this.evalIfStatement(query, env);
 		case "NumberLiteral":
 			return this.evalNumberLiteral(query);
+		case "StringLiteral":
+			return this.evalStringLiteral(query);
 		case "Identifier":
-			return env.search(query.getString("name"));
+			return this.evalIdentifier(query, env);
 		case "EmptyStatement":
 			return null;
 		default:
 			System.err.println("unsupported type: "+type);
 			return null;
 		}
+	}
+	private Object evalStringLiteral(JSONObject query) {
+		String name = query.getString("value");
+		String[] s = name.split("[\\.$]");
+		String value = s[s.length-1];
+		try {
+			Class clazz = Class.forName(name.substring(0, name.length() - value.length()-1));
+			return Enum.valueOf(clazz, value);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	private Object evalIdentifier(JSONObject query, Environment env) {
+		return env.search(query.getString("name"));
 	}
 	private Object evalWhileStatement(JSONObject query, Environment env) {
 		JSONObject test = query.getJSONObject("test");
@@ -199,10 +217,19 @@ public class ActionEvaluator {
 			Method m = null;
 			//Method m = ob.getClass().getDeclaredMethod(property.getString("name"), clazzs);
 			for(Method mi:ob.getClass().getDeclaredMethods())if(mi.getName().equals(property.getString("name")))m=mi;
-//			Class<?>prms[] = m.getParameterTypes();
-//			for(int i=0;i<arguments.length();i++) {
-//				args[i] = prms[i].cast(args[i]);
-//			}
+			Class<?>prms[] = m.getParameterTypes();
+			for(int i=0;i<arguments.length();i++) {
+				if(args[i] instanceof Number) {
+					if(args[i].getClass()==Float.class) {
+						float tmp = ((Number)args[i]).floatValue();
+						if(prms[i]==Integer.class || prms[i]==int.class) {
+							args[i] = (int)tmp;
+						}
+					}
+					//args[i] = prms[i].cast(((Number)args[i]).floatValue()) ;
+				}
+				else args[i] = prms[i].cast(args[i]);
+			}
 			return m.invoke(ob, args);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -218,7 +245,10 @@ public class ActionEvaluator {
 		if(!computed) {
 			Object ob = this.eval(object, env);
 			try {
-				Field f = ob.getClass().getDeclaredField(property.getString("name"));
+				if(property.getString("name").equals("node")) {
+					int a=0;
+				}
+				Field f = ob.getClass().getField(property.getString("name"));
 				return f.get(ob);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -240,7 +270,7 @@ public class ActionEvaluator {
 	private Object evalIfStatement(JSONObject query, Environment env) {
 		JSONObject test = query.getJSONObject("test");
 		JSONObject consequent = query.getJSONObject("consequent");
-		JSONObject alternate = query.getJSONObject("alternate");
+		JSONObject alternate = query.has("alternate")?query.getJSONObject("alternate"):null;
 		
 		if((boolean) eval(test, env)) {
 			return eval(consequent, env);
@@ -257,11 +287,21 @@ public class ActionEvaluator {
 		
 		switch(op) {
 		case ">":
-			return (float)eval(left, env)>(float)eval(right, env);
+			return ((Number)eval(left, env)).floatValue()>((Number)eval(right, env)).floatValue();
 		case "<":
-			return (int)eval(left, env)<(int)eval(right, env);
+			return ((Number)eval(left, env)).floatValue()<((Number)eval(right, env)).floatValue();
 		case "==":
-			return (float)eval(left, env)*(float)eval(right, env);
+			Object l = eval(left, env);
+			if(l instanceof Number)return ((Number)l).floatValue()==((Number)eval(right, env)).floatValue();
+			else return l == eval(right, env);
+		case ">=":
+			return ((Number)eval(left, env)).floatValue()>=((Number)eval(right, env)).floatValue();
+		case "<=":
+			return ((Number)eval(left, env)).floatValue()<=((Number)eval(right, env)).floatValue();
+		case "&&":
+			return (boolean)eval(left, env)&&(boolean)eval(right, env);
+		case "||":
+			return (boolean)eval(left, env)||(boolean)eval(right, env);
 		default:
 			System.err.println("Unsupported operator "+op);
 			return null;
@@ -274,11 +314,13 @@ public class ActionEvaluator {
 		
 		switch(op) {
 		case "+":
-			return (int)eval(left, env)+(int)eval(right, env);
+			return ((Number)eval(left, env)).floatValue()+((Number)eval(right, env)).floatValue();
 		case "-":
-			return (float)eval(left, env)-(float)eval(right, env);
+			return ((Number)eval(left, env)).floatValue()-((Number)eval(right, env)).floatValue();
 		case "*":
-			return (float)eval(left, env)*(float)eval(right, env);
+			return ((Number)eval(left, env)).floatValue()*((Number)eval(right, env)).floatValue();
+		case "/":
+			return ((Number)eval(left, env)).floatValue()/((Number)eval(right, env)).floatValue();
 		default:
 			System.err.println("Unsupported operator "+op);
 			return null;
@@ -291,8 +333,8 @@ public class ActionEvaluator {
 				     eval(declaration.getJSONObject("init"), env));
 	}
 	private Object evalAssignmentExpression(JSONObject query, Environment env) {
-		JSONObject left = query.getJSONObject("left");
 		JSONObject right = query.getJSONObject("right");
+		JSONObject left = query.getJSONObject("left");
 		String op = query.getString("operator");
 		
 		Object lefto = eval(left, env);
@@ -309,7 +351,7 @@ public class ActionEvaluator {
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
 		java.util.Map<String, java.util.Map<String, ActionI>> acs = ac.getActions();
-		ActionI a = acs.get("move").get("LEFT");
+		ActionI a = acs.get("move").get("UP");
 		
 		System.out.println(a.perform(null, null, null));
 		

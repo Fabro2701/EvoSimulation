@@ -14,6 +14,7 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^;",";"},
 					   		  {"^\\.","."},
 					   		  {"^\\|\\|","LOGICAL_OR"},
+					   		  {"^&&","LOGICAL_AND"},
 					   		  {"^\\[","["},
 					   		  {"^\\]","]"},
 					   		  {"^[|]","|"},
@@ -41,7 +42,6 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^[+-]","ADDITIVE_OPERATOR"},
 					   		  {"^[*/]","MULTIPLICATIVE_OPERATOR"},
 					   		  {"^[<>]=?","RELATIONAL_OPERATOR"},
-					   		  {"^&&","LOGICAL_AND"},
 					   		  {"^!","LOGICAL_NOT"},
 							  {"^\"[^\"]*\"","STRING"}
 					   		  };

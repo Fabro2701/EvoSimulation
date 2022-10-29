@@ -141,30 +141,13 @@ public class MyIndividual extends GIndividual{
 	@Override
 	public void update(EvoSimulator simulator) {
 		super.update(simulator);
-		
 		if(children.size()!=0) {
 			simulator.addEntity(children.get(0));
 			simulator.addEntity(children.get(1));
 			children.clear();
 		}
-		
 	}
-//	@Override
-//	public MOVE getTheMove() {
-//		MOVE move = phenotype.getNextMove(this.observationManager.getVariables());
-//		if(move==null)return MOVE.NEUTRAL;
-//		
-//		if(move.isPseudo()) {
-//			return calculatePseudoMove(move);
-//		}
-//		return move;
-//	}
-//	@Override
-//	public ACTION getAction() {		
-//		ACTION action = phenotype.getNextAction(this.observationManager.getVariables());
-//		if(action==null)return ACTION.NOTHING;
-//		return action;
-//	}
+
 	private MOVE calculatePseudoMove(MOVE move) {
 		String[] rs = move.toString().split("_");
 		String action = rs[0];

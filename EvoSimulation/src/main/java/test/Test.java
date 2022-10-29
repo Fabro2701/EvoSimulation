@@ -50,11 +50,13 @@ class Test{
 		return base;
 	}
     public static void main(String args[]) {
-    	Test t = new Test();
-    	//System.out.println(Arrays.toString(t.getClass().getDeclaredMethods()[1].getParameters()));
-    	String a= "aaa";
-    	String name = "fathher.son1.son2";
-    	t.searchVar(name);
+    	System.out.println(simulator.Constants.NODE_TYPE.class);
+    	try {
+			Class<?> a = Class.forName("simulator.Constants$NODE_TYPE");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
   }
  
