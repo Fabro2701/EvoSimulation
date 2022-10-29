@@ -1,6 +1,6 @@
-/*grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
+grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
 			  action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
-*/		
+	
 actions := <move> UP{
 					 let x = 0;
 					 x = x+1;
@@ -8,7 +8,7 @@ actions := <move> UP{
 					}
 				  RIGHT{
 				  		let y = 5;
-				  		if(1>1){
+				  		if(1f>1f){
 				  			let x = 1+y;
 				  		}
 				  		else{
@@ -17,7 +17,7 @@ actions := <move> UP{
 				  	   }
 				  LEFT{
 				  	   let a = 0;
-				  	   while(a<15){
+				  	   for(let i=0;i<8;i=i+1){
 				  	   	a=a+2;
 				  	   }
 				  	   a;
@@ -27,5 +27,5 @@ actions := <move> UP{
 				  		  let testt = new simulator.model.evaluation.ActionEvaluator$TestEv();
 				  		  testt.x;
 				  		 }|
-		   <action1> ATTACK{;}
+		   <action> ATTACK{;}
 		   			 REST{;}.

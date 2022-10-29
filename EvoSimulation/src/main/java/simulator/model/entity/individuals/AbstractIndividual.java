@@ -12,6 +12,4 @@ public abstract class AbstractIndividual extends ActiveEntity{
 		
 	}
 
-	
-
 }

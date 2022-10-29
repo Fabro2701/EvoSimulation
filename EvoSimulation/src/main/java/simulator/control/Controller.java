@@ -200,4 +200,10 @@ public class Controller {
 	public SetupController getSetupCtrl() {
 		return simulator.getSetupCtrl();
 	}
+	public ActionsController getActionsController() {
+		return simulator.getActionsController();
+	}
+	public GrammarController getGrammarController() {
+		return simulator.getGrammarController();
+	}
 }

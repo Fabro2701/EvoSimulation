@@ -8,6 +8,7 @@ import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.jsonView;
 
 import java.awt.Image;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -18,6 +19,7 @@ import simulator.control.Controller;
 import simulator.control.ImageController;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public abstract class Entity implements IInteract{
@@ -60,27 +62,28 @@ public abstract class Entity implements IInteract{
 		this.updateImage();
 	}
 	
+	public abstract void perform(List<Entity>entities, Map map);
 	/**
 	 * Updates the {@link Entity#energy} depending on the {@link Entity#getTheMove} result
 	 * @param observations
 	 * @return resulting move
 	 */
-	public final MOVE getMove() {
-		MOVE m = getTheMove();
-		if (m != MOVE.NEUTRAL) {
-			this.setCurrentstate(STATE.MOVE);
-			this.decreaseEnergy((weight + this.node.elevation)  * MOVEMENT_ENERGY_COST_CONSTANT);
-			//actually we should take the resulting node of the move
-		}
-		else {
-			this.setCurrentstate(STATE.REST);
-		}
-		return m;
-	}
-	public ACTION getAction() {
-		return ACTION.NOTHING;
-	}
-	protected abstract MOVE getTheMove();
+//	public final MOVE getMove() {
+//		MOVE m = getTheMove();
+//		if (m != MOVE.NEUTRAL) {
+//			this.setCurrentstate(STATE.MOVE);
+//			this.decreaseEnergy((weight + this.node.elevation)  * MOVEMENT_ENERGY_COST_CONSTANT);
+//			//actually we should take the resulting node of the move
+//		}
+//		else {
+//			this.setCurrentstate(STATE.REST);
+//		}
+//		return m;
+//	}
+//	public ACTION getAction() {
+//		return ACTION.NOTHING;
+//	}
+//	protected abstract MOVE getTheMove();
 	
 	public void updateObservations(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();

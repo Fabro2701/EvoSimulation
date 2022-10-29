@@ -46,8 +46,10 @@ public class MainParser {
 		switch(type) {
 		case "GrammarController":
 			declaration = new GrammarParser().parse(this);
+			break;
 		case "ActionsController":
 			declaration = new ActionsParser().parse(this);
+			break;
 		
 		}
 		
@@ -126,8 +128,9 @@ public class MainParser {
 		return _lookahead;
 	}
 	public void update(JSONObject _lookahead2, int get_cursor) {
-		this._lookahead = _lookahead2;
+		//this._lookahead = _lookahead2;
 		this._tokenizer.set_cursor(get_cursor);
+		this._lookahead = this._tokenizer.getNextToken();
 	}
 	public static void main(String args[]) {
 		String e1 ="<OBS> -> 'r_f_d'|'l_f_d'|'u_f_d'|'d_f_d'.\n"
@@ -151,7 +154,7 @@ public class MainParser {
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);
-				//sb.append("\n");
+				sb.append("\n");
 				aux = reader.readLine();
 			}
 			

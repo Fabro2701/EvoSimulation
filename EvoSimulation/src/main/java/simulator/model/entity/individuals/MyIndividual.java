@@ -57,8 +57,7 @@ public class MyIndividual extends GIndividual{
 		for(String key:grammars.keySet()) {
 			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
 			genotype.addChromosome(c);
-			LinkedList<Symbol> crom=null;
-			crom = grammars.get(key).parse(c);
+			LinkedList<Symbol> crom = grammars.get(key).parse(c);
 			phenotype.setSymbol(key, crom);
 			if(phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
@@ -150,22 +149,22 @@ public class MyIndividual extends GIndividual{
 		}
 		
 	}
-	@Override
-	public MOVE getTheMove() {
-		MOVE move = phenotype.getNextMove(this.observationManager.getVariables());
-		if(move==null)return MOVE.NEUTRAL;
-		
-		if(move.isPseudo()) {
-			return calculatePseudoMove(move);
-		}
-		return move;
-	}
-	@Override
-	public ACTION getAction() {		
-		ACTION action = phenotype.getNextAction(this.observationManager.getVariables());
-		if(action==null)return ACTION.NOTHING;
-		return action;
-	}
+//	@Override
+//	public MOVE getTheMove() {
+//		MOVE move = phenotype.getNextMove(this.observationManager.getVariables());
+//		if(move==null)return MOVE.NEUTRAL;
+//		
+//		if(move.isPseudo()) {
+//			return calculatePseudoMove(move);
+//		}
+//		return move;
+//	}
+//	@Override
+//	public ACTION getAction() {		
+//		ACTION action = phenotype.getNextAction(this.observationManager.getVariables());
+//		if(action==null)return ACTION.NOTHING;
+//		return action;
+//	}
 	private MOVE calculatePseudoMove(MOVE move) {
 		String[] rs = move.toString().split("_");
 		String action = rs[0];

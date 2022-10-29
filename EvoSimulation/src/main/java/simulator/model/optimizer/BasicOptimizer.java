@@ -26,30 +26,31 @@ public class BasicOptimizer extends Optimizer{
 		}
 
 		// entities movements
-		for (Entity e : entities) {
-			MOVE move = e.getMove();
-			e.setNewNode(map.getValidMove(e.node, move));
-		}
+//		for (Entity e : entities) {
+//			MOVE move = e.getMove();
+//			e.setNewNode(map.getValidMove(e.node, move));
+//		}
 		
 		// entities actions
 		for (Entity e : entities) {
-			if(e instanceof ActiveEntity) {
-				((ActiveEntity)e).setAction(e.getAction());
-			}
+			if(e.isAlive())e.perform(entities, map);
+//			if(e instanceof ActiveEntity) {
+//				((ActiveEntity)e).setAction(e.getAction());
+//			}
 		}
 
 		// entities interactions
-		for (Entity e1 : entities) {	
-			if(e1 instanceof ActiveEntity) {
-				for (Entity e2 : entities) {
-					if(e1!=e2) {
-						if (Util.areCloseEnough(e1, e2)) {
-							e1.interact(e2);
-						}
-					}
-				}
-			}
-		}
+//		for (Entity e1 : entities) {	
+//			if(e1 instanceof ActiveEntity) {
+//				for (Entity e2 : entities) {
+//					if(e1!=e2) {
+//						if (Util.areCloseEnough(e1, e2)) {
+//							e1.interact(e2);
+//						}
+//					}
+//				}
+//			}
+//		}
 
 		// remove entities
 		for (int i = 0; i < entities.size(); i++) {

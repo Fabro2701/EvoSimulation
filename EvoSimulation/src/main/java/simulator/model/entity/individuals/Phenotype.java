@@ -31,7 +31,7 @@ public class Phenotype{
 	public Phenotype() {
 		super();
 		symbols = new ArrayList<LinkedList<Symbol>>();
-		for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
+		//for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
 	}
@@ -43,18 +43,20 @@ public class Phenotype{
 		//evaluatorMove = new Evaluator(parser.parse(visualization));
 	}
 	public Object getNext(String key, HashMap<String,String>observations) {
-		return evaluators.get(key).getNextAction();
+		Evaluator eval = evaluators.get(key);
+		eval.addObservations(observations);
+		return eval.getNextAction();
 	}
-	public MOVE getNextMove(HashMap<String,String>observations) {
-		if(!valid)return MOVE.NEUTRAL;
-		evaluatorMove.addObservations(observations);
-		return evaluatorMove.getNextMove();
-	}
-	public ACTION getNextAction(HashMap<String,String>observations) {
-		if(!valid)return ACTION.NOTHING;
-		evaluatorAction.addObservations(observations); //already done
-		return evaluatorAction.getNextAction();
-	}
+//	public MOVE getNextMove(HashMap<String,String>observations) {
+//		if(!valid)return MOVE.NEUTRAL;
+//		evaluatorMove.addObservations(observations);
+//		return evaluatorMove.getNextMove();
+//	}
+//	public ACTION getNextAction(HashMap<String,String>observations) {
+//		if(!valid)return ACTION.NOTHING;
+//		evaluatorAction.addObservations(observations); //already done
+//		return evaluatorAction.getNextAction();
+//	}
 	public void setSymbol(String key, LinkedList<Symbol> crom) {
 		this.symbols.add(crom);
 		if(crom==null) {

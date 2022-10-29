@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class ChildTokenizer {
 	private int _cursor;
 	private String _string;
+	private int lastChange=0;
 	
 	//Regular Expressions for each token type
 	String [][]Spec = null;
@@ -72,10 +73,14 @@ public class ChildTokenizer {
 		if(!m.find()||m.start()!=0) {
 			return null;
 		}
+		lastChange=this._cursor;
 		this._cursor+=m.end();
 		return string.substring(0, m.end());
 	}
 	public int get_cursor() {
 		return _cursor;
+	}
+	public int getLastChange() {
+		return lastChange;
 	}
 }

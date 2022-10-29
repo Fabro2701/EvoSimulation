@@ -15,7 +15,7 @@ public abstract class ChildParser {
 		_lookahead = father.get_lookahead();
 		_lookahead = _tokenizer.getNextToken();
 		JSONObject program = this.Program();
-		father.update(_lookahead,this._tokenizer.get_cursor());
+		father.update(_lookahead,this._tokenizer.getLastChange());
 		return program;
 	}
 	protected abstract JSONObject Program();

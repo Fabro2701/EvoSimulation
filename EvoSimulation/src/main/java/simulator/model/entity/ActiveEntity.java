@@ -51,22 +51,22 @@ public abstract class ActiveEntity extends Entity {
 			e.recieveActiveEntityInteraction(this);
 			return;
 		}
-		if(action == ACTION.REPRODUCTION) {
-			if(e.getAction() == ACTION.REPRODUCTION) {
-				if(this.getReproductionRestTime()<=0 && e.getReproductionRestTime()<=0) {
-					e.recieveActiveEntityReproductionInteraction(this);
-					this.setReproductionRestTime(RECOVERY_REST_TIME);
-					e.setReproductionRestTime(RECOVERY_REST_TIME);
-				}
-			}
-		}
-		else if(action == ACTION.ATTACK) {
-			if(this.attackRestTime <= 0) {
-				e.recieveActiveEntityAttackInteraction(this);
-				this.setAttackRestTime((int) (RECOVERY_REST_TIME*0.5));
-			}
-			
-		}
+//		if(action == ACTION.REPRODUCTION) {
+//			if(e.getAction() == ACTION.REPRODUCTION) {
+//				if(this.getReproductionRestTime()<=0 && e.getReproductionRestTime()<=0) {
+//					e.recieveActiveEntityReproductionInteraction(this);
+//					this.setReproductionRestTime(RECOVERY_REST_TIME);
+//					e.setReproductionRestTime(RECOVERY_REST_TIME);
+//				}
+//			}
+//		}
+//		else if(action == ACTION.ATTACK) {
+//			if(this.attackRestTime <= 0) {
+//				e.recieveActiveEntityAttackInteraction(this);
+//				this.setAttackRestTime((int) (RECOVERY_REST_TIME*0.5));
+//			}
+//			
+//		}
 		//e.recieveActiveEntityInteraction(this);
 	}
 	@Override

@@ -13,10 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar;
+import simulator.control.ActionsController;
+import simulator.control.GrammarController;
 import simulator.control.SetupController;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.Optimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
 
@@ -34,14 +37,13 @@ public class EvoSimulator {
 	
 	private Optimizer optimizer;
 	
-	private java.util.Map<String, AbstractGrammar>commonGrammars;
-
 	private long startTime;
 	private boolean debug=false;
 	private boolean save=false;
 	
 	private SetupController setupCtrl;
-	
+	private GrammarController grammarController;
+	private ActionsController actionsController;
 	
 	public EvoSimulator() {
 		this("test1000void2");
@@ -57,8 +59,8 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		this.optimizer = new UniformGridOptimizer(this,3,3);
-		//this.optimizer = new BasicOptimizer(this);
+		//this.optimizer = new UniformGridOptimizer(this,3,3);
+		this.optimizer = new BasicOptimizer(this);
 		
 		
 		
@@ -73,6 +75,8 @@ public class EvoSimulator {
 	}
 	public void loadSetup(SetupController setup) {
 		setupCtrl = setup;
+		this.grammarController = (GrammarController) setupCtrl.getModule("GrammarController");
+		this.actionsController = (ActionsController) setupCtrl.getModule("ActionsController");
 	}
 
 	/**
@@ -193,9 +197,9 @@ public class EvoSimulator {
 			if(e.getEnergy()>0.0f)entitiesArr.put(e.toJSON());
 		}
 		JSONArray grammars = new JSONArray();
-		for(String key:this.commonGrammars.keySet()) {
-			grammars.put(this.commonGrammars.get(key).toString());
-		}
+//		for(String key:this.commonGrammars.keySet()) {
+//			grammars.put(this.commonGrammars.get(key).toString());
+//		}
 		return new JSONObject().put("time", time)//.put("map", map.toJSON())// ?too heavy
 							   .put("entities", entitiesArr)
 							   .put("map", map.getFileName())
@@ -209,22 +213,15 @@ public class EvoSimulator {
 		this.entities.clear();
 		this.entitiesBuffer.clear();
 		this.time = 0;
-		for(String key:this.commonGrammars.keySet()) {
-			this.commonGrammars.get(key).reset();
-		}
+//		for(String key:this.commonGrammars.keySet()) {
+//			this.commonGrammars.get(key).reset();
+//		}
 	}
-	
-	public void setupGrammars(String filename) {
-		this.commonGrammars = new LinkedHashMap<String, AbstractGrammar>();
-		setupCtrl.getRule("GrammarDeclaration");
-	}
+
 	
 	//GETTERS AND SETTERS
 	public void setDebug(boolean b) {
 		this.debug=b;
-	}
-	public java.util.Map<String, AbstractGrammar> getCommonGrammar() {
-		return commonGrammars;
 	}
 	public Map getMap() {
 		return map;
@@ -240,5 +237,11 @@ public class EvoSimulator {
 	}
 	public SetupController getSetupCtrl() {
 		return setupCtrl;
+	}
+	public ActionsController getActionsController() {
+		return actionsController;
+	}
+	public GrammarController getGrammarController() {
+		return grammarController;
 	}
 }

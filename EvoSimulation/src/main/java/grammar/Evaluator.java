@@ -74,21 +74,18 @@ public class Evaluator {
 			
 		}
 	}
-	public MOVE getNextMove() {
+//	public MOVE getNextMove() {
+//		String result = this.getNextResult();
+//		try {
+//			MOVE move = MOVE.valueOf(result);
+//			return move;
+//		}catch (Exception e) {}
+//		return MOVE.NEUTRAL;
+//	}
+	public Object getNextAction() {
+		
 		String result = this.getNextResult();
-		try {
-			MOVE move = MOVE.valueOf(result);
-			return move;
-		}catch (Exception e) {}
-		return MOVE.NEUTRAL;
-	}
-	public ACTION getNextAction() {
-		String result = this.getNextResult();
-		try {
-			ACTION action = ACTION.valueOf(result);
-			return action;
-		}catch (Exception e) {}
-		return ACTION.NOTHING;
+		return result;
 	}
 	/**
 	 * Delete marked statements (with index >= idx) whose conditions are no longer true 
