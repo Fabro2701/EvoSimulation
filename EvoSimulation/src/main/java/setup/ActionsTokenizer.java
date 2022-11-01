@@ -20,7 +20,7 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^[|]","|"},
 					   		  {"^[{]","{"},
 					   		  {"^[}]","}"},
-					   		  {"^<[^<>]+>","ACTION_ID"},
+					   		  {"^<[\\w\\d]+>","ACTION_ID"},
 					   		  {"^[(]","("},
 					   		  {"^[)]",")"},
 					   		  {"^[,]",","},

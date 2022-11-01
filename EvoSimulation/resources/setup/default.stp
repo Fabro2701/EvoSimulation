@@ -1,22 +1,29 @@
 grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
-			  action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
+			action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
 	
 actions := <move> UP{
-					 let land = "simulator.Constants$NODE_TYPE.LAND";
-					 if(e.node.y>0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == land){
+					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setY(e.node.y-1);
 					 }
-					}
+				  }
+				  DOWN{
+					 if(e.node.y < map.HEIGHT-1 && (map.getNodeAt(e.node.x, e.node.y+1)).type == "simulator.Constants$NODE_TYPE.LAND"){
+					 	e.node.setY(e.node.y+1);
+					 }
+				  }
 				  RIGHT{
-					  if(e.node.x<map.WIDTH-1){
-						 	e.node.setX(e.node.x+1);
-						 }
-				  	   }
+					 if(e.node.x < map.WIDTH-1 && (map.getNodeAt(e.node.x+1, e.node.y)).type == "simulator.Constants$NODE_TYPE.LAND"){
+					 	e.node.setX(e.node.x+1);
+					 }
+				  }
 				  LEFT{
-				  	   ;
-				  	  }
+				     if(e.node.x > 0 && (map.getNodeAt(e.node.x-1, e.node.y)).type == "simulator.Constants$NODE_TYPE.LAND"){
+					 	e.node.setX(e.node.x-1);
+					 }
+				  }
 				  NEUTRAL{
 				  		  ;
-				  		 }|
+				  }|
 		   <action> ATTACK{;}
+		   			REPRODUCTION{;}
 		   			 REST{;}.

@@ -14,6 +14,8 @@ import simulator.control.ActionsController;
 import simulator.control.SetupController;
 import simulator.model.ActionI;
 import simulator.model.entity.Entity;
+import simulator.model.entity.FoodEntity;
+import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.map.Map;
 
 
@@ -46,7 +48,7 @@ public class ActionEvaluator {
 	
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
-		System.out.println(program.toString(4));
+		//System.out.println(program.toString(4));
 	}
 	public Object evaluate(Entity e, List<Entity>entities, Map map) {
 		Environment env = new Environment(null);

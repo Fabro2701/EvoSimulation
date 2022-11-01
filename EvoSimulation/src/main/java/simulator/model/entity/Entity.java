@@ -187,4 +187,8 @@ public abstract class Entity implements IInteract{
 	public void setAttackRestTime(int attackRestTime) {
 		this.attackRestTime = attackRestTime;
 	}
+
+	public float getWeight() {
+		return weight;
+	}
 }
