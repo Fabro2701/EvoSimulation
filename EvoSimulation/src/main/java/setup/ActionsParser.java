@@ -460,6 +460,10 @@ public class ActionsParser extends ChildParser{
 	private JSONObject PrimaryExpression() {
 		if(_isLiteral(this._lookahead.getString("type")))return this.Literal();
 		switch(this._lookahead.getString("type")) {
+			case "enum":
+				return this.EnumIdentifier();
+			case "static":
+				return this.StaticExpression();
 			case "(":
 				return this.ParenthesizedExpression();
 			case "IDENTIFIER":
@@ -470,6 +474,22 @@ public class ActionsParser extends ChildParser{
 				return this.LeftHandSideExpression();
 		}
 	}
+	private JSONObject StaticExpression() {
+		this._eat("static");
+		JSONObject o = this._eat("STRING");
+
+		return new JSONObject().put("type", "StaticExpression")
+				.put("value", o.getString("value").substring(1, o.getString("value").length()-1));
+	}
+
+	private JSONObject EnumIdentifier() {
+		this._eat("enum");
+		JSONObject o = this._eat("STRING");
+
+		return new JSONObject().put("type", "EnumIdentifier")
+				.put("value", o.getString("value").substring(1, o.getString("value").length()-1));
+	}
+
 	private JSONObject NewExpression() {
 		this._eat("new");
 		

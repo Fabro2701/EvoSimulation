@@ -21,7 +21,12 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class Util {
-	
+	public static int test() {
+		return 4;
+	}
+	public static int test2(int i) {
+		return 4+i;
+	}
 	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
 		double maxDist = -1d;
 		MOVE move = MOVE.NEUTRAL;

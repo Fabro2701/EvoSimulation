@@ -24,6 +24,8 @@ public class ActionsTokenizer extends ChildTokenizer{
 					   		  {"^[(]","("},
 					   		  {"^[)]",")"},
 					   		  {"^[,]",","},
+					   		  {"^\\benum\\b","enum"},
+					   		  {"^\\bstatic\\b","static"},
 					   		  {"^\\bnew\\b","new"},
 					   		  {"^\\breturn\\b","return"},
 					   		  {"^\\blet\\b","let"},

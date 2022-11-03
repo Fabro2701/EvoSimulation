@@ -21,9 +21,16 @@ import simulator.model.map.Map;
 
 public class ActionEvaluator {
 	public static class TestEv{
+		public int i=0;
 		public int x=4;
 		public float f=4;
 		public TestEv2 test2 = new TestEv2();
+		public TestEv() {
+			i++;
+		}
+		public void testi(TestEv t) {
+			i+=t.i;
+		}
 		public void setF(float x) {
 			this.f = x;
 		}
@@ -48,7 +55,7 @@ public class ActionEvaluator {
 	
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
-		//System.out.println(program.toString(4));
+		System.out.println(program.toString(4));
 	}
 	public Object evaluate(Entity e, List<Entity>entities, Map map) {
 		Environment env = new Environment(null);
@@ -98,8 +105,10 @@ public class ActionEvaluator {
 			return this.evalIfStatement(query, env);
 		case "NumberLiteral":
 			return this.evalNumberLiteral(query);
-		case "StringLiteral":
-			return this.evalStringLiteral(query);
+		case "EnumIdentifier":
+			return this.evalEnumIdentifier(query);
+		case "StaticExpression":
+			return this.evalStaticExpression(query);
 		case "Identifier":
 			return this.evalIdentifier(query, env);
 		case "EmptyStatement":
@@ -109,7 +118,18 @@ public class ActionEvaluator {
 			return null;
 		}
 	}
-	private Object evalStringLiteral(JSONObject query) {
+	private Object evalStaticExpression(JSONObject query) {
+		String name = query.getString("value");
+		try {
+			Class clazz = Class.forName(name);
+			return clazz.getConstructors()[0].newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	private Object evalEnumIdentifier(JSONObject query) {
 		String name = query.getString("value");
 		String[] s = name.split("[\\.$]");
 		String value = s[s.length-1];
@@ -120,6 +140,7 @@ public class ActionEvaluator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.err.println("enum not found: "+name);
 		return null;
 	}
 	private Object evalIdentifier(JSONObject query, Environment env) {
@@ -353,7 +374,7 @@ public class ActionEvaluator {
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
 		java.util.Map<String, java.util.Map<String, ActionI>> acs = ac.getActions();
-		ActionI a = acs.get("move").get("UP");
+		ActionI a = acs.get("move").get("NEUTRAL");
 		
 		System.out.println(a.perform(null, null, null));
 		
