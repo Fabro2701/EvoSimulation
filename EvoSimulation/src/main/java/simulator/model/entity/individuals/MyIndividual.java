@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.json.JSONObject;
@@ -18,7 +19,6 @@ import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
 import simulator.Constants;
 import simulator.Constants.ACTION;
-import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
@@ -44,7 +44,7 @@ public class MyIndividual extends GIndividual{
 		children = new ArrayList<Entity>();
 	}
 	/**
-	 * Main constructor used by factories for creating random entities
+	 * Main constructor used by factories to create random entities
 	 * @param id
 	 * @param n node
 	 * @param ctrl
@@ -71,49 +71,65 @@ public class MyIndividual extends GIndividual{
 	 * @param ctrl
 	 * @param generation The greatest generation of parents
 	 */
-	public MyIndividual(Genotype geno, Controller ctrl, int generation) {
-		this(ctrl, ctrl.getNextId(), ctrl.randomNode());
-		genotype = new Genotype(geno);
-		phenotype = new Phenotype();
-		mutate();
-		for(String key:grammars.keySet()) {
+	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
+		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
+		ind.genotype = new Genotype(geno);
+		ind.phenotype = new Phenotype();
+		ind.mutate();
+		for(String key:ind.grammars.keySet()) {
 			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
-			genotype.addChromosome(c);
+			ind.genotype.addChromosome(c);
 			LinkedList<Symbol> crom=null;
-			crom = grammars.get(key).parse(c);
-			phenotype.setSymbol(key, crom);
-			if(phenotype.valid==false) {
+			crom = ind.grammars.get(key).parse(c);
+			ind.phenotype.setSymbol(key, crom);
+			if(ind.phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
-				vanish();
+				ind.vanish();
 			}
 		}
 		
-		this.generation =  generation+1;
+		ind.generation =  generation+1;
+		return ind;
+	}
 
-	}
-	/**
-	 * Constructor invoked by initializers
-	 * @param geno
-	 * @param ctrl
-	 * @param generation The greatest generation of parents
-	 */
-	public MyIndividual(String id, Node node, Chromosome c, Controller ctrl) {
-		this(ctrl, id, node);
-		//genotype = new Genotype(c); pending
-		LinkedList<Symbol> crom = moveGrammar.parse(genotype.get(0));
+	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
+		Objects.requireNonNull(cs);
 		
-		if(crom==null) {
-			ctrl.getStatsManager().onDeadOffSpring(0);
-			vanish();
-			phenotype = new Phenotype();
-		}
-		else {
-			
-			///phenotype = new Phenotype(crom);pending
-			//System.out.println(phenotype.getVisualCode());
-		}
+		MyIndividual ind = new MyIndividual(ctrl, id, node);
+		ind.genotype = new Genotype();
+		ind.phenotype = new Phenotype();
 		
+		assert cs.size()==ind.grammars.size();
+		
+		int i=0;
+		for(String key:ind.grammars.keySet()) {
+			ind.genotype.addChromosome(cs.get(i));
+			LinkedList<Symbol> crom = ind.grammars.get(key).parse(cs.get(i));
+			ind.phenotype.setSymbol(key, crom);
+			if(ind.phenotype.valid==false) {
+				ctrl.getStatsManager().onDeadOffSpring(0);
+				ind.vanish();
+			}
+		}
+		return ind;
 	}
+//	public MyIndividual(String id, Node node, Chromosome c, Controller ctrl) {
+//		this(ctrl, id, node);
+//		//genotype = new Genotype(c); pending
+//		LinkedList<Symbol> crom = moveGrammar.parse(genotype.get(0));
+//		
+//		if(crom==null) {
+//			ctrl.getStatsManager().onDeadOffSpring(0);
+//			vanish();
+//			phenotype = new Phenotype();
+//		}
+//		else {
+//			
+//			///phenotype = new Phenotype(crom);pending
+//			//System.out.println(phenotype.getVisualCode());
+//		}
+//		
+//	}
 	public MyIndividual(String id, Node node, String code, Controller ctrl) {
 		this(ctrl, id, node);
 		
@@ -175,8 +191,8 @@ public class MyIndividual extends GIndividual{
 			//System.out.println("reproductioning");
 			ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
 			Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
-			children.add(new MyIndividual(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
-			children.add(new MyIndividual(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
+			children.add(MyIndividual.fromParents(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
+			children.add(MyIndividual.fromParents(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
 			
 			
 			

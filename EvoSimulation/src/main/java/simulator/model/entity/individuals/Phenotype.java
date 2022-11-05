@@ -15,7 +15,6 @@ import grammar.Evaluator;
 import grammar.Parser;
 import simulator.Constants;
 import simulator.Constants.ACTION;
-import simulator.Constants.MOVE;
 
 /**
  * 

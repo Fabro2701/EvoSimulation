@@ -29,4 +29,6 @@ actions := <move> UP{
 				  }|
 		   <action> ATTACK{;}
 		   			REPRODUCTION{;}
-		   			 REST{;}.
+		   			 REST{;}.  
+interactions := EAT{test.getClass();}
+		   		IDK{;}.

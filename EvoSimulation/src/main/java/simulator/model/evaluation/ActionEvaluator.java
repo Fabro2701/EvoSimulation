@@ -11,8 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.ActionsController;
+import simulator.control.InteractionsController;
 import simulator.control.SetupController;
 import simulator.model.ActionI;
+import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
 import simulator.model.entity.FoodEntity;
 import simulator.model.entity.individuals.MyIndividual;
@@ -56,6 +58,22 @@ public class ActionEvaluator {
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
 		System.out.println(program.toString(4));
+	}
+	public Object evaluate(Entity e1, Entity e2, Map map) {
+		Environment env = new Environment(null);
+		env.define("e1", e1);
+		env.define("e2", e2);
+		env.define("map", map);
+		env.define("test", new TestEv());
+		
+		Object r = null;
+		JSONObject expression = null;
+		for(int i=0;i<program.length();i++) {
+			expression = program.getJSONObject(i);
+			r = this.eval(expression, env);
+		}
+		env.clear();
+		return r;
 	}
 	public Object evaluate(Entity e, List<Entity>entities, Map map) {
 		Environment env = new Environment(null);
@@ -238,8 +256,8 @@ public class ActionEvaluator {
 		Object ob = this.eval(object, env);
 		try {
 			Method m = null;
-			//Method m = ob.getClass().getDeclaredMethod(property.getString("name"), clazzs);
-			for(Method mi:ob.getClass().getDeclaredMethods())if(mi.getName().equals(property.getString("name")))m=mi;
+			//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
+			for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
 			Class<?>prms[] = m.getParameterTypes();
 			for(int i=0;i<arguments.length();i++) {
 				if(args[i] instanceof Number) {
@@ -370,6 +388,10 @@ public class ActionEvaluator {
 	}
 
 	public static void main(String args[]) {
+		//actions();
+		interactions();
+	}
+	private static void actions() {
 		SetupController stc = SetupController.from("resources/setup/default.stp");
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
@@ -377,6 +399,14 @@ public class ActionEvaluator {
 		ActionI a = acs.get("move").get("NEUTRAL");
 		
 		System.out.println(a.perform(null, null, null));
+	}
+	private static void interactions() {
+		SetupController stc = SetupController.from("resources/setup/default.stp");
+		InteractionsController ac = (InteractionsController)stc.getModule("InteractionsController");
 		
+		java.util.Map<String, InteractionI> acs = ac.getInteractions();
+		InteractionI a = acs.get("EAT");
+		
+		System.out.println(a.perform(null, null, null));
 	}
 }

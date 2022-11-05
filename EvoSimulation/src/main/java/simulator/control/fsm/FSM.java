@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import simulator.Constants.MOVE;
 
 public class FSM<I, R> {
 	HashMap<State<R>,ArrayList<Transition<I>>>states;

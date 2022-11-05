@@ -36,7 +36,7 @@ public class Util {
 				if(dist>maxDist) {
 					maxDist = dist;
 					move = m;
-				}
+				} 
 			}
 		}
 		return move;

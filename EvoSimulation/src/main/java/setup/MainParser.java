@@ -50,6 +50,9 @@ public class MainParser {
 		case "ActionsController":
 			declaration = new ActionsParser().parse(this);
 			break;
+		case "InteractionsController":
+			declaration = new InteractionsParser().parse(this);
+			break;
 		
 		}
 		

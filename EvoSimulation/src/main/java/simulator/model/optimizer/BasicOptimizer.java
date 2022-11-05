@@ -3,7 +3,6 @@ package simulator.model.optimizer;
 import java.util.HashMap;
 import java.util.List;
 
-import simulator.Constants.MOVE;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;

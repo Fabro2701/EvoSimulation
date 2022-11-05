@@ -34,6 +34,7 @@ public abstract class Entity implements IInteract{
 	protected ImageController imgController;
 	STATE currentstate;
 	State<Image>currentImgState;
+	protected java.util.Map<String, Object>attributes;
 
 	public Entity(String id, Node n, Controller ctrl) {
 		this.ctrl=ctrl;
@@ -50,6 +51,7 @@ public abstract class Entity implements IInteract{
 		this.imgController = ctrl.getImgController();
 		this.currentstate = STATE.REST;
 		this.updateImage();
+		attributes = new java.util.LinkedHashMap<String, Object>();
 	}
 
 	/**
@@ -107,6 +109,14 @@ public abstract class Entity implements IInteract{
 
 	public void vanish() {
 		alive = false;
+	}
+	
+	public Entity setAttribute(String key, Object value) {
+		this.attributes.put(key, value);
+		return this;//for chaining
+	}
+	public Object getAttribute(String key) {
+		return this.attributes.get(key);
 	}
 
 	public JSONObject toJSON() {
