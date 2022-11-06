@@ -15,7 +15,10 @@ import org.json.JSONObject;
 import grammar.AbstractGrammar;
 import simulator.control.ActionsController;
 import simulator.control.GrammarController;
+import simulator.control.InitController;
+import simulator.control.InteractionsController;
 import simulator.control.SetupController;
+import simulator.control.UpdatesController;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
@@ -44,6 +47,9 @@ public class EvoSimulator {
 	private SetupController setupCtrl;
 	private GrammarController grammarController;
 	private ActionsController actionsController;
+	private InteractionsController interactionsController;
+	private UpdatesController updatesController;
+	private InitController initController;
 	
 	public EvoSimulator() {
 		this("test1000void2");
@@ -77,6 +83,9 @@ public class EvoSimulator {
 		setupCtrl = setup;
 		this.grammarController = (GrammarController) setupCtrl.getModule("GrammarController");
 		this.actionsController = (ActionsController) setupCtrl.getModule("ActionsController");
+		this.interactionsController = (InteractionsController) setupCtrl.getModule("InteractionsController");
+		this.updatesController = (UpdatesController) setupCtrl.getModule("UpdatesController");
+		this.initController = (InitController) setupCtrl.getModule("InitController");
 	}
 
 	/**
@@ -243,5 +252,14 @@ public class EvoSimulator {
 	}
 	public GrammarController getGrammarController() {
 		return grammarController;
+	}
+	public InteractionsController getInteractionsController() {
+		return interactionsController;
+	}
+	public UpdatesController getUpdatesController() {
+		return updatesController;
+	}
+	public InitController getInitController() {
+		return initController;
 	}
 }

@@ -26,8 +26,10 @@ public class ActionEvaluator {
 		public int i=0;
 		public int x=4;
 		public float f=4;
+		public static int ss=9;
 		public TestEv2 test2 = new TestEv2();
 		public TestEv() {
+			
 			i++;
 		}
 		public void testi(TestEv t) {
@@ -57,7 +59,22 @@ public class ActionEvaluator {
 	
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
-		System.out.println(program.toString(4));
+		//System.out.println(program.toString(4));
+	}
+	//evaluate for all possible parameters...
+	public Object evaluate(Entity e) {
+		Environment env = new Environment(null);
+		env.define("e", e);
+		env.define("test", new TestEv());
+		
+		Object r = null;
+		JSONObject expression = null;
+		for(int i=0;i<program.length();i++) {
+			expression = program.getJSONObject(i);
+			r = this.eval(expression, env);
+		}
+		env.clear();
+		return r;
 	}
 	public Object evaluate(Entity e1, Entity e2, Map map) {
 		Environment env = new Environment(null);
@@ -123,6 +140,8 @@ public class ActionEvaluator {
 			return this.evalIfStatement(query, env);
 		case "NumberLiteral":
 			return this.evalNumberLiteral(query);
+		case "StringLiteral":
+			return this.evalStringLiteral(query);
 		case "EnumIdentifier":
 			return this.evalEnumIdentifier(query);
 		case "StaticExpression":
@@ -136,11 +155,15 @@ public class ActionEvaluator {
 			return null;
 		}
 	}
+	private Object evalStringLiteral(JSONObject query) {
+		return query.getString("value");
+	}
 	private Object evalStaticExpression(JSONObject query) {
 		String name = query.getString("value");
 		try {
 			Class clazz = Class.forName(name);
-			return clazz.getConstructors()[0].newInstance();
+			return clazz;
+			//return clazz.getConstructors()[0].newInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,28 +277,55 @@ public class ActionEvaluator {
 		JSONObject property = callee.getJSONObject("property");
 		JSONObject object = callee.getJSONObject("object");
 		Object ob = this.eval(object, env);
-		try {
-			Method m = null;
-			//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
-			for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
-			Class<?>prms[] = m.getParameterTypes();
-			for(int i=0;i<arguments.length();i++) {
-				if(args[i] instanceof Number) {
-					if(args[i].getClass()==Float.class) {
-						float tmp = ((Number)args[i]).floatValue();
-						if(prms[i]==Integer.class || prms[i]==int.class) {
-							args[i] = (int)tmp;
+		if(ob instanceof Class) {
+			try {
+				Method m = null;
+				//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
+				for(Method mi:((Class)ob).getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
+				Class<?>prms[] = m.getParameterTypes();
+				for(int i=0;i<arguments.length();i++) {
+					if(args[i] instanceof Number) {
+						if(args[i].getClass()==Double.class) {
+							double tmp = ((Number)args[i]).doubleValue();
+							if(prms[i]==Integer.class || prms[i]==int.class) {
+								args[i] = (int)tmp;
+							}
 						}
+						//args[i] = prms[i].cast(((Number)args[i]).floatValue()) ;
 					}
-					//args[i] = prms[i].cast(((Number)args[i]).floatValue()) ;
+					else args[i] = prms[i].cast(args[i]);
 				}
-				else args[i] = prms[i].cast(args[i]);
+				return m.invoke(null, args);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return m.invoke(ob, args);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		else {
+			try {
+				Method m = null;
+				//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
+				for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
+				Class<?>prms[] = m.getParameterTypes();
+				for(int i=0;i<arguments.length();i++) {
+					if(args[i] instanceof Number) {
+						if(args[i].getClass()==Double.class) {
+							double tmp = ((Number)args[i]).floatValue();
+							if(prms[i]==Integer.class || prms[i]==int.class) {
+								args[i] = (int)tmp;
+							}
+						}
+						//args[i] = prms[i].cast(((Number)args[i]).floatValue()) ;
+					}
+					else args[i] = prms[i].cast(args[i]);
+				}
+				return m.invoke(ob, args);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 		return null;
 	}
@@ -285,16 +335,25 @@ public class ActionEvaluator {
 		boolean computed = query.getBoolean("computed");
 		if(!computed) {
 			Object ob = this.eval(object, env);
-			try {
-				if(property.getString("name").equals("node")) {
-					int a=0;
+			if(ob instanceof Class) {
+				try {
+					Field f = ((Class)ob).getField(property.getString("name"));
+					return f.get(ob);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				Field f = ob.getClass().getField(property.getString("name"));
-				return f.get(ob);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			else {
+				try {
+					Field f = ob.getClass().getField(property.getString("name"));
+					return f.get(ob);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		}
 		return null;
 	}
@@ -328,17 +387,17 @@ public class ActionEvaluator {
 		
 		switch(op) {
 		case ">":
-			return ((Number)eval(left, env)).floatValue()>((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()>((Number)eval(right, env)).doubleValue();
 		case "<":
-			return ((Number)eval(left, env)).floatValue()<((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()<((Number)eval(right, env)).doubleValue();
 		case "==":
 			Object l = eval(left, env);
-			if(l instanceof Number)return ((Number)l).floatValue()==((Number)eval(right, env)).floatValue();
+			if(l instanceof Number)return ((Number)l).doubleValue()==((Number)eval(right, env)).doubleValue();
 			else return l == eval(right, env);
 		case ">=":
-			return ((Number)eval(left, env)).floatValue()>=((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()>=((Number)eval(right, env)).doubleValue();
 		case "<=":
-			return ((Number)eval(left, env)).floatValue()<=((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()<=((Number)eval(right, env)).doubleValue();
 		case "&&":
 			return (boolean)eval(left, env)&&(boolean)eval(right, env);
 		case "||":
@@ -355,13 +414,13 @@ public class ActionEvaluator {
 		
 		switch(op) {
 		case "+":
-			return ((Number)eval(left, env)).floatValue()+((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()+((Number)eval(right, env)).doubleValue();
 		case "-":
-			return ((Number)eval(left, env)).floatValue()-((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()-((Number)eval(right, env)).doubleValue();
 		case "*":
-			return ((Number)eval(left, env)).floatValue()*((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()*((Number)eval(right, env)).doubleValue();
 		case "/":
-			return ((Number)eval(left, env)).floatValue()/((Number)eval(right, env)).floatValue();
+			return ((Number)eval(left, env)).doubleValue()/((Number)eval(right, env)).doubleValue();
 		default:
 			System.err.println("Unsupported operator "+op);
 			return null;

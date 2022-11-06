@@ -1,6 +1,28 @@
 grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
 			action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
 	
+init := init1{
+			  let p = (static "simulator.RandomSingleton").nextFloat();
+			  if(p<=0.046f){
+			  	e.setAttribute("imc","O");
+			  }
+			  else if(p<=0.25f){
+			  	e.setAttribute("imc","S");
+			  }
+			  else{
+			  	e.setAttribute("imc","N");
+			  }
+			 }.
+updates := update1{
+			let imc = e.getAttribute("imc");
+			let p = (static "simulator.RandomSingleton").nextDouble();
+			if(imc.equals("S")){
+				if(p<=0.3226f){
+					e.setAttribute("imc","O");
+					(static "util.Util").prinlnString("OOOOOO");
+				}
+			}
+		   }.
 actions := <move> UP{
 					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setY(e.node.y-1);
@@ -30,5 +52,7 @@ actions := <move> UP{
 		   <action> ATTACK{;}
 		   			REPRODUCTION{;}
 		   			 REST{;}.  
-interactions := EAT{test.getClass();}
+interactions := EAT{
+				;
+				}
 		   		IDK{;}.

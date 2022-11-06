@@ -206,4 +206,13 @@ public class Controller {
 	public GrammarController getGrammarController() {
 		return simulator.getGrammarController();
 	}
+	public InteractionsController getInteractionsController() {
+		return simulator.getInteractionsController();
+	}
+	public UpdatesController getUpdatesController() {
+		return simulator.getUpdatesController();
+	}
+	public InitController getInitController() {
+		return simulator.getInitController();
+	}
 }

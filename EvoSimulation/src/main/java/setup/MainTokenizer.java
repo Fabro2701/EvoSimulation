@@ -16,6 +16,8 @@ public class MainTokenizer {
 			   		   {"^grammars","GrammarController"},
 			   		   {"^actions","ActionsController"},
 			   		   {"^interactions","InteractionsController"},
+			   		   {"^updates","UpdatesController"},
+			   		   {"^init","InitController"},
 			   		   {"^\"[^\"]*\"","STRING"}};
 	public void init(String string) {
 		_cursor=0;
