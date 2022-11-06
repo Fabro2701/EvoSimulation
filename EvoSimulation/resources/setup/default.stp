@@ -69,9 +69,10 @@ actions := <move> UP{
 interactions := OS_INTERACTION{
 					let imc1 = e1.getAttribute("imc");
 					let imc2 = e2.getAttribute("imc");
-					if(imc1.equals("N")&&(imc1.equals("S")||imc1.equals("O"))){
-						let p = (static "simulator.RandomSingleton").nextDouble();
-						if(p<=0.001121f){
+					let p = (static "simulator.RandomSingleton").nextDouble();
+					if(imc1.equals("N")&&(imc2.equals("S")||imc2.equals("O"))){
+						if(p<=0.01121f){
+					
 							e1.setAttribute("imc","S");
 						}
 					}

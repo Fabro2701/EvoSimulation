@@ -41,6 +41,7 @@ public abstract class GIndividual extends AbstractIndividual{
 		for(String id:inits.keySet()) {
 			inits.get(id).accept(this);
 		}
+		this.alive = true;
 	}
 	public void updateObservations(List<Entity>entities, Map map) {
 		observationManager.update(entities, map);
@@ -62,7 +63,7 @@ public abstract class GIndividual extends AbstractIndividual{
 			Object election = this.phenotype.getNext(actionid, this.observationManager.getVariables());
 			ActionI a = actions.get(actionid).get(election);
 			if(a!=null)a.perform(this, entities, map);
-			else System.err.println("Action "+election+" not declared");
+			//else System.err.println("Action "+election+" not declared");
 		}
 	}
 	@Override

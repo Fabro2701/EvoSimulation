@@ -321,7 +321,7 @@ public class ActionEvaluator {
 				}
 				return m.invoke(ob, args);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				System.err.println(query.toString(4));
 				e.printStackTrace();
 			}
 		}

@@ -42,7 +42,7 @@ public class BasicOptimizer extends Optimizer{
 		for (Entity e1 : entities) {	
 			if(e1 instanceof ActiveEntity) {
 				for (Entity e2 : entities) {
-					if(e1!=e2) {
+					if(e1!=e2&&e2.isAlive()) {
 						if (Util.areCloseEnough(e1, e2)) {
 							e1.interact(e2);
 						}

@@ -41,7 +41,7 @@ public abstract class Entity implements IInteract{
 		this.type = ".";
 		this.id = id;
 		this.node = n;
-		this.alive = true;
+		//this.alive = true;
 		this.energy = DEFAULT_INITIAL_ENERGY;
 		this.weight = DEFAULT_INITIAL_WEIGHT;
 		this.age = 0;

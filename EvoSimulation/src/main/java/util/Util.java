@@ -21,7 +21,7 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class Util {
-	public static void prinlnString(String s) {
+	public static void printlnString(String s) {
 		System.out.println(s);
 	}
 	public static void prinlnDouble(double s) {
