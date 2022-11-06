@@ -37,7 +37,7 @@ public abstract class ActiveEntity extends Entity {
 			this.vanish();
 			//evoSimulator.addEntity(new FoodEntity(this.id,this.node,3.f,ctrl));
 		}
-		this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
+		//this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
 		
 		this.setReproductionRestTime(this.getReproductionRestTime() - 1);
 		this.setAttackRestTime(this.getAttackRestTime() - 1);
@@ -45,12 +45,13 @@ public abstract class ActiveEntity extends Entity {
 		
 	}
 
-	@Override
-	public void myInteract(Entity e) {
-		if(e instanceof PasiveEntity) {
-			e.recieveActiveEntityInteraction(this);
-			return;
-		}
+//	@Override
+//	public void myInteract(Entity e) {
+//		
+//		if(e instanceof PasiveEntity) {
+//			e.recieveActiveEntityInteraction(this);
+//			return;
+//		}
 //		if(action == ACTION.REPRODUCTION) {
 //			if(e.getAction() == ACTION.REPRODUCTION) {
 //				if(this.getReproductionRestTime()<=0 && e.getReproductionRestTime()<=0) {
@@ -68,7 +69,7 @@ public abstract class ActiveEntity extends Entity {
 //			
 //		}
 		//e.recieveActiveEntityInteraction(this);
-	}
+//	}
 	@Override
 	public boolean shouldInteract() {return true;}
 

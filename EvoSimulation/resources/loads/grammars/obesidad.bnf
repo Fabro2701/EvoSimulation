@@ -1,0 +1,15 @@
+<CODE> -> <LINE>|<CODE> <LINE>.
+<LINE> -> 'return '<ACTION>;|<IF>.
+<IF> -> if <COND> {<LINE>} else {<LINE>} | if <COND> { <LINE> }.
+<COND> -> (<OBS>) | (<OBS> <OP> <OBS>) | ((<AREXP>) <OP> (<AREXP>)).
+<OBS> ->  'count'<M>|  'dist'<M>|'p[' <Pidx> ']'<M>.
+<OP> -> '<'|>|'<='|>=.
+<AR> -> +|*|-.
+<ACTION> -> <MOVE>.
+<MOVE> -> RIGHT|LEFT|UP|DOWN|NEUTRAL.
+<M> -> RIGHT|LEFT|UP|DOWN.
+<V> -> 0|1|2|3|4|5|6|7.
+<Pidx> -> 0|1|2|3|4|5|6|7.
+<AREXP> -> <OBS>|<V>|<AREXP> <AR> <AREXP>.
+<Pi> -> 0|1|2|3|4|5|6|7.
+<LOGOP> -> '||' | &&.

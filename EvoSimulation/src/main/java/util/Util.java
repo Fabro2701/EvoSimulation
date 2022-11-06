@@ -24,6 +24,9 @@ public class Util {
 	public static void prinlnString(String s) {
 		System.out.println(s);
 	}
+	public static void prinlnDouble(double s) {
+		System.out.println(s);
+	}
 	public static int test() {
 		return 4;
 	}

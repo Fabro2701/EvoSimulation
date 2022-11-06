@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
+import simulator.control.SetupController;
 import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
@@ -60,7 +61,9 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
-		simulator = new EvoSimulator();
+		SetupController setup = SetupController.from("resources/setup/defult.stp");
+		simulator = new EvoSimulator("test1000void");
+		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		

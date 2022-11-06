@@ -1,6 +1,0 @@
-<CODE> -> <CODE><LINE>|<LINE>.
-<LINE> -> <IFTE>|<LOOP>|<ACTION>.
-<IFTE> -> 'if'<COND>'{'<CODE>'}''else''{'<CODE>'}'.
-<LOOP> -> 'while('<COND>'){'<CODE>'}'.
-<COND> -> 'c1'|'c2'.
-<ACTION> -> 'a1'|'a2'.

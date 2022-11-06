@@ -53,7 +53,7 @@ public abstract class GIndividual extends AbstractIndividual{
 		for(String id:updates.keySet()) {
 			updates.get(id).accept(this);
 		}
-		System.out.println(this.getAttribute("imc"));
+		//System.out.println(this.getAttribute("imc"));
 	}
 
 	@Override
@@ -63,6 +63,12 @@ public abstract class GIndividual extends AbstractIndividual{
 			ActionI a = actions.get(actionid).get(election);
 			if(a!=null)a.perform(this, entities, map);
 			else System.err.println("Action "+election+" not declared");
+		}
+	}
+	@Override
+	public void myInteract(Entity e2) {
+		for(String id:interactions.keySet()) {
+			interactions.get(id).perform(this, e2, ctrl.getMap());
 		}
 	}
 

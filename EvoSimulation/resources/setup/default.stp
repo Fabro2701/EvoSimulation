@@ -1,5 +1,5 @@
-grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/default.bnf"|
-			action; "grammar.StandardGrammar"; "resources/loads/grammars/default2.bnf".
+grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/obesidad.bnf"|
+			action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 	
 init := init1{
 			  let p = (static "simulator.RandomSingleton").nextFloat();
@@ -17,9 +17,25 @@ updates := update1{
 			let imc = e.getAttribute("imc");
 			let p = (static "simulator.RandomSingleton").nextDouble();
 			if(imc.equals("S")){
-				if(p<=0.3226f){
+				if(p<=0.0003226f){
 					e.setAttribute("imc","O");
-					(static "util.Util").prinlnString("OOOOOO");
+					
+				}
+			}
+		   }
+		   update2{
+			let imc = e.getAttribute("imc");
+			let p = (static "simulator.RandomSingleton").nextDouble();
+			let sn = 0.020*0.042*0.14285714;
+			let os = 0.004*0.024*0.14285714;
+			if(imc.equals("S")){
+				if(p<=sn){
+					e.setAttribute("imc","N");
+				}
+			}
+			else if(imc.equals("O")){
+				if(p<=os){
+					e.setAttribute("imc","S");
 				}
 			}
 		   }.
@@ -49,10 +65,14 @@ actions := <move> UP{
 				  		  test.testi(test);
 				  		  test.i;
 				  }|
-		   <action> ATTACK{;}
-		   			REPRODUCTION{;}
-		   			 REST{;}.  
-interactions := EAT{
-				;
-				}
-		   		IDK{;}.
+		   <action> NOTHING{;}.  
+interactions := OS_INTERACTION{
+					let imc1 = e1.getAttribute("imc");
+					let imc2 = e2.getAttribute("imc");
+					if(imc1.equals("N")&&(imc1.equals("S")||imc1.equals("O"))){
+						let p = (static "simulator.RandomSingleton").nextDouble();
+						if(p<=0.001121f){
+							e1.setAttribute("imc","S");
+						}
+					}
+				}.

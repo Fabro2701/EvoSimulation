@@ -39,6 +39,17 @@ public class BasicOptimizer extends Optimizer{
 		}
 
 		// entities interactions
+		for (Entity e1 : entities) {	
+			if(e1 instanceof ActiveEntity) {
+				for (Entity e2 : entities) {
+					if(e1!=e2) {
+						if (Util.areCloseEnough(e1, e2)) {
+							e1.interact(e2);
+						}
+					}
+				}
+			}
+		}
 //		for (Entity e1 : entities) {	
 //			if(e1 instanceof ActiveEntity) {
 //				for (Entity e2 : entities) {
