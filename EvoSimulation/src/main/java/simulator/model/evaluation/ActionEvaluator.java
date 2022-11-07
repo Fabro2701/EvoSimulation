@@ -56,57 +56,56 @@ public class ActionEvaluator {
 	
 	}
 	JSONArray program;
-	
+	public static Environment globalEnv;
+	static {
+		globalEnv = new Environment(null);
+	}
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
 		//System.out.println(program.toString(4));
 	}
 	//evaluate for all possible parameters...
-	public Object evaluate(Entity e) {
-		Environment env = new Environment(null);
-		env.define("e", e);
-		env.define("test", new TestEv());
-		
+	public Object evaluate(Environment env, boolean clear) {
 		Object r = null;
 		JSONObject expression = null;
 		for(int i=0;i<program.length();i++) {
 			expression = program.getJSONObject(i);
 			r = this.eval(expression, env);
 		}
-		env.clear();
+		if(clear)env.clear();
 		return r;
 	}
+	public Object evaluate(java.util.Map<String, Object>vars) {
+		Environment env = new Environment(globalEnv);
+		for(String key:vars.keySet()) env.define(key, vars.get(key));
+		env.define("test", new TestEv());
+		
+		return evaluate(env, true);
+	}
+	public Object evaluate(Entity e) {
+		Environment env = new Environment(globalEnv);
+		env.define("e", e);
+		env.define("test", new TestEv());
+		
+		return evaluate(env, true);
+	}
 	public Object evaluate(Entity e1, Entity e2, Map map) {
-		Environment env = new Environment(null);
+		Environment env = new Environment(globalEnv);
 		env.define("e1", e1);
 		env.define("e2", e2);
 		env.define("map", map);
 		env.define("test", new TestEv());
 		
-		Object r = null;
-		JSONObject expression = null;
-		for(int i=0;i<program.length();i++) {
-			expression = program.getJSONObject(i);
-			r = this.eval(expression, env);
-		}
-		env.clear();
-		return r;
+		return evaluate(env, true);
 	}
 	public Object evaluate(Entity e, List<Entity>entities, Map map) {
-		Environment env = new Environment(null);
+		Environment env = new Environment(globalEnv);
 		env.define("e", e);
 		env.define("entities", entities);
 		env.define("map", map);
 		env.define("test", new TestEv());
-		
-		Object r = null;
-		JSONObject expression = null;
-		for(int i=0;i<program.length();i++) {
-			expression = program.getJSONObject(i);
-			r = this.eval(expression, env);
-		}
-		env.clear();
-		return r;
+
+		return evaluate(env, true);
 	}
 
 	private Object eval(JSONObject query, Environment env) {

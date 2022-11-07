@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar;
 import simulator.control.ActionsController;
+import simulator.control.GlobalController;
 import simulator.control.GrammarController;
 import simulator.control.InitController;
 import simulator.control.InteractionsController;
@@ -50,6 +51,7 @@ public class EvoSimulator {
 	private InteractionsController interactionsController;
 	private UpdatesController updatesController;
 	private InitController initController;
+	private GlobalController globalController;
 	
 	public EvoSimulator() {
 		this("test1000void2");
@@ -65,8 +67,8 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		//this.optimizer = new UniformGridOptimizer(this,3,3);
-		this.optimizer = new BasicOptimizer(this);
+		this.optimizer = new UniformGridOptimizer(this,3,3);
+		//this.optimizer = new BasicOptimizer(this);
 		
 		
 		
@@ -86,6 +88,8 @@ public class EvoSimulator {
 		this.interactionsController = (InteractionsController) setupCtrl.getModule("InteractionsController");
 		this.updatesController = (UpdatesController) setupCtrl.getModule("UpdatesController");
 		this.initController = (InitController) setupCtrl.getModule("InitController");
+		this.globalController = (GlobalController) setupCtrl.getModule("GlobalController");
+
 	}
 
 	/**

@@ -18,6 +18,7 @@ public class MainTokenizer {
 			   		   {"^interactions","InteractionsController"},
 			   		   {"^updates","UpdatesController"},
 			   		   {"^init","InitController"},
+			   		   {"^global","GlobalController"},
 			   		   {"^\"[^\"]*\"","STRING"}};
 	public void init(String string) {
 		_cursor=0;

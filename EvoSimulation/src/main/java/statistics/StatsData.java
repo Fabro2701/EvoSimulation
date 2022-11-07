@@ -20,7 +20,7 @@ public abstract class StatsData implements StatsObserver{
 
 	@Override
 	public void clear() {
-		((DefaultCategoryDataset)dataset).clear();
-		text.setText("");
+		if(dataset!=null)((DefaultCategoryDataset)dataset).clear();
+		if(text!=null)text.setText("");
 	}
 }

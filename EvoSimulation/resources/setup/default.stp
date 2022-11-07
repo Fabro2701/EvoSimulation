@@ -1,7 +1,11 @@
 grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/obesidad.bnf"|
 			action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
-	
+
+global := a{
+			let lambda = 0.43203;
+		  }.	
 init := init1{
+			  let ll = lambda;
 			  let p = (static "simulator.RandomSingleton").nextFloat();
 			  if(p<=0.046f){
 			  	e.setAttribute("imc","O");
@@ -71,7 +75,7 @@ interactions := OS_INTERACTION{
 					let imc2 = e2.getAttribute("imc");
 					let p = (static "simulator.RandomSingleton").nextDouble();
 					if(imc1.equals("N")&&(imc2.equals("S")||imc2.equals("O"))){
-						if(p<=0.01121f){
+						if(p<=0.01121f*100f){
 					
 							e1.setAttribute("imc","S");
 						}
