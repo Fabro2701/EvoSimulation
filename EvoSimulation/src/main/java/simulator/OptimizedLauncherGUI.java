@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
 
+import simulator.control.ConstantsController;
 import simulator.control.Controller;
 import simulator.control.SetupController;
 import simulator.events.Event;
@@ -38,12 +39,14 @@ import simulator.factories.builders.stats.PopulationAgeBuilder;
 import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.view.ConstantsViewer;
 import statistics.StatsData;
 import statistics.StatsManager;
 
 public class OptimizedLauncherGUI extends javax.swing.JFrame {
 	private EvoSimulator simulator;
 	private Controller ctrl;
+	private ConstantsController constantsCtrl;
     /**
      * Creates new form OptimizedLauncherGUI
      */
@@ -66,7 +69,11 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
-		
+		constantsCtrl = new ConstantsController();
+		SwingUtilities.invokeLater(() -> {
+	        	new ConstantsViewer(constantsCtrl);
+	    		constantsCtrl.paint();
+	        });
 		try {
 			int op=0;
 			if(op==0) {

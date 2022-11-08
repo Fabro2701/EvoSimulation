@@ -36,7 +36,7 @@ public class InteractionsTokenizer extends ChildTokenizer{
 					   		  {"^\\bnull\\b","null"},
 					   		  {"^\\bfor\\b","for"},
 					   		  {"^\\bwhile\\b","while"},
-							  {"^[0-9.]+f?","NUMBER"},
+							  {"^[0-9.]+f?d?","NUMBER"},
 					   		  {"^[\\w\\d\\$]+","IDENTIFIER"},
 					   		  {"^[=!]=","EQUALITY_OPERATOR"},
 					   		  {"^=","SIMPLE_ASSIGN"},

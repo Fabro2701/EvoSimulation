@@ -538,8 +538,11 @@ public class InteractionsParser extends ChildParser{
 	private JSONObject NumberLiteral() {
 		JSONObject token = _eat("NUMBER");
 		JSONObject o = new JSONObject().put("type", "NumberLiteral").put("value", token.getString("value"));
-		if(token.getString("value").contains("f")||token.getString("value").contains(".")) {
+		if(token.getString("value").contains("f")) {
 			o.put("class", Float.class.getName());
+		}
+		else if(token.getString("value").contains("d")||token.getString("value").contains(".")) {
+			o.put("class", Double.class.getName());
 		}
 		else {
 			o.put("class", Integer.class.getName());

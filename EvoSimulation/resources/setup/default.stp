@@ -2,15 +2,24 @@ grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/obesida
 			action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a{
-			let lambda = 0.43203;
+			let mu = 0.0004578;
+			let beta = 0.001121;
+			let gamma = 0.0003226;
+			let p1 = 0.020;
+			let p2 = 0.042;
+			let p = 1/7;
+			let e1 = 0.004;
+			let e2 = 0.024;
+			let N0 = 0.704;
+			let S0 = 0.25;
+			let O0 = 0.046;
 		  }.	
 init := init1{
-			  let ll = lambda;
 			  let p = (static "simulator.RandomSingleton").nextFloat();
-			  if(p<=0.046f){
+			  if(p<=O0){
 			  	e.setAttribute("imc","O");
 			  }
-			  else if(p<=0.25f){
+			  else if(p<=S0+O0){
 			  	e.setAttribute("imc","S");
 			  }
 			  else{
@@ -21,7 +30,7 @@ updates := update1{
 			let imc = e.getAttribute("imc");
 			let p = (static "simulator.RandomSingleton").nextDouble();
 			if(imc.equals("S")){
-				if(p<=0.0003226f){
+				if(p<=gamma){
 					e.setAttribute("imc","O");
 					
 				}
@@ -30,8 +39,8 @@ updates := update1{
 		   update2{
 			let imc = e.getAttribute("imc");
 			let p = (static "simulator.RandomSingleton").nextDouble();
-			let sn = 0.020*0.042*0.14285714;
-			let os = 0.004*0.024*0.14285714;
+			let sn = p1*p2*p;
+			let os = e1*e2*p;
 			if(imc.equals("S")){
 				if(p<=sn){
 					e.setAttribute("imc","N");
@@ -75,7 +84,7 @@ interactions := OS_INTERACTION{
 					let imc2 = e2.getAttribute("imc");
 					let p = (static "simulator.RandomSingleton").nextDouble();
 					if(imc1.equals("N")&&(imc2.equals("S")||imc2.equals("O"))){
-						if(p<=0.01121f*100f){
+						if(p<=beta){
 					
 							e1.setAttribute("imc","S");
 						}

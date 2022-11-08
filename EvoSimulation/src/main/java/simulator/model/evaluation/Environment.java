@@ -39,6 +39,9 @@ public class Environment {
 		this.record.put(key, v);
 		return v;
 	}
+	public Map<String, Object> getRecord(){
+		return record;
+	}
 	public void clear() {
 		this.record.clear();
 	}

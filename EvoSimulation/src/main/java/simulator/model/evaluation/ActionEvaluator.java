@@ -29,7 +29,6 @@ public class ActionEvaluator {
 		public static int ss=9;
 		public TestEv2 test2 = new TestEv2();
 		public TestEv() {
-			
 			i++;
 		}
 		public void testi(TestEv t) {
@@ -64,7 +63,9 @@ public class ActionEvaluator {
 		this.program = program;
 		//System.out.println(program.toString(4));
 	}
-	//evaluate for all possible parameters...
+	public static Object evaluateGlobal(JSONObject query) {
+		return new ActionEvaluator(null).eval(query, globalEnv);//bad
+	}
 	public Object evaluate(Environment env, boolean clear) {
 		Object r = null;
 		JSONObject expression = null;
@@ -446,8 +447,8 @@ public class ActionEvaluator {
 	}
 
 	public static void main(String args[]) {
-		//actions();
-		interactions();
+		actions();
+		//interactions();
 	}
 	private static void actions() {
 		SetupController stc = SetupController.from("resources/setup/default.stp");
