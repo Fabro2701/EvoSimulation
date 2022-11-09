@@ -63,9 +63,6 @@ public class ActionEvaluator {
 		this.program = program;
 		//System.out.println(program.toString(4));
 	}
-	public static Object evaluateGlobal(JSONObject query) {
-		return new ActionEvaluator(null).eval(query, globalEnv);//bad
-	}
 	public Object evaluate(Environment env, boolean clear) {
 		Object r = null;
 		JSONObject expression = null;

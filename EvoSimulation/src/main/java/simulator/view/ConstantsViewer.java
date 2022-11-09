@@ -56,7 +56,6 @@ public class ConstantsViewer extends JFrame{
 				comp.add(new JLabel(key));
 				int value = (int) (((Number)ob).doubleValue()*range);
 				JSlider slider = new JSlider(-range,range,value);
-				//System.out.println(value);
 				slider.addChangeListener(e->ctrl.update(key, (double)slider.getValue()/(double)range));
 				comp.add(slider);
 				comp.add(new JLabel(String.valueOf(ob)));
