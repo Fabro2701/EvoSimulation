@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import setup.MainParser;
+import setup.TextFilePreprocessing;
 
 public class SetupController {
 	JSONObject program;
@@ -35,9 +36,11 @@ public class SetupController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String e3 = sb.toString();
+		String text = sb.toString();
+		text = TextFilePreprocessing.apply(text);
+		System.out.println(text);
 		MainParser parser = new MainParser();
-		ctrl.program = parser.parse(e3);
+		ctrl.program = parser.parse(text);
 		
 		JSONArray rules = ctrl.program.getJSONArray("rules");
 		for(int i=0;i<rules.length();i++) {

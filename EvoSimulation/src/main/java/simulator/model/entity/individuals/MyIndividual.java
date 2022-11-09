@@ -196,8 +196,8 @@ public class MyIndividual extends GIndividual{
 			
 			
 			
-			this.decreaseEnergy(REPRODUCTION_COST);
-			e.decreaseEnergy(REPRODUCTION_COST);
+			//this.decreaseEnergy(REPRODUCTION_COST);
+			//e.decreaseEnergy(REPRODUCTION_COST);
 		}
 		
 	}
@@ -205,8 +205,8 @@ public class MyIndividual extends GIndividual{
 	public void recieveActiveEntityAttackInteraction(Entity e) {
 		//System.out.println("attacking");
 		
-		this.decreaseEnergy(ATTACKED_ENERGY_COST);
-		e.decreaseEnergy(ATTACKER_ENERGY_COST);
+		//this.decreaseEnergy(ATTACKED_ENERGY_COST);
+		//e.decreaseEnergy(ATTACKER_ENERGY_COST);
 		
 		if(this.energy <= 0f) {
 			this.eatMe((ActiveEntity)e);
