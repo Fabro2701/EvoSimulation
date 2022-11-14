@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.awt.Image;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -17,6 +18,13 @@ import simulator.model.entity.individuals.MyIndividual;
 
 public class ImageController {
 	HashMap<Class<?>,FSM<STATE, Image>> images;
+	static Map<String, Image>imgs;
+	static {
+		imgs = new HashMap<String, Image>();
+		imgs.put("O", new ImageIcon("resources/entities/myindividual_resting.png").getImage());
+		imgs.put("S", new ImageIcon("resources/entities/myindividual_moving.png").getImage());
+		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
+	}
 	public ImageController() {
 		images = new HashMap<Class<?>,FSM<STATE, Image>>();
 		images.put(MyIndividual.class, ImageController.createMyIndividualFSM());
@@ -24,6 +32,9 @@ public class ImageController {
 	}
 	public State<Image> getNextImage(Class<?>clazz, State<Image>current, STATE state) {
 		return images.get(clazz).run(current, state);
+	}
+	public static Image getImage(String id) {
+		return imgs.get(id);
 	}
 	private static FSM<STATE, Image> createMyIndividualFSM() {
 		FSM<STATE, Image> fsm = new FSM<STATE, Image>();

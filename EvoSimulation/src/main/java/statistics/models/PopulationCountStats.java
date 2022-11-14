@@ -39,7 +39,7 @@ public class PopulationCountStats extends StatsData{
 			
 			for(Object id:l.keySet()) {
 				long count = l.get(id).stream().count();
-				((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
+				((DefaultCategoryDataset)dataset).addValue(100*count/simulator.getEntities().size(), (String)id, Integer.valueOf(currentTime));
 
 			}
 //			long cont=simulator.getEntities().stream().filter(e->e instanceof MyIndividual).count();

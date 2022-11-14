@@ -57,7 +57,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 
     private void _config() {
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>("statsFactory");
-		StatsManager statsManager = new StatsManager(statsFactory);
+		StatsManager statsManager = new StatsManager("obesidad", statsFactory);
     	
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>("eventsFactory");
 		EventManager eventManager = new EventManager();
@@ -65,7 +65,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/defult.stp");
-		simulator = new EvoSimulator("test1000void");
+		simulator = new EvoSimulator("test1000");
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
@@ -77,7 +77,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		try {
 			int op=0;
 			if(op==0) {
-				ctrl.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
+				ctrl.loadEvents(new FileInputStream("resources/loads/events/obesidad.json"));
 				//ctrl.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 			}
 			else {

@@ -61,7 +61,7 @@ public abstract class Entity implements IInteract{
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
 		age++;
-		this.updateImage();
+		//this.updateImage();
 	}
 	
 	public abstract void perform(List<Entity>entities, Map map);
@@ -112,6 +112,7 @@ public abstract class Entity implements IInteract{
 	}
 	
 	public Entity setAttribute(String key, Object value) {
+		if(key.equals("imc"))img = ImageController.getImage((String) value);
 		this.attributes.put(key, value);
 		return this;//for chaining
 	}

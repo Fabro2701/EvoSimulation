@@ -34,7 +34,7 @@ public class Main {
 		*/
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>("statsFactory");
  
-		StatsManager statsManager = new StatsManager(statsFactory);
+		StatsManager statsManager = new StatsManager("obesidad", statsFactory);
     	
 		EventManager eventManager = new EventManager();
 
@@ -64,14 +64,14 @@ public class Main {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/defult.stp");
-		simulator = new EvoSimulator("test1000void");simulator.setDebug(true);
+		simulator = new EvoSimulator("test1000");simulator.setDebug(true);
 		simulator.loadSetup(setup);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		
 		try {
 			int op=0;
 			if(op==0) {
-				controller.loadEvents(new FileInputStream("resources/loads/events/eventstest1.json"));
+				controller.loadEvents(new FileInputStream("resources/loads/events/obesidad.json"));
 				//controller.loadEntities(new FileInputStream("resources/loads/entities/test1.json"));
 			}
 			else {
@@ -83,13 +83,11 @@ public class Main {
 		}
 		
 		
-		int op=1;
-		if(op==0)controller.run(100000);
-		else if(op==1){
-			SwingUtilities.invokeLater(() -> {
-				new LauncherGUI(controller).setVisible(true);
-			});
-		}
+		
+		SwingUtilities.invokeLater(() -> {
+			new LauncherGUI(controller).setVisible(true);
+		});
+		
 		
 	}
 }

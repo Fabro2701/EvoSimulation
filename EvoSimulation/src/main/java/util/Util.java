@@ -24,7 +24,7 @@ public class Util {
 	public static void printlnString(String s) {
 		System.out.println(s);
 	}
-	public static void prinlnDouble(double s) {
+	public static void printlnDouble(double s) {
 		System.out.println(s);
 	}
 	public static int test() {
