@@ -138,7 +138,6 @@ public class MyIndividual extends GIndividual{
 	}
 	public MyIndividual(String id, Node node, JSONObject genotype, JSONObject phenotype, float energy, Controller ctrl) {
 		this(ctrl, id, node);
-		this.energy=energy;
 		this.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {
@@ -184,40 +183,28 @@ public class MyIndividual extends GIndividual{
 		return null;
 		
 	}
-	@Override
-	public void recieveActiveEntityReproductionInteraction(Entity e) {
-		if(this.getClass().equals(e.getClass())){//&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
-
-			//System.out.println("reproductioning");
-			ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
-			Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
-			children.add(MyIndividual.fromParents(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
-			children.add(MyIndividual.fromParents(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
-			
-			
-			
-			//this.decreaseEnergy(REPRODUCTION_COST);
-			//e.decreaseEnergy(REPRODUCTION_COST);
-		}
-		
-	}
-	@Override
-	public void recieveActiveEntityAttackInteraction(Entity e) {
-		//System.out.println("attacking");
-		
-		//this.decreaseEnergy(ATTACKED_ENERGY_COST);
-		//e.decreaseEnergy(ATTACKER_ENERGY_COST);
-		
-		if(this.energy <= 0f) {
-			this.eatMe((ActiveEntity)e);
-		}
-	}
+//	@Override
+//	public void recieveActiveEntityReproductionInteraction(Entity e) {
+//		if(this.getClass().equals(e.getClass())){//&&this.energy>=REPRODUCTION_COST && e.getEnergy()>=REPRODUCTION_COST) {
+//
+//			//System.out.println("reproductioning");
+//			ctrl.getStatsManager().onReproduction();// SinglePointCrossover EqualOffspringCrossover
+//			Pair<Genotype,Genotype> p = new SinglePointCrossover().crossover(this.genotype, ((MyIndividual)e).getGenotype());
+//			children.add(MyIndividual.fromParents(p.first,ctrl,Math.max(this.generation, e.getGeneration())));
+//			children.add(MyIndividual.fromParents(p.second,ctrl,Math.max(this.generation, e.getGeneration())));
+//			
+//			
+//			
+//			//this.decreaseEnergy(REPRODUCTION_COST);
+//			//e.decreaseEnergy(REPRODUCTION_COST);
+//		}
+//		
+//	}
 	@Override
 	public JSONObject toJSON() {
 		JSONObject o = super.toJSON();
 		o.getJSONObject("data").put("phenotype", phenotype.toJSON())
 		   .put("genotype", genotype.toJSON())
-				   .put("energy", energy)
 				   .put("generation", this.generation);
 		return o;
 	}

@@ -1,34 +1,31 @@
 package simulator.model.entity;
 
-import static simulator.Constants.DEFAULT_INITIAL_ENERGY;
-import static simulator.Constants.DEFAULT_INITIAL_REST_TIME;
-import static simulator.Constants.DEFAULT_INITIAL_WEIGHT;
-import static simulator.Constants.MAX_ENERGY;
-import static simulator.Constants.MOVEMENT_ENERGY_COST_CONSTANT;
 import static simulator.Constants.jsonView;
 
 import java.awt.Image;
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import simulator.Constants.ACTION;
-import simulator.Constants.MOVE;
+import setup.OOPParser;
+import setup.OOPTokenizer;
 import simulator.Constants.STATE;
 import simulator.control.Controller;
 import simulator.control.ImageController;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
+import simulator.model.evaluation.ActionEvaluator;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 
-public abstract class Entity implements IInteract{
+public abstract class Entity{
 	protected String type, id;
 	protected Image img;
 	public Node node;
 	protected boolean alive;
-	protected float energy, weight;
-	protected int age, currentTime, reproductionRestTime, generation, foodEaten, attackRestTime;
+	protected int age, currentTime, generation;
 	protected Pheromone pheromone;
 	protected Controller ctrl;
 	protected ImageController imgController;
@@ -42,11 +39,7 @@ public abstract class Entity implements IInteract{
 		this.id = id;
 		this.node = n;
 		//this.alive = true;
-		this.energy = DEFAULT_INITIAL_ENERGY;
-		this.weight = DEFAULT_INITIAL_WEIGHT;
 		this.age = 0;
-		this.reproductionRestTime = DEFAULT_INITIAL_REST_TIME;
-		this.attackRestTime = DEFAULT_INITIAL_REST_TIME;
 		this.generation = 0;
 		this.imgController = ctrl.getImgController();
 		this.currentstate = STATE.REST;
@@ -86,27 +79,36 @@ public abstract class Entity implements IInteract{
 //		return ACTION.NOTHING;
 //	}
 //	protected abstract MOVE getTheMove();
-	
+	public void apply(String code) {
+		OOPParser parser = new OOPParser() {
+			@Override
+			protected JSONObject Program() {
+				return new JSONObject().put("list", this.Especification());
+			}
+		};
+		this.apply(parser.parse(code).getJSONArray("list"));
+	}
+	public void apply(JSONArray code) {
+		ActionEvaluator eval = new ActionEvaluator(code);
+		java.util.Map<String, Object>vars = new HashMap<String, Object>();
+		vars.put("this", this);
+		eval.evaluate(vars);
+	}
 	public void updateObservations(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
 		age++;
 	}
 	
 	public abstract boolean shouldInteract();
-	@Override
+	
 	public void interact(Entity e) {
 		if (!this.alive || !e.isAlive())
 			return;
 		else
 			myInteract(e);
 	}
+	public abstract void myInteract(Entity e2);
 	
-	/**
-	 * Receive food from a foodentity
-	 * @param foodEntity
-	 */
-	protected abstract void getFood(FoodEntity foodEntity);
-
 	public void vanish() {
 		alive = false;
 	}
@@ -138,9 +140,6 @@ public abstract class Entity implements IInteract{
 	public boolean isAlive() {
 		return alive;
 	}
-	public float getEnergy() {
-		return this.energy;
-	}
 	public final Image getImage() {
 		return img;
 	}
@@ -151,34 +150,11 @@ public abstract class Entity implements IInteract{
 	public String getId() {return id;}
 	public Pheromone getPheromone(){return pheromone;}
 
-	public int getReproductionRestTime() {
-		return reproductionRestTime;
-	}
-
-	public void setReproductionRestTime(int reproductionRestTime) {
-		this.reproductionRestTime = reproductionRestTime;
-	}
-	public void setEnergy(float energy) {
-		this.energy = energy;
-	}
 	public int getGeneration() {
 		return this.generation;
 	}
-	public int getFoodEaten() {
-		return this.foodEaten;
-	}
 	public int getAge() {
 		return age;
-	}
-	public float decreaseEnergy(float d) {
-		this.energy-=d;
-		Math.min(energy, MAX_ENERGY);		
-		return this.energy;
-	}
-	public float increaseEnergy(float d) {
-		this.energy+=d;
-		Math.min(energy, MAX_ENERGY);		
-		return this.energy;
 	}
 
 	public STATE getCurrentstate() {
@@ -191,15 +167,5 @@ public abstract class Entity implements IInteract{
 		this.currentstate = state;
 	}
 
-	public int getAttackRestTime() {
-		return attackRestTime;
-	}
 
-	public void setAttackRestTime(int attackRestTime) {
-		this.attackRestTime = attackRestTime;
-	}
-
-	public float getWeight() {
-		return weight;
-	}
 }

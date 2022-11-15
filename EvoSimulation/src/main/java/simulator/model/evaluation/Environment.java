@@ -1,6 +1,6 @@
 package simulator.model.evaluation;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ public class Environment {
 	
 	public Environment(Environment parent) {
 		this.parent = parent;
-		record = new HashMap<String, Object>();
+		record = new LinkedHashMap<String, Object>();
 	}
 	public Object search(String key) {
 		Objects.requireNonNull(key);

@@ -17,16 +17,6 @@ public abstract class PasiveEntity extends Entity {
 		pheromone.init(this);
 	}
 
-//	@Override
-//	public MOVE getTheMove() {
-//		return MOVE.NEUTRAL;
-//	}
-
-	@Override
-	protected void getFood(FoodEntity foodEntity) {
-		// pasive entities dont eat
-
-	}
 	@Override
 	public void perform(List<Entity>entities, Map map) {
 		

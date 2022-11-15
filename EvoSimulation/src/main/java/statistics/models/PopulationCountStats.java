@@ -35,8 +35,8 @@ public class PopulationCountStats extends StatsData{
 	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
-			Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(e->e.getAttribute("imc")));
 			
+			Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(e->e.getAttribute("imc")));
 			for(Object id:l.keySet()) {
 				long count = l.get(id).stream().count();
 				((DefaultCategoryDataset)dataset).addValue(100*count/simulator.getEntities().size(), (String)id, Integer.valueOf(currentTime));

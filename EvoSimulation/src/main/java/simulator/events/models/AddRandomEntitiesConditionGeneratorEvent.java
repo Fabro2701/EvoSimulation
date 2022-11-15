@@ -59,6 +59,8 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 				Node node = ctrl.randomNode();
 				data.put("x", node.x);
 				data.put("y", node.y);
+				data.put("properties", properties);
+				
 				o.put("data", data);
 				arr.put(o);
 			}

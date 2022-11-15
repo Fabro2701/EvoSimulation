@@ -12,7 +12,7 @@ public class ChildTokenizer {
 	private int lastChange=0;
 	
 	//Regular Expressions for each token type
-	String [][]Spec = null;
+	static String [][]Spec = null;
 	public void init(String string) {
 		_cursor=0;
 		_string=string;

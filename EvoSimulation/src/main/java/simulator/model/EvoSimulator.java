@@ -67,7 +67,7 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		this.optimizer = new UniformGridOptimizer(this,3,3);
+		this.optimizer = new UniformGridOptimizer(this,4,4);
 		//this.optimizer = new BasicOptimizer(this);
 		
 		
@@ -207,7 +207,7 @@ public class EvoSimulator {
 	public JSONObject toJSON() {
 		JSONArray entitiesArr = new JSONArray();
 		for (Entity e : entities) {
-			if(e.getEnergy()>0.0f)entitiesArr.put(e.toJSON());
+			if(e.isAlive())entitiesArr.put(e.toJSON());
 		}
 		JSONArray grammars = new JSONArray();
 //		for(String key:this.commonGrammars.keySet()) {

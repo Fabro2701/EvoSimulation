@@ -6,7 +6,6 @@ import java.util.List;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
-import simulator.model.entity.FoodEntity;
 import simulator.model.map.Map;
 import util.Util;
 

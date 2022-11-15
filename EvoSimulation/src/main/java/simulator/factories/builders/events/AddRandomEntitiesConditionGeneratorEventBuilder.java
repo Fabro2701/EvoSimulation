@@ -18,7 +18,11 @@ public class AddRandomEntitiesConditionGeneratorEventBuilder extends EventBuilde
 		if(o.has("init")) {
 			return new AddRandomEntitiesConditionGeneratorEvent(o.getInt("time"),o.getInt("times"),o.getInt("interval"),o.getString("typeTo"),o.getInt("amount"),o.getString("id"),o.getString("init"),o.getString("class"),o.getJSONObject("properties"));
 		}
+		if(o.has("properties")) {
+			return new AddRandomEntitiesConditionGeneratorEvent(o.getInt("time"),o.getInt("times"),o.getInt("interval"),o.getString("typeTo"),o.getInt("amount"),o.getString("id"),null,null,o.getJSONObject("properties"));
+		}
 		return new AddRandomEntitiesConditionGeneratorEvent(o.getInt("time"),o.getInt("times"),o.getInt("interval"),o.getString("typeTo"),o.getInt("amount"),o.getString("id"),null,null,null);
+
 	}
 
 }

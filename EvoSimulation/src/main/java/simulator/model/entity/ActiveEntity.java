@@ -15,7 +15,7 @@ import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public abstract class ActiveEntity extends Entity {
-	ACTION action;
+	ACTION action; 
 	public ActiveEntity(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		pheromone = new Pheromone();
@@ -23,24 +23,14 @@ public abstract class ActiveEntity extends Entity {
 		this.action = ACTION.NOTHING;
 	}
 
-	@Override
-	protected void getFood(FoodEntity foodEntity) {
-		this.increaseEnergy(foodEntity.getFoodAmount() * FOOD_ENERGY_GIVEN_CONSTANT);
-		foodEaten++;
-		this.setCurrentstate(STATE.EAT);
-	}
 
 	@Override
 	public void update(EvoSimulator evoSimulator) {
 		super.update(evoSimulator);
-		if (alive && energy <= 0.0f) {
-			this.vanish();
-			//evoSimulator.addEntity(new FoodEntity(this.id,this.node,3.f,ctrl));
-		}
 		//this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
 		
-		this.setReproductionRestTime(this.getReproductionRestTime() - 1);
-		this.setAttackRestTime(this.getAttackRestTime() - 1);
+//		this.setReproductionRestTime(this.getReproductionRestTime() - 1);
+//		this.setAttackRestTime(this.getAttackRestTime() - 1);
 
 		
 	}
@@ -72,16 +62,10 @@ public abstract class ActiveEntity extends Entity {
 //	}
 	@Override
 	public boolean shouldInteract() {return true;}
-
-	public void eatMe(ActiveEntity e) {
-		e.increaseEnergy(this.weight * ENTITY_FOOD_FACTOR * FOOD_ENERGY_GIVEN_CONSTANT);
-		this.vanish();
-	}
-	public ACTION getAction() {
-		return action;
-	}
-	public void setAction(ACTION action) {
-		this.action = action;
-	}
+//
+//	public void eatMe(ActiveEntity e) {
+//		e.increaseEnergy(this.weight * ENTITY_FOOD_FACTOR * FOOD_ENERGY_GIVEN_CONSTANT);
+//		this.vanish();
+//	}
 
 }

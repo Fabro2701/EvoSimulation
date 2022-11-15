@@ -27,6 +27,9 @@ init := init1{
 			  }
 			 }.
 updates := update1{
+			if(p<=mu){
+				e.vanish();
+			}
 			let imc = e.getAttribute("imc");
 			let p = (static "simulator.RandomSingleton").nextDouble();
 			if(imc.equals("S")){
@@ -36,9 +39,7 @@ updates := update1{
 			}
 			p = (static "simulator.RandomSingleton").nextDouble();
 			
-			if(p<=mu){
-				e.vanish();
-			}
+			
 		   }
 		   update2{
 			let imc = e.getAttribute("imc");
@@ -60,29 +61,40 @@ actions := <move> UP{
 					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setY(e.node.y-1);
 					 }
+					 else if(e.node.y==0){
+					 	e.node.setY(map.HEIGHT-1);
+					 }
 				  }
 				  DOWN{
 					 if(e.node.y < map.HEIGHT-1 && (map.getNodeAt(e.node.x, e.node.y+1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setY(e.node.y+1);
+					 }
+					 else if(e.node.y==map.HEIGHT-1){
+					 	e.node.setY(0);
 					 }
 				  }
 				  RIGHT{
 					 if(e.node.x < map.WIDTH-1 && (map.getNodeAt(e.node.x+1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setX(e.node.x+1);
 					 }
+					 else if(e.node.x==map.WIDTH-1){
+					 	e.node.setX(0);
+					 }
 				  }
 				  LEFT{
 				     if(e.node.x > 0 && (map.getNodeAt(e.node.x-1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
 					 	e.node.setX(e.node.x-1);
 					 }
+					 else if(e.node.x==0){
+					 	e.node.setX(map.WIDTH-1);
+					 }
 				  }
 				  NEUTRAL{
-				  		  let t = new simulator.model.evaluation.ActionEvaluator$TestEv();
-				  		  test.testi(t);
-				  		  test.testi(test);
-				  		  test.i;
+				  		  ;
 				  }|
-		   <action> NOTHING{;}.  
+		   <action> NOTHING{
+		   					;
+		   				   }.  
 interactions := OS_INTERACTION{
 					let imc1 = e1.getAttribute("imc");
 					let imc2 = e2.getAttribute("imc");

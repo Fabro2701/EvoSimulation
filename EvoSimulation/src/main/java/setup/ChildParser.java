@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public abstract class ChildParser {
 	protected String _string;
-	protected ChildTokenizer _tokenizer;
+	public ChildTokenizer _tokenizer;
 	protected JSONObject _lookahead;
 	
 	public ChildParser() {
@@ -17,6 +17,13 @@ public abstract class ChildParser {
 		JSONObject program = this.Program();
 		father.update(_lookahead,this._tokenizer.getLastChange());
 		return program;
+	}
+	public JSONObject parse(String code){
+		_string = code;
+		_tokenizer = new OOPTokenizer();
+		_tokenizer.init(code);
+		this._lookahead = this._tokenizer.getNextToken();
+		return this.Program();
 	}
 	protected abstract JSONObject Program();
 	protected JSONObject _eat(String type) {

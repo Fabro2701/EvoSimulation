@@ -18,56 +18,5 @@
        updateRate:300,
        visualizer:"line"
       }
-},
-{
- type:"gh",
- data:{
-       title:"Population genotype hete",
-       x:"Time",
-       y:"",
-       updateRate:1000,
-       visualizer:"line"
-      }
-},
-{
- type:"mr",
- data:{
-       title:"Population Mutations and Reproductions",
-       x:"Time",
-       y:"",
-       updateRate:300,
-       visualizer:"line"
-      }
-},
-{
- type:"cd",
- data:{
-       title:"Child Generations",
-       x:"Time",
-       y:"",
-       updateRate:300,
-       visualizer:"line"
-      }
-}
-,
-{
- type:"dos",
- data:{
-       title:"OffSpring",
-       x:"Time",
-       y:"",
-       updateRate:300,
-       visualizer:"line"
-      }
-},
-{
- type:"bic",
- data:{
-       title:"Bi code",
-       x:"Time",
-       y:"",
-       updateRate:300,
-       visualizer:"text"
-      }
 }
 ]

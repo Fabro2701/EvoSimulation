@@ -6,10 +6,14 @@
             "data":{
 	        	"id":"r",
                 "time":0,
-                "times":30000,
+                "times":1000000,
                 "interval":50,
                 "typeTo":"mi",
-                "amount":1000
+                "amount":1000,
+                "properties":{
+                	"apply":"if(this.node.y>0){this.node.setY(0);}"
+                }
+                
             }
         }
     ]

@@ -1,5 +1,6 @@
 package simulator.model.evaluation;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +17,6 @@ import simulator.control.SetupController;
 import simulator.model.ActionI;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
-import simulator.model.entity.FoodEntity;
 import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.map.Map;
 
@@ -260,6 +260,19 @@ public class ActionEvaluator {
 		}
 		return null;
 	}
+//	private Class[] getAppropiateClasses(Executable ex, Class[]params) {
+//		Class[]clazzs = ex.getParameterTypes();
+//		if(clazzs.length!=params.length)return null;
+//		
+//		Class[]casts = new Class[clazzs.length];
+//		for(int i=0;i<params.length;i++) {
+//			if(clazzs[i].equals(params[i]))continue;
+//			if(clazzs[i].isPrimitive()) {
+//				casts[i]=
+//			}
+//		}
+//		return null;
+//	}
 	private Object evalCallExpression(JSONObject query, Environment env) {
 		JSONObject callee = query.getJSONObject("callee");
 		JSONArray arguments = query.getJSONArray("arguments");
@@ -452,9 +465,14 @@ public class ActionEvaluator {
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
 		java.util.Map<String, java.util.Map<String, ActionI>> acs = ac.getActions();
-		ActionI a = acs.get("move").get("NEUTRAL");
+		ActionI a = acs.get("action").get("NOTHING");
 		
 		System.out.println(a.perform(null, null, null));
+		
+		int aa = 4;
+		Class c = int.class;
+		Object b = aa;
+		//System.out.println(c.isPrimitive());
 	}
 	private static void interactions() {
 		SetupController stc = SetupController.from("resources/setup/default.stp");

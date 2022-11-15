@@ -13,7 +13,7 @@ import simulator.control.fsm.SimpleState;
 import simulator.control.fsm.State;
 import simulator.control.fsm.Transition;
 import simulator.control.fsm.TrueTransition;
-import simulator.model.entity.FoodEntity;
+
 import simulator.model.entity.individuals.MyIndividual;
 
 public class ImageController {
@@ -28,7 +28,6 @@ public class ImageController {
 	public ImageController() {
 		images = new HashMap<Class<?>,FSM<STATE, Image>>();
 		images.put(MyIndividual.class, ImageController.createMyIndividualFSM());
-		images.put(FoodEntity.class, ImageController.createFoodFSM());
 	}
 	public State<Image> getNextImage(Class<?>clazz, State<Image>current, STATE state) {
 		return images.get(clazz).run(current, state);
