@@ -1,7 +1,7 @@
 grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/obesidad.bnf"|
 			action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
-global := a{
+global := a(){
 			let mu = 0.0004578;
 			let beta = 0.001121;
 			let gamma = 0.0003226;
@@ -13,8 +13,9 @@ global := a{
 			let N0 = 0.704;
 			let S0 = 0.39;
 			let O0 = 0.16;
-		  }.	
-init := init1{
+		  }.
+init := init1("simulator.model.entity.individuals.MyIndividual"){
+			
 			  let p = (static "simulator.RandomSingleton").nextFloat();
 			  if(p<=O0){
 			  	e.setAttribute("imc","O");
@@ -25,37 +26,38 @@ init := init1{
 			  else{
 			  	e.setAttribute("imc","N");
 			  }
+			
+			  
 			 }.
-updates := update1{
-			if(p<=mu){
-				e.vanish();
-			}
-			let imc = e.getAttribute("imc");
-			let p = (static "simulator.RandomSingleton").nextDouble();
-			if(imc.equals("S")){
-				if(p<=gamma){
-					e.setAttribute("imc","O");
+updates := update1("simulator.model.entity.individuals.MyIndividual"){
+				if(p<=mu){
+					e.vanish();
 				}
-			}
-			p = (static "simulator.RandomSingleton").nextDouble();
-			
-			
+				let imc = e.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				if(imc.equals("S")){
+					if(p<=gamma){
+						e.setAttribute("imc","O");
+					}
+				}
 		   }
-		   update2{
-			let imc = e.getAttribute("imc");
-			let p = (static "simulator.RandomSingleton").nextDouble();
-			let sn = p1*p2*p;
-			let os = e1*e2*p;
-			if(imc.equals("S")){
-				if(p<=sn){
-					e.setAttribute("imc","N");
+		   update2("simulator.model.entity.individuals.MyIndividual"){
+			   let imc = e.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				let sn = p1*p2*p;
+				let os = e1*e2*p;
+				if(imc.equals("S")){
+					if(p<=sn){
+						e.setAttribute("imc","N");
+					}
 				}
-			}
-			else if(imc.equals("O")){
-				if(p<=os){
-					e.setAttribute("imc","S");
+				else if(imc.equals("O")){
+					if(p<=os){
+						e.setAttribute("imc","S");
+					}
 				}
-			}
+		   
+			
 		   }.
 actions := <move> UP{
 					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
@@ -95,13 +97,16 @@ actions := <move> UP{
 		   <action> NOTHING{
 		   					;
 		   				   }.  
-interactions := OS_INTERACTION{
-					let imc1 = e1.getAttribute("imc");
-					let imc2 = e2.getAttribute("imc");
-					let p = (static "simulator.RandomSingleton").nextDouble();
-					if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
-						if(p<=beta){
-							e1.setAttribute("imc","S");
+interactions := OS_INTERACTION("simulator.model.entity.individuals.MyIndividual"){
+					if(!e2.getAttribute("pasive")){
+						let imc1 = e1.getAttribute("imc");
+						let imc2 = e2.getAttribute("imc");
+						let p = (static "simulator.RandomSingleton").nextDouble();
+						if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
+							if(p<=beta){
+								e1.setAttribute("imc","S");
+							}
 						}
 					}
+
 				}.

@@ -11,9 +11,20 @@
                 "typeTo":"mi",
                 "amount":1000,
                 "properties":{
-                	"apply":"if(this.node.y>0){this.node.setY(0);}"
+                	"apply":"if(this.node.y>0){;}"
                 }
                 
+            }
+        },
+        {
+            "type":"areg",
+            "data":{
+	        	"id":"r",
+                "time":0,
+                "times":1,
+                "interval":50,
+                "typeTo":"pe",
+                "amount":1
             }
         }
     ]

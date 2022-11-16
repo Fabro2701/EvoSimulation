@@ -13,17 +13,19 @@ import simulator.control.fsm.SimpleState;
 import simulator.control.fsm.State;
 import simulator.control.fsm.Transition;
 import simulator.control.fsm.TrueTransition;
-
+import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.individuals.MyIndividual;
 
 public class ImageController {
 	HashMap<Class<?>,FSM<STATE, Image>> images;
-	static Map<String, Image>imgs;
+	static Map<Object, Image>imgs;
 	static {
-		imgs = new HashMap<String, Image>();
+		imgs = new HashMap<Object, Image>();
 		imgs.put("O", new ImageIcon("resources/entities/myindividual_resting.png").getImage());
 		imgs.put("S", new ImageIcon("resources/entities/myindividual_moving.png").getImage());
 		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
+		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
+		imgs.put(PasiveEntity.class, new ImageIcon("resources/entities/pasiveentity.png").getImage());
 	}
 	public ImageController() {
 		images = new HashMap<Class<?>,FSM<STATE, Image>>();
@@ -32,8 +34,8 @@ public class ImageController {
 	public State<Image> getNextImage(Class<?>clazz, State<Image>current, STATE state) {
 		return images.get(clazz).run(current, state);
 	}
-	public static Image getImage(String id) {
-		return imgs.get(id);
+	public static Image getImage(Object key) {
+		return imgs.get(key);
 	}
 	private static FSM<STATE, Image> createMyIndividualFSM() {
 		FSM<STATE, Image> fsm = new FSM<STATE, Image>();

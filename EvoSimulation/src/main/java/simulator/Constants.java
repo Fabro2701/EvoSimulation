@@ -99,13 +99,13 @@ public final class Constants {
 	public static final String AddFoodDistributionEventBuilder_TYPE = "fe";
 	public static final String AddFoodGeneratorEventBuilder_TYPE = "fg";
 	public static final String AddRandomEntitiesConditionGeneratorBuilder_TYPE = "arecg";
-	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "reg";
+	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "areg";
 	public static final String RefreshStatsBuilder_TYPE = "rs";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";
 	public static final String SaveStatsImageBuilder_TYPE = "sti";
 	
 
-	public static final String FoodEntityBuilder_TYPE = "f";
+	public static final String PasiveEntityBuilder_TYPE = "pe";
 	public static final String MyIndividualBuilder_TYPE = "mi";
 	public static final String SimpleRandomEntityBuilder_TYPE = "sr";
 	public static final String SimpleUPEntityBuilder = "su";

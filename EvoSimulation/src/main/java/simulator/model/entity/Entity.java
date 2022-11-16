@@ -43,7 +43,7 @@ public abstract class Entity{
 		this.generation = 0;
 		this.imgController = ctrl.getImgController();
 		this.currentstate = STATE.REST;
-		this.updateImage();
+		//this.updateImage();
 		attributes = new java.util.LinkedHashMap<String, Object>();
 	}
 
@@ -109,12 +109,12 @@ public abstract class Entity{
 	}
 	public abstract void myInteract(Entity e2);
 	
-	public void vanish() {
+	public void vanish() {//dispose
 		alive = false;
 	}
 	
 	public Entity setAttribute(String key, Object value) {
-		if(key.equals("imc"))img = ImageController.getImage((String) value);
+		if(key.equals("imc"))this.img = ImageController.getImage(value);
 		this.attributes.put(key, value);
 		return this;//for chaining
 	}

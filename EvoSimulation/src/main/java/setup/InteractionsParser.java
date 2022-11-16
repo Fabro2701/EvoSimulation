@@ -38,10 +38,19 @@ public class InteractionsParser extends OOPParser{
 	protected JSONObject InteractionDeclaration() {
 		String name = this._eat("IDENTIFIER").getString("value");
 		
+		this._eat("(");
+		JSONArray clazzs = new JSONArray();
+		while(this._lookahead != null && !this._lookahead.getString("type").equals(")") && !(this._lookahead.getString("type").equals(",") && this._eat(",")==null)) {
+			clazzs.put(this.StringLiteral());
+		}
+		
+		this._eat(")");
+		
 		this._eat("{");
 		JSONArray spec = this.Especification();
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
+				   			   .put("clazzs", clazzs)
 							   .put("spec", spec)
 							   .put("name", name);
 	}

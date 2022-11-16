@@ -111,6 +111,8 @@ public class ActionEvaluator {
 		String type = query.getString("type");
 		
 		switch(type) {
+		case "UnaryExpression":
+			return this.evalUnaryExpression(query, env);
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
 		case "ForStatement":
@@ -149,8 +151,17 @@ public class ActionEvaluator {
 			return null;
 		default:
 			System.err.println("unsupported type: "+type);
+			System.err.println(query.toString(4));
 			return null;
 		}
+	}
+	private Object evalUnaryExpression(JSONObject query, Environment env) {
+		String op = query.getString("operator");
+		switch(op) {
+		case "!":
+			return !(Boolean)this.eval(query.getJSONObject("argument"), env);
+		}
+		return null;
 	}
 	private Object evalStringLiteral(JSONObject query) {
 		return query.getString("value");
@@ -371,9 +382,10 @@ public class ActionEvaluator {
 		Object r = null;
 		
 		JSONArray body = query.getJSONArray("body");
+		Environment newEnv = new Environment(env);
 		for(int i=0;i<body.length();i++) {
 			JSONObject b = body.getJSONObject(i);
-			r = eval(b, new Environment(env));
+			r = eval(b, newEnv);
 		}
 		return r;
 	}

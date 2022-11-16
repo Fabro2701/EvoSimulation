@@ -17,7 +17,7 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 	private String id,init;
 	JSONObject properties;
 	String clazz;
-	public AddRandomEntitiesConditionGeneratorEvent(int executionTime, int times, int interval, String typeTo, int amount, String id, String init, String clazz,JSONObject properties) {
+	public AddRandomEntitiesConditionGeneratorEvent(int executionTime, int times, int interval, String typeTo, int amount, String id, String init, String clazz, JSONObject properties) {
 		super(executionTime, times, interval);
 		this.typeTo = typeTo;
 		this.amount = amount;

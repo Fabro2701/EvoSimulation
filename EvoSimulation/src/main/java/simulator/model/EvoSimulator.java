@@ -67,8 +67,8 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		this.optimizer = new UniformGridOptimizer(this,4,4);
-		//this.optimizer = new BasicOptimizer(this);
+		//this.optimizer = new UniformGridOptimizer(this,4,4);
+		this.optimizer = new BasicOptimizer(this);
 		
 		
 		

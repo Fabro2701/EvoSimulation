@@ -6,6 +6,9 @@ import java.util.function.Consumer;
 import grammar.AbstractGrammar;
 import simulator.control.Controller;
 import simulator.control.GrammarController;
+import simulator.control.InitController;
+import simulator.control.InteractionsController;
+import simulator.control.UpdatesController;
 import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
@@ -22,24 +25,27 @@ public abstract class GIndividual extends AbstractIndividual{
 	
 	protected java.util.Map<String, AbstractGrammar>grammars;
 	protected java.util.Map<String, java.util.Map<String, ActionI>>actions;
-	protected java.util.Map<String, InteractionI>interactions;
-	protected java.util.Map<String, Consumer<Entity>>updates;
-	protected java.util.Map<String, Consumer<Entity>>inits;
+	protected InteractionsController interactions;
+	protected UpdatesController updates;
+	protected InitController inits;
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
 		
 		grammars = ctrl.getGrammarController().getGrammars();
 		actions = ctrl.getActionsController().getActions();
-		interactions = ctrl.getInteractionsController().getInteractions();
-		updates = ctrl.getUpdatesController().getUpdates();
-		inits = ctrl.getInitController().getStatements();
+		interactions = ctrl.getInteractionsController();
+		updates = ctrl.getUpdatesController();
+		inits = ctrl.getInitController();
 		
 		init();
 	}
 	private void init() {
-		for(String id:inits.keySet()) {
-			inits.get(id).accept(this);
+		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
+		for(String id:inits_l.keySet()) {
+			if(inits.match(id, this.getClass())) {
+				inits_l.get(id).accept(this);
+			}
 		}
 		this.alive = true;
 	}
@@ -51,8 +57,11 @@ public abstract class GIndividual extends AbstractIndividual{
 		super.update(evoSimulator);
 		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 		
-		for(String id:updates.keySet()) {
-			updates.get(id).accept(this);
+		java.util.Map<String, Consumer<Entity>> updates_l = updates.getUpdates();
+		for(String id:updates_l.keySet()) {
+			if(updates.match(id, this.getClass())) {
+				updates_l.get(id).accept(this);
+			}
 		}
 		//System.out.println(this.getAttribute("imc"));
 	}
@@ -68,8 +77,11 @@ public abstract class GIndividual extends AbstractIndividual{
 	}
 	@Override
 	public void myInteract(Entity e2) {
-		for(String id:interactions.keySet()) {
-			interactions.get(id).perform(this, e2, ctrl.getMap());
+		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
+		for(String id:interactions_l.keySet()) {
+			if(interactions.match(id, this.getClass())) {
+				interactions_l.get(id).perform(this, e2, ctrl.getMap());
+			}
 		}
 	}
 

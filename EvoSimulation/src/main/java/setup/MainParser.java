@@ -180,10 +180,8 @@ public class MainParser {
 		
 	
 		
-		String source = "/*/grammars := move;   \"grammar.StandardGrammar\"; \"resources/loads/grammars/default.bnf\"|\n"
-				+ "			action; \"grammar.StandardGrammar\"; \"resources/loads/grammars/default2.bnf\".\n"
-				+ "*/	";
-	    Pattern pattern = Pattern.compile("(?s)/\\*(.)*?\\*/");
+		String source = "simulator.model.entity.individuals.MyIndividual";
+	    Pattern pattern = Pattern.compile("[\\w]*[.]+[\\w]*");
 	    Matcher matcher = pattern.matcher(source);
 	    while (matcher.find()) {
 	    System.out.println(matcher.group());

@@ -21,6 +21,7 @@ public abstract class ActiveEntity extends Entity {
 		pheromone = new Pheromone();
 		pheromone.init(this);
 		this.action = ACTION.NOTHING;
+		this.attributes.put("pasive", false);
 	}
 
 

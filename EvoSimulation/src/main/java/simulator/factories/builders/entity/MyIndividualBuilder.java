@@ -30,7 +30,10 @@ public class MyIndividualBuilder extends EntityBuilder{
 			mi =  new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),ctrl);
 		}
 		if(o.has("properties")) {
-			mi.apply(o.getJSONObject("properties").getString("apply"));
+			JSONObject properties = o.getJSONObject("properties");
+			if(properties.has("apply")) {
+				mi.apply(properties.getString("apply"));
+			}
 		}
 		return mi;
 	}
