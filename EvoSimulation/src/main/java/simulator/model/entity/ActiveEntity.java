@@ -14,7 +14,7 @@ import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
-public abstract class ActiveEntity extends Entity {
+public abstract class ActiveEntity extends InteractiveEntity {
 	ACTION action; 
 	public ActiveEntity(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);

@@ -8,7 +8,7 @@ public abstract class AbstractIndividual extends ActiveEntity{
 
 	public AbstractIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
-		
+
 	}
 
 }

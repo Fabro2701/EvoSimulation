@@ -23,12 +23,6 @@ public class BasicOptimizer extends Optimizer{
 			e.update(simulator);
 		}
 
-		// entities movements
-//		for (Entity e : entities) {
-//			MOVE move = e.getMove();
-//			e.setNewNode(map.getValidMove(e.node, move));
-//		}
-		
 		// entities actions
 		for (Entity e : entities) {
 			if(e.isAlive())e.perform(entities, map);

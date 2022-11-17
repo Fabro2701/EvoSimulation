@@ -24,8 +24,11 @@ import simulator.control.Controller;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
+import simulator.model.entity.PasiveEntity;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 import util.Pair;
+import util.Util;
 
 public class MyIndividual extends GIndividual{
 	protected List<Entity>children;
@@ -146,6 +149,21 @@ public class MyIndividual extends GIndividual{
 		}
 		else this.phenotype = new Phenotype(phenotype);
 		
+	}
+	public void goTowardsAttribute(EvoSimulator simulator, String attribute) {
+		List<Entity>entities = simulator.getEntities();
+		Map map = simulator.getMap();
+		Entity entity=null;
+		for(Entity e:entities) {
+			if(e instanceof PasiveEntity &&(boolean) e.getAttribute(attribute))entity = e;
+		}
+		if(entity!=null) {
+			Node node = entity.node;
+			int x = (node.x-this.node.x)>0?1:-1;
+			int y = (node.y-this.node.y)>0?1:-1;
+			Node next = map.getNodeAt(this.node.x+x, this.node.y+y);
+			this.node = next;
+		}
 	}
 	public void mutate() {
 		if(RandomSingleton.nextFloat()<this.node.radiation+0.01f) {

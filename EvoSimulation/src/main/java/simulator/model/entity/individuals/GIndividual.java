@@ -1,6 +1,7 @@
 package simulator.model.entity.individuals;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import grammar.AbstractGrammar;
@@ -23,24 +24,12 @@ public abstract class GIndividual extends AbstractIndividual{
 	
 	protected ObservationManager observationManager;
 	
-	protected java.util.Map<String, AbstractGrammar>grammars;
-	protected java.util.Map<String, java.util.Map<String, ActionI>>actions;
-	protected InteractionsController interactions;
-	protected UpdatesController updates;
-	protected InitController inits;
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
-		
-		grammars = ctrl.getGrammarController().getGrammars();
-		actions = ctrl.getActionsController().getActions();
-		interactions = ctrl.getInteractionsController();
-		updates = ctrl.getUpdatesController();
-		inits = ctrl.getInitController();
-		
-		init();
 	}
-	private void init() {
+	@Override
+	protected void init() {
 		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
 		for(String id:inits_l.keySet()) {
 			if(inits.match(id, this.getClass())) {
@@ -57,10 +46,10 @@ public abstract class GIndividual extends AbstractIndividual{
 		super.update(evoSimulator);
 		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 		
-		java.util.Map<String, Consumer<Entity>> updates_l = updates.getUpdates();
+		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
 		for(String id:updates_l.keySet()) {
 			if(updates.match(id, this.getClass())) {
-				updates_l.get(id).accept(this);
+				updates_l.get(id).accept(this, evoSimulator);;
 			}
 		}
 		//System.out.println(this.getAttribute("imc"));

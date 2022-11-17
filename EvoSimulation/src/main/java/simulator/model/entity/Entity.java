@@ -119,6 +119,9 @@ public abstract class Entity{
 		return this;//for chaining
 	}
 	public Object getAttribute(String key) {
+		if(key.equals("supermarket")) {
+			int a=0;
+		}
 		return this.attributes.get(key);
 	}
 

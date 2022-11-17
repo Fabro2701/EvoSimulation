@@ -15,6 +15,7 @@ import simulator.control.ActionsController;
 import simulator.control.InteractionsController;
 import simulator.control.SetupController;
 import simulator.model.ActionI;
+import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.MyIndividual;
@@ -83,7 +84,13 @@ public class ActionEvaluator {
 	public Object evaluate(Entity e) {
 		Environment env = new Environment(globalEnv);
 		env.define("e", e);
-		env.define("test", new TestEv());
+		
+		return evaluate(env, true);
+	}
+	public Object evaluate(Entity e, EvoSimulator s) {
+		Environment env = new Environment(globalEnv);
+		env.define("e", e);
+		env.define("simulator", s);
 		
 		return evaluate(env, true);
 	}
@@ -147,6 +154,8 @@ public class ActionEvaluator {
 			return this.evalStaticExpression(query);
 		case "Identifier":
 			return this.evalIdentifier(query, env);
+		case "BooleanLiteral":
+			return this.evalBooleanLiteral(query, env);
 		case "EmptyStatement":
 			return null;
 		default:
@@ -154,6 +163,9 @@ public class ActionEvaluator {
 			System.err.println(query.toString(4));
 			return null;
 		}
+	}
+	private Object evalBooleanLiteral(JSONObject query, Environment env) {
+		return Boolean.valueOf(query.getString("value"));
 	}
 	private Object evalUnaryExpression(JSONObject query, Environment env) {
 		String op = query.getString("operator");
@@ -340,6 +352,7 @@ public class ActionEvaluator {
 					}
 					else args[i] = prms[i].cast(args[i]);
 				}
+			
 				return m.invoke(ob, args);
 			} catch (Exception e) {
 				System.err.println(query.toString(4));

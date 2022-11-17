@@ -47,6 +47,21 @@ public class Util {
 		}
 		return move;
 	}
+//pending
+//	public static MOVE getNextNodeToTo(Node node, Node node2, Map map) {
+//		double minDist = 100000d;
+//		MOVE move = MOVE.NEUTRAL;
+//		for(MOVE m:MOVE.values()) {
+//			if(!m.isPseudo()) {
+//				double dist = nodeDistance(map.getValidMove(node, m), node2);
+//				if(dist<minDist) {
+//					minDist = dist;
+//					move = m;
+//				}
+//			}
+//		}
+//		return move;
+//	}
 	public static MOVE getNextMoveTo(Node node, Node node2, Map map) {
 		double minDist = 100000d;
 		MOVE move = MOVE.NEUTRAL;

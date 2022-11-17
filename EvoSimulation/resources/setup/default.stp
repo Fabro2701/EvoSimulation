@@ -1,5 +1,4 @@
-grammars := move;   "grammar.StandardGrammar"; "resources/loads/grammars/obesidad.bnf"|
-			action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
+grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a(){
 			let mu = 0.0004578;
@@ -26,9 +25,17 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 			  else{
 			  	e.setAttribute("imc","N");
 			  }
+		}
+		initpasive("simulator.model.entity.PasiveEntity"){
 			
-			  
-			 }.
+			  let p = (static "simulator.RandomSingleton").nextFloat();
+			  if(p<=1f){
+			  	e.setAttribute("supermarket",true);
+			  }
+			  else{
+			  	e.setAttribute("supermarket",true);
+			  }
+	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				if(p<=mu){
 					e.vanish();
@@ -56,45 +63,12 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 						e.setAttribute("imc","S");
 					}
 				}
-		   
-			
+		   }
+		   move("simulator.model.entity.individuals.MyIndividual"){
+		   		let imc = e.getAttribute("imc");
+		   		e.goTowardsAttribute(simulator, "supermarket");
 		   }.
-actions := <move> UP{
-					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setY(e.node.y-1);
-					 }
-					 else if(e.node.y==0){
-					 	e.node.setY(map.HEIGHT-1);
-					 }
-				  }
-				  DOWN{
-					 if(e.node.y < map.HEIGHT-1 && (map.getNodeAt(e.node.x, e.node.y+1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setY(e.node.y+1);
-					 }
-					 else if(e.node.y==map.HEIGHT-1){
-					 	e.node.setY(0);
-					 }
-				  }
-				  RIGHT{
-					 if(e.node.x < map.WIDTH-1 && (map.getNodeAt(e.node.x+1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setX(e.node.x+1);
-					 }
-					 else if(e.node.x==map.WIDTH-1){
-					 	e.node.setX(0);
-					 }
-				  }
-				  LEFT{
-				     if(e.node.x > 0 && (map.getNodeAt(e.node.x-1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setX(e.node.x-1);
-					 }
-					 else if(e.node.x==0){
-					 	e.node.setX(map.WIDTH-1);
-					 }
-				  }
-				  NEUTRAL{
-				  		  ;
-				  }|
-		   <action> NOTHING{
+actions := <action> NOTHING{
 		   					;
 		   				   }.  
 interactions := OS_INTERACTION("simulator.model.entity.individuals.MyIndividual"){
