@@ -24,7 +24,10 @@
                 "times":1,
                 "interval":50,
                 "typeTo":"pe",
-                "amount":1
+                "amount":2,
+                "properties":{
+                	"apply":"this.setAttribute(\"supermarket\",true);"
+                }
             }
         }
     ]

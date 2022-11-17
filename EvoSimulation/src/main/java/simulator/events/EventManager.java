@@ -30,7 +30,7 @@ public class EventManager {
 	 */
 	public void update(Controller ctrl, int time) {
 		while(events.size()!=0 && events.peek().executionTime<=time) {
-			Event e =events.poll();
+			Event e = events.poll();
 			e.execute(ctrl);
 			if(e.executionTime!=-1) {
 				addEvent(e);

@@ -29,8 +29,8 @@ public abstract class MultipleTimeEvent extends Event{
 	 */
 	@Override
 	public void execute(Controller ctrl) {
-		this._execute(ctrl);
 		if(times>0) {
+			this._execute(ctrl);
 			executionTime = executionTime+interval;
 			times--;
 		}

@@ -28,13 +28,7 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 		}
 		initpasive("simulator.model.entity.PasiveEntity"){
 			
-			  let p = (static "simulator.RandomSingleton").nextFloat();
-			  if(p<=1f){
-			  	e.setAttribute("supermarket",true);
-			  }
-			  else{
-			  	e.setAttribute("supermarket",true);
-			  }
+			 
 	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				if(p<=mu){
@@ -66,7 +60,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 		   }
 		   move("simulator.model.entity.individuals.MyIndividual"){
 		   		let imc = e.getAttribute("imc");
-		   		e.goTowardsAttribute(simulator, "supermarket");
+		   		e.goTowardsClosestAttribute(simulator, "supermarket");
 		   }.
 actions := <action> NOTHING{
 		   					;
