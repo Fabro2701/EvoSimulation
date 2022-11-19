@@ -21,7 +21,6 @@ public class PasiveEntity extends InteractiveEntity {
 		this.img = ImageController.getImage(this.getClass());
 		this.alive = true;
 		this.attributes.put("pasive", true);
-		System.out.println("my node: "+node);
 	}
 
 	@Override

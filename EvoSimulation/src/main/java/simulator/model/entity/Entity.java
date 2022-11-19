@@ -118,10 +118,10 @@ public abstract class Entity{
 		this.attributes.put(key, value);
 		return this;//for chaining
 	}
+	public boolean hasAttribute(String key) {
+		return this.attributes.containsKey(key);
+	}
 	public Object getAttribute(String key) {
-		if(key.equals("supermarket")) {
-			int a=0;
-		}
 		return this.attributes.get(key);
 	}
 
@@ -168,6 +168,14 @@ public abstract class Entity{
 		//System.out.println(this.currentstate+"  ----> "+state);
 		//if(state.compareTo(this.currentstate)<0) this.currentstate = state;
 		this.currentstate = state;
+	}
+
+	public Controller getCtrl() {
+		return ctrl;
+	}
+
+	public void setNode(Node node) {
+		this.node = node;
 	}
 
 

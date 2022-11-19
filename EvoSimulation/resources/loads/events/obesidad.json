@@ -9,7 +9,7 @@
                 "times":1000000,
                 "interval":50,
                 "typeTo":"mi",
-                "amount":1000,
+                "amount":500,
                 "properties":{
                 	"apply":"if(this.node.y>0){;}"
                 }
@@ -24,9 +24,23 @@
                 "times":1,
                 "interval":50,
                 "typeTo":"pe",
-                "amount":2,
+                "amount":15,
                 "properties":{
                 	"apply":"this.setAttribute(\"supermarket\",true);"
+                }
+            }
+        },
+        {
+            "type":"areg",
+            "data":{
+	        	"id":"r",
+                "time":0,
+                "times":1,
+                "interval":50,
+                "typeTo":"pe",
+                "amount":15,
+                "properties":{
+                	"apply":"this.setAttribute(\"house\",true);"
                 }
             }
         }

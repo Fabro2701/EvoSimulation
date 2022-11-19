@@ -156,6 +156,8 @@ public class ActionEvaluator {
 			return this.evalIdentifier(query, env);
 		case "BooleanLiteral":
 			return this.evalBooleanLiteral(query, env);
+		case "NullLiteral":
+			return null;
 		case "EmptyStatement":
 			return null;
 		default:
@@ -304,7 +306,7 @@ public class ActionEvaluator {
 		Object args[] = new Object[arguments.length()];
 		for(int i=0;i<arguments.length();i++) {
 			args[i] = eval(arguments.getJSONObject(i), env);
-			clazzs[i] = args[i].getClass();
+			//clazzs[i] = args[i].getClass();
 		}
 		
 		JSONObject property = callee.getJSONObject("property");
@@ -429,6 +431,8 @@ public class ActionEvaluator {
 			Object l = eval(left, env);
 			if(l instanceof Number)return ((Number)l).doubleValue()==((Number)eval(right, env)).doubleValue();
 			else return l == eval(right, env);
+		case "!=":
+			return eval(left, env) != eval(right, env);
 		case ">=":
 			return ((Number)eval(left, env)).doubleValue()>=((Number)eval(right, env)).doubleValue();
 		case "<=":

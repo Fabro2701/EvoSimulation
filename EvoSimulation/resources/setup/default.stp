@@ -25,6 +25,9 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 			  else{
 			  	e.setAttribute("imc","N");
 			  }
+			  e.setAttribute("state","towardsHouse");
+			  
+			  
 		}
 		initpasive("simulator.model.entity.PasiveEntity"){
 			
@@ -59,8 +62,25 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				}
 		   }
 		   move("simulator.model.entity.individuals.MyIndividual"){
-		   		let imc = e.getAttribute("imc");
-		   		e.goTowardsClosestAttribute(simulator, "supermarket");
+					    
+			    if(!e.hasAttribute("house")){
+			    	let house = e.getTowardsRandomAttribute((e.getCtrl()).getSimulator(),"house");
+			    	e.setAttribute("house",house);
+			    }
+			    if(!e.hasAttribute("supermarket")){
+			    	let supermarket = e.getTowardsRandomAttribute((e.getCtrl()).getSimulator(),"supermarket");
+			    	e.setAttribute("supermarket",supermarket);
+			    }
+			    
+		   		let state = e.getAttribute("state");
+		   		if(state.equals("towardsSupermarket")){
+		   			let node = e.nextNodeTowards(simulator.getMap(), e.getAttribute("supermarket"));
+					if(node != null)e.setNode(node);
+				}
+				else if(state.equals("towardsHouse")){
+					let node = e.nextNodeTowards(simulator.getMap(), e.getAttribute("house"));
+					if(node != null)e.setNode(node);
+				}
 		   }.
 actions := <action> NOTHING{
 		   					;
@@ -76,5 +96,12 @@ interactions := OS_INTERACTION("simulator.model.entity.individuals.MyIndividual"
 							}
 						}
 					}
-
+					if(e2.getAttribute("pasive")){
+						if(e2.hasAttribute("house")){
+							e1.setAttribute("state","towardsSupermarket");
+						}
+						else if(e2.hasAttribute("supermarket")){
+							e1.setAttribute("state","towardsHouse");
+						}
+					}
 				}.

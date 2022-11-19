@@ -215,4 +215,7 @@ public class Controller {
 	public InitController getInitController() {
 		return simulator.getInitController();
 	}
+	public EvoSimulator getSimulator() {
+		return simulator;
+	}
 }

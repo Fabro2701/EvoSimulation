@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
@@ -150,41 +151,31 @@ public class MyIndividual extends GIndividual{
 		else this.phenotype = new Phenotype(phenotype);
 		
 	}
-	public void goTowardsClosestAttribute(EvoSimulator simulator, String attribute) {
+	public Node nextNodeTowards(Map map, Entity entity) {
+		Node node = entity.node;
+		int x = (node.x-this.node.x); if(x!=0)x=x>0?1:-1;
+		int y = (node.y-this.node.y); if(y!=0)y=y>0?1:-1;
+		return map.getNodeAt(this.node.x+x, this.node.y+y);
+	}
+	public Entity getTowardsClosestAttribute(EvoSimulator simulator, String attribute) {
 		List<Entity>entities = simulator.getEntities();
-		Map map = simulator.getMap();
 		Entity entity=null;
 		double mindist = Double.MAX_VALUE;
 		double dist;
 		for(Entity e:entities) {
-			if(e instanceof PasiveEntity &&(boolean) e.getAttribute(attribute) && (dist=Util.nodeDistance(node, e.node))<mindist) {
+			if(e instanceof PasiveEntity &&e.hasAttribute(attribute)&&(boolean) e.getAttribute(attribute) && (dist=Util.nodeDistance(node, e.node))<mindist) {
 				mindist = dist;
 				entity = e;
 			}
 		}
-		if(entity!=null) {
-			Node node = entity.node;
-			
-			int x = (node.x-this.node.x)>0?1:-1;
-			int y = (node.y-this.node.y)>0?1:-1;
-			Node next = map.getNodeAt(this.node.x+x, this.node.y+y);
-			this.node = next;
-		}
+		return entity;
 	}
-	public void goTowardsAttribute(EvoSimulator simulator, String attribute) {
-		List<Entity>entities = simulator.getEntities();
-		Map map = simulator.getMap();
+	public Entity getTowardsRandomAttribute(EvoSimulator simulator, String attribute) {
 		Entity entity=null;
-		for(Entity e:entities) {
-			if(e instanceof PasiveEntity &&(boolean) e.getAttribute(attribute))entity = e;
-		}
-		if(entity!=null) {
-			Node node = entity.node;
-			int x = (node.x-this.node.x)>0?1:-1;
-			int y = (node.y-this.node.y)>0?1:-1;
-			Node next = map.getNodeAt(this.node.x+x, this.node.y+y);
-			this.node = next;
-		}
+		List<Entity>entities = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity &&e.hasAttribute(attribute)&&(boolean) e.getAttribute(attribute)).collect(Collectors.toList());
+		if(entities.size()>0) 
+			entity = entities.get(RandomSingleton.nextInt(entities.size()));
+		return entity;
 	}
 	public void mutate() {
 		if(RandomSingleton.nextFloat()<this.node.radiation+0.01f) {
