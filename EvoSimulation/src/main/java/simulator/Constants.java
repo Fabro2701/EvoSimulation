@@ -5,24 +5,11 @@ import util.Pair;
 public final class Constants {
 	public static int jsonView = 0;
 	public static final int INTERACTION_DISTANCE = 4;
-	public static final float MOVEMENT_ENERGY_COST_CONSTANT = 0.01f;
-	public static final float LIVE_ENERGY_COST_CONSTANT = 0.19f;
-	public static final float FOOD_ENERGY_GIVEN_CONSTANT = 6.0f;
 	public static final int PHEROMONE_LENGTH = 8;
-	public static final int FOOD_LIVE_TIME = 400;
-	public static final float REPRODUCTION_COST = 20.f;
-	public static final float ENTITY_FOOD_FACTOR = 25.f;
-	public static final float MAX_ENERGY = 300.f;
-	public static final float ATTACKER_ENERGY_COST = 20f;
-	public static final float ATTACKED_ENERGY_COST = 50f;
 	
 	public static final int CHROMOSOME_LENGTH = 70;
 	public static final int PLOIDY = 2;
 	
-	public static final float DEFAULT_INITIAL_ENERGY = 100f;
-	public static final int DEFAULT_INITIAL_REST_TIME = 300;
-	public static final int RECOVERY_REST_TIME = 300;
-	public static final float DEFAULT_INITIAL_WEIGHT = 1f;
 	public static final int DEFAULT_OBSERVATIONS_REFRESH_RATE = 1;
 	
 	public static final int STATS_PANEL_RATIO = 3;//aspect ratio

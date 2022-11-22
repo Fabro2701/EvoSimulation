@@ -109,7 +109,7 @@ public abstract class Entity{
 	}
 	public abstract void myInteract(Entity e2);
 	
-	public void vanish() {//dispose
+	public void dispose() {
 		alive = false;
 	}
 	
@@ -176,6 +176,10 @@ public abstract class Entity{
 
 	public void setNode(Node node) {
 		this.node = node;
+	}
+
+	public void setImg(Image img) {
+		this.img = img;
 	}
 
 

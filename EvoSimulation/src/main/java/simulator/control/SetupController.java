@@ -12,7 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import setup.MainParser;
-import setup.TextFilePreprocessing;
+import setup.preprocessing.TextFilePreprocessing;
+import setup.preprocessing.CommentPreprocessing;
 
 public class SetupController {
 	JSONObject program;
@@ -38,7 +39,9 @@ public class SetupController {
 		}
 		String text = sb.toString();
 		text = TextFilePreprocessing.apply(text);
+		text = CommentPreprocessing.apply(text);
 		System.out.println(text);
+		
 		MainParser parser = new MainParser();
 		ctrl.program = parser.parse(text);
 		

@@ -11,7 +11,7 @@ public class MainTokenizer {
 	private String _string;
 	
 	//Regular Expressions for each token type
-	String [][]Spec = {{"(?s)/\\*(.)*?\\*/",null},
+	String [][]Spec = {
 					   {"^\\s+",null},
 			   		   {"^grammars","GrammarController"},
 			   		   {"^actions","ActionsController"},

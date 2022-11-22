@@ -1,4 +1,4 @@
-package setup;
+package setup.preprocessing;
 
 public interface Preprocessing {
 	public static String apply(String input) {

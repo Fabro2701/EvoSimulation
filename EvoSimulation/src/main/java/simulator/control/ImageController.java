@@ -24,8 +24,10 @@ public class ImageController {
 		imgs.put("O", new ImageIcon("resources/entities/myindividual_resting.png").getImage());
 		imgs.put("S", new ImageIcon("resources/entities/myindividual_moving.png").getImage());
 		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
-		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
+		imgs.put("supermarket", new ImageIcon("resources/entities/supermarket.png").getImage());
+		imgs.put("house", new ImageIcon("resources/entities/house.png").getImage());
 		imgs.put(PasiveEntity.class, new ImageIcon("resources/entities/pasiveentity.png").getImage());
+		
 	}
 	public ImageController() {
 		images = new HashMap<Class<?>,FSM<STATE, Image>>();

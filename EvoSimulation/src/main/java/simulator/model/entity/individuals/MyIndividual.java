@@ -1,9 +1,7 @@
 package simulator.model.entity.individuals;
 
-import static simulator.Constants.ATTACKED_ENERGY_COST;
-import static simulator.Constants.ATTACKER_ENERGY_COST;
+
 import static simulator.Constants.CHROMOSOME_LENGTH;
-import static simulator.Constants.REPRODUCTION_COST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +63,7 @@ public class MyIndividual extends GIndividual{
 			phenotype.setSymbol(key, crom);
 			if(phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
-				vanish();
+				dispose();
 			}
 		}
 	}
@@ -88,7 +86,7 @@ public class MyIndividual extends GIndividual{
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
-				ind.vanish();
+				ind.dispose();
 			}
 		}
 		
@@ -112,7 +110,7 @@ public class MyIndividual extends GIndividual{
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
-				ind.vanish();
+				ind.dispose();
 			}
 		}
 		return ind;
@@ -145,7 +143,7 @@ public class MyIndividual extends GIndividual{
 		this.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {
-			vanish();
+			dispose();
 			this.phenotype = new Phenotype();
 		}
 		else this.phenotype = new Phenotype(phenotype);

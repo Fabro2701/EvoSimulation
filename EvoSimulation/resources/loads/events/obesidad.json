@@ -23,7 +23,7 @@
                 "typeTo":"pe",
                 "amount":5,
                 "properties":{
-                	"apply":"this.setAttribute(\"supermarket\",true);"
+                	"apply":"this.setAttribute(\"supermarket\",true);this.setImg((static \"simulator.control.ImageController\").getImage(\"supermarket\"));"
                 }
             }
         },
@@ -37,7 +37,7 @@
                 "typeTo":"pe",
                 "amount":5,
                 "properties":{
-                	"apply":"this.setAttribute(\"house\",true);"
+                	"apply":"this.setAttribute(\"house\",true);this.setImg((static \"simulator.control.ImageController\").getImage(\"house\"));"
                 }
             }
         }

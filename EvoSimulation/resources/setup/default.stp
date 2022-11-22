@@ -26,8 +26,6 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 			  	e.setAttribute("imc","N");
 			  }
 			  e.setAttribute("state","towardsHouse");
-			  
-			  
 		}
 		initpasive("simulator.model.entity.PasiveEntity"){
 			
@@ -35,7 +33,7 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				if(p<=mu){
-					e.vanish();
+					e.dispose();
 				}
 				let imc = e.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();

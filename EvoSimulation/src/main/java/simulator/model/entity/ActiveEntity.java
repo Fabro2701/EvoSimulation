@@ -1,9 +1,6 @@
 package simulator.model.entity;
 
-import static simulator.Constants.ENTITY_FOOD_FACTOR;
-import static simulator.Constants.FOOD_ENERGY_GIVEN_CONSTANT;
-import static simulator.Constants.LIVE_ENERGY_COST_CONSTANT;
-import static simulator.Constants.RECOVERY_REST_TIME;
+
 
 import java.awt.Image;
 
