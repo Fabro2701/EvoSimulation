@@ -50,6 +50,9 @@ public class InteractionsController extends ModuleController{
 		}
 	}
 
+	public Pair<List<Class<?>>,List<Class<?>>> getClasses(String id){
+		return this.rules.get(id);
+	}
 	public Map<String, InteractionI> getInteractions() {
 		return interactions;
 	}

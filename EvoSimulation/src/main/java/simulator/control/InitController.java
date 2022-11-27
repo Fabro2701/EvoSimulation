@@ -44,6 +44,9 @@ public class InitController extends ModuleController{
 		}
 	}
 
+	public List<Class<?>> getClasses(String id){
+		return this.rules.get(id);
+	}
 	public Map<String, Consumer<Entity>> getStatements() {
 		return statements;
 	}
