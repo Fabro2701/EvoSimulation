@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
@@ -10,7 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import simulator.control.ConstantsController;
@@ -47,17 +50,23 @@ public class ConstantsViewer extends JFrame{
 		public void setComps(Map<String, Object> vars) {
 			//System.out.println("printing "+vars.size());
 			panel.removeAll();
-			int range = 1000;
 			for(String key:vars.keySet()) {
 				Object ob = vars.get(key);
 				JComponent comp = new JPanel();
 				comp.setLayout(new BoxLayout(comp, BoxLayout.X_AXIS));
 				comp.setAlignmentX(Component.LEFT_ALIGNMENT);
 				comp.add(new JLabel(key));
-				int value = (int) (((Number)ob).doubleValue()*range);
-				JSlider slider = new JSlider(-range,range,value);
-				slider.addChangeListener(e->ctrl.update(key, (double)slider.getValue()/(double)range));
-				comp.add(slider);
+				
+				double value = ((Number)ob).doubleValue();
+				SpinnerNumberModel model = new SpinnerNumberModel(value, -10000.0, 10000.0, 0.001); 
+				JSpinner spinner = new JSpinner(model);
+				JSpinner.NumberEditor editor = (JSpinner.NumberEditor)spinner.getEditor();
+		        DecimalFormat format = editor.getFormat();
+		        //format.setMinimumFractionDigits(2);
+		        format.setMaximumFractionDigits(10);
+		        editor.getTextField().setHorizontalAlignment(SwingConstants.CENTER);
+				spinner.addChangeListener(e->ctrl.update(key, spinner.getValue()));
+				comp.add(spinner);
 				comp.add(new JLabel(String.valueOf(ob)));
 				panel.add(comp);
 			}

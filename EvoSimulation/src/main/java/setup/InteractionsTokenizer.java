@@ -25,6 +25,7 @@ public class InteractionsTokenizer extends ChildTokenizer{
 					   		  {"^[)]",")"},
 					   		  {"^[,]",","},
 					   		  {"^\\benum\\b","enum"},
+					   		  {"^->","->"},
 					   		  {"^\\bstatic\\b","static"},
 					   		  {"^\\bnew\\b","new"},
 					   		  {"^\\breturn\\b","return"},

@@ -54,13 +54,13 @@ public class MainParser {
 			declaration = new InteractionsParser().parse(this);
 			break;
 		case "UpdatesController":
-			declaration = new InteractionsParser().parse(this);
+			declaration = new BlocksParser().parse(this);
 			break;
 		case "InitController":
-			declaration = new InteractionsParser().parse(this);
+			declaration = new BlocksParser().parse(this);
 			break;
 		case "GlobalController":
-			declaration = new InteractionsParser().parse(this);
+			declaration = new BlocksParser().parse(this);
 			break;
 		
 		}

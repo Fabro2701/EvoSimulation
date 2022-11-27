@@ -111,6 +111,7 @@ public abstract class Entity{
 	
 	public void dispose() {
 		alive = false;
+		this.attributes.clear();
 	}
 	
 	public Entity setAttribute(String key, Object value) {

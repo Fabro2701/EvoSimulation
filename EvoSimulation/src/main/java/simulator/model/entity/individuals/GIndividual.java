@@ -14,6 +14,7 @@ import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
+import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.observations.ObservationManager;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
@@ -49,7 +50,7 @@ public abstract class GIndividual extends AbstractIndividual{
 		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
 		for(String id:updates_l.keySet()) {
 			if(updates.match(id, this.getClass())) {
-				updates_l.get(id).accept(this, evoSimulator);;
+				if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
 			}
 		}
 		//System.out.println(this.getAttribute("imc"));
@@ -68,7 +69,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	public void myInteract(Entity e2) {
 		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
 		for(String id:interactions_l.keySet()) {
-			if(interactions.match(id, this.getClass())) {
+			if(interactions.match(id, this.getClass(), e2.getClass())) {
 				interactions_l.get(id).perform(this, e2, ctrl.getMap());
 			}
 		}

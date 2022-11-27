@@ -69,11 +69,11 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
-//		constantsCtrl = new ConstantsController();
-//		SwingUtilities.invokeLater(() -> {
-//	        	new ConstantsViewer(constantsCtrl);
-//	    		constantsCtrl.paint();
-//	        });
+		constantsCtrl = new ConstantsController();
+		SwingUtilities.invokeLater(() -> {
+	        	new ConstantsViewer(constantsCtrl);
+	    		constantsCtrl.paint();
+	        });
 		try {
 			int op=0;
 			if(op==0) {

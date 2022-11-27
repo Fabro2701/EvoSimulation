@@ -218,4 +218,7 @@ public class Controller {
 	public EvoSimulator getSimulator() {
 		return simulator;
 	}
+	public EventManager getEventManager() {
+		return eventManager;
+	}
 }

@@ -1,7 +1,7 @@
 grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a(){
-			let mu = 0.0004578;
+			let mu = 2200;
 			let beta = 0.001121;
 			let gamma = 0.0003226;
 			let p1 = 0.020;
@@ -13,7 +13,7 @@ global := a(){
 			let S0 = 0.39;
 			let O0 = 0.16;
 		  }.
-init := init1("simulator.model.entity.individuals.MyIndividual"){
+init := initactive("simulator.model.entity.individuals.MyIndividual"){
 			
 			  let p = (static "simulator.RandomSingleton").nextFloat();
 			  if(p<=O0){
@@ -32,15 +32,29 @@ init := init1("simulator.model.entity.individuals.MyIndividual"){
 			 
 	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
-				if(p<=mu){
-					e.dispose();
-				}
+				
 				let imc = e.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
 				if(imc.equals("S")){
 					if(p<=gamma){
 						e.setAttribute("imc","O");
 					}
+				}
+				if(e.getAge()>=mu){
+					e.dispose();
+				}
+		   }
+		   empty("simulator.model.entity.PasiveEntity"){
+				
+				let imc = e.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				if(imc.equals("S")){
+					if(p<=gamma){
+						e.setAttribute("imc","O");
+					}
+				}
+				if(e.getAge()>=mu){
+					e.dispose();
 				}
 		   }
 		   update2("simulator.model.entity.individuals.MyIndividual"){
@@ -83,7 +97,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 actions := <action> NOTHING{
 		   					;
 		   				   }.  
-interactions := OS_INTERACTION("simulator.model.entity.individuals.MyIndividual"){
+interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 					if(!e2.getAttribute("pasive")){
 						let imc1 = e1.getAttribute("imc");
 						let imc2 = e2.getAttribute("imc");
@@ -94,6 +108,8 @@ interactions := OS_INTERACTION("simulator.model.entity.individuals.MyIndividual"
 							}
 						}
 					}
+				}
+				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					if(e2.getAttribute("pasive")){
 						if(e2.hasAttribute("house")){
 							e1.setAttribute("state","towardsSupermarket");

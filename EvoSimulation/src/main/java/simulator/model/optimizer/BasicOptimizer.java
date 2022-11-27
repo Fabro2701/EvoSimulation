@@ -20,20 +20,17 @@ public class BasicOptimizer extends Optimizer{
 		
 
 		for (Entity e : entities) {
-			e.update(simulator);
+			if(e.isAlive())e.update(simulator);
 		}
 
 		// entities actions
 		for (Entity e : entities) {
 			if(e.isAlive())e.perform(entities, map);
-//			if(e instanceof ActiveEntity) {
-//				((ActiveEntity)e).setAction(e.getAction());
-//			}
 		}
 
 		// entities interactions
 		for (Entity e1 : entities) {	
-			if(e1 instanceof ActiveEntity) {
+			if(e1.isAlive()&&e1 instanceof ActiveEntity) {
 				for (Entity e2 : entities) {
 					if(e1!=e2&&e2.isAlive()) {
 						if (Util.areCloseEnough(e1, e2)) {
@@ -43,17 +40,7 @@ public class BasicOptimizer extends Optimizer{
 				}
 			}
 		}
-//		for (Entity e1 : entities) {	
-//			if(e1 instanceof ActiveEntity) {
-//				for (Entity e2 : entities) {
-//					if(e1!=e2) {
-//						if (Util.areCloseEnough(e1, e2)) {
-//							e1.interact(e2);
-//						}
-//					}
-//				}
-//			}
-//		}
+
 
 		// remove entities
 		for (int i = 0; i < entities.size(); i++) {

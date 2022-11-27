@@ -86,6 +86,7 @@ public final class Constants {
 	public static final String AddFoodDistributionEventBuilder_TYPE = "fe";
 	public static final String AddFoodGeneratorEventBuilder_TYPE = "fg";
 	public static final String AddRandomEntitiesConditionGeneratorBuilder_TYPE = "arecg";
+	public static final String AddRandomEntitiesConditionTimeLapseGeneratorBuilder_TYPE = "arectlg";
 	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "areg";
 	public static final String RefreshStatsBuilder_TYPE = "rs";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";

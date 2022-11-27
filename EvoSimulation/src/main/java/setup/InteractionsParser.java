@@ -39,19 +39,27 @@ public class InteractionsParser extends OOPParser{
 		String name = this._eat("IDENTIFIER").getString("value");
 		
 		this._eat("(");
-		JSONArray clazzs = new JSONArray();
-		while(this._lookahead != null && !this._lookahead.getString("type").equals(")") && !(this._lookahead.getString("type").equals(",") && this._eat(",")==null)) {
-			clazzs.put(this.StringLiteral());
-		}
 		
+		JSONArray clazzsFrom = this.ClassList();
+		if(this._lookahead.getString("type").equals("->"))this._eat("->");
+		JSONArray clazzsTo = this.ClassList();
+	
 		this._eat(")");
 		
 		this._eat("{");
 		JSONArray spec = this.Especification();
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
-				   			   .put("clazzs", clazzs)
+				   			   .put("clazzsFrom", clazzsFrom)
+				   			   .put("clazzsTo", clazzsTo)
 							   .put("spec", spec)
 							   .put("name", name);
+	}
+	protected JSONArray ClassList() {
+		JSONArray clazzs = new JSONArray();
+		while(this._lookahead != null && !this._lookahead.getString("type").equals(")")&& !this._lookahead.getString("type").equals("->") && !(this._lookahead.getString("type").equals(",") && this._eat(",")==null)) {
+			clazzs.put(this.StringLiteral());
+		}
+		return clazzs;
 	}
 }

@@ -176,6 +176,15 @@ public class Map {
 		return getValidWallRestrictedMove(node,move);
 		//return getValidModuloMove(node,move);
 	}
+	public Node getNextNode(int x, int y, Node node) {
+		x+=node.x;
+		y+=node.y;
+		x = x<0?0:x;
+		y = y<0?0:y;
+		x = x>=this.WIDTH?this.WIDTH-1:x;
+		y = y>=this.HEIGHT?this.HEIGHT-1:y;
+		return this.nodes[y][x];
+	}
 
 	public JSONArray toJSON() {
 		JSONArray arr = new JSONArray();

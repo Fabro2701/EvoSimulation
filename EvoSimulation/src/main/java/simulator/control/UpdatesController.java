@@ -47,7 +47,9 @@ public class UpdatesController extends ModuleController{
 			e.printStackTrace();
 		}
 	}
-
+	public List<Class<?>> getClasses(String id){
+		return this.rules.get(id);
+	}
 	public Map<String, BiConsumer<Entity, EvoSimulator>> getUpdates() {
 		return updates;
 	}

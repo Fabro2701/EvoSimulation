@@ -9,7 +9,7 @@ public class CommentPreprocessing implements Preprocessing{
 		StringBuilder out = new StringBuilder();
 		int i=0;
 		
-		System.out.println("from: "+input);
+		//System.out.println("from: "+input);
 		
 		Pattern p = Pattern.compile("(?s)/\\*(.)*?\\*/");
 		Matcher m = p.matcher(input); 
@@ -24,7 +24,7 @@ public class CommentPreprocessing implements Preprocessing{
 		}
 		out.append(input.substring(i, input.length()));
 
-		System.out.println("to: "+out.toString());
+		//System.out.println("to: "+out.toString());
 		return out.toString();
 	}
 	public static void main(String args[]) {
