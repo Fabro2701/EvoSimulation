@@ -53,7 +53,6 @@ public abstract class GIndividual extends AbstractIndividual{
 				if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
 			}
 		}
-		//System.out.println(this.getAttribute("imc"));
 	}
 
 	@Override
