@@ -53,4 +53,5 @@ public class GrammarParser extends ChildParser{
 
 		return new JSONObject().put("type", "StringLiteral").put("value", literal);
 	}
+
 }

@@ -1,5 +1,7 @@
 package setup.visualizer;
 
+import simulator.control.ModuleController;
+
 public class CodeEditorDialogGUI extends javax.swing.JDialog {
 
     /**
@@ -96,9 +98,9 @@ public class CodeEditorDialogGUI extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JEditorPane jEditorPane;
-    private javax.swing.JMenu jFileMenu;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
+    protected javax.swing.JEditorPane jEditorPane;
+    protected javax.swing.JMenu jFileMenu;
+    protected javax.swing.JMenuBar jMenuBar1;
+    protected javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration                   
 }

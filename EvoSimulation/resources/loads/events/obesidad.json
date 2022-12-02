@@ -7,7 +7,7 @@
 	        	"id":"r",
                 "time":0,
                 "times":1000,
-                "interval":500,
+                "interval":100,
                 "timelapse":50,
                 "typeTo":"mi",
                 "amount":200
@@ -22,7 +22,7 @@
                 "times":1,
                 "interval":50,
                 "typeTo":"pe",
-                "amount":5,
+                "amount":15,
                 "properties":{
                 	"apply":"this.setAttribute(\"supermarket\",true);this.setImg((static \"simulator.control.ImageController\").getImage(\"supermarket\"));"
                 }
@@ -36,7 +36,7 @@
                 "times":1,
                 "interval":50,
                 "typeTo":"pe",
-                "amount":5,
+                "amount":15,
                 "properties":{
                 	"apply":"this.setAttribute(\"house\",true);this.setImg((static \"simulator.control.ImageController\").getImage(\"house\"));"
                 }

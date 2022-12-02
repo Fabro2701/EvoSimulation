@@ -1,7 +1,7 @@
 grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a(){
-			let mu = 2200;
+			let mu = 60*52;
 			let beta = 0.001121;
 			let gamma = 0.0003226;
 			let p1 = 0.020;
@@ -27,6 +27,12 @@ init := initactive("simulator.model.entity.individuals.MyIndividual"){
 			  }
 			  e.setAttribute("state","towardsHouse");
 		}
+		initactive2("simulator.model.entity.individuals.MyIndividual"){
+			let p = (static "simulator.RandomSingleton").nextGaussian();
+			p = (p*7.0+35.6)*52;
+			e.setAge(p);
+					 
+	 	}
 		initpasive("simulator.model.entity.PasiveEntity"){
 			
 			 
@@ -41,8 +47,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					}
 				}
 				if(e.getAge()>=mu){
-					;
-					/*e.dispose();*/
+					e.dispose();
 				}
 		   }
 		   empty("simulator.model.entity.PasiveEntity"){

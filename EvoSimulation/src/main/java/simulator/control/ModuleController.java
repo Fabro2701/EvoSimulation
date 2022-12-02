@@ -1,5 +1,6 @@
 package simulator.control;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class ModuleController {
@@ -10,4 +11,5 @@ public abstract class ModuleController {
 		this.parse(declaration);
 	}
 	protected abstract void parse(JSONObject declaration);
+	public abstract String getCode(Object...id);
 }

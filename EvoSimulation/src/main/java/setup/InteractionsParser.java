@@ -45,15 +45,19 @@ public class InteractionsParser extends OOPParser{
 		JSONArray clazzsTo = this.ClassList();
 	
 		this._eat(")");
-		
+
+		int c1 = this._tokenizer.get_cursor();
 		this._eat("{");
 		JSONArray spec = this.Especification();
+		int c2 = this._tokenizer.get_cursor();
+		String code = this._string.substring(c1+1,c2-1);
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
 				   			   .put("clazzsFrom", clazzsFrom)
 				   			   .put("clazzsTo", clazzsTo)
 							   .put("spec", spec)
-							   .put("name", name);
+							   .put("name", name)
+							   .put("code", code);
 	}
 	protected JSONArray ClassList() {
 		JSONArray clazzs = new JSONArray();
@@ -62,4 +66,6 @@ public class InteractionsParser extends OOPParser{
 		}
 		return clazzs;
 	}
+	
+
 }

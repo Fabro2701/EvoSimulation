@@ -38,4 +38,10 @@ public class GrammarController extends ModuleController{
 	public Map<String, AbstractGrammar> getGrammars() {
 		return grammars;
 	}
+
+	@Override
+	public String getCode(Object... id) {
+		System.out.println("unimplented GrammarController");
+		return null;
+	}
 }

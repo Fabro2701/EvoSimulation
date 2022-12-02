@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +17,8 @@ import util.Pair;
 public class InteractionsController extends ModuleController{
 	Map<String, InteractionI>interactions;
 	Map<String, Pair<List<Class<?>>,List<Class<?>>>>rules;
+	Map<String, String>codes;
+	
 	public InteractionsController(JSONObject declaration) {
 		super(declaration);
 		
@@ -25,6 +28,7 @@ public class InteractionsController extends ModuleController{
 	protected void parse(JSONObject declaration) {
 		interactions = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
+		codes = new LinkedHashMap<>();
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {
@@ -44,6 +48,7 @@ public class InteractionsController extends ModuleController{
 				}
 				
 				this.interactions.put(name, (e1,e2,m) -> new ActionEvaluator(spec).evaluate(e1, e2, m));
+				this.codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -59,5 +64,10 @@ public class InteractionsController extends ModuleController{
 	public boolean match(String id, Class<?>clazzFrom, Class<?>clazzTo) {
 		Pair<List<Class<?>>,List<Class<?>>>pair = this.rules.get(id);
 		return pair.first.contains(clazzFrom) && pair.second.contains(clazzTo);
+	}
+	@Override
+	public String getCode(Object... id) {
+		// TODO Auto-generated method stub
+		return codes.get(id[0]);
 	}
 }

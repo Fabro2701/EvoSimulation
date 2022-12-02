@@ -48,12 +48,17 @@ public class ActionsParser extends OOPParser{
 	}
 	private JSONObject ActionEspecification() {
 		String name = this._eat("IDENTIFIER").getString("value");
+		int c1 = this._tokenizer.get_cursor();
 		this._eat("{");
 		JSONArray spec = this.Especification();
+		int c2 = this._tokenizer.get_cursor();
+		String code = this._string.substring(c1+1,c2-1);
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
 							   .put("spec", spec)
-							   .put("name", name);
+							   .put("name", name)
+							   .put("code", code);
 	}
+
 
 }

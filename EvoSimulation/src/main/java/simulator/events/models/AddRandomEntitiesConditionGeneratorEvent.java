@@ -47,6 +47,7 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 		}
 		else {
 			JSONArray arr = new JSONArray();
+			//System.out.println(amount-count);
 			for(int i=0;i<amount-count;i++) {
 				JSONObject o = new JSONObject();
 				o.put("type", typeTo);

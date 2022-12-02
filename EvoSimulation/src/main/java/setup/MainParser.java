@@ -68,55 +68,7 @@ public class MainParser {
 		return new JSONObject().put("type", type)
 							   .put("declaration", declaration);
 	}
-	protected JSONObject RuleDeclaration() {
-		return null;
-		// TODO Auto-generated method stub
-		//return new JSONObject().put("value", this._eat(this.Literal().getString("value")));
-	}
-	private JSONObject Literal() {
-		String literal = _eat("STRING").getString("value");
-		return new JSONObject().put("type", "StringLiteral").put("value", literal.substring(1, literal.length()-1));
-	}
-	/**
-	 * ProductionList ::= <Production> '|' <Production> '|' <Production>
-	 * @return
-	 */
-	protected JSONArray ProductionList() {
-		JSONArray arr = new JSONArray();
-		
-		while(this._lookahead != null && !this._lookahead.getString("type").equals(".")) {
-			arr.put(this.Production());
-			if(this._lookahead.getString("type").equals("|")) _eat("|");
-		}
-		return arr;
-	}
-	protected JSONArray Production() {
-		JSONArray arr = new JSONArray();
-		
-		while(this._lookahead != null && !(this._lookahead.getString("type").equals("|")||this._lookahead.getString("type").equals("."))) {
-			arr.put(this.Symbol());			
-		}
-		return arr;
-	}
-	protected JSONObject Symbol() {
-		if(this._lookahead.getString("type").equals("NTSYMBOL")) {
-			return this.NTSymbol();
-		}
-		else {
-			return this.TSymbol();
-		}
-	}
-	protected JSONObject TSymbol() {
-		String literal = _eat("TSYMBOL").getString("value");
-		if(literal.charAt(0)=='\'') {
-			return new JSONObject().put("type", "Terminal").put("id", literal.substring(1, literal.length()-1));
-		}
-		return new JSONObject().put("type", "Terminal").put("id", literal);
-	}
-	protected JSONObject NTSymbol() {
-		String literal = _eat("NTSYMBOL").getString("value");
-		return new JSONObject().put("type", "NonTerminal").put("id", literal.substring(1, literal.length()-1));
-	}
+	
 	protected JSONObject _eat(String type) {
 		JSONObject token=_lookahead;
 		if(this._lookahead==null) {

@@ -14,6 +14,7 @@ import simulator.model.evaluation.ActionEvaluator;
 
 public class GlobalController extends ModuleController{
 	Map<String, Consumer<Entity>>statements;
+	Map<String, String>codes;
 	public GlobalController(JSONObject declaration) {
 		super(declaration);
 		
@@ -22,6 +23,7 @@ public class GlobalController extends ModuleController{
 	@Override
 	protected void parse(JSONObject declaration) {
 		statements = new LinkedHashMap<>();
+		codes = new LinkedHashMap<>();
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {
@@ -31,17 +33,20 @@ public class GlobalController extends ModuleController{
 				JSONArray spec = actso.getJSONArray("spec");
 			
 				this.statements.put(name, (e) -> new ActionEvaluator(spec).evaluate(ActionEvaluator.globalEnv, false));
+				this.codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
-		
-		for(String key:statements.keySet()) {
-			statements.get(key).accept(null);
 		}
 	}
 
 	public Map<String, Consumer<Entity>> getStatements() {
 		return statements;
+	}
+
+	@Override
+	public String getCode(Object... id) {
+		// TODO Auto-generated method stub
+		return codes.get(id[0]);
 	}
 }

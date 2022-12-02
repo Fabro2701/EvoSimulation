@@ -29,6 +29,9 @@ public class RandomSingleton {
     public static double nextFloat() {
         return getInstance()._rnd.nextFloat();
    }
+    public static double nextGaussian() {
+        return getInstance()._rnd.nextGaussian();
+   }
     public static void setSeed(long s) {
     	instance = new RandomSingleton(s);
     }

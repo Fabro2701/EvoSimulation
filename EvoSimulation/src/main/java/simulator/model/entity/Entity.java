@@ -157,6 +157,9 @@ public abstract class Entity{
 	public int getGeneration() {
 		return this.generation;
 	}
+	public void setAge(int age) {
+		this.age = age;
+	}
 	public int getAge() {
 		return age;
 	}

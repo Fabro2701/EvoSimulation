@@ -34,6 +34,7 @@ public class SetupGraphVisualizer {
 	InitController initController;
 	UpdatesController updatesController;
 	InteractionsController interactionsController;
+	private SetupController setup;
 	
 	
 	
@@ -51,10 +52,6 @@ public class SetupGraphVisualizer {
 	    ClicksListener cl = new ClicksListener();
 		fromViewer.addSink(graph);
 		
-//		JFrame frame = new JFrame();
-//		frame.add((ViewPanel)view);
-//		frame.pack();
-//		frame.setVisible(true);
 	}
 	class ClicksListener implements ViewerListener{
 		public ClicksListener() {
@@ -69,7 +66,10 @@ public class SetupGraphVisualizer {
 			Node node;
 			if((node=graph.getNode(id)).hasAttribute("module")) {
 				System.out.println(node.getAttribute("module"));
-				new CodeEditorDialog(graph.getNode(id));
+				String module;
+				if(!(module=(String) node.getAttribute("module")).equals("GrammarController")) {
+					new CodeEditorDialog(graph.getNode(id), SetupGraphVisualizer.this.setup.getModule(module));
+				}
 			}
 		}
 		@Override
@@ -114,6 +114,7 @@ public class SetupGraphVisualizer {
 	        + " stroke-width: 3px;"
 	        + "}";
 	public void load(SetupController setup) {
+		this.setup = setup;
 		this.updatesController = (UpdatesController) setup.getModule("UpdatesController");
 		this.initController = (InitController) setup.getModule("InitController");
 		this.interactionsController = (InteractionsController) setup.getModule("InteractionsController");

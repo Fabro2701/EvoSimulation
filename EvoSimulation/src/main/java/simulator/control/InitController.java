@@ -15,6 +15,7 @@ import simulator.model.evaluation.ActionEvaluator;
 public class InitController extends ModuleController{
 	Map<String, Consumer<Entity>>statements;
 	Map<String, List<Class<?>>>rules;
+	Map<String, String>codes;
 	public InitController(JSONObject declaration) {
 		super(declaration);
 		
@@ -24,6 +25,7 @@ public class InitController extends ModuleController{
 	protected void parse(JSONObject declaration) {
 		statements = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
+		codes = new LinkedHashMap<>();
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {
@@ -38,6 +40,7 @@ public class InitController extends ModuleController{
 				}
 			
 				this.statements.put(name, (e) -> new ActionEvaluator(spec).evaluate(e));
+				codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -52,5 +55,11 @@ public class InitController extends ModuleController{
 	}
 	public boolean match(String id, Class<?>clazz) {
 		return this.rules.get(id).contains(clazz);
+	}
+
+	@Override
+	public String getCode(Object... id) {
+		// TODO Auto-generated method stub
+		return codes.get(id[0]);
 	}
 }
