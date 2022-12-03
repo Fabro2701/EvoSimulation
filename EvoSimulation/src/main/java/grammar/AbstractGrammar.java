@@ -16,16 +16,21 @@ import grammar.AbstractGrammar.Production;
 import grammar.AbstractGrammar.Symbol;
 import grammar.bnf.BNFParser;
 import simulator.model.entity.individuals.Chromosome;
+import simulator.model.entity.individuals.Mapper;
 
 
-public abstract class AbstractGrammar {
+public abstract class AbstractGrammar implements Mapper{
 	protected Symbol initial;
 	HashMap<Symbol,Rule>_rulesProductions;
 
 	public AbstractGrammar() {
 		_rulesProductions = new HashMap<Symbol,Rule>();
 	}
-	public abstract LinkedList<Symbol> parse(Chromosome c);
+	@Override
+	public Object mapChromosome(Chromosome c) {
+		return mapGrammar(c);
+	}
+	public abstract LinkedList<Symbol> mapGrammar(Chromosome c);
 	public abstract void parseBNF(String filename);
 	public static enum SymbolType{NTerminal,Terminal}
 	public class Symbol {

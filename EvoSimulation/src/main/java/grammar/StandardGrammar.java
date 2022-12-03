@@ -31,7 +31,7 @@ public class StandardGrammar extends AbstractGrammar{
 		
 	}
 
-	public LinkedList<Symbol> parse(Chromosome c){
+	public LinkedList<Symbol> mapGrammar(Chromosome c){
 		Symbol t = this.getInitial();
 		List<Production> ps;
 		LinkedList<Symbol> q = new LinkedList<Symbol>();
@@ -47,8 +47,8 @@ public class StandardGrammar extends AbstractGrammar{
 			int m = ps.size();
 			//int r = Util.toInt(codons.get(i).bits.get(0, Util.log2(m)));
 			
-			int r = c.getCodon(i).getIntValue() % m;
-			c.setModToCodon(i, r);
+			int r = ((Chromosome.Codon) c.getCodon(i)).getIntValue() % m;
+			((Chromosome.Codon) c.getCodon(i)).setMod(r);
 			q.addAll(0, ps.get(r));
 			
 			//terminals.add(g.new Terminal("("));
@@ -157,7 +157,7 @@ public class StandardGrammar extends AbstractGrammar{
 			c.setArrayIntToCodon(0, 1,1,1,2,1,3,1,0,0,4, 1,1,0,0,0,0,3 );
 			
 			
-			LinkedList<Symbol> l = g.parse(c);
+			LinkedList<Symbol> l = g.mapChromosome(c);
 			l.forEach(e->System.out.print(e+" "));
 			Phenotype pt = new Phenotype();
 			System.out.println("\nvisual: ");

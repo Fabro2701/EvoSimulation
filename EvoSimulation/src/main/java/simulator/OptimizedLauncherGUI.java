@@ -18,14 +18,9 @@ import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.builders.Builder;
-import simulator.factories.builders.entity.FoodEntityBuilder;
 import simulator.factories.builders.entity.MyIndividualBuilder;
-import simulator.factories.builders.entity.SimpleRandomEntityBuilder;
-import simulator.factories.builders.entity.SimpleUPEntityBuilder;
 import simulator.factories.builders.events.AddEntitiesEventBuilder;
-import simulator.factories.builders.events.AddFoodConditionGeneratorEventBuilder;
-import simulator.factories.builders.events.AddFoodDistributionEventBuilder;
-import simulator.factories.builders.events.AddFoodGeneratorEventBuilder;
+
 import simulator.factories.builders.events.AddRandomEntitiesConditionGeneratorEventBuilder;
 import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilder;
 import simulator.factories.builders.events.SaveSimulationEventBuilder;

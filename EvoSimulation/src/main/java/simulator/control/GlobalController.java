@@ -38,6 +38,10 @@ public class GlobalController extends ModuleController{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		//for global vars
+		for(String id:statements.keySet()) {
+			statements.get(id).accept(null);
+		}
 	}
 
 	public Map<String, Consumer<Entity>> getStatements() {

@@ -57,9 +57,9 @@ public class MyIndividual extends GIndividual{
 		genotype = new Genotype();
 		phenotype = new Phenotype();
 		for(String key:grammars.keySet()) {
-			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
+			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, Chromosome.Codon::new);
 			genotype.addChromosome(c);
-			LinkedList<Symbol> crom = grammars.get(key).parse(c);
+			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
 			phenotype.setSymbol(key, crom);
 			if(phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);

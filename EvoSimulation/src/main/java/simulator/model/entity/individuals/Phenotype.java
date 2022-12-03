@@ -46,16 +46,7 @@ public class Phenotype{
 		eval.addObservations(observations);
 		return eval.getNextAction();
 	}
-//	public MOVE getNextMove(HashMap<String,String>observations) {
-//		if(!valid)return MOVE.NEUTRAL;
-//		evaluatorMove.addObservations(observations);
-//		return evaluatorMove.getNextMove();
-//	}
-//	public ACTION getNextAction(HashMap<String,String>observations) {
-//		if(!valid)return ACTION.NOTHING;
-//		evaluatorAction.addObservations(observations); //already done
-//		return evaluatorAction.getNextAction();
-//	}
+
 	public void setSymbol(String key, LinkedList<Symbol> crom) {
 		this.symbols.add(crom);
 		if(crom==null) {
@@ -64,16 +55,7 @@ public class Phenotype{
 		}
 		this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
 	}
-//	public void setSymbol(int i, LinkedList<Symbol> crom) {
-//		this.symbols.set(i, crom);
-//		if(crom==null) {
-//			this.valid=false;
-//			return;
-//		}
-//		if(i==0)this.evaluatorMove = new Evaluator(parser.parse(symbolRepresentation(crom)));
-//		if(i==1)this.evaluatorAction = new Evaluator(parser.parse(symbolRepresentation(crom)));
-//
-//	}
+
 	
 	
 	private void setVisualization() {
