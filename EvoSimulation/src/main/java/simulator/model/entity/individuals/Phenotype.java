@@ -2,6 +2,7 @@ package simulator.model.entity.individuals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -26,6 +27,7 @@ public class Phenotype{
 	boolean valid;
 	Map<String,Evaluator> evaluators;
 	List<LinkedList<Symbol>> symbols;
+	HashSet<String>genes;
 	Parser parser = new Parser();
 	public Phenotype() {
 		super();
@@ -33,13 +35,6 @@ public class Phenotype{
 		//for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
-	}
-	public Phenotype(JSONObject o) {
-		this();
-		valid=true;
-		Parser parser = new Parser();
-		visualization = o.getString("code");
-		//evaluatorMove = new Evaluator(parser.parse(visualization));
 	}
 	public Object getNext(String key, HashMap<String,String>observations) {
 		Evaluator eval = evaluators.get(key);
@@ -54,6 +49,9 @@ public class Phenotype{
 			return;
 		}
 		this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
+	}
+	public void setGenes(HashSet<String>genes) {
+		this.genes = genes;
 	}
 
 	

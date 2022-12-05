@@ -32,6 +32,9 @@ public class RandomSingleton {
     public static double nextGaussian() {
         return getInstance()._rnd.nextGaussian();
    }
+    public static boolean nextBoolean() {
+        return getInstance()._rnd.nextBoolean();
+   }
     public static void setSeed(long s) {
     	instance = new RandomSingleton(s);
     }

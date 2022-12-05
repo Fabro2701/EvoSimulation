@@ -5,28 +5,24 @@ import static simulator.Constants.CHROMOSOME_LENGTH;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
-import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
-import simulator.Constants;
-import simulator.Constants.ACTION;
+import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
-import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
-import util.Pair;
 import util.Util;
 
 public class MyIndividual extends GIndividual{
@@ -66,6 +62,10 @@ public class MyIndividual extends GIndividual{
 				dispose();
 			}
 		}
+		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextBoolean());
+		GIndividual.Genes genesMapper = new GIndividual.Genes();
+		HashSet<String> genes = genesMapper.mapGenes(c);
+		phenotype.setGenes(genes);
 	}
 	/**
 	 * Constructor invoked by reproduction methods 
@@ -155,7 +155,7 @@ public class MyIndividual extends GIndividual{
 		int y = (node.y-this.node.y); if(y!=0)y=y>0?1:-1;
 		return map.getNodeAt(this.node.x+x, this.node.y+y);
 	}
-	public Entity getTowardsClosestAttribute(EvoSimulator simulator, String attribute) {
+	public Entity getEntityClosestAttribute(EvoSimulator simulator, String attribute) {
 		List<Entity>entities = simulator.getEntities();
 		Entity entity=null;
 		double mindist = Double.MAX_VALUE;
@@ -168,7 +168,7 @@ public class MyIndividual extends GIndividual{
 		}
 		return entity;
 	}
-	public Entity getTowardsRandomAttribute(EvoSimulator simulator, String attribute) {
+	public Entity getEntityRandomAttribute(EvoSimulator simulator, String attribute) {
 		Entity entity=null;
 		List<Entity>entities = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity &&e.hasAttribute(attribute)&&(boolean) e.getAttribute(attribute)).collect(Collectors.toList());
 		if(entities.size()>0) 

@@ -26,6 +26,7 @@ public class ImageController {
 		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
 		imgs.put("supermarket", new ImageIcon("resources/entities/supermarket.png").getImage());
 		imgs.put("house", new ImageIcon("resources/entities/house.png").getImage());
+		imgs.put("bar", new ImageIcon("resources/entities/bar.png").getImage());
 		imgs.put(PasiveEntity.class, new ImageIcon("resources/entities/pasiveentity.png").getImage());
 		
 	}

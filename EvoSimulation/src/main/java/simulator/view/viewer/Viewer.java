@@ -67,7 +67,7 @@ public class Viewer extends AbstractViewer {
 	public void updateImage() {
 		bufferGraphics.setColor(Color.white);
 		bufferGraphics.fillRect(0, 0, this.getHeight(), this.getWidth());
-		bufferGraphics.drawImage(mapImg, 0, 0, null);
+		//bufferGraphics.drawImage(mapImg, 0, 0, null);//attributes
 //		Map map = ctrl.getMap();
 //		for (int i = 0; i < mapImg.getHeight(null); i ++) {
 //			for (int j = 0; j < mapImg.getWidth(null); j ++) {
@@ -76,7 +76,7 @@ public class Viewer extends AbstractViewer {
 //				}
 //			}
 //		}
-		bufferGraphics.setColor(Color.white);
+		bufferGraphics.setColor(Color.black);
 		int gridSize = 20;
 		for (int i = 0; i < this.getHeight(); i += gridSize) {
 			for (int j = 0; j < this.getWidth(); j += gridSize) {

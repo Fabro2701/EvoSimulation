@@ -31,7 +31,7 @@ public class StandardGrammar extends AbstractGrammar{
 		
 	}
 
-	public LinkedList<Symbol> mapGrammar(Chromosome c){
+	public LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c){
 		Symbol t = this.getInitial();
 		List<Production> ps;
 		LinkedList<Symbol> q = new LinkedList<Symbol>();

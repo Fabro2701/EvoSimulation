@@ -33,17 +33,6 @@ public class Chromosome <T>{
 	public T getCodon(int i) {
 		return codons.get(i);
 	}
-//	public void setIntToCodon(int i, int v) {
-//		codons.set(i, new Codon(v));
-//	}
-//	public void setModToCodon(int i, int v) {
-//		codons.get(i).modValue=v;
-//	}
-//	public void setArrayIntToCodon(int ...v) {
-//		for(int i=0;i<v.length;i++) {
-//			codons.set(i, new Codon(v[i]));
-//		}
-//	}
 	
 	public int getUsedCodons() {
 		return usedCodons;

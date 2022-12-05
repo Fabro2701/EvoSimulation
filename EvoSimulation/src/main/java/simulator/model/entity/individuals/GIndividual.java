@@ -1,20 +1,17 @@
 package simulator.model.entity.individuals;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-import grammar.AbstractGrammar;
 import simulator.control.Controller;
-import simulator.control.GrammarController;
-import simulator.control.InitController;
-import simulator.control.InteractionsController;
-import simulator.control.UpdatesController;
 import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
-import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.observations.ObservationManager;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
@@ -22,6 +19,8 @@ import simulator.model.map.Node;
 public abstract class GIndividual extends AbstractIndividual{
 	protected Genotype genotype;
 	protected Phenotype phenotype;
+	
+	
 	
 	protected ObservationManager observationManager;
 	
@@ -72,6 +71,32 @@ public abstract class GIndividual extends AbstractIndividual{
 				interactions_l.get(id).perform(this, e2, ctrl.getMap());
 			}
 		}
+	}
+	
+	public static class Genes implements Mapper{
+		static java.util.Map<Integer, String>rules;
+		static {
+			rules = new LinkedHashMap<>();
+			rules.put(0, "gen1");;
+			rules.put(3, "gen2");;
+			rules.put(7, "gen3");;
+			rules.put(23, "gen4");
+		}
+		@Override
+		public Object mapChromosome(Chromosome<?> c) {
+			return mapGenes((Chromosome<Boolean>) c);
+		}
+		@Override
+		public HashSet<String> mapGenes(Chromosome<Boolean> c) {
+			HashSet<String>r = new HashSet<>();
+//			for(int i=0;i<c.getLength();i++) {
+//				if(c.getCodon(i))r.add(rules.get(i));
+//			}
+			IntStream.range(0, c.getLength())
+					 .forEach(i->{if(c.getCodon(i)&&rules.containsKey(i))r.add(rules.get(i));});
+			return r;
+		}
+		
 	}
 
 	public Genotype getGenotype() {

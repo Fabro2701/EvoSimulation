@@ -9,13 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import grammar.AbstractGrammar.Production;
-import grammar.AbstractGrammar.Symbol;
-import grammar.bnf.BNFParser;
 import simulator.model.entity.individuals.Chromosome;
+import simulator.model.entity.individuals.Chromosome.Codon;
 import simulator.model.entity.individuals.Mapper;
 
 
@@ -27,10 +23,10 @@ public abstract class AbstractGrammar implements Mapper{
 		_rulesProductions = new HashMap<Symbol,Rule>();
 	}
 	@Override
-	public Object mapChromosome(Chromosome c) {
-		return mapGrammar(c);
+	public Object mapChromosome(Chromosome<?> c) {
+		return mapGrammar((Chromosome<Codon>) c);
 	}
-	public abstract LinkedList<Symbol> mapGrammar(Chromosome c);
+	public abstract LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c);
 	public abstract void parseBNF(String filename);
 	public static enum SymbolType{NTerminal,Terminal}
 	public class Symbol {
