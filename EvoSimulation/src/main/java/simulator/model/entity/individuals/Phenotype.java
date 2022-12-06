@@ -53,6 +53,9 @@ public class Phenotype{
 	public void setGenes(HashSet<String>genes) {
 		this.genes = genes;
 	}
+	public boolean hasGene(String gene) {
+		return this.genes.contains(gene);
+	}
 
 	
 	

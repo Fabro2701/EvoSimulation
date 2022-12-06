@@ -1,7 +1,7 @@
 grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a(){
-			let mu = 60*52;
+			let mu = 60*52*2;
 			let beta = 0.001121;
 			let gamma = 0.0003226;
 			let p1 = 0.020;
@@ -47,9 +47,19 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 						e.setAttribute("imc","O");
 					}
 				}
+				p = (static "simulator.RandomSingleton").nextDouble();
+				if((e.getPhenotype()).hasGene("gen2") && p<=0.001){
+					if(imc.equals("N")){
+						e.setAttribute("imc","S");
+					}
+					else if(imc.equals("S")){
+						e.setAttribute("imc","O");
+					}
+				}
 				if(e.getAge()>=mu){
 					e.dispose();
 				}
+				
 		   }
 		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
 				

@@ -10,13 +10,13 @@
       }
 },
 {
- type:"pa",
+ type:"ge",
  data:{
        title:"Population age",
        x:"Time",
        y:"",
        updateRate:300,
-       visualizer:"line"
+       visualizer:"bar"
       }
 }
 ]

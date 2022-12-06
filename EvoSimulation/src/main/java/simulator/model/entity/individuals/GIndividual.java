@@ -96,7 +96,9 @@ public abstract class GIndividual extends AbstractIndividual{
 					 .forEach(i->{if(c.getCodon(i)&&rules.containsKey(i))r.add(rules.get(i));});
 			return r;
 		}
-		
+		public static java.util.Map<Integer, String> getRules(){
+			return rules;
+		}
 	}
 
 	public Genotype getGenotype() {
