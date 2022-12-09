@@ -1,7 +1,7 @@
 grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
 
 global := a(){
-			let mu = 60*52*2;
+			let mu = 60*52;
 			let beta = 0.001121;
 			let gamma = 0.0003226;
 			let p1 = 0.020;
@@ -17,21 +17,21 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			
 			  let p = (static "simulator.RandomSingleton").nextFloat();
 			  if(p<=O0){
-			  	e.setAttribute("imc","O");
+			  	this.setAttribute("imc","O");
 			  }
 			  else if(p<=S0+O0){
-			  	e.setAttribute("imc","S");
+			  	this.setAttribute("imc","S");
 			  }
 			  else{
-			  	e.setAttribute("imc","N");
+			  	this.setAttribute("imc","N");
 			  }
-			  e.setAttribute("state","towardsHouse");
-			  e.setAttribute("interTimer", 0);
+			  this.setAttribute("state","towardsHouse");
+			  this.setAttribute("interTimer", 0);
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();
 			p = (p*7.0+35.6)*52;
-			e.setAge(p);
+			this.setAge(p);
 					 
 	 	}
 		initpasive("simulator.model.entity.PasiveEntity"){
@@ -40,56 +40,56 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				
-				let imc = e.getAttribute("imc");
+				let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
 				if(imc.equals("S")){
 					if(p<=gamma){
-						e.setAttribute("imc","O");
+						this.setAttribute("imc","O");
 					}
 				}
 				p = (static "simulator.RandomSingleton").nextDouble();
-				if((e.getPhenotype()).hasGene("gen2") && p<=0.001){
+				if((this.getPhenotype()).hasGene("gen2") && p<=0.003){
 					if(imc.equals("N")){
-						e.setAttribute("imc","S");
+						this.setAttribute("imc","S");
 					}
 					else if(imc.equals("S")){
-						e.setAttribute("imc","O");
+						this.setAttribute("imc","O");
 					}
 				}
-				if(e.getAge()>=mu){
-					e.dispose();
+				if(this.getAge()>=mu){
+					this.dispose();
 				}
 				
 		   }
 		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
 				
-				if(!e.hasAttribute("house")){
-			    	let house = e.getEntityRandomAttribute((e.getCtrl()).getSimulator(),"house");
-			    	e.setAttribute("house",house);
+				if(!this.hasAttribute("house")){
+			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
+			    	this.setAttribute("house",house);
 			    }
-			    if(!e.hasAttribute("supermarket")){
-			    	let supermarket = e.getEntityRandomAttribute((e.getCtrl()).getSimulator(),"supermarket");
-			    	e.setAttribute("supermarket",supermarket);
+			    if(!this.hasAttribute("supermarket")){
+			    	let supermarket = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"supermarket");
+			    	this.setAttribute("supermarket",supermarket);
 			    }
-			    e.setAttribute("interTimer", e.getAttribute("interTimer")-1);
+			    this.setAttribute("interTimer", this.getAttribute("interTimer")-1);
 		   }
 		   empty("simulator.model.entity.PasiveEntity"){
 				
 				
 		   }
 		   update2("simulator.model.entity.individuals.MyIndividual"){
-			   let imc = e.getAttribute("imc");
+			   let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
 				let sn = p1*p2*p;
 				let os = e1*e2*p;
 				if(imc.equals("S")){
 					if(p<=sn){
-						e.setAttribute("imc","N");
+						this.setAttribute("imc","N");
 					}
 				}
 				else if(imc.equals("O")){
 					if(p<=os){
-						e.setAttribute("imc","S");
+						this.setAttribute("imc","S");
 					}
 				}
 		   }
@@ -97,14 +97,14 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					    
 			    
 			    
-		   		let state = e.getAttribute("state");
+		   		let state = this.getAttribute("state");
 		   		if(state.equals("towardsSupermarket")){
-		   			let node = e.nextNodeTowards(simulator.getMap(), e.getAttribute("supermarket"));
-					if(node != null)e.setNode(node);
+		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute("supermarket"));
+					if(node != null)this.setNode(node);
 				}
 				else if(state.equals("towardsHouse")){
-					let node = e.nextNodeTowards(simulator.getMap(), e.getAttribute("house"));
-					if(node != null)e.setNode(node);
+					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute("house"));
+					if(node != null)this.setNode(node);
 				}
 		   }.
 actions := <action> NOTHING{
@@ -112,24 +112,24 @@ actions := <action> NOTHING{
 		   				   }.  
 interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 					
-						let imc1 = e1.getAttribute("imc");
+						let imc1 = this.getAttribute("imc");
 						let imc2 = e2.getAttribute("imc");
 						let p = (static "simulator.RandomSingleton").nextDouble();
 						if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
 							if(p<=beta){
-								e1.setAttribute("imc","S");
+								this.setAttribute("imc","S");
 							}
 						}
-						e1.setAttribute("interTimer", 1);
+						this.setAttribute("interTimer", 1);
 								
 				}
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					
 					if(e2.hasAttribute("house")){
-						e1.setAttribute("state","towardsSupermarket");
+						this.setAttribute("state","towardsSupermarket");
 					}
 					else if(e2.hasAttribute("supermarket")){
-						e1.setAttribute("state","towardsHouse");
+						this.setAttribute("state","towardsHouse");
 					}
 					
 				}.

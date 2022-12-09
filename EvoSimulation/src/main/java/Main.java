@@ -63,7 +63,7 @@ public class Main {
 		
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
-		SetupController setup = SetupController.from("resources/setup/defult.stp");
+		SetupController setup = SetupController.from("resources/setup/default.stp");
 		simulator = new EvoSimulator("flat1000");simulator.setDebug(true);
 		simulator.loadSetup(setup);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);

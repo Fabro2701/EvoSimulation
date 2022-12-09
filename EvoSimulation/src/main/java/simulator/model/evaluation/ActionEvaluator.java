@@ -60,16 +60,23 @@ public class ActionEvaluator {
 	static {
 		globalEnv = new Environment(null);
 	}
+	boolean debug = true;
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
-		//System.out.println(program.toString(4));
+		if(debug)System.out.println(program.toString(4));
 	}
 	public Object evaluate(Environment env, boolean clear) {
 		Object r = null;
 		JSONObject expression = null;
 		for(int i=0;i<program.length();i++) {
 			expression = program.getJSONObject(i);
-			r = this.eval(expression, env);
+			try {
+				r = this.eval(expression, env);
+			}
+			catch(EvaluationException e) {
+				System.err.println("expression:\n"+expression.toString(4));
+				e.printStackTrace();
+			}
 		}
 		if(clear)env.clear();
 		return r;
@@ -81,41 +88,20 @@ public class ActionEvaluator {
 		
 		return evaluate(env, true);
 	}
-	public Object evaluate(Entity e) {
-		Environment env = new Environment(globalEnv);
-		env.define("e", e);
+	public Object evaluatePairs(Object... args) throws IllegalArgumentException{
+		if(args.length%2!=0)throw new IllegalArgumentException("The arguments length is not even");
 		
-		return evaluate(env, true);
-	}
-	public Object evaluate(Entity e, EvoSimulator s) {
-		Environment env = new Environment(globalEnv);
-		env.define("e", e);
-		env.define("simulator", s);
-		
-		return evaluate(env, true);
-	}
-	public Object evaluate(Entity e1, Entity e2, Map map) {
-		Environment env = new Environment(globalEnv);
-		env.define("e1", e1);
-		env.define("e2", e2);
-		env.define("map", map);
-		env.define("test", new TestEv());
-		
-		return evaluate(env, true);
-	}
-	public Object evaluate(Entity e, List<Entity>entities, Map map) {
-		Environment env = new Environment(globalEnv);
-		env.define("e", e);
-		env.define("entities", entities);
-		env.define("map", map);
-		env.define("test", new TestEv());
-
-		return evaluate(env, true);
+		java.util.Map<String, Object>vars = new java.util.HashMap<>();
+		for(int i=0;i<args.length;i+=2) {
+			vars.put((String)args[i], args[i+1]);
+		}
+		return evaluate(vars);
 	}
 
-	private Object eval(JSONObject query, Environment env) {
+	private Object eval(JSONObject query, Environment env) throws EvaluationException{
 		Objects.requireNonNull(query);
 		String type = query.getString("type");
+		
 		
 		switch(type) {
 		case "UnaryExpression":
@@ -161,15 +147,15 @@ public class ActionEvaluator {
 		case "EmptyStatement":
 			return null;
 		default:
-			System.err.println("unsupported type: "+type);
-			System.err.println(query.toString(4));
-			return null;
+			throw new EvaluationException("unsupported type: "+type);
 		}
+		
+		
 	}
-	private Object evalBooleanLiteral(JSONObject query, Environment env) {
+	private Object evalBooleanLiteral(JSONObject query, Environment env) throws EvaluationException{
 		return Boolean.valueOf(query.getString("value"));
 	}
-	private Object evalUnaryExpression(JSONObject query, Environment env) {
+	private Object evalUnaryExpression(JSONObject query, Environment env) throws EvaluationException{
 		String op = query.getString("operator");
 		switch(op) {
 		case "!":
@@ -177,22 +163,23 @@ public class ActionEvaluator {
 		}
 		return null;
 	}
-	private Object evalStringLiteral(JSONObject query) {
+	private Object evalStringLiteral(JSONObject query) throws EvaluationException{
 		return query.getString("value");
 	}
-	private Object evalStaticExpression(JSONObject query) {
+	private Object evalStaticExpression(JSONObject query) throws EvaluationException {
 		String name = query.getString("value");
+		
+		Class<?> clazz;
 		try {
-			Class clazz = Class.forName(name);
+			clazz = Class.forName(name);
 			return clazz;
-			//return clazz.getConstructors()[0].newInstance();
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new EvaluationException("Satic Expression failed");
 		}
-		return null;
 	}
-	private Object evalEnumIdentifier(JSONObject query) {
+	private Object evalEnumIdentifier(JSONObject query) throws EvaluationException{
 		String name = query.getString("value");
 		String[] s = name.split("[\\.$]");
 		String value = s[s.length-1];
@@ -206,10 +193,10 @@ public class ActionEvaluator {
 		System.err.println("enum not found: "+name);
 		return null;
 	}
-	private Object evalIdentifier(JSONObject query, Environment env) {
+	private Object evalIdentifier(JSONObject query, Environment env) throws EvaluationException{
 		return env.search(query.getString("name"));
 	}
-	private Object evalWhileStatement(JSONObject query, Environment env) {
+	private Object evalWhileStatement(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject test = query.getJSONObject("test");
 		JSONObject body = query.getJSONObject("body");
 		
@@ -219,7 +206,7 @@ public class ActionEvaluator {
 		}
 		return r;
 	}
-	private Object evalForStatement(JSONObject query, Environment env) {
+	private Object evalForStatement(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject init = query.has("init")?query.getJSONObject("init"):null;
 		JSONObject test = query.has("test")?query.getJSONObject("test"):null;
 		JSONObject update = query.has("update")?query.getJSONObject("update"):null;
@@ -234,8 +221,7 @@ public class ActionEvaluator {
 
 		return r;
 	}
-	private Object evalNewExpression(JSONObject query, Environment env) {
-		StringBuilder str = new StringBuilder();
+	private Object evalNewExpression(JSONObject query, Environment env) throws EvaluationException {
 		
 		JSONArray arguments = query.getJSONArray("arguments");
 		
@@ -247,33 +233,18 @@ public class ActionEvaluator {
 //		}
 		
 		JSONObject callee = query.getJSONObject("callee");
-		str.append(callee.getJSONObject("property").getString("name"));
-		while(callee.has("object")) {
-			callee = callee.getJSONObject("object");
-			if(callee.has("property")) {
-				str.append(".").append(callee.getJSONObject("property").getString("name"));
-			}
-			else {
-				str.append(".").append(callee.getString("name"));
-			}
-		}
-		
-		String realname[] = str.toString().split("\\.");
-		str = new StringBuilder();
-		for(int i=realname.length-1;i>=0;i--) {
-			str.append(realname[i]).append(".");
-		}str.deleteCharAt(str.length()-1);
+		String clazzS = callee.getString("value");
+
 		try {
-			Class<?>clazz = Class.forName(str.toString());
+			Class<?> clazz = Class.forName(clazzS);
 			Object object = clazz.getConstructors()[0].newInstance(null);
 			return object;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e) {
 			e.printStackTrace();
+			throw new EvaluationException("New Expression failed");
 		}
-		return null;
 	}
-	private Object evalNumberLiteral(JSONObject query) {
+	private Object evalNumberLiteral(JSONObject query) throws EvaluationException{
 		try {
 			String clazzs = query.getString("class");
 			Class<?>clazz = Class.forName(clazzs);
@@ -298,7 +269,7 @@ public class ActionEvaluator {
 //		}
 //		return null;
 //	}
-	private Object evalCallExpression(JSONObject query, Environment env) {
+	private Object evalCallExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject callee = query.getJSONObject("callee");
 		JSONArray arguments = query.getJSONArray("arguments");
 		
@@ -365,7 +336,7 @@ public class ActionEvaluator {
 		
 		return null;
 	}
-	private Object evalMemberExpression(JSONObject query, Environment env) {
+	private Object evalMemberExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject property = query.getJSONObject("property");
 		JSONObject object = query.getJSONObject("object");
 		boolean computed = query.getBoolean("computed");
@@ -393,7 +364,7 @@ public class ActionEvaluator {
 		}
 		return null;
 	}
-	private Object evalBlockStatement(JSONObject query, Environment env) {
+	private Object evalBlockStatement(JSONObject query, Environment env) throws EvaluationException{
 		Object r = null;
 		
 		JSONArray body = query.getJSONArray("body");
@@ -404,7 +375,7 @@ public class ActionEvaluator {
 		}
 		return r;
 	}
-	private Object evalIfStatement(JSONObject query, Environment env) {
+	private Object evalIfStatement(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject test = query.getJSONObject("test");
 		JSONObject consequent = query.getJSONObject("consequent");
 		JSONObject alternate = query.has("alternate")?query.getJSONObject("alternate"):null;
@@ -417,7 +388,7 @@ public class ActionEvaluator {
 		}
 		return null;
 	}
-	private Object evalLogicalExpression(JSONObject query, Environment env) {
+	private Object evalLogicalExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject left = query.getJSONObject("left");
 		JSONObject right = query.getJSONObject("right");
 		String op = query.getString("operator");
@@ -446,7 +417,7 @@ public class ActionEvaluator {
 			return null;
 		}
 	}
-	private Object evalBinaryExpression(JSONObject query, Environment env) {
+	private Object evalBinaryExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject left = query.getJSONObject("left");
 		JSONObject right = query.getJSONObject("right");
 		String op = query.getString("operator");
@@ -465,13 +436,13 @@ public class ActionEvaluator {
 			return null;
 		}
 	}
-	private Object evalVariableStatement(JSONObject query, Environment env) {
+	private Object evalVariableStatement(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject declaration = query.getJSONObject("declaration");
 		
 		return env.define(declaration.getJSONObject("id").getString("name"), 
 				     eval(declaration.getJSONObject("init"), env));
 	}
-	private Object evalAssignmentExpression(JSONObject query, Environment env) {
+	private Object evalAssignmentExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject right = query.getJSONObject("right");
 		JSONObject left = query.getJSONObject("left");
 		String op = query.getString("operator");
@@ -486,8 +457,8 @@ public class ActionEvaluator {
 	}
 
 	public static void main(String args[]) {
-		actions();
-		//interactions();
+		//actions();
+		interactions();
 	}
 	private static void actions() {
 		SetupController stc = SetupController.from("resources/setup/default.stp");
@@ -504,11 +475,11 @@ public class ActionEvaluator {
 		//System.out.println(c.isPrimitive());
 	}
 	private static void interactions() {
-		SetupController stc = SetupController.from("resources/setup/default.stp");
+		SetupController stc = SetupController.from("resources/setup/test.stp");
 		InteractionsController ac = (InteractionsController)stc.getModule("InteractionsController");
 		
 		java.util.Map<String, InteractionI> acs = ac.getInteractions();
-		InteractionI a = acs.get("EAT");
+		InteractionI a = acs.get("test");
 		
 		System.out.println(a.perform(null, null, null));
 	}

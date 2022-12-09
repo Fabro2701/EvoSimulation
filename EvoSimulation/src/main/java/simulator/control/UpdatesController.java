@@ -42,7 +42,7 @@ public class UpdatesController extends ModuleController{
 					rules.computeIfAbsent(name, c->new ArrayList<>()).add(Class.forName(clazz.getString("value")));
 				}
 			
-				this.updates.put(name, (e,s) -> new ActionEvaluator(spec).evaluate(e,s));
+				this.updates.put(name, (e,s) -> new ActionEvaluator(spec).evaluatePairs("this", e, "simulator", s));
 				this.codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {

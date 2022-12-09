@@ -36,7 +36,7 @@ public class ActionsController extends ModuleController{
 					
 					String name = ac.getString("name");
 					JSONArray spec = ac.getJSONArray("spec");
-					inacts.put(name, (e,es,m) -> new ActionEvaluator(spec).evaluate(e, es, m));
+					inacts.put(name, (e,es,m) -> new ActionEvaluator(spec).evaluatePairs("this", e, "es", es, "m", m));
 					codes.put(name, ac.getString("code"));
 				}
 				this.actions.put(id, inacts);

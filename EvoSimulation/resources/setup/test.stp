@@ -1,26 +1,20 @@
-<move> UP{
-					 if(e.node.y > 0 && (map.getNodeAt(e.node.x, e.node.y-1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setY(e.node.y-1);
-					 }
-				  }
-				  DOWN{
-					 if(e.node.y < map.HEIGHT-1 && (map.getNodeAt(e.node.x, e.node.y+1)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setY(e.node.y+1);
-					 }
-				  }
-				  RIGHT{
-					 if(e.node.x < map.WIDTH-1 && (map.getNodeAt(e.node.x+1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setX(e.node.x+1);
-					 }
-				  }
-				  LEFT{
-				     if(e.node.x > 0 && (map.getNodeAt(e.node.x-1, e.node.y)).type == enum "simulator.Constants$NODE_TYPE.LAND"){
-					 	e.node.setX(e.node.x-1);
-					 }
-				  }
-				  NEUTRAL{
-				  		  let t = new simulator.model.evaluation.ActionEvaluator$TestEv();
-				  		  test.testi(t);
-				  		  test.testi(test);
-				  		  test.i;
-				  }
+grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
+
+global := a(){
+
+		  }.
+init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
+			
+			 
+		}.
+updates := update1("simulator.model.entity.individuals.MyIndividual"){
+				
+				;
+				
+		   }.
+actions := <action> NOTHING{
+		   					;
+		   				   }.  
+interactions := test("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+					let v = new "simulator.moddel.evaluation.ActionEvaluator$TestEv"();		
+				}.

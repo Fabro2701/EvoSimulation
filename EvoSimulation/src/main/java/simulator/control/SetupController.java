@@ -27,7 +27,7 @@ public class SetupController {
 	public static SetupController from(String path) {
 		SetupController ctrl = new SetupController();
 		StringBuilder sb = new StringBuilder();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("resources/setup/default.stp")));){
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));){
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);

@@ -1,6 +1,7 @@
 package simulator.control;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,7 @@ public class InitController extends ModuleController{
 					JSONObject clazz = clazzs.getJSONObject(j);
 					rules.computeIfAbsent(name, c->new ArrayList<>()).add(Class.forName(clazz.getString("value")));
 				}
-			
-				this.statements.put(name, (e) -> new ActionEvaluator(spec).evaluate(e));
+				this.statements.put(name, (e) -> new ActionEvaluator(spec).evaluatePairs("this",e));
 				codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
