@@ -16,5 +16,5 @@ actions := <action> NOTHING{
 		   					;
 		   				   }.  
 interactions := test("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-					let v = new "simulator.moddel.evaluation.ActionEvaluator$TestEv"();		
+					(static "util.Util")
 				}.

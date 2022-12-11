@@ -60,7 +60,7 @@ public class ActionEvaluator {
 	static {
 		globalEnv = new Environment(null);
 	}
-	boolean debug = true;
+	boolean debug = !true;
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;
 		if(debug)System.out.println(program.toString(4));
@@ -104,44 +104,44 @@ public class ActionEvaluator {
 		
 		
 		switch(type) {
-		case "UnaryExpression":
-			return this.evalUnaryExpression(query, env);
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
-		case "ForStatement":
-			return this.evalForStatement(query, env);
-		case "WhileStatement":
-			return this.evalWhileStatement(query, env);
 		case "NewExpression":
 			return this.evalNewExpression(query, env);
 		case "AssignmentExpression":
 			return this.evalAssignmentExpression(query, env);
+		case "VariableStatement":
+			return this.evalVariableStatement(query, env);
 		case "MemberExpression":
 			return this.evalMemberExpression(query, env);
+		case "StaticExpression":
+			return this.evalStaticExpression(query);
 		case "CallExpression":
 			return this.evalCallExpression(query, env);
 		case "BlockStatement":
 			return this.evalBlockStatement(query, env);
-		case "VariableStatement":
-			return this.evalVariableStatement(query, env);
+		case "ForStatement":
+			return this.evalForStatement(query, env);
+		case "WhileStatement":
+			return this.evalWhileStatement(query, env);
+		case "IfStatement":
+			return this.evalIfStatement(query, env);
+		case "UnaryExpression":
+			return this.evalUnaryExpression(query, env);
 		case "BinaryExpression":
 			return this.evalBinaryExpression(query, env);
 		case "LogicalExpression":
 			return this.evalLogicalExpression(query, env);
-		case "IfStatement":
-			return this.evalIfStatement(query, env);
 		case "NumberLiteral":
 			return this.evalNumberLiteral(query);
 		case "StringLiteral":
 			return this.evalStringLiteral(query);
-		case "EnumIdentifier":
-			return this.evalEnumIdentifier(query);
-		case "StaticExpression":
-			return this.evalStaticExpression(query);
-		case "Identifier":
-			return this.evalIdentifier(query, env);
 		case "BooleanLiteral":
 			return this.evalBooleanLiteral(query, env);
+		case "EnumIdentifier":
+			return this.evalEnumIdentifier(query);
+		case "Identifier":
+			return this.evalIdentifier(query, env);
 		case "NullLiteral":
 			return null;
 		case "EmptyStatement":
@@ -149,8 +149,6 @@ public class ActionEvaluator {
 		default:
 			throw new EvaluationException("unsupported type: "+type);
 		}
-		
-		
 	}
 	private Object evalBooleanLiteral(JSONObject query, Environment env) throws EvaluationException{
 		return Boolean.valueOf(query.getString("value"));
@@ -160,8 +158,9 @@ public class ActionEvaluator {
 		switch(op) {
 		case "!":
 			return !(Boolean)this.eval(query.getJSONObject("argument"), env);
+		default:
+			throw new EvaluationException("Operator "+op+" is not supported yet");
 		}
-		return null;
 	}
 	private Object evalStringLiteral(JSONObject query) throws EvaluationException{
 		return query.getString("value");
@@ -174,7 +173,6 @@ public class ActionEvaluator {
 			clazz = Class.forName(name);
 			return clazz;
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new EvaluationException("Satic Expression failed");
 		}
@@ -187,11 +185,9 @@ public class ActionEvaluator {
 			Class clazz = Class.forName(name.substring(0, name.length() - value.length()-1));
 			return Enum.valueOf(clazz, value);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new EvaluationException("Enum Evaluation failed");
 		}
-		System.err.println("enum not found: "+name);
-		return null;
 	}
 	private Object evalIdentifier(JSONObject query, Environment env) throws EvaluationException{
 		return env.search(query.getString("name"));
@@ -248,13 +244,13 @@ public class ActionEvaluator {
 		try {
 			String clazzs = query.getString("class");
 			Class<?>clazz = Class.forName(clazzs);
-			
 			return clazz.getMethod("valueOf", String.class).invoke(clazz, query.get("value"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException | JSONException | ClassNotFoundException e) {
 			e.printStackTrace();
+			throw new EvaluationException("NumberLiteral evaluation failed");
 		}
-		return null;
+	
 	}
 //	private Class[] getAppropiateClasses(Executable ex, Class[]params) {
 //		Class[]clazzs = ex.getParameterTypes();
@@ -413,8 +409,7 @@ public class ActionEvaluator {
 		case "||":
 			return (boolean)eval(left, env)||(boolean)eval(right, env);
 		default:
-			System.err.println("Unsupported operator "+op);
-			return null;
+			throw new EvaluationException("Operator "+op+" is not supported yet");
 		}
 	}
 	private Object evalBinaryExpression(JSONObject query, Environment env) throws EvaluationException{
@@ -432,8 +427,7 @@ public class ActionEvaluator {
 		case "/":
 			return ((Number)eval(left, env)).doubleValue()/((Number)eval(right, env)).doubleValue();
 		default:
-			System.err.println("Unsupported operator "+op);
-			return null;
+			throw new EvaluationException("Operator "+op+" is not supported yet");
 		}
 	}
 	private Object evalVariableStatement(JSONObject query, Environment env) throws EvaluationException{

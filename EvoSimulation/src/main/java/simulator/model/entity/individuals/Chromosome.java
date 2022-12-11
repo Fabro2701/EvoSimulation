@@ -40,6 +40,9 @@ public class Chromosome <T>{
 	public void setUsedCodons(int usedCodons) {
 		this.usedCodons = usedCodons;
 	}
+	public List<T> getCodons() {
+		return codons;
+	}
 	public static class Codon{
 		BitSet bits;
 		int intValue;

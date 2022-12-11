@@ -12,26 +12,25 @@ public class Environment {
 		this.parent = parent;
 		record = new LinkedHashMap<String, Object>();
 	}
-	public Object search(String key) {
+	public Object search(String key)  throws EvaluationException{
 		Objects.requireNonNull(key);
 		return resolve(key).record.get(key);
 	}
-	private Environment resolve(String key) {
+	private Environment resolve(String key) throws EvaluationException{
 		
 		if(this.record.containsKey(key)) {
 			return this;
 		}
 		else {
 			if(parent==null) {
-				System.err.println(key+" not found");
+				throw new EvaluationException(key+" not found");
 			}
 			else {
 				return parent.resolve(key);
 			}
 		}
-		return null;
 	}
-	public Object assign(String key, Object v) {
+	public Object assign(String key, Object v)  throws EvaluationException{
 		return resolve(key).record.put(key, v);
 	}
 	public Object define(String key, Object v) {

@@ -48,7 +48,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					}
 				}
 				p = (static "simulator.RandomSingleton").nextDouble();
-				if((this.getPhenotype()).hasGene("gen2") && p<=0.003){
+				if((this.getPhenotype()).hasGene("gen1") && p<=0.003){
 					if(imc.equals("N")){
 						this.setAttribute("imc","S");
 					}

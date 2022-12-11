@@ -30,6 +30,6 @@ public class Genotype extends ArrayList<Chromosome>{
 		return this.get(i);
 	}
 	public JSONObject toJSON() {
-		return new JSONObject().put("chromosome", this.get(0).toJSON());
+		return new JSONObject();
 	}
 }

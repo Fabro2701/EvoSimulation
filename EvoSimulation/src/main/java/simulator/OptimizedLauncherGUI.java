@@ -27,7 +27,6 @@ import simulator.factories.builders.events.SaveSimulationEventBuilder;
 import simulator.factories.builders.stats.BestIndividualCodeBuilder;
 import simulator.factories.builders.stats.ChildDepthBuilder;
 import simulator.factories.builders.stats.DeadOffSpringBuilder;
-import simulator.factories.builders.stats.EnergyBuilder;
 import simulator.factories.builders.stats.GenotypeHeterogeneityBuilder;
 import simulator.factories.builders.stats.MutationReproductionBuilder;
 import simulator.factories.builders.stats.PopulationAgeBuilder;
@@ -59,7 +58,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
-		SetupController setup = SetupController.from("resources/setup/defult.stp");
+		SetupController setup = SetupController.from("resources/setup/default.stp");
 		simulator = new EvoSimulator("test1000");
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);

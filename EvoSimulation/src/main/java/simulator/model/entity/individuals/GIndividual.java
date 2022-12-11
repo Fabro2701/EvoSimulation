@@ -74,13 +74,13 @@ public abstract class GIndividual extends AbstractIndividual{
 	}
 	
 	public static class Genes implements Mapper{
-		static java.util.Map<Integer, String>rules;
+		static java.util.Map<String, List<Integer>>rules;
 		static {
 			rules = new LinkedHashMap<>();
-			rules.put(0, "gen1");;
-			rules.put(3, "gen2");;
-			rules.put(7, "gen3");;
-			rules.put(23, "gen4");
+			rules.put("gen1", List.of(0));
+			rules.put("gen2", List.of(1,2,3));
+			rules.put("gen3", List.of(7,2,3));
+			rules.put("gen4", List.of(34));
 		}
 		@Override
 		public Object mapChromosome(Chromosome<?> c) {
@@ -89,14 +89,16 @@ public abstract class GIndividual extends AbstractIndividual{
 		@Override
 		public HashSet<String> mapGenes(Chromosome<Boolean> c) {
 			HashSet<String>r = new HashSet<>();
-//			for(int i=0;i<c.getLength();i++) {
-//				if(c.getCodon(i))r.add(rules.get(i));
-//			}
-			IntStream.range(0, c.getLength())
-					 .forEach(i->{if(c.getCodon(i)&&rules.containsKey(i))r.add(rules.get(i));});
+			for(String key:rules.keySet()) {
+				if(mask(c.getCodons(), rules.get(key)))r.add(key);
+			}
 			return r;
 		}
-		public static java.util.Map<Integer, String> getRules(){
+		private static boolean mask(List<Boolean>list, List<Integer>mask) {
+			for(Integer m:mask) if(!list.get(m))return false;
+			return true;
+		}
+		public static java.util.Map<String, List<Integer>> getRules(){
 			return rules;
 		}
 	}
