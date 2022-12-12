@@ -20,8 +20,6 @@ public abstract class GIndividual extends AbstractIndividual{
 	protected Genotype genotype;
 	protected Phenotype phenotype;
 	
-	
-	
 	protected ObservationManager observationManager;
 	
 	public GIndividual(String id, Node n, Controller ctrl) {
@@ -68,7 +66,7 @@ public abstract class GIndividual extends AbstractIndividual{
 		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
 		for(String id:interactions_l.keySet()) {
 			if(interactions.match(id, this.getClass(), e2.getClass())) {
-				interactions_l.get(id).perform(this, e2, ctrl.getMap());
+				interactions_l.get(id).perform(this, e2, ctrl.getMap(), ctrl.getSimulator().getTime());
 			}
 		}
 	}

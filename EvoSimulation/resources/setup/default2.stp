@@ -14,9 +14,7 @@ global := a(){
 			let O0 = 0.16;
 		  }.
 init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
-			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
-			  this.setAttribute("state",fsm.getCurrent());
-			  
+			
 			  let p = (static "simulator.RandomSingleton").nextFloat();
 			  if(p<=O0){
 			  	this.setAttribute("imc","O");
@@ -27,9 +25,8 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			  else{
 			  	this.setAttribute("imc","N");
 			  }
-			  
-			  
-			  
+			  this.setAttribute("state","towardsHouse");
+			  this.setAttribute("interTimer", 0);
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();
@@ -65,6 +62,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				
 		   }
 		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
+				
 				if(!this.hasAttribute("house")){
 			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
 			    	this.setAttribute("house",house);
@@ -73,17 +71,12 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 			    	let supermarket = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"supermarket");
 			    	this.setAttribute("supermarket",supermarket);
 			    }
-			    if(!this.hasAttribute("bar")){
-			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
-			    	this.setAttribute("bar",bar);
-			    }
+			    this.setAttribute("interTimer", this.getAttribute("interTimer")-1);
 		   }
-		   updateMov("simulator.model.entity.individuals.MyIndividual"){
-				let state = this.getAttribute("state");
-				let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
-				if(node != null)this.setNode(node);
+		   empty("simulator.model.entity.PasiveEntity"){
+				
+				
 		   }
-		  
 		   update2("simulator.model.entity.individuals.MyIndividual"){
 			   let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
@@ -99,6 +92,20 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 						this.setAttribute("imc","S");
 					}
 				}
+		   }
+		   move("simulator.model.entity.individuals.MyIndividual"){
+					    
+			    
+			    
+		   		let state = this.getAttribute("state");
+		   		if(state.equals("towardsSupermarket")){
+		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute("supermarket"));
+					if(node != null)this.setNode(node);
+				}
+				else if(state.equals("towardsHouse")){
+					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute("house"));
+					if(node != null)this.setNode(node);
+				}
 		   }.
 actions := <action> NOTHING{
 		   					;
@@ -113,13 +120,16 @@ interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"
 								this.setAttribute("imc","S");
 							}
 						}
+						this.setAttribute("interTimer", 1);
 								
 				}
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
-					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
 					
-					let info = e2.getAttribute("info");
-					this.setAttribute("state", fsm.run(this.getAttribute("state"), info));
-					
+					if(e2.hasAttribute("house")){
+						this.setAttribute("state","towardsSupermarket");
+					}
+					else if(e2.hasAttribute("supermarket")){
+						this.setAttribute("state","towardsHouse");
+					}
 					
 				}.

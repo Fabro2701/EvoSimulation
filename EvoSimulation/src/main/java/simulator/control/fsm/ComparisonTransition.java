@@ -11,5 +11,7 @@ public class ComparisonTransition<I> extends Transition<I>{
 	public boolean evaluate(I input) {
 		return value.equals(input);
 	}
+	
+	
 
 }

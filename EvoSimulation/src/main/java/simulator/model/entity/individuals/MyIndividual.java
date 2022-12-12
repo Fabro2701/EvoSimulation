@@ -18,6 +18,7 @@ import grammar.operator.mutation.SingleCodonFlipMutation;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
+import simulator.control.ImageController;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
@@ -38,7 +39,7 @@ public class MyIndividual extends GIndividual{
 		super(id, n, ctrl);
 		type = "mi";
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
-		
+		if(this.img == null)this.img = ImageController.getImage(this.getClass());
 		children = new ArrayList<Entity>();
 	}
 	/**

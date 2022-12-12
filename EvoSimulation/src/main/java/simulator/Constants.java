@@ -24,9 +24,7 @@ public final class Constants {
 	public enum ACTION {
 		NOTHING, REPRODUCTION, ATTACK;
 	}
-	public enum STATE {
-		EAT, MOVE, REST;
-	}
+
 	public enum MOVE { 
 		
 		UP(new Pair<>(0, -1),false) {

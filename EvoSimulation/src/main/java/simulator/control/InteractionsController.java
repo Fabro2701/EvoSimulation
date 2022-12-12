@@ -47,7 +47,7 @@ public class InteractionsController extends ModuleController{
 					rules.computeIfAbsent(name, c->new Pair<>(new ArrayList<>(),new ArrayList<>())).second.add(Class.forName(clazz.getString("value")));
 				}
 				
-				this.interactions.put(name, (e1,e2,m) -> new ActionEvaluator(spec).evaluatePairs("this", e1, "e2", e2, "m", m));
+				this.interactions.put(name, (e1,e2,m,time) -> new ActionEvaluator(spec).evaluatePairs("this", e1, "e2", e2, "m", m, "time", time));
 				this.codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {

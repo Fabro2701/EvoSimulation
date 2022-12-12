@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import setup.OOPParser;
 import setup.OOPTokenizer;
-import simulator.Constants.STATE;
+
 import simulator.control.Controller;
 import simulator.control.ImageController;
 import simulator.control.fsm.State;
@@ -29,7 +29,6 @@ public abstract class Entity{
 	protected Pheromone pheromone;
 	protected Controller ctrl;
 	protected ImageController imgController;
-	STATE currentstate;
 	State<Image>currentImgState;
 	protected java.util.Map<String, Object>attributes;
 
@@ -42,7 +41,6 @@ public abstract class Entity{
 		this.age = 0;
 		this.generation = 0;
 		this.imgController = ctrl.getImgController();
-		this.currentstate = STATE.REST;
 		//this.updateImage();
 		attributes = new java.util.LinkedHashMap<String, Object>();
 	}
@@ -134,7 +132,7 @@ public abstract class Entity{
 	}
 
 	protected void updateImage() {
-		this.currentImgState = this.imgController.getNextImage(this.getClass(), currentImgState, currentstate);
+		//this.currentImgState = this.imgController.getNextImage(this.getClass(), currentImgState, currentstate);
 		this.img = currentImgState.execute();
 	}
 	@Override
@@ -164,15 +162,7 @@ public abstract class Entity{
 		return age;
 	}
 
-	public STATE getCurrentstate() {
-		return currentstate;
-	}
-
-	public void setCurrentstate(STATE state) {
-		//System.out.println(this.currentstate+"  ----> "+state);
-		//if(state.compareTo(this.currentstate)<0) this.currentstate = state;
-		this.currentstate = state;
-	}
+	
 
 	public Controller getCtrl() {
 		return ctrl;

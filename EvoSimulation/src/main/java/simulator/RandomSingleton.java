@@ -26,7 +26,7 @@ public class RandomSingleton {
     public static int nextInt(int u) {
         return getInstance()._rnd.nextInt(u);
    }
-    public static double nextFloat() {
+    public static float nextFloat() {
         return getInstance()._rnd.nextFloat();
    }
     public static double nextGaussian() {

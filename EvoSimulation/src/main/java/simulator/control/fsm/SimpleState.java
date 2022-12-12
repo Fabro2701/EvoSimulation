@@ -9,5 +9,11 @@ public class SimpleState<R> extends State<R>{
 	public R execute() {
 		return data;
 	}
+	public R getData() {
+		return data;
+	}
+	public void setData(R data) {
+		this.data = data;
+	}
 
 }

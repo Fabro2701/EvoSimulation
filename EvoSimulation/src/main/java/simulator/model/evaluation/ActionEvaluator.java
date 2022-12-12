@@ -299,8 +299,8 @@ public class ActionEvaluator {
 				}
 				return m.invoke(null, args);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new EvaluationException("Call Expression failed");
 			}
 		}
 		else {
@@ -324,13 +324,11 @@ public class ActionEvaluator {
 			
 				return m.invoke(ob, args);
 			} catch (Exception e) {
-				System.err.println(query.toString(4));
 				e.printStackTrace();
+				throw new EvaluationException("Call Expression failed");
 			}
 		}
 		
-		
-		return null;
 	}
 	private Object evalMemberExpression(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject property = query.getJSONObject("property");
@@ -475,6 +473,6 @@ public class ActionEvaluator {
 		java.util.Map<String, InteractionI> acs = ac.getInteractions();
 		InteractionI a = acs.get("test");
 		
-		System.out.println(a.perform(null, null, null));
+		System.out.println(a.perform(null, null, null, 0));
 	}
 }
