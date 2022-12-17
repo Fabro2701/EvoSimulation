@@ -1,11 +1,10 @@
 package simulator.control.fsm;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import simulator.model.entity.individuals.MyIndividual;
 
 
 
@@ -52,9 +51,9 @@ public class FSM<I, R> {
 	public static FSM<String, String> createMyIndividualFSM() {
 		FSM<String, String> fsm = new FSM<>();
 		
-		State<String> houseState = new SimpleState<>("house");
-		State<String> supermarketState = new SimpleState<>("supermarket");
-		State<String> barState = new SimpleState<>("bar");
+		State<String> houseState = new SimpleState<>("house").addJob((MyIndividual e)->e.setAttribute("rest", 300));
+		State<String> supermarketState = new SimpleState<>("supermarket").addJob((MyIndividual e)->e.setAttribute("rest", 50));
+		State<String> barState = new SimpleState<>("bar").addJob((MyIndividual e)->e.setAttribute("rest", 200));
 		
 		Transition<String>houseToSupermarketTranstition = new ComparisonTransition<>(supermarketState, "house");
 		Transition<String>houseToBarTranstition = new ComparisonTransition<>(barState, "house");
@@ -72,7 +71,7 @@ public class FSM<I, R> {
 		fsm.addTransition(houseState, houseToSupermarketAndBarTranstition);
 
 		fsm.addTransition(supermarketState, supermarketToHouseTranstition);
-		fsm.addTransition(barState, supermarketToHouseTranstition);
+		fsm.addTransition(barState, barToHouseTranstition);
 		
 		fsm.setCurrent(houseState);
 		return fsm;

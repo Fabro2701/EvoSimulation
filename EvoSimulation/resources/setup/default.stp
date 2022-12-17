@@ -79,9 +79,21 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 			    }
 		   }
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){
-				let state = this.getAttribute("state");
-				let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
-				if(node != null)this.setNode(node);
+		   		if(this.hasAttribute("rest")){
+		   			if(this.getAttribute("rest")<=0){
+		   				let state = this.getAttribute("state");
+						let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+						if(node != null)this.setNode(node);
+					}
+					else{
+						this.setAttribute("rest",this.getAttribute("rest")-1);
+					}
+		   		}
+				else{
+					let state = this.getAttribute("state");
+					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+					if(node != null)this.setNode(node);
+				}
 		   }
 		  
 		   update2("simulator.model.entity.individuals.MyIndividual"){
@@ -118,8 +130,12 @@ interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
 					
+					let oldstate = this.getAttribute("state");
 					let info = e2.getAttribute("info");
-					this.setAttribute("state", fsm.run(this.getAttribute("state"), info));
+					let state = fsm.run(this.getAttribute("state"), info);
+					
+					if(oldstate!=state)oldstate.doJobs(this);
+					this.setAttribute("state", state);
 					
 					
 				}.
