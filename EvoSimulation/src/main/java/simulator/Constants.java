@@ -36,35 +36,14 @@ public final class Constants {
 		LEFT(new Pair<>(-1, 0),false) {
 		},
 		NEUTRAL(new Pair<>(0, 0),false) {
-		},
-		//pseudo moves
-		CHASE_UP(new Pair<>(0, -1),true) {
-		},
-		CHASE_RIGHT(new Pair<>(1, 0),true) {
-		},
-		CHASE_DOWN(new Pair<>(0, 1),true) {
-		},
-		CHASE_LEFT(new Pair<>(-1, 0),true) {
-		},
-		RUNAWAY_UP(new Pair<>(0, -1),true) {
-		},
-		RUNAWAY_RIGHT(new Pair<>(1, 0),true) {
-		},
-		RUNAWAY_DOWN(new Pair<>(0, 1),true) {
-		},
-		RUNAWAY_LEFT(new Pair<>(-1, 0),true) {
 		};
+		
 		Pair<Integer, Integer>change;
-		boolean pseudo;
 		private MOVE(Pair<Integer, Integer>change, boolean pseudo) {
 			this.change = change;
-			this.pseudo = pseudo;
 		}
 		public Pair<Integer, Integer> getPosChange(){
 			return change;
-		}
-		public boolean isPseudo() {
-			return pseudo;
 		}
 	}
 	
@@ -81,9 +60,6 @@ public final class Constants {
 	
 
 	public static final String AddEntitiesEventBuilder = "ae";
-	public static final String AddFoodConditionGeneratorBuilder_TYPE = "afcg";
-	public static final String AddFoodDistributionEventBuilder_TYPE = "fe";
-	public static final String AddFoodGeneratorEventBuilder_TYPE = "fg";
 	public static final String AddRandomEntitiesConditionGeneratorBuilder_TYPE = "arecg";
 	public static final String AddRandomEntitiesConditionTimeLapseGeneratorBuilder_TYPE = "arectlg";
 	public static final String AddRandomEntitiesGeneratorEventBuilder_TYPE = "areg";
@@ -94,6 +70,4 @@ public final class Constants {
 
 	public static final String PasiveEntityBuilder_TYPE = "pe";
 	public static final String MyIndividualBuilder_TYPE = "mi";
-	public static final String SimpleRandomEntityBuilder_TYPE = "sr";
-	public static final String SimpleUPEntityBuilder = "su";
 }

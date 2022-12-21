@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import simulator.model.EvoSimulator;
-import simulator.model.entity.FoodEntity;
+import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.individuals.Genotype;
 import simulator.model.entity.individuals.MyIndividual;
 import statistics.StatsData;
@@ -30,7 +30,7 @@ public class GenotypeHeterogeneityStats extends StatsData{
 	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
-			List<Genotype> genos = simulator.getEntities().stream().filter(e->!(e instanceof FoodEntity)).map(e->((MyIndividual)e).getGenotype())
+			List<Genotype> genos = simulator.getEntities().stream().filter(e->!(e instanceof PasiveEntity)).map(e->((MyIndividual)e).getGenotype())
 					.collect(Collectors.toList());
 			
 			ArrayList<ArrayList<Float>> matrix = Util.genotypeSimilarityMatrix(genos);

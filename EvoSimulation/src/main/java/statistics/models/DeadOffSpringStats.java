@@ -4,7 +4,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
-import simulator.model.entity.FoodEntity;
 import simulator.model.entity.individuals.MyIndividual;
 import statistics.StatsData;
 

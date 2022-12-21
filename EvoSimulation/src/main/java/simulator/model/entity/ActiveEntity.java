@@ -4,20 +4,17 @@ package simulator.model.entity;
 
 import java.awt.Image;
 
-import simulator.Constants.ACTION;
-import simulator.Constants.STATE;
+
 import simulator.control.Controller;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.map.Node;
 
 public abstract class ActiveEntity extends InteractiveEntity {
-	ACTION action; 
 	public ActiveEntity(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		pheromone = new Pheromone();
 		pheromone.init(this);
-		this.action = ACTION.NOTHING;
 		this.attributes.put("pasive", false);
 	}
 

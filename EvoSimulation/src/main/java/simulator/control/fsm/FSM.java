@@ -51,7 +51,7 @@ public class FSM<I, R> {
 	public static FSM<String, String> createMyIndividualFSM() {
 		FSM<String, String> fsm = new FSM<>();
 		
-		State<String> houseState = new SimpleState<>("house").addJob((MyIndividual e)->e.setAttribute("rest", 300));
+		State<String> houseState = new SimpleState<>("house").addJob((MyIndividual e)->e.setAttribute("rest", 100));
 		State<String> supermarketState = new SimpleState<>("supermarket").addJob((MyIndividual e)->e.setAttribute("rest", 50));
 		State<String> barState = new SimpleState<>("bar").addJob((MyIndividual e)->e.setAttribute("rest", 200));
 		

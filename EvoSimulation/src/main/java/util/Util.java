@@ -34,20 +34,20 @@ public class Util {
 	public static int test2(int i) {
 		return 4+i;
 	}
-	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
-		double maxDist = -1d;
-		MOVE move = MOVE.NEUTRAL;
-		for(MOVE m:MOVE.values()) {
-			if(!m.isPseudo()) {
-				double dist = nodeDistance(map.getValidMove(node, m), node2);
-				if(dist>maxDist) {
-					maxDist = dist;
-					move = m;
-				} 
-			}
-		}
-		return move;
-	}
+//	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
+//		double maxDist = -1d;
+//		MOVE move = MOVE.NEUTRAL;
+//		for(MOVE m:MOVE.values()) {
+//			if(!m.isPseudo()) {
+//				double dist = nodeDistance(map.getValidMove(node, m), node2);
+//				if(dist>maxDist) {
+//					maxDist = dist;
+//					move = m;
+//				} 
+//			}
+//		}
+//		return move;
+//	}
 //pending
 //	public static MOVE getNextNodeToTo(Node node, Node node2, Map map) {
 //		double minDist = 100000d;

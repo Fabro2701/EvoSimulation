@@ -3,6 +3,7 @@ package simulator.control;
 import org.json.JSONObject;
 
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 import simulator.view.ConstantsViewer;
 
 public class ConstantsController {
@@ -37,7 +38,12 @@ public class ConstantsController {
 //											   );
 		
 		//ActionEvaluator.evaluateGlobal(query);
-		ActionEvaluator.globalEnv.assign(id, value);
+		try {
+			ActionEvaluator.globalEnv.assign(id, value);
+		} catch (EvaluationException e) {
+			System.err.println("Exception in global variables assingment");
+			e.printStackTrace();
+		}
 		paint();
 	}
 	public void addObserver(ConstantsViewer constantsViewer) {
