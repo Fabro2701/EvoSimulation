@@ -2,6 +2,7 @@ package simulator.model.entity.individuals;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -30,6 +31,9 @@ public class Genotype extends ArrayList<Chromosome>{
 		return this.get(i);
 	}
 	public JSONObject toJSON() {
-		return new JSONObject();
+		JSONArray arr = new JSONArray();
+		for(Chromosome c:this)arr.put(c);
+		
+		return new JSONObject().put("chromosomes", arr);
 	}
 }

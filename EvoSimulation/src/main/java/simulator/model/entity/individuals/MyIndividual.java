@@ -233,8 +233,8 @@ public class MyIndividual extends GIndividual{
 	public JSONObject toJSON() {
 		JSONObject o = super.toJSON();
 		o.getJSONObject("data").put("phenotype", phenotype.toJSON())
-		   .put("genotype", genotype.toJSON())
-				   .put("generation", this.generation);
+		   					   .put("genotype", genotype.toJSON())
+		   					   .put("generation", this.generation);
 		return o;
 	}
 	

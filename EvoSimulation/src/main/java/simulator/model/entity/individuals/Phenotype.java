@@ -9,13 +9,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import grammar.Evaluator;
 import grammar.Parser;
-import simulator.Constants;
-import simulator.Constants.ACTION;
 
 /**
  * 
@@ -122,6 +121,9 @@ public class Phenotype{
 		return code;
 	}
 	public JSONObject toJSON() {
-		return new JSONObject().put("code", this.getVisualCode());
+		JSONArray genes = new JSONArray();
+		for(String gen:this.genes)genes.put(gen);
+		
+		return new JSONObject().put("genes", genes);
 	}
 }

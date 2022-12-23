@@ -18,6 +18,7 @@ import setup.preprocessing.CommentPreprocessing;
 public class SetupController {
 	JSONObject program;
 	Map<String, ModuleController> controllers;
+	String filename;
 	public SetupController() {
 		controllers = new LinkedHashMap<String, ModuleController>();
 	}
@@ -26,6 +27,7 @@ public class SetupController {
 	}
 	public static SetupController from(String path) {
 		SetupController ctrl = new SetupController();
+		ctrl.filename = path;
 		StringBuilder sb = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));){
 			String aux = reader.readLine();
@@ -62,5 +64,8 @@ public class SetupController {
 			ctrl.controllers.put(type, mctrl);
 		}
 		return ctrl;
+	}
+	public String getFilename() {
+		return filename;
 	}
 }

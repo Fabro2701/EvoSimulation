@@ -210,14 +210,13 @@ public class EvoSimulator {
 		for (Entity e : entities) {
 			if(e.isAlive())entitiesArr.put(e.toJSON());
 		}
-		JSONArray grammars = new JSONArray();
-//		for(String key:this.commonGrammars.keySet()) {
-//			grammars.put(this.commonGrammars.get(key).toString());
-//		}
-		return new JSONObject().put("time", time)//.put("map", map.toJSON())// ?too heavy
+		
+		
+
+		return new JSONObject().put("time", time)
 							   .put("entities", entitiesArr)
-							   .put("map", map.getFileName())
-							   .put("grammars", grammars);
+							   .put("map", map.getFileName())//.put("map", map.toJSON())// ?too heavy
+							   .put("setup", this.setupCtrl.getFilename());
 	}
 	
 	/**

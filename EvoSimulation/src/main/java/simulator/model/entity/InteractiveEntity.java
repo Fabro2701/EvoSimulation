@@ -1,5 +1,7 @@
 package simulator.model.entity;
 
+import org.json.JSONObject;
+
 import grammar.AbstractGrammar;
 import simulator.control.Controller;
 import simulator.control.InitController;
@@ -28,5 +30,7 @@ public abstract class InteractiveEntity extends Entity{
 		init();
 	}
 	protected abstract void init();
+	
+	
 
 }
