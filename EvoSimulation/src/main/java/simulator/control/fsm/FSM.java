@@ -55,8 +55,8 @@ public class FSM<I, R> {
 		State<String> supermarketState = new SimpleState<>("supermarket").addJob((MyIndividual e)->e.setAttribute("rest", 50));
 		State<String> barState = new SimpleState<>("bar").addJob((MyIndividual e)->e.setAttribute("rest", 200));
 		
-		Transition<String>houseToSupermarketTranstition = new ComparisonTransition<>(supermarketState, "house");
-		Transition<String>houseToBarTranstition = new ComparisonTransition<>(barState, "house");
+		//Transition<String>houseToSupermarketTranstition = new ComparisonTransition<>(supermarketState, "house");
+		//Transition<String>houseToBarTranstition = new ComparisonTransition<>(barState, "house");
 		Transition<String>supermarketToHouseTranstition = new ComparisonTransition<>(houseState, "supermarket");
 		Transition<String>barToHouseTranstition = new ComparisonTransition<>(houseState, "bar");
 				

@@ -68,32 +68,32 @@ public class MyIndividual extends GIndividual{
 		HashSet<String> genes = genesMapper.mapGenes(c);
 		phenotype.setGenes(genes);
 	}
-	/**
-	 * Constructor invoked by reproduction methods 
-	 * @param geno
-	 * @param ctrl
-	 * @param generation The greatest generation of parents
-	 */
-	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
-		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
-		ind.genotype = new Genotype(geno);
-		ind.phenotype = new Phenotype();
-		ind.mutate();
-		for(String key:ind.grammars.keySet()) {
-			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
-			ind.genotype.addChromosome(c);
-			LinkedList<Symbol> crom=null;
-			crom = ind.grammars.get(key).parse(c);
-			ind.phenotype.setSymbol(key, crom);
-			if(ind.phenotype.valid==false) {
-				ctrl.getStatsManager().onDeadOffSpring(0);
-				ind.dispose();
-			}
-		}
-		
-		ind.generation =  generation+1;
-		return ind;
-	}
+//	/**
+//	 * Constructor invoked by reproduction methods 
+//	 * @param geno
+//	 * @param ctrl
+//	 * @param generation The greatest generation of parents
+//	 */
+//	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
+//		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
+//		ind.genotype = new Genotype(geno);
+//		ind.phenotype = new Phenotype();
+//		ind.mutate();
+//		for(String key:ind.grammars.keySet()) {
+//			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
+//			ind.genotype.addChromosome(c);
+//			LinkedList<Symbol> crom=null;
+//			crom = ind.grammars.get(key).parse(c);
+//			ind.phenotype.setSymbol(key, crom);
+//			if(ind.phenotype.valid==false) {
+//				ctrl.getStatsManager().onDeadOffSpring(0);
+//				ind.dispose();
+//			}
+//		}
+//		
+//		ind.generation =  generation+1;
+//		return ind;
+//	}
 
 	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
 		Objects.requireNonNull(cs);
@@ -107,7 +107,7 @@ public class MyIndividual extends GIndividual{
 		int i=0;
 		for(String key:ind.grammars.keySet()) {
 			ind.genotype.addChromosome(cs.get(i));
-			LinkedList<Symbol> crom = ind.grammars.get(key).parse(cs.get(i));
+			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(cs.get(i));
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.valid==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
@@ -133,22 +133,16 @@ public class MyIndividual extends GIndividual{
 //		}
 //		
 //	}
-	public MyIndividual(String id, Node node, String code, Controller ctrl) {
-		this(ctrl, id, node);
-		
-		genotype = null;
-		phenotype = new Phenotype(code);
-	}
-	public MyIndividual(String id, Node node, JSONObject genotype, JSONObject phenotype, float energy, Controller ctrl) {
-		this(ctrl, id, node);
-		this.genotype = new Genotype(genotype);
+	public static MyIndividual fromJSON(String id, Node node, JSONObject genotype, JSONObject phenotype, JSONObject properties, Controller ctrl) {
+		MyIndividual ind = new MyIndividual(ctrl, id, node);
+		ind.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {
-			dispose();
-			this.phenotype = new Phenotype();
+			ind.dispose();
+			ind.phenotype = new Phenotype();
 		}
-		else this.phenotype = new Phenotype(phenotype);
-		
+		else ind.phenotype = new Phenotype(phenotype);
+		return ind;
 	}
 	public Node nextNodeTowards(Map map, Entity entity) {
 		Node node = entity.node;
@@ -234,6 +228,7 @@ public class MyIndividual extends GIndividual{
 		JSONObject o = super.toJSON();
 		o.getJSONObject("data").put("phenotype", phenotype.toJSON())
 		   					   .put("genotype", genotype.toJSON())
+		   					   .put("properties", new JSONObject())
 		   					   .put("generation", this.generation);
 		return o;
 	}

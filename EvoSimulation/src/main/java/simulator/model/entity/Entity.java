@@ -131,10 +131,6 @@ public abstract class Entity{
 		);
 	}
 
-	protected void updateImage() {
-		//this.currentImgState = this.imgController.getNextImage(this.getClass(), currentImgState, currentstate);
-		this.img = currentImgState.execute();
-	}
 	@Override
 	public String toString() {
 		return toJSON().toString(jsonView);
@@ -145,7 +141,9 @@ public abstract class Entity{
 	public final Image getImage() {
 		return img;
 	}
-
+	public void setImg(Image img) {
+		this.img = img;
+	}
 	public void setNewNode(Node n) {
 		node = n;
 	}
@@ -172,9 +170,6 @@ public abstract class Entity{
 		this.node = node;
 	}
 
-	public void setImg(Image img) {
-		this.img = img;
-	}
 
 
 }

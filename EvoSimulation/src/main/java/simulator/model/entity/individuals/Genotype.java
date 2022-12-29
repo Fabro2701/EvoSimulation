@@ -14,7 +14,10 @@ public class Genotype extends ArrayList<Chromosome>{
 	public Genotype() {
 		super();
 	}
-//	public Genotype(Genotype copy) {
+	public Genotype(JSONObject genotype) {
+ 		System.err.println("pending");
+	}
+	//	public Genotype(Genotype copy) {
 //		super();
 //		for(Chromosome c:copy) {
 //			this.add(new Chromosome(c));

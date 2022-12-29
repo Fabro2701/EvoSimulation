@@ -20,11 +20,11 @@ public class MyIndividualBuilder extends EntityBuilder{
 	public Entity createTheInstance(JSONObject o, Controller ctrl) {
 		MyIndividual mi = null;
 		if(o.has("genotype")) { 
-			mi = new MyIndividual(o.getString("id"),
+			mi = MyIndividual.fromJSON(o.getString("id"),
 									ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),
 									o.getJSONObject("genotype"),
 									o.getJSONObject("phenotype"),
-									o.getFloat("energy"),ctrl);
+									o.getJSONObject("properties"),ctrl);
 		}
 		else{
 			mi =  new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),ctrl);

@@ -35,6 +35,9 @@ public class Phenotype{
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
 	}
+	public Phenotype(JSONObject phenotype) {
+ 		System.err.println("pending");
+	}
 	public Object getNext(String key, HashMap<String,String>observations) {
 		Evaluator eval = evaluators.get(key);
 		eval.addObservations(observations);

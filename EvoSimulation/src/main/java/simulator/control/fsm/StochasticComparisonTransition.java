@@ -12,7 +12,6 @@ public class StochasticComparisonTransition<I> extends ComparisonTransition<I>{
 		super(null, value);
 		this.targets = targets;
 		this.probs = probs;
-		this.value = value;
 	}
 
 	@Override
