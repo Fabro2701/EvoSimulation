@@ -65,7 +65,7 @@ public class Main {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/obesidad.stp");
-		simulator = new EvoSimulator("flat1000",evo->{return new UniformGridOptimizer(evo,3,3);});
+		simulator = new EvoSimulator("flat1000");
 		simulator.setDebug(true);
 		simulator.loadSetup(setup);
 		controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);

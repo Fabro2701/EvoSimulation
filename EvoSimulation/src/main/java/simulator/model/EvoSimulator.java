@@ -110,7 +110,7 @@ public class EvoSimulator {
 			}
 		}
 		
-		//logic delegated to and optimizer
+		//logic delegated to an optimizer
 		this.optimizer.update(map, entities, time);
 		
 		//insert the pending entities

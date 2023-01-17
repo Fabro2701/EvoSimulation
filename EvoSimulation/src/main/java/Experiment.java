@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 
 import simulator.LauncherGUI;
 import simulator.OptimizedLauncherGUI;
+import simulator.control.ConstantsController;
 import simulator.control.Controller;
 import simulator.control.SetupController;
 import simulator.events.Event;
@@ -14,6 +15,7 @@ import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
+import simulator.view.ConstantsViewer;
 import statistics.StatsData;
 import statistics.StatsManager;
 
@@ -21,6 +23,11 @@ public class Experiment {
 	VISU visualization;
 	OPTIMIZER optimizer;
 	String map;
+	String eventsFactory,entitiesFactory,statsFactory;
+	String statsManager;
+	String setup;
+	String events;
+	boolean constantsCtrl;
 	public void run() {
 		try {
 			parse();
@@ -29,30 +36,48 @@ public class Experiment {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Parse the simulation attributes
+	 * @throws FileNotFoundException
+	 */
 	private void parse() throws FileNotFoundException {
 		
-
-		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>("eventsFactory");
-		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
-		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>("statsFactory");
+		//factories
+		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(this.eventsFactory);
+		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>(this.entitiesFactory);
+		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(this.statsFactory);
 		 
-		StatsManager statsManager = new StatsManager("obesidad", statsFactory);
+		//managers
+		StatsManager statsManager = new StatsManager(this.statsManager, statsFactory);
 		EventManager eventManager = new EventManager();
 		
-		SetupController setup = SetupController.from("resources/setup/obesidad.stp");
+		//simulator
 		EvoSimulator simulator = new EvoSimulator(this.map);
+		//simulator optimizer
 		if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
 		}
 		else if(this.optimizer == OPTIMIZER.UNIFORM_GRID) {
 			simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
 		}
+		
 		simulator.setDebug(true);
-		simulator.loadSetup(setup);
+		simulator.loadSetup(SetupController.from(this.setup));
+		
+		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
+		controller.loadEvents(new FileInputStream(this.events));
 		
-		controller.loadEvents(new FileInputStream("resources/loads/events/obesidad.json"));
+		//constants controller
+		if(this.constantsCtrl) {
+			ConstantsController constantsCtrl = new ConstantsController();
+			SwingUtilities.invokeLater(() -> {
+		        	new ConstantsViewer(constantsCtrl);
+		    		constantsCtrl.paint();
+		        });
+		}
 		
+		//visualization
 		if(this.visualization == VISU.BASIC) {
 			SwingUtilities.invokeLater(() -> {
 				new LauncherGUI(controller).setVisible(true);
@@ -60,7 +85,7 @@ public class Experiment {
 		}
 		else if(this.visualization == VISU.OPTIMIZED) {
 			SwingUtilities.invokeLater(() -> {
-	        	new OptimizedLauncherGUI().setVisible(true);
+	        	new OptimizedLauncherGUI(controller).setVisible(true);
 	        });
 		}
 	}
@@ -68,8 +93,16 @@ public class Experiment {
 		VISU visualization = VISU.BASIC;
 		OPTIMIZER optimizer = OPTIMIZER.BASIC;
 		String map;
-		public Builder(String map) {
+		String eventsFactory="eventsFactory",
+			   entitiesFactory="entitiesFactory",
+			   statsFactory="statsFactory";
+		String statsManager;
+		String setup;
+		String events;
+		boolean constantsCtrl = false;
+		public Builder(String map, String setup) {
 			this.map = map;
+			this.setup = setup;
 		}
 		public Builder setVisualization(VISU visu) {
 			this.visualization = visu;
@@ -77,6 +110,18 @@ public class Experiment {
 		}
 		public Builder setOptimizer(OPTIMIZER optimizer) {
 			this.optimizer = optimizer;
+			return this;
+		}
+		public Builder setStatsManager(String statsManager) {
+			this.statsManager = statsManager;
+			return this;
+		}
+		public Builder setEvents(String events) {
+			this.events = events;
+			return this;
+		}
+		public Builder setConstantsCtrl(boolean constantsCtrl) {
+			this.constantsCtrl = constantsCtrl;
 			return this;
 		}
 		public Experiment build() {
@@ -93,10 +138,21 @@ public class Experiment {
 		this.visualization = builder.visualization;
 		this.optimizer = builder.optimizer;
 		this.map = builder.map;
+		this.eventsFactory = builder.eventsFactory;
+		this.entitiesFactory = builder.entitiesFactory;
+		this.statsFactory = builder.statsFactory;
+		this.statsManager = builder.statsManager;
+		this.setup = builder.setup;
+		this.events = builder.events;
+		this.constantsCtrl = builder.constantsCtrl;
 	}
 	public static void main(String args[]) {
-		Experiment exp = new Experiment.Builder("flat1000").setVisualization(VISU.BASIC)
+		Experiment exp = new Experiment.Builder("flat1000", "resources/setup/obesidad.stp")
+												 .setVisualization(VISU.BASIC)
 												 .setOptimizer(OPTIMIZER.UNIFORM_GRID)
+												 .setStatsManager("obesidad")
+												 .setEvents("resources/loads/events/obesidad.json")
+												 .setConstantsCtrl(true)
 												 .build();
 		exp.run();
 	}

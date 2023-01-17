@@ -45,9 +45,13 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
     /**
      * Creates new form OptimizedLauncherGUI
      */
-    public OptimizedLauncherGUI() {
+    private OptimizedLauncherGUI() {
         initComponents();
-        _config();
+        //_config();
+    }
+    public OptimizedLauncherGUI(Controller ctrl) {
+        initComponents();
+        this.ctrl=ctrl;
     }
 
     private void _config() {
@@ -60,7 +64,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/default.stp");
-		simulator = new EvoSimulator("flat1000",evo->{return new UniformGridOptimizer(evo,3,3);});
+		simulator = new EvoSimulator("flat1000");
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
