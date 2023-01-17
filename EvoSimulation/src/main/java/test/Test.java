@@ -4,16 +4,14 @@ import java.lang.reflect.Method;
 
 
 class Test{
+	int a=3;
 	public Test() {
-		
+		a=4;
 	}
-	public static void printlnString(String s) {
-		System.out.println(s);
-	}
+	
     public static void main(String args[]) {
-    	for(Method m:Test.class.getMethods()) {
-    		System.out.println(m);
-    	}
+    	
+    	System.out.println(new Test().a);
     }
   }
  

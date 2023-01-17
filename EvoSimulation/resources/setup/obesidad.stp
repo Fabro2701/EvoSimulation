@@ -1,0 +1,141 @@
+grammars := action; "grammar.StandardGrammar"; "resources/loads/grammars/obesidad_acts.bnf".
+
+global := a(){
+			let mu = 60*52;
+			let beta = 0.001121;
+			let gamma = 0.0003226;
+			let p1 = 0.020;
+			let p2 = 0.042;
+			let p = 1/7;
+			let e1 = 0.004;
+			let e2 = 0.024;
+			let N0 = 0.704;
+			let S0 = 0.39;
+			let O0 = 0.16;
+		  }.
+init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
+			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
+			  this.setAttribute("state",fsm.getCurrent());
+			  
+			  let p = (static "simulator.RandomSingleton").nextFloat();
+			  if(p<=O0){
+			  	this.setAttribute("imc","O");
+			  }
+			  else if(p<=S0+O0){
+			  	this.setAttribute("imc","S");
+			  }
+			  else{
+			  	this.setAttribute("imc","N");
+			  }
+			  
+			  
+			  
+		}
+		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
+			let p = (static "simulator.RandomSingleton").nextGaussian();
+			p = (p*7.0+35.6)*52;
+			this.setAge(p);
+					 
+	 	}
+		initpasive("simulator.model.entity.PasiveEntity"){
+			
+			 
+	 	}.
+updates := update1("simulator.model.entity.individuals.MyIndividual"){
+				
+				let imc = this.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				if(imc.equals("S")){
+					if(p<=gamma){
+						this.setAttribute("imc","O");
+					}
+				}
+				p = (static "simulator.RandomSingleton").nextDouble();
+				if((this.getPhenotype()).hasGene("gen1") && p<=0.003){
+					if(imc.equals("N")){
+						this.setAttribute("imc","S");
+					}
+					else if(imc.equals("S")){
+						this.setAttribute("imc","O");
+					}
+				}
+				if(this.getAge()>=mu){
+					this.dispose();
+				}
+				
+		   }
+		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
+				if(!this.hasAttribute("house")){
+			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
+			    	this.setAttribute("house",house);
+			    }
+			    if(!this.hasAttribute("supermarket")){
+			    	let supermarket = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"supermarket");
+			    	this.setAttribute("supermarket",supermarket);
+			    }
+			    if(!this.hasAttribute("bar")){
+			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
+			    	this.setAttribute("bar",bar);
+			    }
+		   }
+		   updateMov("simulator.model.entity.individuals.MyIndividual"){
+		   		if(this.hasAttribute("rest")){
+		   			if(this.getAttribute("rest")<=0){
+		   				let state = this.getAttribute("state");
+						let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+						if(node != null)this.setNode(node);
+					}
+					else{
+						this.setAttribute("rest",this.getAttribute("rest")-1);
+					}
+		   		}
+				else{
+					let state = this.getAttribute("state");
+					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+					if(node != null)this.setNode(node);
+				}
+		   }
+		  
+		   update2("simulator.model.entity.individuals.MyIndividual"){
+			   let imc = this.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				let sn = p1*p2*p;
+				let os = e1*e2*p;
+				if(imc.equals("S")){
+					if(p<=sn){
+						this.setAttribute("imc","N");
+					}
+				}
+				else if(imc.equals("O")){
+					if(p<=os){
+						this.setAttribute("imc","S");
+					}
+				}
+		   }.
+actions := <action> NOTHING{
+		   					;
+		   				   }.  
+interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+					
+						let imc1 = this.getAttribute("imc");
+						let imc2 = e2.getAttribute("imc");
+						let p = (static "simulator.RandomSingleton").nextDouble();
+						if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
+							if(p<=beta){
+								this.setAttribute("imc","S");
+							}
+						}
+								
+				}
+				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
+					
+					let oldstate = this.getAttribute("state");
+					let info = e2.getAttribute("info");
+					let state = fsm.run(this.getAttribute("state"), info);
+					
+					if(oldstate!=state)oldstate.doJobs(this);
+					this.setAttribute("state", state);
+					
+					
+				}.

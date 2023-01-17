@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,21 +56,21 @@ public class EvoSimulator {
 	
 	public EvoSimulator() {
 		this("test1000void2");
+		this.setOptimizer(new BasicOptimizer(this));
 	}
 	/**
 	 * 
 	 * @param map Map dir
 	 */
-	public EvoSimulator(String map) {
-		this.time = 0;
+	public EvoSimulator(String map) {		this.time = 0;
 		this.map = new Map(map);
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
 		//this.optimizer = new UniformGridOptimizer(this,3,3);
-		this.optimizer = new BasicOptimizer(this);
-		
+		//this.optimizer = new BasicOptimizer(this);
+
 		
 		
 		//this.commonGrammar = new BiasedGrammar();
@@ -265,5 +266,8 @@ public class EvoSimulator {
 	}
 	public InitController getInitController() {
 		return initController;
+	}
+	public void setOptimizer(Optimizer optimizer) {
+		this.optimizer = optimizer;
 	}
 }

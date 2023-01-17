@@ -33,6 +33,7 @@ import simulator.factories.builders.stats.PopulationAgeBuilder;
 import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;
 import statistics.StatsData;
 import statistics.StatsManager;
@@ -59,7 +60,7 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/default.stp");
-		simulator = new EvoSimulator("test1000");
+		simulator = new EvoSimulator("flat1000",evo->{return new UniformGridOptimizer(evo,3,3);});
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);

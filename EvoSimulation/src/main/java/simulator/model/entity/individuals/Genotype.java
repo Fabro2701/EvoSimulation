@@ -15,7 +15,7 @@ public class Genotype extends ArrayList<Chromosome>{
 		super();
 	}
 	public Genotype(JSONObject genotype) {
- 		System.err.println("pending");
+ 		System.err.println("Genotype pending...");
 	}
 	//	public Genotype(Genotype copy) {
 //		super();
@@ -38,5 +38,9 @@ public class Genotype extends ArrayList<Chromosome>{
 		for(Chromosome c:this)arr.put(c);
 		
 		return new JSONObject().put("chromosomes", arr);
+	}
+	
+	public String toString(int idx) {
+		return this.get(idx).toString();
 	}
 }

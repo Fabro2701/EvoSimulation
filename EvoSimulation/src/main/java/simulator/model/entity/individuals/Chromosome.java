@@ -24,10 +24,15 @@ public class Chromosome <T>{
 	int length;
 	int usedCodons;
 	
-	public Chromosome(int l, Supplier<?>s) {
+	/**
+	 * Generate the list of codons using a supplier
+	 * @param length
+	 * @param s supplier
+	 */
+	public Chromosome(int length, Supplier<?>s) {
 		super();
-		length = l;
-		codons = (List<T>) Stream.generate(s).limit(l).collect(Collectors.toList());
+		this.length = length;
+		codons = (List<T>) Stream.generate(s).limit(length).collect(Collectors.toList());
 		usedCodons = 0;
 	}
 	public T getCodon(int i) {
@@ -74,9 +79,20 @@ public class Chromosome <T>{
 		public JSONObject toJSON() {
 			return new JSONObject().put("intValue", intValue);
 		}
+		@Override 
+		public String toString() {
+			return String.valueOf(intValue);
+		}
 	}
 	public int getLength() {return this.length;}
-
+	@Override 
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(T e:this.codons) {
+			sb.append(e).append(" ");
+		}
+		return sb.toString();
+	}
 	
 	
 }
