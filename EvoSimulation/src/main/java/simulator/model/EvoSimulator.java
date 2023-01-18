@@ -68,11 +68,6 @@ public class EvoSimulator {
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
-		//this.optimizer = new UniformGridOptimizer(this,3,3);
-		//this.optimizer = new BasicOptimizer(this);
-
-		
-		
 		//this.commonGrammar = new BiasedGrammar();
 //		this.commonGrammar = new StandardGrammar();
 //		this.commonGrammar.parseBNF("default");
@@ -125,10 +120,12 @@ public class EvoSimulator {
 //			}
 		}
 		
+		//if(time%100==0) {
 		//update observers
 		for (SimulatorObserver observer : observers) {
 			observer.onUpdate(entities, map, time);
 		}
+		//}
 		
 		if(save) {
 			this.saveSimulation();

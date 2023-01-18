@@ -1,0 +1,7 @@
+map = flat1000
+setup = resources/setup/obesidad.stp
+visualization = BASIC
+optimizer = UNIFORM_GRID
+stats = obesidad
+events = resources/loads/events/obesidad.json
+constantsCtrl = true

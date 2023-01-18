@@ -63,9 +63,9 @@ public class Controller {
 	public void run(int runs) {
 		if (runs <= 0) return;
 		for (int i = 0; i < runs; i++) {
-			eventManager.update(this, simulator.getTime());
+			if(eventManager!=null)eventManager.update(this, simulator.getTime());
 			simulator.step();
-			statsManager.onStep(simulator);
+			if(statsManager!=null)statsManager.onStep(simulator);
 		}
 	}
 

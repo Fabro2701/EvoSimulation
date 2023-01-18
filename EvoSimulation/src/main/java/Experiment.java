@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
@@ -35,6 +37,21 @@ public class Experiment {
 			System.err.println("Error while parsing Experiment attributes");
 			e.printStackTrace();
 		}
+	}
+	public static Experiment fromFile(String path) throws FileNotFoundException, IOException {
+		
+		Properties properties = new Properties();
+		properties.load(new FileInputStream(path));
+		
+		Experiment.Builder builder = new Experiment.Builder(properties.getProperty("map"),
+															properties.getProperty("setup"));
+		if(properties.containsKey("visualization"))builder.setVisualization(VISU.valueOf(properties.getProperty("visualization")));
+		if(properties.containsKey("optimizer"))builder.setOptimizer(OPTIMIZER.valueOf(properties.getProperty("optimizer")));
+		if(properties.containsKey("stats"))builder.setStatsManager(properties.getProperty("stats"));
+		if(properties.containsKey("events"))builder.setEvents(properties.getProperty("events"));
+		if(properties.containsKey("constantsCtrl"))builder.setConstantsCtrl(Boolean.valueOf(properties.getProperty("constantsCtrl")));
+
+		return builder.build();
 	}
 	/**
 	 * Parse the simulation attributes
@@ -146,14 +163,17 @@ public class Experiment {
 		this.events = builder.events;
 		this.constantsCtrl = builder.constantsCtrl;
 	}
-	public static void main(String args[]) {
+	public static void main(String args[]) throws FileNotFoundException, IOException {
 		Experiment exp = new Experiment.Builder("flat1000", "resources/setup/obesidad.stp")
-												 .setVisualization(VISU.BASIC)
+												 .setVisualization(VISU.OPTIMIZED)
 												 .setOptimizer(OPTIMIZER.UNIFORM_GRID)
 												 .setStatsManager("obesidad")
 												 .setEvents("resources/loads/events/obesidad.json")
 												 .setConstantsCtrl(true)
 												 .build();
-		exp.run();
+		//exp.run();
+		
+		Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
+		exp2.run();
 	}
 }
