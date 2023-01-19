@@ -140,7 +140,8 @@ public class StatsManager extends JFrame implements StatsObserver{
 	}
 	
 	@Override
-	public void onRegister() {}
+	public void onRegister() {
+	}
 	
 	/**
 	 * onStep the StatsObserver children

@@ -1,5 +1,9 @@
 package statistics;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.swing.JLabel;
 
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -10,11 +14,24 @@ public abstract class StatsData implements StatsObserver{
 	protected JLabel text;  
 	protected int updateRate;
 	
+	protected PrintWriter fileWriter;
+	protected boolean serialize = true;
+	
 	public StatsData(int updateRate) {
 		this.updateRate = updateRate;
+		
 		//manager.addObserver(this);
 	}
-	
+	@Override
+	public void onRegister() {
+		if(serialize)
+			try {
+				this.fileWriter = new PrintWriter(new FileWriter("resources/loads/simulations/stats_text/"+this.getClass().getName()+".txt"),true);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	public AbstractDataset getDataSet() {return dataset;}
 	public JLabel getText() {return text;}
 
