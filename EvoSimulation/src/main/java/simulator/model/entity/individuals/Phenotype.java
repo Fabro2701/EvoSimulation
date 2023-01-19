@@ -34,6 +34,12 @@ public class Phenotype{
 		//for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
+		/*parser = new OOPParser() {
+			@Override
+			protected JSONObject Program() {
+				return new JSONObject().put("body", this.Especification());
+			}
+		};*/
 	}
 	public Phenotype(JSONObject phenotype) {
  		System.err.println("pending");

@@ -5,3 +5,4 @@ optimizer = UNIFORM_GRID
 stats = obesidad
 events = resources/loads/events/obesidad.json
 constantsCtrl = true
+imgRefreshRate = 10

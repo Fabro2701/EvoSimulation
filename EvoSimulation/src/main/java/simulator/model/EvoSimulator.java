@@ -54,6 +54,8 @@ public class EvoSimulator {
 	private InitController initController;
 	private GlobalController globalController;
 	
+	private int imgRefreshRate = 1;
+	
 	public EvoSimulator() {
 		this("test1000void2");
 		this.setOptimizer(new BasicOptimizer(this));
@@ -62,7 +64,8 @@ public class EvoSimulator {
 	 * 
 	 * @param map Map dir
 	 */
-	public EvoSimulator(String map) {		this.time = 0;
+	public EvoSimulator(String map) {		
+		this.time = 0;
 		this.map = new Map(map);
 		this.observers = new ArrayList<>();
 		this.entities = new ArrayList<Entity>();
@@ -120,12 +123,12 @@ public class EvoSimulator {
 //			}
 		}
 		
-		//if(time%100==0) {
 		//update observers
-		for (SimulatorObserver observer : observers) {
-			observer.onUpdate(entities, map, time);
+		if(time%this.imgRefreshRate==0) {
+			for (SimulatorObserver observer : observers) {
+				observer.onUpdate(entities, map, time);
+			}
 		}
-		//}
 		
 		if(save) {
 			this.saveSimulation();
@@ -266,5 +269,8 @@ public class EvoSimulator {
 	}
 	public void setOptimizer(Optimizer optimizer) {
 		this.optimizer = optimizer;
+	}
+	public void setImgRefreshRate(int imgRefreshRate) {
+		this.imgRefreshRate = imgRefreshRate;
 	}
 }

@@ -30,6 +30,7 @@ public class Experiment {
 	String setup;
 	String events;
 	boolean constantsCtrl;
+	int imgRefreshRate;
 	public void run() {
 		try {
 			parse();
@@ -50,7 +51,8 @@ public class Experiment {
 		if(properties.containsKey("stats"))builder.setStatsManager(properties.getProperty("stats"));
 		if(properties.containsKey("events"))builder.setEvents(properties.getProperty("events"));
 		if(properties.containsKey("constantsCtrl"))builder.setConstantsCtrl(Boolean.valueOf(properties.getProperty("constantsCtrl")));
-
+		if(properties.containsKey("imgRefreshRate"))builder.setImgRefreshRate(Integer.valueOf(properties.getProperty("imgRefreshRate")));
+		
 		return builder.build();
 	}
 	/**
@@ -80,6 +82,7 @@ public class Experiment {
 		
 		simulator.setDebug(true);
 		simulator.loadSetup(SetupController.from(this.setup));
+		simulator.setImgRefreshRate(this.imgRefreshRate);
 		
 		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
@@ -117,6 +120,7 @@ public class Experiment {
 		String setup;
 		String events;
 		boolean constantsCtrl = false;
+		int imgRefreshRate = 1;
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -141,6 +145,10 @@ public class Experiment {
 			this.constantsCtrl = constantsCtrl;
 			return this;
 		}
+		public Builder setImgRefreshRate(int imgRefreshRate) {
+			this.imgRefreshRate = imgRefreshRate;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -162,6 +170,7 @@ public class Experiment {
 		this.setup = builder.setup;
 		this.events = builder.events;
 		this.constantsCtrl = builder.constantsCtrl;
+		this.imgRefreshRate = builder.imgRefreshRate;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		Experiment exp = new Experiment.Builder("flat1000", "resources/setup/obesidad.stp")
