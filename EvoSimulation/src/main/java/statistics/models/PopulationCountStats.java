@@ -25,11 +25,6 @@ public class PopulationCountStats extends StatsData{
 
 	}
 	
-	@Override
-	public void onRegister() {
-		//simulator de arg para actualizar el num de entities en ese momento
-		//System.out.println("registered");
-	}
 
 	@Override 
 	public void onStep(EvoSimulator simulator) {
@@ -40,7 +35,9 @@ public class PopulationCountStats extends StatsData{
 			for(Object id:l.keySet()) {
 				long count = l.get(id).stream().count();
 				((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
-
+				if(this.serialize) {
+					this.fileWriter.printf("%d %s %d\n", currentTime, id, count);
+				}
 			}
 //			long cont=simulator.getEntities().stream().filter(e->e instanceof MyIndividual).count();
 //		

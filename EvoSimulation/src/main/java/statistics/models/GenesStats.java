@@ -27,10 +27,7 @@ public class GenesStats extends StatsData{
 		this.rules = GIndividual.Genes.getRules();
 	}
 	
-	@Override
-	public void onRegister() {
-		super.onRegister();
-	}
+
 
 	@Override 
 	public void onStep(EvoSimulator simulator) {

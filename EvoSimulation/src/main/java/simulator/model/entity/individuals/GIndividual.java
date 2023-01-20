@@ -1,11 +1,17 @@
 package simulator.model.entity.individuals;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 
 import simulator.control.Controller;
 import simulator.model.ActionI;
@@ -73,12 +79,35 @@ public abstract class GIndividual extends AbstractIndividual{
 	
 	public static class Genes implements Mapper{
 		static java.util.Map<String, List<Integer>>rules;
-		static {
+//		static {
+//			rules = new LinkedHashMap<>();
+//			rules.put("gen1", List.of(0));
+//			rules.put("gen2", List.of(1,2,3));
+//			rules.put("gen3", List.of(7,2,3));
+//			rules.put("gen4", List.of(34));
+//		}
+		/**
+		 * load genes specification from file (.genes)
+		 * @param path
+		 * @throws FileNotFoundException
+		 * @throws IOException
+		 */
+		public static void loadFromFile(String path) throws FileNotFoundException, IOException {
 			rules = new LinkedHashMap<>();
-			rules.put("gen1", List.of(0));
-			rules.put("gen2", List.of(1,2,3));
-			rules.put("gen3", List.of(7,2,3));
-			rules.put("gen4", List.of(34));
+			Properties properties = new Properties();
+			properties.load(new FileInputStream(path));
+			
+			try {
+				for(Object key:properties.keySet()) {
+					String s[] = properties.getProperty((String)key).split(",");
+					rules.put((String)key, Arrays.stream(s).map(e->Integer.valueOf(e)).collect(Collectors.toList()));
+				}
+			}catch(NumberFormatException ex) {
+				System.err.println("Syntax error");
+				ex.printStackTrace();
+			}
+			
+			
 		}
 		@Override
 		public Object mapChromosome(Chromosome<?> c) {

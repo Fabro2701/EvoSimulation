@@ -15,6 +15,7 @@ import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.model.entity.individuals.GIndividual;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;
@@ -34,7 +35,7 @@ public class Experiment {
 	public void run() {
 		try {
 			parse();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			System.err.println("Error while parsing Experiment attributes");
 			e.printStackTrace();
 		}
@@ -57,9 +58,9 @@ public class Experiment {
 	}
 	/**
 	 * Parse the simulation attributes
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	private void parse() throws FileNotFoundException {
+	private void parse() throws IOException {
 		
 		//factories
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(this.eventsFactory);
@@ -87,6 +88,9 @@ public class Experiment {
 		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		controller.loadEvents(new FileInputStream(this.events));
+		
+		//genes
+		GIndividual.Genes.loadFromFile("resources/loads/genes/obesidad.genes");
 		
 		//constants controller
 		if(this.constantsCtrl) {
