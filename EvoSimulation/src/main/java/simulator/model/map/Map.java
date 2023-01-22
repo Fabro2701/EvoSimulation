@@ -27,16 +27,21 @@ public class Map {
 	private String fileName;
 	public int HEIGHT, WIDTH;
 
+	/**
+	 * Create the map given the folder name
+	 * @param fileName name of the folder
+	 */
 	public Map(String fileName) {
 		this.fileName = fileName;
 		try {
-			this.attributesImg = ImageIO.read(new File("resources/maps/" + fileName + "/attributes.png"));
-			this.elevationImg = ImageIO.read(new File("resources/maps/" + fileName + "/elevation.png"));
-			this.terrainImg = ImageIO.read(new File("resources/maps/" + fileName + "/terrain.png"));
+			this.attributesImg = ImageIO.read(new File(fileName + "/attributes.png"));
+			this.elevationImg = ImageIO.read(new File(fileName + "/elevation.png"));
+			this.terrainImg = ImageIO.read(new File(fileName + "/terrain.png"));
 
 			if (attributesImg.getHeight() != elevationImg.getHeight() || attributesImg.getWidth() != elevationImg.getWidth())
 				System.err.println("Map loading: Images dimensions are not equal");
 		} catch (IOException e) {
+			System.err.println("Error reading map at:"+fileName);
 			e.printStackTrace();
 		}
 
@@ -65,7 +70,7 @@ public class Map {
 				if(nodes[y][x].type == NODE_TYPE.VOID) {
 					//elevationImg.setRGB(x, y, this.elevationImg.getRGB(x, y)&0);
 					attributesImg.setRGB(x, y, this.elevationImg.getRGB(x, y)&0);
-				}//8388607 2147483647
+				}
 			}
 		}
 		
@@ -130,19 +135,7 @@ public class Map {
 		}
 		return this.nodes[y][x];
 	}
-//	node loop: {"elevation":0.49803922,"x":1,"temperature":0.67058825,"y":562,"radiaton":0.29411766,"type":"VOID"}  RIGHT
-//	node loop: {"elevation":0.49803922,"x":1,"temperature":0.67058825,"y":571,"radiaton":0.27450982,"type":"VOID"}  RIGHT
-//	-------- Simulation velocity-1: 2187
-//	node loop: {"elevation":0.49803922,"x":998,"temperature":0,"y":463,"radiaton":0,"type":"VOID"}  LEFT
-//	-------- Simulation velocity-1: 2143
-//	-------- Simulation velocity-1: 1818
-//	max: 599
-//	max: 4
-//	node loop: {"elevation":0.49803922,"x":513,"temperature":0,"y":1,"radiaton":0,"type":"VOID"}  DOWN
-//	-------- Simulation velocity-1: 2040
-//	node loop: {"elevation":0.49803922,"x":511,"temperature":0,"y":1,"radiaton":0,"type":"VOID"}  DOWN
-//	node loop: {"elevation":0.49803922,"x":998,"temperature":0,"y":467,"radiaton":0,"type":"VOID"}  LEFT
-//	
+
 	/**
 	 * Returns the resulting position of the node + move 
 	 * the borderlands cannot be passed

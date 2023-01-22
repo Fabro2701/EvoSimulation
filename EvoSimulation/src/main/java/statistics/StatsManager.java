@@ -74,12 +74,9 @@ public class StatsManager extends JFrame implements StatsObserver{
     	JSONArray config = null;
     	
     	try {
-    		config = new JSONArray(new JSONTokener(new FileInputStream("resources/loads/stats/"+filename+".json")));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+    		config = new JSONArray(new JSONTokener(new FileInputStream(filename)));
+		} catch (JSONException | FileNotFoundException e) {
+			System.err.println("Error reading stats config in "+filename);
 			e.printStackTrace();
 		}
     	

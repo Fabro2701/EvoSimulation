@@ -55,7 +55,7 @@ public class Viewer3D extends AbstractViewer{
 		this(ctrl,700,700);
 		
 		this.mesh = new Mesh();
-		this.mesh.setTriangles(Triangulate.convert("test1000void2", 5f, 100,100));
+		this.mesh.setTriangles(Triangulate.convert(ctrl.getMap().getFileName(), 5f, 100,100));
 		this.projectionMatrix = Matrix.Matrix_MakeProjection(f, a, znear, zfar);
 		
 		camera = new Vector3D(0f,0f,0f);

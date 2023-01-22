@@ -15,6 +15,11 @@ import simulator.model.entity.individuals.GIndividual;
 import simulator.model.entity.individuals.MyIndividual;
 import statistics.StatsData;
 
+/**
+ * 
+ * @author Fabrizio Ortega
+ *
+ */
 public class GenesStats extends StatsData{
 
 	private int currentTime=0;
@@ -24,15 +29,14 @@ public class GenesStats extends StatsData{
 		super(updateRate);
 		dataset = new DefaultCategoryDataset();
 		
-		this.rules = GIndividual.Genes.getRules();
+		
 	}
-	
-
 
 	@Override 
 	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
+			this.rules = GIndividual.Genes.getRules();
 			if(op==0) {
 				for(String gen:rules.keySet()) {
 					List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof MyIndividual && ((MyIndividual)e).getPhenotype().hasGene(gen)).collect(Collectors.toList());

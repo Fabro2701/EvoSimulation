@@ -31,6 +31,7 @@ public class Experiment {
 	String setup;
 	String events;
 	boolean constantsCtrl;
+	String genes;
 	int imgRefreshRate;
 	public void run() {
 		try {
@@ -52,6 +53,7 @@ public class Experiment {
 		if(properties.containsKey("stats"))builder.setStatsManager(properties.getProperty("stats"));
 		if(properties.containsKey("events"))builder.setEvents(properties.getProperty("events"));
 		if(properties.containsKey("constantsCtrl"))builder.setConstantsCtrl(Boolean.valueOf(properties.getProperty("constantsCtrl")));
+		if(properties.containsKey("genes"))builder.setGenes(properties.getProperty("genes"));
 		if(properties.containsKey("imgRefreshRate"))builder.setImgRefreshRate(Integer.valueOf(properties.getProperty("imgRefreshRate")));
 		
 		return builder.build();
@@ -90,7 +92,7 @@ public class Experiment {
 		controller.loadEvents(new FileInputStream(this.events));
 		
 		//genes
-		GIndividual.Genes.loadFromFile("resources/loads/genes/obesidad.genes");
+		if(genes!=null)GIndividual.Genes.loadFromFile(this.genes);
 		
 		//constants controller
 		if(this.constantsCtrl) {
@@ -124,6 +126,7 @@ public class Experiment {
 		String setup;
 		String events;
 		boolean constantsCtrl = false;
+		String genes;
 		int imgRefreshRate = 1;
 		public Builder(String map, String setup) {
 			this.map = map;
@@ -147,6 +150,10 @@ public class Experiment {
 		}
 		public Builder setConstantsCtrl(boolean constantsCtrl) {
 			this.constantsCtrl = constantsCtrl;
+			return this;
+		}
+		public Builder setGenes(String genes) {
+			this.genes = genes;
 			return this;
 		}
 		public Builder setImgRefreshRate(int imgRefreshRate) {
@@ -174,17 +181,19 @@ public class Experiment {
 		this.setup = builder.setup;
 		this.events = builder.events;
 		this.constantsCtrl = builder.constantsCtrl;
+		this.genes = builder.genes;
 		this.imgRefreshRate = builder.imgRefreshRate;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
-		Experiment exp = new Experiment.Builder("flat1000", "resources/setup/obesidad.stp")
+		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")
 												 .setVisualization(VISU.OPTIMIZED)
 												 .setOptimizer(OPTIMIZER.UNIFORM_GRID)
-												 .setStatsManager("obesidad")
+												 .setStatsManager("resources/loads/stats/obesidad.json")
 												 .setEvents("resources/loads/events/obesidad.json")
 												 .setConstantsCtrl(true)
 												 .build();
-		//exp.run();
+		exp.run();
+		*/
 		
 		Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
 		exp2.run();

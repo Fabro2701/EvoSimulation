@@ -21,9 +21,9 @@ public class Triangulate {
 		BufferedImage terrain = null;
 		
 		try {
-			elevation = ImageIO.read(new File("resources/maps/" + filename +"/elevation"+ ".png"));
-			attributes = ImageIO.read(new File("resources/maps/" + filename +"/attributes"+ ".png"));
-			terrain = ImageIO.read(new File("resources/maps/" + filename +"/terrain"+ ".png"));
+			elevation = ImageIO.read(new File(filename +"/elevation.png"));
+			attributes = ImageIO.read(new File(filename +"/attributes.png"));
+			terrain = ImageIO.read(new File(filename +"/terrain.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
