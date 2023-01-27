@@ -181,7 +181,7 @@ public class Experiment {
 		this.setup = builder.setup;
 		this.events = builder.events;
 		this.constantsCtrl = builder.constantsCtrl;
-		this.genes = builder.genes;
+		this.genes = builder.genes; 
 		this.imgRefreshRate = builder.imgRefreshRate;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {

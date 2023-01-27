@@ -12,8 +12,12 @@ public class CodeEditorDialog extends CodeEditorDialogGUI{
 	Node node;
 	public CodeEditorDialog(Frame parent, boolean modal) {
 		super(parent, modal);
-		// TODO Auto-generated constructor stub
 	}
+	/**
+	 * Main constructor
+	 * @param node GUI node
+	 * @param module Module type
+	 */
 	public CodeEditorDialog(Node node, ModuleController module) {
 		super((String)node.getAttribute("ui.label"));
 		this.node = node;

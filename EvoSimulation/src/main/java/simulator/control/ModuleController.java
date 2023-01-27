@@ -11,5 +11,10 @@ public abstract class ModuleController {
 		this.parse(declaration);
 	}
 	protected abstract void parse(JSONObject declaration);
+	/**
+	 * Returns the corresponding plain text
+	 * @param id
+	 * @return
+	 */
 	public abstract String getCode(Object...id);
 }

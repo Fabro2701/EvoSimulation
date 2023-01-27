@@ -31,9 +31,9 @@ public class SetupGraphVisualizer {
 	ViewerPipe fromViewer;
 	protected boolean loop = true;
 	
-	InitController initController;
-	UpdatesController updatesController;
-	InteractionsController interactionsController;
+	private InitController initController;
+	private UpdatesController updatesController;
+	private InteractionsController interactionsController;
 	private SetupController setup;
 	
 	
@@ -68,19 +68,13 @@ public class SetupGraphVisualizer {
 				System.out.println(node.getAttribute("module"));
 				String module;
 				if(!(module=(String) node.getAttribute("module")).equals("GrammarController")) {
-					new CodeEditorDialog(graph.getNode(id), SetupGraphVisualizer.this.setup.getModule(module));
+					new CodeEditorDialog(node, SetupGraphVisualizer.this.setup.getModule(module));
 				}
 			}
 		}
-		@Override
-		public void buttonReleased(String id) {
-		}
-		@Override
-		public void mouseOver(String id) {
-		}
-		@Override
-		public void mouseLeft(String id) {
-		}
+		@Override public void buttonReleased(String id) {}
+		@Override public void mouseOver(String id) {}
+		@Override public void mouseLeft(String id) {}
 	}
 	static protected String styleSheet =
 			"node{"
@@ -124,16 +118,7 @@ public class SetupGraphVisualizer {
 		paintUpdates();
 		paintInteractions();
 		while(loop) {
-			//System.out.println("w");
-			fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
-
-			// here your simulation code.
-
-			// You do not necessarily need to use a loop, this is only an example.
-			// as long as you call pump() before using the graph. pump() is non
-			// blocking.  If you only use the loop to look at event, use blockingPump()
-			// to avoid 100% CPU usage. The blockingPump() method is only available from
-			// the nightly builds.
+			fromViewer.pump();
 		}
 	}
 	public void paintInit() {
@@ -207,7 +192,7 @@ public class SetupGraphVisualizer {
 		}
 	}
 	public static void main(String args[]) {
-		SetupController setup = SetupController.from("resources/setup/default.stp");
+		SetupController setup = SetupController.from("resources/setup/obesidad.stp");
 		SetupGraphVisualizer gv = new SetupGraphVisualizer();
 		gv.load(setup);
 		gv.paint();

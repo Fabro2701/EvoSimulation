@@ -2,6 +2,11 @@ package setup.visualizer;
 
 import simulator.control.ModuleController;
 
+/**
+ * CodeEditorDialogGUI GUI to see and edit code of the different {@link ModuleController} element
+ * @author Fabrizio Ortega
+ *
+ */
 public class CodeEditorDialogGUI extends javax.swing.JDialog {
 
     /**

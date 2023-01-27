@@ -4,12 +4,15 @@ package setup.preprocessing;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * CommentPreprocessing deletes all the comments
+ * @author Fabrizio Ortega
+ *
+ */
 public class CommentPreprocessing implements Preprocessing{
 	public static String apply(String input) {
 		StringBuilder out = new StringBuilder();
 		int i=0;
-		
-		//System.out.println("from: "+input);
 		
 		Pattern p = Pattern.compile("(?s)/\\*(.)*?\\*/");
 		Matcher m = p.matcher(input); 
@@ -19,12 +22,9 @@ public class CommentPreprocessing implements Preprocessing{
 			
 			out.append(input.substring(i, ini));
 			i=end+1;
-			//String path = input.substring(ini, end);
-			//System.out.println("pattern: "+path);
 		}
 		out.append(input.substring(i, input.length()));
 
-		//System.out.println("to: "+out.toString());
 		return out.toString();
 	}
 	public static void main(String args[]) {

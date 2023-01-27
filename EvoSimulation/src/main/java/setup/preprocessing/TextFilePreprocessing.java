@@ -7,13 +7,16 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * TextFilePreprocessing replaces all file[filename] appearances with the file content
+ * @author Fabrizio Ortega
+ *
+ */
 public class TextFilePreprocessing implements Preprocessing{
 	public static String apply(String input) {
 		StringBuilder out = new StringBuilder();
 		int i=0;
-		
-		//System.out.println("from: "+input);
-		
+				
 		Pattern p = Pattern.compile("file\\([^)]+\\)");
 		Matcher m = p.matcher(input); 
 		while(m.find()) {
