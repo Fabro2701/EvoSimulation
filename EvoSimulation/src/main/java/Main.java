@@ -35,7 +35,7 @@ public class Main {
 		*/
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>("statsFactory");
  
-		StatsManager statsManager = new StatsManager("obesidad", statsFactory);
+		StatsManager statsManager = new StatsManager("resources/loads/stats/obesidad.json", statsFactory);
     	
 		EventManager eventManager = new EventManager();
 

@@ -27,9 +27,7 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			  else{
 			  	this.setAttribute("imc","N");
 			  }
-			  
-			  
-			  
+
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();
