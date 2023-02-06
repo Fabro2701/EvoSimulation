@@ -40,7 +40,7 @@ public class GenesStats extends StatsData{
 			if(op==0) {
 				for(String gen:rules.keySet()) {
 					List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof MyIndividual && ((MyIndividual)e).getPhenotype().hasGene(gen)).collect(Collectors.toList());
-					Map<Object, List<Entity>>list = listTotal.stream().collect(Collectors.groupingBy(e->e.getAttribute("imc")));
+					Map<Object, List<Entity>>list = listTotal.stream().collect(Collectors.groupingBy(Entity.groupF));
 					long total = listTotal.size(); 
 					for(Object id:list.keySet()) {
 						((DefaultCategoryDataset)dataset).addValue(100.0*list.get(id).size()/total, (String)id, gen);
@@ -51,7 +51,7 @@ public class GenesStats extends StatsData{
 				}
 			}
 			else if(op==1) {
-				Map<Object, List<Entity>>list = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(e->e.getAttribute("imc")));
+				Map<Object, List<Entity>>list = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(Entity.groupF));
 				for(Object id:list.keySet()) {
 					int total = list.get(id).size();
 					for(String gen:rules.keySet()) {

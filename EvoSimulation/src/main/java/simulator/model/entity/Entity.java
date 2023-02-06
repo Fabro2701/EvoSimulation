@@ -5,6 +5,7 @@ import static simulator.Constants.jsonView;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ public abstract class Entity{
 	State<Image>currentImgState;
 	protected java.util.Map<String, Object>attributes;
 
+	public static Function<Entity,Object>groupF = e->e.getAttribute("imc");
+	
 	public Entity(String id, Node n, Controller ctrl) {
 		this.ctrl=ctrl;
 		this.type = ".";

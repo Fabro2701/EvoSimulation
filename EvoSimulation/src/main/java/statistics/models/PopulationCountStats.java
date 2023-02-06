@@ -31,7 +31,7 @@ public class PopulationCountStats extends StatsData{
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			
-			Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(e->e.getAttribute("imc")));
+			Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.groupingBy(Entity.groupF));
 			for(Object id:l.keySet()) {
 				long count = l.get(id).stream().count();
 				((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
