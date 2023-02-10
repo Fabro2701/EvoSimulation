@@ -7,3 +7,4 @@ events = resources/loads/events/obesidad.json
 constantsCtrl = true
 genes = resources/loads/genes/obesidad.genes
 imgRefreshRate = 10
+attId = imc

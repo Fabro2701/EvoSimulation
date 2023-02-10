@@ -33,6 +33,7 @@ public class Experiment {
 	boolean constantsCtrl;
 	String genes;
 	int imgRefreshRate;
+	String attId;
 	public void run() {
 		try {
 			parse();
@@ -55,6 +56,7 @@ public class Experiment {
 		if(properties.containsKey("constantsCtrl"))builder.setConstantsCtrl(Boolean.valueOf(properties.getProperty("constantsCtrl")));
 		if(properties.containsKey("genes"))builder.setGenes(properties.getProperty("genes"));
 		if(properties.containsKey("imgRefreshRate"))builder.setImgRefreshRate(Integer.valueOf(properties.getProperty("imgRefreshRate")));
+		if(properties.containsKey("attId"))builder.setAttId(properties.getProperty("attId"));
 		
 		return builder.build();
 	}
@@ -75,6 +77,10 @@ public class Experiment {
 		
 		//simulator
 		EvoSimulator simulator = new EvoSimulator(this.map);
+		Entity.attId = this.attId;
+		if(this.attId!=null)Entity.groupF = e->e.getAttribute(this.attId);
+		else Entity.groupF = e->"";
+		
 		//simulator optimizer
 		if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
@@ -128,6 +134,7 @@ public class Experiment {
 		boolean constantsCtrl = false;
 		String genes;
 		int imgRefreshRate = 1;
+		String attId;
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -160,6 +167,10 @@ public class Experiment {
 			this.imgRefreshRate = imgRefreshRate;
 			return this;
 		}
+		public Builder setAttId(String attId) {
+			this.attId = attId;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -183,6 +194,7 @@ public class Experiment {
 		this.constantsCtrl = builder.constantsCtrl;
 		this.genes = builder.genes; 
 		this.imgRefreshRate = builder.imgRefreshRate;
+		this.attId = builder.attId;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")

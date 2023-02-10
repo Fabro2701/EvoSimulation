@@ -58,7 +58,7 @@ public class ConstantsViewer extends JFrame{
 				comp.add(new JLabel(key));
 				
 				double value = ((Number)ob).doubleValue();
-				SpinnerNumberModel model = new SpinnerNumberModel(value, -10000.0, 10000.0, 0.001); 
+				SpinnerNumberModel model = new SpinnerNumberModel(value, -100000.0, 100000.0, 0.001); 
 				JSpinner spinner = new JSpinner(model);
 				JSpinner.NumberEditor editor = (JSpinner.NumberEditor)spinner.getEditor();
 		        DecimalFormat format = editor.getFormat();

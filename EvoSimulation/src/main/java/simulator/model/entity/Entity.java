@@ -33,7 +33,9 @@ public abstract class Entity{
 	State<Image>currentImgState;
 	protected java.util.Map<String, Object>attributes;
 
-	public static Function<Entity,Object>groupF = e->e.getAttribute("imc");
+	public static String attId;
+	public static Function<Entity,Object>groupF;
+	
 	
 	public Entity(String id, Node n, Controller ctrl) {
 		this.ctrl=ctrl;
@@ -49,7 +51,7 @@ public abstract class Entity{
 	}
 
 	/**
-	 * Updates the {@link Entity#age}, {@link Entity#currentTime}, {@link Entity#currentImgState}, {@link Entity#img} 
+	 * Updates the {@link Entity#age}, {@link Entity#currentTime}
 	 * @param evoSimulator
 	 */
 	public void update(EvoSimulator evoSimulator) {
@@ -116,7 +118,7 @@ public abstract class Entity{
 	}
 	
 	public Entity setAttribute(String key, Object value) {
-		if(key.equals("imc"))this.img = ImageController.getImage(value);
+		if(key.equals(Entity.attId))this.img = ImageController.getImage(value);
 		this.attributes.put(key, value);
 		return this;//for chaining
 	}
