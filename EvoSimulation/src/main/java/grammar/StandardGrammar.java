@@ -80,7 +80,7 @@ public class StandardGrammar extends AbstractGrammar{
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));){
 			String aux = reader.readLine();
 			while(aux!=null) {
-				sb.append(aux);
+				sb.append(aux).append('\n');
 				aux = reader.readLine();
 			}
 		} catch (IOException e) {
@@ -146,24 +146,24 @@ public class StandardGrammar extends AbstractGrammar{
 	}
 	public static void main(String args[]) {
 		StandardGrammar g = new StandardGrammar();
-		g.parseBNF("default");
+		g.parseBNF("resources/loads/grammars/default.bnf");
 		System.out.println(g);
 		
 		
 		//Grammar g = new Grammar("s");
 		//System.out.println(g);
-		for(int i=0;i<1;i++) {
-			Chromosome c = new Chromosome(50);
-			c.setArrayIntToCodon(0, 1,1,1,2,1,3,1,0,0,4, 1,1,0,0,0,0,3 );
-			
-			
-			LinkedList<Symbol> l = g.mapChromosome(c);
-			l.forEach(e->System.out.print(e+" "));
-			Phenotype pt = new Phenotype();
-			System.out.println("\nvisual: ");
-			System.out.println(pt.getVisualCode());
-			System.out.println("-----------------");
-		}
+//		for(int i=0;i<1;i++) {
+//			Chromosome c = new Chromosome(50);
+//			c.setArrayIntToCodon(0, 1,1,1,2,1,3,1,0,0,4, 1,1,0,0,0,0,3 );
+//			
+//			
+//			LinkedList<Symbol> l = g.mapChromosome(c);
+//			l.forEach(e->System.out.print(e+" "));
+//			Phenotype pt = new Phenotype();
+//			System.out.println("\nvisual: ");
+//			System.out.println(pt.getVisualCode());
+//			System.out.println("-----------------");
+//		}
 		
 		
 		

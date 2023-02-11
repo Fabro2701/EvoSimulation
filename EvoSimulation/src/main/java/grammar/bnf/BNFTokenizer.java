@@ -9,8 +9,9 @@ import org.json.JSONObject;
 public class BNFTokenizer {
 	private int _cursor;
 	private String _string;
-	
-	//Regular Expressions for each token type
+	int newlinecont=0;
+	int columncont=0;
+
 	String [][]Spec = {{"^\\s+",null},
 			   		   {"^[.]","."},//end of rule
 			   		   {"^[|]","|"},//productions separator
@@ -37,10 +38,18 @@ public class BNFTokenizer {
 			return null;
 		}
 		
+		
+		if(this._string.charAt(_cursor)=='\n') {
+			newlinecont++;
+			columncont=0;
+		}
+		
 		String string = this._string.substring(_cursor);
 		String regexp=null;
 		String tokenType=null;
 		String tokenValue=null;
+
+		int oldc=this._cursor;
 		for(int i=0;i<Spec.length;i++) {
 			regexp=Spec[i][0];
 			tokenType=Spec[i][1];
@@ -54,11 +63,18 @@ public class BNFTokenizer {
 			}
 			if(tokenType == null) {
 				if(debug)System.out.println(1);
+				columncont+=(this._cursor-oldc);
 				return this.getNextToken();
 			}
 
 			if(debug)System.out.println("2  "+tokenValue);
-			return new JSONObject().put("type", tokenType).put("value",tokenValue);
+			System.out.println((tokenValue)+" AT: "+newlinecont+", " +columncont);
+			JSONObject r = new JSONObject().put("type", tokenType)
+			   .put("value",tokenValue)
+			   .put("row", newlinecont)
+			   .put("column", columncont);
+			columncont+=(this._cursor-oldc);
+			return r;
 		}
 		System.err.println("Unexpected token "+string.charAt(0));
 		return null;
@@ -79,4 +95,5 @@ public class BNFTokenizer {
 		this._cursor+=m.end();
 		return string.substring(0, m.end());
 	}
+
 }
