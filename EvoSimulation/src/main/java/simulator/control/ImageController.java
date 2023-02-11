@@ -1,18 +1,13 @@
 package simulator.control;
 
 import java.awt.Image;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
 
-
-import simulator.control.fsm.ComparisonTransition;
-import simulator.control.fsm.FSM;
-import simulator.control.fsm.SimpleState;
-import simulator.control.fsm.State;
-import simulator.control.fsm.Transition;
-import simulator.control.fsm.TrueTransition;
 import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.individuals.MyIndividual;
 
@@ -21,12 +16,13 @@ public class ImageController {
 	static Map<Object, Image>imgs;
 	static {
 		imgs = new HashMap<Object, Image>();
-		imgs.put("O", new ImageIcon("resources/entities/myindividual_resting.png").getImage());
+		/*imgs.put("O", new ImageIcon("resources/entities/myindividual_resting.png").getImage());
 		imgs.put("S", new ImageIcon("resources/entities/myindividual_moving.png").getImage());
 		imgs.put("N", new ImageIcon("resources/entities/myindividual_eating.png").getImage());
 		imgs.put("supermarket", new ImageIcon("resources/entities/supermarket.png").getImage());
 		imgs.put("house", new ImageIcon("resources/entities/house.png").getImage());
 		imgs.put("bar", new ImageIcon("resources/entities/bar.png").getImage());
+		*/
 		imgs.put(PasiveEntity.class, new ImageIcon("resources/entities/pasiveentity.png").getImage());
 		imgs.put(MyIndividual.class, new ImageIcon("resources/entities/entity1.png").getImage());
 		
@@ -34,6 +30,16 @@ public class ImageController {
 	public ImageController() {
 		//images = new HashMap<Class<?>,FSM<STATE, Image>>();
 		//images.put(MyIndividual.class, ImageController.createMyIndividualFSM());
+	}
+	/**
+	 * Loads all the imgs contained in the directory of name filename
+	 * @param filename
+	 */
+	public static void loadFromDirectory(String filename) {
+		if(imgs==null) imgs = new HashMap<Object, Image>();
+		Stream.of(new File(filename).listFiles())
+	      .filter(file -> !file.isDirectory())
+	      .forEach(f->imgs.put(f.getName().substring(0, f.getName().indexOf('.')), new ImageIcon(f.getAbsolutePath()).getImage()));
 	}
 //	public State<Image> getNextImage(Class<?>clazz, State<Image>current, STATE state) {
 //		return images.get(clazz).run(current, state);
@@ -96,4 +102,7 @@ public class ImageController {
 //		fsm.setCurrent(state);
 //		return fsm;
 //	}
+	public static void main(String args[]) {
+		ImageController.loadFromDirectory("resources/entities/");
+	}
 }

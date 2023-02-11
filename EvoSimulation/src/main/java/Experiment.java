@@ -9,6 +9,7 @@ import simulator.LauncherGUI;
 import simulator.OptimizedLauncherGUI;
 import simulator.control.ConstantsController;
 import simulator.control.Controller;
+import simulator.control.ImageController;
 import simulator.control.SetupController;
 import simulator.events.Event;
 import simulator.events.EventManager;
@@ -34,6 +35,7 @@ public class Experiment {
 	String genes;
 	int imgRefreshRate;
 	String attId;
+	String imgsdir;
 	public void run() {
 		try {
 			parse();
@@ -57,6 +59,7 @@ public class Experiment {
 		if(properties.containsKey("genes"))builder.setGenes(properties.getProperty("genes"));
 		if(properties.containsKey("imgRefreshRate"))builder.setImgRefreshRate(Integer.valueOf(properties.getProperty("imgRefreshRate")));
 		if(properties.containsKey("attId"))builder.setAttId(properties.getProperty("attId"));
+		if(properties.containsKey("imgsdir"))builder.setImgsdir(properties.getProperty("imgsdir"));
 		
 		return builder.build();
 	}
@@ -120,6 +123,10 @@ public class Experiment {
 	        	new OptimizedLauncherGUI(controller).setVisible(true);
 	        });
 		}
+		
+		//imgs
+		if(this.imgsdir!=null)ImageController.loadFromDirectory(this.imgsdir);
+
 	}
 	public static class Builder{
 		VISU visualization = VISU.BASIC;
@@ -135,6 +142,7 @@ public class Experiment {
 		String genes;
 		int imgRefreshRate = 1;
 		String attId;
+		String imgsdir;
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -171,6 +179,10 @@ public class Experiment {
 			this.attId = attId;
 			return this;
 		}
+		public Builder setImgsdir(String imgsdir) {
+			this.imgsdir = imgsdir;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -195,6 +207,7 @@ public class Experiment {
 		this.genes = builder.genes; 
 		this.imgRefreshRate = builder.imgRefreshRate;
 		this.attId = builder.attId;
+		this.imgsdir = builder.imgsdir;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")

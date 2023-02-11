@@ -34,7 +34,7 @@ public class ObservationManager {
 		observations.add(new ClosestEntityDistanceObservation(MOVE.DOWN));
 		observations.add(new ClosestEntityDistanceObservation(MOVE.LEFT));
 		observations.add(new ClosestEntityDistanceObservation(MOVE.RIGHT));
-		observations.add(new EntitiesCountObservation(MOVE.UP));
+		/*observations.add(new EntitiesCountObservation(MOVE.UP));
 		observations.add(new EntitiesCountObservation(MOVE.DOWN));
 		observations.add(new EntitiesCountObservation(MOVE.LEFT));
 		observations.add(new EntitiesCountObservation(MOVE.RIGHT));
@@ -42,7 +42,7 @@ public class ObservationManager {
 		observations.add(new ClosestEntityPheromoneObservation(MOVE.DOWN));
 		observations.add(new ClosestEntityPheromoneObservation(MOVE.LEFT));
 		observations.add(new ClosestEntityPheromoneObservation(MOVE.RIGHT));
-		
+		*/
 		observations.stream().forEach(o -> {
 			o.setEntity(entity);
 			o.setManager(this);

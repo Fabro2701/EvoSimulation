@@ -8,3 +8,4 @@ constantsCtrl = true
 genes = resources/loads/genes/obesidad.genes
 imgRefreshRate = 10
 attId = imc
+imgsdir = resources/entities/

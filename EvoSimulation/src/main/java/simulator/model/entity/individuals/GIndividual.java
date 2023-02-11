@@ -60,12 +60,12 @@ public abstract class GIndividual extends AbstractIndividual{
 
 	@Override
 	public void perform(List<Entity>entities, Map map) {
-		for(String actionid:grammars.keySet()) {
+		/*for(String actionid:grammars.keySet()) {
 			Object election = this.phenotype.getNext(actionid, this.observationManager.getVariables());
 			ActionI a = actions.get(actionid).get(election);
 			if(a!=null)a.perform(this, entities, map);
 			//else System.err.println("Action "+election+" not declared");
-		}
+		}*/
 	}
 	@Override
 	public void myInteract(Entity e2) {
@@ -87,7 +87,7 @@ public abstract class GIndividual extends AbstractIndividual{
 //			rules.put("gen4", List.of(34));
 //		}
 		/**
-		 * load genes specification from file (.genes)
+		 * Loads genes specification from file (.genes)
 		 * @param path
 		 * @throws FileNotFoundException
 		 * @throws IOException
