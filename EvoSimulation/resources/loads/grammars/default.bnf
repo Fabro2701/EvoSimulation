@@ -1,5 +1,5 @@
 <CODE> -> <LINE>|<CODE> <LINE>.
-a<LINE> -> 'return '<ACTION>;|<IF>.
+<LINE> -> 'return '<ACTION>;|<IF>.
 <IF> -> if <COND> {<LINE>} else {<LINE>} | if <COND> { <LINE> }.
 <COND> -> (<OBS>) | (<OBS> <OP> <OBS>) | ((<AREXP>) <OP> (<AREXP>)).
 <OBS> ->  'count'<M>|  'dist'<M>|'p[' <Pidx> ']'<M>.

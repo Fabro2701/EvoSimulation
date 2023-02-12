@@ -1,21 +1,17 @@
 package setup;
 
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONObject;
+import grammar.bnf.BNFTokenizer;
 
 public class GrammarTokenizer extends ChildTokenizer{
-	public GrammarTokenizer() {
-		Spec = new String[][]{{"^\\s+",null},
-					   		  {"^:=",":="},
-					   		  {"^;",";"},
-					   		  {"^[|]","|"},
-					   		  {"^[.]","."},
-					   		  {"^\"[^\"]*\"","Literal"},
-					   		  {"^[^;.|]+","Literal"}
-					   		  };
+	static {
+		Specs.put(GrammarTokenizer.class, new String[][]{
+			{"^\\s+",null},
+	   		  {"^:=",":="},
+	   		  {"^;",";"},
+	   		  {"^[|]","|"},
+	   		  {"^[.]","."},
+	   		  {"^\"[^\"]*\"","Literal"},
+	   		  {"^[^;.|]+","Literal"}
+	   		  });
 	}
-	
 }
