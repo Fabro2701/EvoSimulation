@@ -35,6 +35,7 @@ public abstract class ChildParser {
 		}
 		if(!this._lookahead.getString("type").equals(type)) {
 			System.err.println("unexpected "+this._lookahead.getString("type")+" expected "+type);
+			System.err.println(this._lookahead.toString(4));
 			return null;
 		}
 		this._lookahead=_tokenizer.getNextToken();

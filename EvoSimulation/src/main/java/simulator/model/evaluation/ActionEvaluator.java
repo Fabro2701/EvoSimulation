@@ -300,6 +300,7 @@ public class ActionEvaluator {
 				return m.invoke(null, args);
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.err.println("query: "+query.toString(4));
 				throw new EvaluationException("Call Expression failed");
 			}
 		}
@@ -325,6 +326,7 @@ public class ActionEvaluator {
 				return m.invoke(ob, args);
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.err.println("query: "+query.toString(4));
 				throw new EvaluationException("Call Expression failed");
 			}
 		}

@@ -1,0 +1,108 @@
+grammars := action; "grammar.StandardGrammar"; "resources/scenarios/infection/default.bnf".
+
+global := a(){
+			let mu = 60*520;
+			let infectionProb = 0.01;
+			let infectiondeathProb = 0.0001;
+			let recoveryProb = 0.001;
+			let lossinmuneProb = 0.001;
+		  }.
+		  
+init := initactive("simulator.model.entity.individuals.MyIndividual"){
+			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
+			  this.setAttribute("state",fsm.getCurrent());
+			  
+			  this.setAttribute("status","healthy");
+			  let p = (static "simulator.RandomSingleton").nextDouble();
+			  if(p<=0.05){
+			  	this.setAttribute("status","infected");
+			  }
+			  
+		}
+		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
+			let p = (static "simulator.RandomSingleton").nextGaussian();
+			p = (p*7.0+35.6)*52;
+			this.setAge(p);
+					 
+	 	}.
+updates := update1("simulator.model.entity.individuals.MyIndividual"){
+				
+				let p = (static "simulator.RandomSingleton").nextDouble();
+		
+				
+				if(this.getAge()>=mu){
+					this.dispose();
+				}
+				else if((this.getAttribute("status")).equals("infected") && p <= infectiondeathProb){
+					this.dispose();
+				}
+		   }
+		   recoveryupdate("simulator.model.entity.individuals.MyIndividual"){
+				let p = (static "simulator.RandomSingleton").nextDouble();
+		
+				if((this.getAttribute("status")).equals("inmune") && p <= lossinmuneProb){
+					this.setAttribute("status","healthy");
+				}
+				
+				p = (static "simulator.RandomSingleton").nextDouble();
+		
+				if((this.getAttribute("status")).equals("infected") && p <= recoveryProb){
+					this.setAttribute("status","inmune");
+				}
+		   }
+		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
+				if(!this.hasAttribute("house")){
+			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
+			    	this.setAttribute("house",house);
+			    }
+			    if(!this.hasAttribute("supermarket")){
+			    	let supermarket = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"supermarket");
+			    	this.setAttribute("supermarket",supermarket);
+			    }
+			    if(!this.hasAttribute("bar")){
+			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
+			    	this.setAttribute("bar",bar);
+			    }
+		   }
+		   updateMov("simulator.model.entity.individuals.MyIndividual"){
+		   		if(this.hasAttribute("rest")){
+		   			if(this.getAttribute("rest")<=0){
+		   				let state = this.getAttribute("state");
+						let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+						if(node != null)this.setNode(node);
+					}
+					else{
+						this.setAttribute("rest",this.getAttribute("rest")-1);
+					}
+		   		}
+				else{
+					let state = this.getAttribute("state");
+					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+					if(node != null)this.setNode(node);
+				}
+		   }.
+actions := <action> NOTHING{
+		   					;
+		   				   }.  
+interactions := infectionInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+	
+					let p = (static "simulator.RandomSingleton").nextDouble();
+					if((this.getAttribute("status")).equals("infected")){
+					    if((e2.getAttribute("status")).equals("healthy") && p < infectionProb){
+							e2.setAttribute("status", "infected");
+						}
+					}
+								
+				}
+				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
+					
+					let oldstate = this.getAttribute("state");
+					let info = e2.getAttribute("info");
+					let state = fsm.run(this.getAttribute("state"), info);
+					
+					if(oldstate!=state)oldstate.doJobs(this);
+					this.setAttribute("state", state);
+					
+					
+				}.

@@ -219,8 +219,8 @@ public class Experiment {
 												 .build();
 		exp.run();
 		*/
-		
-		Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
+		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/infection/infection.experiment");
 		exp2.run();
 	}
 }

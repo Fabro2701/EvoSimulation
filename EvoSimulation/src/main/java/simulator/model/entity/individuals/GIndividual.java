@@ -52,9 +52,15 @@ public abstract class GIndividual extends AbstractIndividual{
 		
 		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
 		for(String id:updates_l.keySet()) {
-			if(updates.match(id, this.getClass())) {
-				if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
+			try {
+				if(updates.match(id, this.getClass())) {
+					if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
+				}
+			}catch(Exception e) {
+				System.err.println("Error in update: "+id);
+				e.printStackTrace();
 			}
+			
 		}
 	}
 
