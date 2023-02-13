@@ -7,9 +7,10 @@ import simulator.model.entity.individuals.Genotype;
 public class SingleCodonFlipMutation extends MutationOperation{
 
 	@Override
-	public void mutate(Genotype g) {
-		for(Chromosome c:g) {
-			c.getCodon(RandomSingleton.nextInt(c.getLength())).setInt(RandomSingleton.nextInt(256));
+	public void mutate(Genotype g, float p) {
+		for(Chromosome<Chromosome.Codon> c:g) {
+			if(RandomSingleton.nextFloat()<=p)
+				c.getCodon(RandomSingleton.nextInt(c.getLength())).setInt(RandomSingleton.nextInt(256));
 		}
 	}
 

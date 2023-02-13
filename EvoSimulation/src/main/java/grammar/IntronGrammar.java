@@ -3,11 +3,13 @@ package grammar;
 import java.util.LinkedList;
 import java.util.List;
 
+import grammar.AbstractGrammar.Symbol;
 import simulator.model.entity.individuals.Chromosome;
 import simulator.model.entity.individuals.Phenotype;
 
 public class IntronGrammar extends StandardGrammar{
-	public LinkedList<Symbol> parse(Chromosome c){
+	@Override
+	public LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c){
 		Symbol t = this.getInitial();
 		List<Production> ps;
 		LinkedList<Symbol> q = new LinkedList<Symbol>();
@@ -23,8 +25,8 @@ public class IntronGrammar extends StandardGrammar{
 			int m = ps.size();
 			//int r = Util.toInt(codons.get(i).bits.get(0, Util.log2(m)));
 			
-			int r = c.getCodon(i).getIntValue() % m;
-			c.setModToCodon(i, r);
+			int r = ((Chromosome.Codon) c.getCodon(i)).getIntValue() % m;
+			((Chromosome.Codon) c.getCodon(i)).setMod(r);
 			List<Symbol>l = ps.get(r);
 			if(l.size()==1&&l.get(0).equals("intron")) {
 				i++;
@@ -61,20 +63,20 @@ public class IntronGrammar extends StandardGrammar{
 		System.out.println(g);
 		
 		
-		//Grammar g = new Grammar("s");
-		//System.out.println(g);
-		for(int i=0;i<1;i++) {
-			Chromosome c = new Chromosome(50);
-			c.setArrayIntToCodon(1,0, 1,1,1,1,0,0, 1,1,1,1,1,0,0);
-			
-			
-			LinkedList<Symbol> l = g.parse(c);
-			l.forEach(e->System.out.print(e+" "));
-			Phenotype pt = new Phenotype();
-			System.out.println("\nvisual: ");
-			System.out.println(pt.getVisualCode());
-			System.out.println("-----------------");
-		}
+//		//Grammar g = new Grammar("s");
+//		//System.out.println(g);
+//		for(int i=0;i<1;i++) {
+//			Chromosome c = new Chromosome(50);
+//			c.setArrayIntToCodon(1,0, 1,1,1,1,0,0, 1,1,1,1,1,0,0);
+//			
+//			
+//			LinkedList<Symbol> l = g.parse(c);
+//			l.forEach(e->System.out.print(e+" "));
+//			Phenotype pt = new Phenotype();
+//			System.out.println("\nvisual: ");
+//			System.out.println(pt.getVisualCode());
+//			System.out.println("-----------------");
+//		}
 		
 		
 		

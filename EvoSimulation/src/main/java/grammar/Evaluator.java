@@ -363,16 +363,16 @@ public class Evaluator {
 		Evaluator evaluator = new Evaluator(program);
 		evaluator._variables.put("RIGHT", "RIGHT");
 		evaluator._variables.put("y", "true");
-		System.out.println("Resulting move1: "+evaluator.getNextMove());
-		System.out.println("Resulting move2: "+evaluator.getNextMove());
+		System.out.println("Resulting move1: "+evaluator.getNextResult());
+		System.out.println("Resulting move2: "+evaluator.getNextResult());
 		evaluator._variables.put("y", "true");
 		for(JSONObject o:evaluator._statements) {
 			//System.out.println(o.toString(4));
 		}
-		System.out.println("Resulting move3: "+evaluator.getNextMove());
-		System.out.println("Resulting move4: "+evaluator.getNextMove());
-		System.out.println("Resulting move5: "+evaluator.getNextMove());
-		System.out.println("Resulting move6: "+evaluator.getNextMove());
-		System.out.println("Resulting move7: "+evaluator.getNextMove());
+		System.out.println("Resulting move3: "+evaluator.getNextResult());
+		System.out.println("Resulting move4: "+evaluator.getNextResult());
+		System.out.println("Resulting move5: "+evaluator.getNextResult());
+		System.out.println("Resulting move6: "+evaluator.getNextResult());
+		System.out.println("Resulting move7: "+evaluator.getNextResult());
 	}
 }

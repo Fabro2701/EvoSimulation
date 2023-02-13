@@ -34,20 +34,6 @@ public class Util {
 	public static int test2(int i) {
 		return 4+i;
 	}
-//	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
-//		double maxDist = -1d;
-//		MOVE move = MOVE.NEUTRAL;
-//		for(MOVE m:MOVE.values()) {
-//			if(!m.isPseudo()) {
-//				double dist = nodeDistance(map.getValidMove(node, m), node2);
-//				if(dist>maxDist) {
-//					maxDist = dist;
-//					move = m;
-//				} 
-//			}
-//		}
-//		return move;
-//	}
 //pending
 //	public static MOVE getNextNodeToTo(Node node, Node node2, Map map) {
 //		double minDist = 100000d;
@@ -67,13 +53,24 @@ public class Util {
 		double minDist = 100000d;
 		MOVE move = MOVE.NEUTRAL;
 		for(MOVE m:MOVE.values()) {
-			if(!m.isPseudo()) {
-				double dist = nodeDistance(map.getValidMove(node, m), node2);
-				if(dist<minDist) {
-					minDist = dist;
-					move = m;
-				}
+			double dist = nodeDistance(map.getValidMove(node, m), node2);
+			if(dist<minDist) {
+				minDist = dist;
+				move = m;
 			}
+			
+		}
+		return move;
+	}
+	public static MOVE getNextMoveAwayFrom(Node node, Node node2, Map map) {
+		double maxDist = -1d;
+		MOVE move = MOVE.NEUTRAL;
+		for(MOVE m:MOVE.values()) {
+			double dist = nodeDistance(map.getValidMove(node, m), node2);
+			if(dist>maxDist) {
+				maxDist = dist;
+				move = m;
+			} 
 		}
 		return move;
 	}
@@ -111,8 +108,8 @@ public class Util {
 	public static float genotypeSimilarity(Genotype g1, Genotype g2) {
 		float similarity=0.0f;
 		for(int i=0;i<g1.size();i++) {
-			Chromosome c1 = g1.getChromosome(i);
-			Chromosome c2 = g2.getChromosome(i);
+			Chromosome<Chromosome.Codon> c1 = g1.getChromosome(i);
+			Chromosome<Chromosome.Codon> c2 = g2.getChromosome(i);
 			
 			for(int j=0;j<c1.getLength() && j<c1.getUsedCodons() && j<c2.getUsedCodons();j++) {
 				similarity+=c1.getCodon(j).getIntValue()==c2.getCodon(j).getIntValue()?1.f:0.f;

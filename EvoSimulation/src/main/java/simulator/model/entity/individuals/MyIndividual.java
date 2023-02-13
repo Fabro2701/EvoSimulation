@@ -171,10 +171,8 @@ public class MyIndividual extends GIndividual{
 		return entity;
 	}
 	public void mutate() {
-		if(RandomSingleton.nextFloat()<this.node.radiation+0.01f) {
-			new SingleCodonFlipMutation().mutate(genotype);
-			ctrl.getStatsManager().onMutation();
-		}
+		new SingleCodonFlipMutation().mutate(genotype,this.node.radiation+0.01f);
+		ctrl.getStatsManager().onMutation();
 	}
 	@Override
 	public void update(EvoSimulator simulator) {

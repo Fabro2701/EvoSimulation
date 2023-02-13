@@ -30,7 +30,7 @@ public class StandardGrammar extends AbstractGrammar{
 		super();
 		
 	}
-
+	@Override
 	public LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c){
 		Symbol t = this.getInitial();
 		List<Production> ps;

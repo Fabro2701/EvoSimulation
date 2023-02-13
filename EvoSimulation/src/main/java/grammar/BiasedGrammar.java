@@ -13,6 +13,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import grammar.AbstractGrammar.Symbol;
 import grammar.bnf.BNFMeritParser;
 import grammar.derivations.DerivationTree;
 import grammar.derivations.TreeNode;
@@ -30,7 +31,7 @@ public class BiasedGrammar extends AbstractGrammar{
 		_rulesMerits = new HashMap<Symbol,ArrayList<Integer>>();
 	}
 	@Override
-	public LinkedList<Symbol> parse(Chromosome c) {
+	public LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c){
 		Symbol t = this.getInitial();
 		Production ps;
 		LinkedList<Symbol> q = new LinkedList<Symbol>();
