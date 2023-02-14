@@ -4,7 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -13,6 +17,11 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import simulator.model.map.creator.EntityPanel.EntityInfo;
 
 /**
  *
@@ -40,15 +49,30 @@ public class MapCreator extends javax.swing.JFrame {
 
 		public void savePanels(String filename) {
 			BufferedImage terrain = terrainPanel.getBufferImage();
-			BufferedImage attributes = attributesPanel.getBufferImage();
+			//BufferedImage attributes = attributesPanel.getBufferImage();
 			BufferedImage elevation = elevationPanel.getBufferImage();
 
 			try {
 				String file = "resources/maps/" + filename;
 				boolean t = new File(file).mkdirs();
 				ImageIO.write(terrain, "png", new File(file + "/terrain.png"));
-				ImageIO.write(attributes, "png", new File(file + "/attributes.png"));
+				//ImageIO.write(attributes, "png", new File(file + "/attributes.png"));
 				ImageIO.write(elevation, "png", new File(file + "/elevation.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			JSONArray arr = new JSONArray();
+			Map<String,List<EntityInfo>> entities = ((EntityPanel.Controller)attributesPanel.ctrl).getEntities();
+			for(String type:entities.keySet()) {
+				entities.get(type).stream().forEach((EntityInfo e)->arr.put(new JSONObject().put("type",e.name).put("x",e.x).put("y",e.y)));
+			}
+			try {
+				String file = "resources/maps/" + filename;
+				FileWriter writer = new FileWriter(file+"/entities.json");
+				writer.write(arr.toString(4));
+				writer.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -58,7 +82,8 @@ public class MapCreator extends javax.swing.JFrame {
 		public void loadPanels(String filePath) {
 			try {
 				terrainPanel.setImage(ImageIO.read(new File(filePath + "/terrain.png")));
-				attributesPanel.setImage(ImageIO.read(new File(filePath + "/attributes.png")));
+				//attributesPanel.setImage(ImageIO.read(new File(filePath + "/attributes.png")));
+				((EntityPanel)attributesPanel).loadEntities(new FileInputStream(filePath + "/entities.json"));
 				elevationPanel.setImage(ImageIO.read(new File(filePath + "/elevation.png")));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -84,7 +109,7 @@ public class MapCreator extends javax.swing.JFrame {
 
 		jtpMainPanel = new javax.swing.JTabbedPane();
 		terrainPanel = new TerrainPanel(panelManager);
-		attributesPanel = new AttributesPanel(panelManager);
+		attributesPanel = new EntityPanel(panelManager);
 		elevationPanel = new ElevationPanel(panelManager);
 		jMenuBar1 = new javax.swing.JMenuBar();
 		jMenu1 = new javax.swing.JMenu();

@@ -1,52 +1,66 @@
-grammars := action; "grammar.StandardGrammar"; "resources/scenarios/infection/default.bnf".
+grammars := action; "grammar.StandardGrammar"; "resources/scenarios/obesidad/obesidad_acts.bnf".
 
 global := a(){
-			let mu = 60*520;
-			let infectionProb = 0.01;
-			let infectiondeathProb = 0.0001;
-			let recoveryProb = 0.001;
-			let lossinmuneProb = 0.001;
+			let mu = 60*52;
+			let beta = 0.001121;
+			let gamma = 0.0003226;
+			let p1 = 0.020;
+			let p2 = 0.042;
+			let p = 1/7;
+			let e1 = 0.004;
+			let e2 = 0.024;
+			let N0 = 0.704;
+			let S0 = 0.39;
+			let O0 = 0.16;
 		  }.
-		  
-init := initactive("simulator.model.entity.individuals.MyIndividual"){
+init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
 			  this.setAttribute("state",fsm.getCurrent());
 			  
-			  this.setAttribute("status","healthy");
-			  let p = (static "simulator.RandomSingleton").nextDouble();
-			  if(p<=0.05){
-			  	this.setAttribute("status","infected");
+			  let p = (static "simulator.RandomSingleton").nextFloat();
+			  if(p<=O0){
+			  	this.setAttribute("imc","O");
 			  }
+			  else if(p<=S0+O0){
+			  	this.setAttribute("imc","S");
+			  }
+			  else{
+			  	this.setAttribute("imc","N");
+			  }
+
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();
 			p = (p*7.0+35.6)*52;
 			this.setAge(p);
 					 
+	 	}
+		initpasive("simulator.model.entity.PasiveEntity"){
+			
+			 
 	 	}.
 updates := update1("simulator.model.entity.individuals.MyIndividual"){
 				
+				let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
-		
+				if(imc.equals("S")){
+					if(p<=gamma){
+						this.setAttribute("imc","O");
+					}
+				}
+				p = (static "simulator.RandomSingleton").nextDouble();
+				if((this.getPhenotype()).hasGene("gen1") && p<=0.003){
+					if(imc.equals("N")){
+						this.setAttribute("imc","S");
+					}
+					else if(imc.equals("S")){
+						this.setAttribute("imc","O");
+					}
+				}
 				if(this.getAge()>=mu){
 					this.dispose();
 				}
-				else if((this.getAttribute("status")).equals("infected") && p <= infectiondeathProb){
-					this.dispose();
-				}
-		   }
-		   recoveryupdate("simulator.model.entity.individuals.MyIndividual"){
-				let p = (static "simulator.RandomSingleton").nextDouble();
-		
-				if((this.getAttribute("status")).equals("inmune") && p <= lossinmuneProb){
-					this.setAttribute("status","healthy");
-				}
 				
-				p = (static "simulator.RandomSingleton").nextDouble();
-		
-				if((this.getAttribute("status")).equals("infected") && p <= recoveryProb){
-					this.setAttribute("status","inmune");
-				}
 		   }
 		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
 				if(!this.hasAttribute("house")){
@@ -78,18 +92,38 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
 					if(node != null)this.setNode(node);
 				}
+		   }
+		  
+		   update2("simulator.model.entity.individuals.MyIndividual"){
+			   let imc = this.getAttribute("imc");
+				let p = (static "simulator.RandomSingleton").nextDouble();
+				let sn = p1*p2*p;
+				let os = e1*e2*p;
+				if(imc.equals("S")){
+					if(p<=sn){
+						this.setAttribute("imc","N");
+					}
+				}
+				else if(imc.equals("O")){
+					if(p<=os){
+						this.setAttribute("imc","S");
+					}
+				}
 		   }.
 actions := <action> NOTHING{
 		   					;
 		   				   }.  
-interactions := infectionInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-	
-					let p = (static "simulator.RandomSingleton").nextDouble();
-					if((this.getAttribute("status")).equals("infected")){
-					    if((e2.getAttribute("status")).equals("healthy") && p < infectionProb){
-							e2.setAttribute("status", "infected");
+interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+					
+						let imc1 = this.getAttribute("imc");
+						let imc2 = e2.getAttribute("imc");
+						let p = (static "simulator.RandomSingleton").nextDouble();
+						if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
+							if(p<=beta){
+								this.setAttribute("imc","S");
+							}
 						}
-					}			
+								
 				}
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
@@ -100,4 +134,6 @@ interactions := infectionInteraction("simulator.model.entity.individuals.MyIndiv
 					
 					if(oldstate!=state)oldstate.doJobs(this);
 					this.setAttribute("state", state);
+					
+					
 				}.

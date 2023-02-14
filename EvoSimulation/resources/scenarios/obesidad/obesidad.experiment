@@ -1,0 +1,11 @@
+map = resources/maps/flat1000
+setup = resources/scenarios/obesidad/setup.stp
+visualization = BASIC
+optimizer = UNIFORM_GRID
+stats = resources/scenarios/obesidad/stats.json
+events = resources/scenarios/obesidad/events.json
+constantsCtrl = true
+genes = resources/scenarios/obesidad/genes.genes
+imgRefreshRate = 10
+attId = imc
+imgsdir = resources/entities/
