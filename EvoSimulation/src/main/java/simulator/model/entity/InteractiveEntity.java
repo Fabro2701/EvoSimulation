@@ -1,9 +1,11 @@
 package simulator.model.entity;
 
-import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 import grammar.AbstractGrammar;
 import simulator.control.Controller;
+import simulator.control.GrammarController;
 import simulator.control.InitController;
 import simulator.control.InteractionsController;
 import simulator.control.UpdatesController;
@@ -18,6 +20,9 @@ public abstract class InteractiveEntity extends Entity{
 	protected UpdatesController updates;
 	protected InitController inits;
 	
+	protected GrammarController grammarController;
+	protected Map<String,Boolean>exs;
+	
 	public InteractiveEntity(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		
@@ -26,6 +31,12 @@ public abstract class InteractiveEntity extends Entity{
 		interactions = ctrl.getInteractionsController();
 		updates = ctrl.getUpdatesController();
 		inits = ctrl.getInitController();
+		
+		grammarController = ctrl.getGrammarController();
+		exs = new HashMap<>();
+		for(String k:grammars.keySet()) {
+			exs.put(k, false);
+		}
 		
 		init();
 	}

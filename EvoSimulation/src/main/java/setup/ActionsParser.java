@@ -48,6 +48,10 @@ public class ActionsParser extends OOPParser{
 	}
 	private JSONObject ActionEspecification() {
 		String name = this._eat("IDENTIFIER").getString("value");
+
+//		this._eat("(");
+//		JSONObject time = this._eat("NUMBER");
+//		this._eat(")");
 		int c1 = this._tokenizer.get_cursor();
 		this._eat("{");
 		JSONArray spec = this.Especification();
@@ -56,6 +60,7 @@ public class ActionsParser extends OOPParser{
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
 							   .put("spec", spec)
+							   //.put("time", time.get("value"))
 							   .put("name", name)
 							   .put("code", code);
 	}

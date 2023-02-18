@@ -28,6 +28,8 @@ public abstract class GIndividual extends AbstractIndividual{
 	
 	protected ObservationManager observationManager;
 	
+	private int count = 0;
+	
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
@@ -66,6 +68,22 @@ public abstract class GIndividual extends AbstractIndividual{
 
 	@Override
 	public void perform(List<Entity>entities, Map map) {
+		for(String actionid:grammars.keySet()) {
+			int t = this.grammarController.getTime(actionid);
+			if(t==-1) {
+				if(!this.exs.get(actionid)) {
+					this.exs.put(actionid, true);
+					this.phenotype.evaluate(actionid, this.observationManager.getVariables(), (MyIndividual) this);
+				}
+				else {
+					continue;
+				}
+			}
+			else if(count%t==0) {
+				this.phenotype.evaluate(actionid, this.observationManager.getVariables(), (MyIndividual) this);
+			}
+		}
+		count++;
 		/*for(String actionid:grammars.keySet()) {
 			Object election = this.phenotype.getNext(actionid, this.observationManager.getVariables());
 			ActionI a = actions.get(actionid).get(election);

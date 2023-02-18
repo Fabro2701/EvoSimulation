@@ -8,8 +8,12 @@ public class GrammarTokenizer extends ChildTokenizer{
 			{"^\\s+",null},
 	   		  {"^:=",":="},
 	   		  {"^;",";"},
+	   		  {"^[(]","("},
+	   		  {"^[)]",")"},
 	   		  {"^[|]","|"},
 	   		  {"^[.]","."},
+			  {"^-?[0-9.]+f?d?","NUMBER"},
+	   		  {"^[\\w\\d\\$]+","IDENTIFIER"},
 	   		  {"^\"[^\"]*\"","Literal"},
 	   		  {"^[^;.|]+","Literal"}
 	   		  });

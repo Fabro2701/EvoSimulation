@@ -36,13 +36,17 @@ public class GrammarParser extends ChildParser{
 	}
 
 	private JSONObject GrammarAttributes() {
-		String name = this.StringLiteral().getString("value");
+		String name = this._eat("IDENTIFIER").getString("value");
+		this._eat("(");
+		JSONObject time = this._eat("NUMBER");
+		this._eat(")");
 		this._eat(";");
 		String clazz = this.StringLiteral().getString("value");
 		this._eat(";");
 		String path = this.StringLiteral().getString("value");
 		return new JSONObject().put("type", "attributes")
 							   .put("name", name)
+							   .put("time", time.get("value"))
 							   .put("clazz", clazz)
 							   .put("path", path);
 	}

@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
+import setup.OOPParser;
+import simulator.model.evaluation.ActionEvaluator;
 import grammar.Evaluator;
 import grammar.Parser;
 
@@ -22,9 +24,10 @@ import grammar.Parser;
  *
  */
 public class Phenotype{
-	String visualization, code;
+	String visualization;
 	boolean valid;
 	Map<String,Evaluator> evaluators;
+	Map<String,String> codes;
 	List<LinkedList<Symbol>> symbols;
 	HashSet<String>genes;
 	Parser parser = new Parser();
@@ -34,6 +37,7 @@ public class Phenotype{
 		//for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
+		codes = new LinkedHashMap<>();
 		/*parser = new OOPParser() {
 			@Override
 			protected JSONObject Program() {
@@ -43,6 +47,20 @@ public class Phenotype{
 	}
 	public Phenotype(JSONObject phenotype) {
  		System.err.println("pending");
+	}
+	public void evaluate(String key, HashMap<String,String>observations, MyIndividual ind) {
+		
+		OOPParser parser = new OOPParser() {
+			@Override
+			protected JSONObject Program() {
+				return new JSONObject().put("list", this.Especification());
+			}
+		};
+		JSONArray arr = parser.parse(codes.get(key)).getJSONArray("list");
+		ActionEvaluator eval = new ActionEvaluator(arr);
+		java.util.Map<String, Object>vars = new HashMap<String, Object>();
+		vars.put("this", ind);
+		eval.evaluate(vars);
 	}
 	public Object getNext(String key, HashMap<String,String>observations) {
 		Evaluator eval = evaluators.get(key);
@@ -56,7 +74,8 @@ public class Phenotype{
 			this.valid=false;
 			return;
 		}
-		this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
+		this.codes.put(key, symbolRepresentation(crom));
+		//this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
 	}
 	public void setGenes(HashSet<String>genes) {
 		this.genes = genes;
@@ -120,14 +139,6 @@ public class Phenotype{
 		StringBuilder st = new StringBuilder();
 		ss.stream().forEach(s -> st.append(s));
 		return st.toString();
-	}
-	public String getCode() {
-		if(code==null) {
-			StringBuilder st = new StringBuilder();
-			//this.stream().forEach(s -> st.append(s));pending
-			code = st.toString();
-		}
-		return code;
 	}
 	public JSONObject toJSON() {
 		JSONArray genes = new JSONArray();
