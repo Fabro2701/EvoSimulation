@@ -54,24 +54,29 @@ public class FSM<I, R> {
 		State<String> houseState = new SimpleState<>("house").addJob((MyIndividual e)->e.setAttribute("rest", 100));
 		State<String> supermarketState = new SimpleState<>("supermarket").addJob((MyIndividual e)->e.setAttribute("rest", 50));
 		State<String> barState = new SimpleState<>("bar").addJob((MyIndividual e)->e.setAttribute("rest", 200));
+		State<String> restaurantState = new SimpleState<>("restaurant").addJob((MyIndividual e)->e.setAttribute("rest", 150));
 		
 		//Transition<String>houseToSupermarketTranstition = new ComparisonTransition<>(supermarketState, "house");
 		//Transition<String>houseToBarTranstition = new ComparisonTransition<>(barState, "house");
 		Transition<String>supermarketToHouseTranstition = new ComparisonTransition<>(houseState, "supermarket");
 		Transition<String>barToHouseTranstition = new ComparisonTransition<>(houseState, "bar");
+		Transition<String>restaurantToHouseTranstition = new ComparisonTransition<>(houseState, "restaurant");
 				
 		
 
-		Transition<String>houseToSupermarketAndBarTranstition = new StochasticComparisonTransition<>(List.of(supermarketState, barState), List.of(0.8f, 0.2f), "house");
+		Transition<String>houseToSupermarketAndBarAndRestaurantTranstition = new StochasticComparisonTransition<>(List.of(supermarketState, barState, restaurantState), 
+																												  List.of(0.65f, 0.2f, 0.15f), 
+																												  "house");
 		//Transition<STATE>toEatTranstitionT1 = new TrueTransition<STATE>(eatState2);
 		
 		
 		//fsm.addTransition(houseState, houseToSupermarketTranstition);
 		//fsm.addTransition(houseState, houseToBarTranstition);
-		fsm.addTransition(houseState, houseToSupermarketAndBarTranstition);
+		fsm.addTransition(houseState, houseToSupermarketAndBarAndRestaurantTranstition);
 
 		fsm.addTransition(supermarketState, supermarketToHouseTranstition);
 		fsm.addTransition(barState, barToHouseTranstition);
+		fsm.addTransition(restaurantState, restaurantToHouseTranstition);
 		
 		fsm.setCurrent(houseState);
 		return fsm;

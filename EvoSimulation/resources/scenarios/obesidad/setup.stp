@@ -75,6 +75,10 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
 			    	this.setAttribute("bar",bar);
 			    }
+			    if(!this.hasAttribute("restaurant")){
+			    	let restaurant = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"restaurant");
+			    	this.setAttribute("restaurant",restaurant);
+			    }
 		   }
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){
 		   		if(this.hasAttribute("rest")){
