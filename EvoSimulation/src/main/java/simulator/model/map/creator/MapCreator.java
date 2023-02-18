@@ -49,14 +49,14 @@ public class MapCreator extends javax.swing.JFrame {
 
 		public void savePanels(String filename) {
 			BufferedImage terrain = terrainPanel.getBufferImage();
-			//BufferedImage attributes = attributesPanel.getBufferImage();
+			BufferedImage attributes = attributesPanel.getBufferImage();
 			BufferedImage elevation = elevationPanel.getBufferImage();
 
 			try {
 				String file = "resources/maps/" + filename;
 				boolean t = new File(file).mkdirs();
 				ImageIO.write(terrain, "png", new File(file + "/terrain.png"));
-				//ImageIO.write(attributes, "png", new File(file + "/attributes.png"));
+				ImageIO.write(attributes, "png", new File(file + "/attributes.png"));
 				ImageIO.write(elevation, "png", new File(file + "/elevation.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -64,7 +64,7 @@ public class MapCreator extends javax.swing.JFrame {
 			}
 			
 			JSONArray arr = new JSONArray();
-			Map<String,List<EntityInfo>> entities = ((EntityPanel.Controller)attributesPanel.ctrl).getEntities();
+			Map<String,List<EntityInfo>> entities = ((EntityPanel.Controller)entitiesPanel.ctrl).getEntities();
 			for(String type:entities.keySet()) {
 				entities.get(type).stream().forEach((EntityInfo e)->arr.put(new JSONObject().put("type",e.name).put("x",e.x).put("y",e.y)));
 			}
@@ -83,7 +83,7 @@ public class MapCreator extends javax.swing.JFrame {
 			try {
 				terrainPanel.setImage(ImageIO.read(new File(filePath + "/terrain.png")));
 				//attributesPanel.setImage(ImageIO.read(new File(filePath + "/attributes.png")));
-				((EntityPanel)attributesPanel).loadEntities(new FileInputStream(filePath + "/entities.json"));
+				((EntityPanel)entitiesPanel).loadEntities(new FileInputStream(filePath + "/entities.json"));
 				elevationPanel.setImage(ImageIO.read(new File(filePath + "/elevation.png")));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -95,6 +95,7 @@ public class MapCreator extends javax.swing.JFrame {
 			terrainPanel.resizeCanvas(w,h);
 			attributesPanel.resizeCanvas(w,h);
 			elevationPanel.resizeCanvas(w,h);
+			entitiesPanel.resizeCanvas(w,h);
 		}
 	}
 
@@ -109,7 +110,8 @@ public class MapCreator extends javax.swing.JFrame {
 
 		jtpMainPanel = new javax.swing.JTabbedPane();
 		terrainPanel = new TerrainPanel(panelManager);
-		attributesPanel = new EntityPanel(panelManager);
+		attributesPanel = new AttributesPanel(panelManager);
+		entitiesPanel = new EntityPanel(panelManager);
 		elevationPanel = new ElevationPanel(panelManager);
 		jMenuBar1 = new javax.swing.JMenuBar();
 		jMenu1 = new javax.swing.JMenu();
@@ -121,7 +123,7 @@ public class MapCreator extends javax.swing.JFrame {
 		setMinimumSize(new java.awt.Dimension(1400, 750));
 
 		jtpMainPanel.addTab("Terrain", terrainPanel);
-		jtpMainPanel.addTab("Attributes", attributesPanel);
+		jtpMainPanel.addTab("Entities", entitiesPanel);
 		jtpMainPanel.addTab("Elevation", elevationPanel);
 
 		jMenu1.setText("File");
@@ -247,12 +249,13 @@ public class MapCreator extends javax.swing.JFrame {
 
 	// Variables declaration - do not modify
 	private AbstractCreatorPanel attributesPanel;
+	private AbstractCreatorPanel entitiesPanel;
 	private AbstractCreatorPanel elevationPanel;
+	private AbstractCreatorPanel terrainPanel;
 	private javax.swing.JMenu jMenu1;
 	private javax.swing.JMenuBar jMenuBar1;
 	private javax.swing.JMenuItem jmiOpen;
 	private javax.swing.JMenuItem jmiSave;
 	private javax.swing.JTabbedPane jtpMainPanel;
-	private AbstractCreatorPanel terrainPanel;
 	// End of variables declaration
 }

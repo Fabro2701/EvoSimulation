@@ -5,6 +5,8 @@ import static simulator.Constants.jsonView;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,14 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import simulator.Constants.MOVE;
 import simulator.Constants.NODE_TYPE;
 import simulator.RandomSingleton;
+import simulator.model.map.creator.EntityPanel.EntityInfo;
 import util.Pair;;
 
 public class Map {
@@ -26,6 +32,8 @@ public class Map {
 	private BufferedImage terrainImg;
 	private String fileName;
 	public int HEIGHT, WIDTH;
+	
+	List<EntityInfo>entitiesInfo;
 
 	/**
 	 * Create the map given the folder name
@@ -63,6 +71,19 @@ public class Map {
 			}
 		}
 		applyTerrainMask();
+		
+		entitiesInfo = new ArrayList<>();
+		try {
+			JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(fileName + "/entities.json")));
+			for(int i=0;i<ents.length();i++) {
+				JSONObject o = ents.getJSONObject(i);
+				entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y")));
+			}
+		} catch (JSONException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	private void applyTerrainMask() {
 		for (int y = 0; y < HEIGHT; y++) {
@@ -222,5 +243,8 @@ public class Map {
 
 	public BufferedImage getElevationImage() {
 		return elevationImg;
+	}
+	public List<EntityInfo> getEntitiesInfo() {
+		return entitiesInfo;
 	}
 }

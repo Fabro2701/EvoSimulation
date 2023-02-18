@@ -34,6 +34,12 @@ public class Chromosome <T>{
 		this.length = length;
 		codons = (List<T>) Stream.generate(s).limit(length).collect(Collectors.toList());
 		usedCodons = 0;
+	} 
+	public Chromosome(Chromosome<T> copy) {
+		super();
+		this.length = copy.length;
+		Collections.copy(this.codons, copy.codons);///deep copy?
+		usedCodons = 0;
 	}
 	public T getCodon(int i) {
 		return codons.get(i);

@@ -48,11 +48,17 @@ public class EntityPanel extends AbstractCreatorPanel {
 			models = new HashMap<String, Attribute>();
 			models.put("house", new Attribute("resources/entities/house.png","house", width, height));
 			models.put("supermarket", new Attribute("resources/entities/supermarket.png","supermarket", width, height));
+			models.put("bar", new Attribute("resources/entities/bar.png","bar", width, height));
+			models.put("restaurant", new Attribute("resources/entities/restaurant.png","restaurant", width, height));
 			selection = models.get("house");
 			img = new ModificationImage(new ImageIcon(bufferImage));
 			
 			entities = new HashMap<>();
 		}
+		/**
+		 * Get a map with all the models entities
+		 * @return
+		 */
 		public Map<String, List<EntityInfo>>getEntities(){
 			this.entities.clear();
 			for(String k:this.models.keySet()) {
@@ -60,7 +66,12 @@ public class EntityPanel extends AbstractCreatorPanel {
 			}
 			return this.entities;
 		}
+		/**
+		 * Loads and updates the entities
+		 * @param arr
+		 */
 		public void loadEntities(JSONArray arr) {
+			this.resetImg();
 			this.entities.clear();
 			for(int i=0;i<arr.length();i++) {
 				JSONObject o = arr.getJSONObject(i);
@@ -85,14 +96,15 @@ public class EntityPanel extends AbstractCreatorPanel {
 			}
 
 			/**
-			 * Paint on bufferGraphics and add a new {@link EntityInfo}
+			 * Paints on bufferGraphics and add a new {@link EntityInfo}
 			 * 
 			 * @param p1
 			 * @param bufferGraphics
 			 */
 			private void paint(Point p1, Graphics2D bufferGraphics) {
 				entities.add(new EntityInfo(name,p1.x,p1.y));
-				bufferGraphics.drawImage(icon, p1.x, p1.y, null);
+				bufferGraphics.drawImage(icon, p1.x-icon.getWidth(null)/2, 
+											   p1.y-icon.getHeight(null)/2, null);
 
 				EntityPanel.this.repaint();
 			}
@@ -138,6 +150,15 @@ public class EntityPanel extends AbstractCreatorPanel {
 			this.x = o.getInt("x");
 			this.y = o.getInt("y");
 		}
+		public int getX() {
+			return x;
+		}
+		public int getY() {
+			return y;
+		}
+		public String getName() {
+			return name;
+		}
 	}
 	@Override
 	public void initComponents() {
@@ -161,7 +182,7 @@ public class EntityPanel extends AbstractCreatorPanel {
 
 		jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 
-		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "house", "supermarket" }));
+		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "house", "supermarket","bar","restaurant" }));
 		jComboBox1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jComboBox1ActionPerformed(evt);

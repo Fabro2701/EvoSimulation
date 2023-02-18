@@ -16,8 +16,10 @@ import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
+import simulator.model.entity.PasiveEntity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import simulator.model.map.creator.EntityPanel.EntityInfo;
 import statistics.StatsManager;
 import util.IdGenerator;
 
@@ -177,6 +179,19 @@ public class Controller {
 		this.simulator.reset();
 		this.eventManager.reset();
 		this.idGenerator = new IdGenerator();
+	}
+	public void loadPE(List<EntityInfo> entitiesInfo) {
+		for(EntityInfo ei:entitiesInfo) {
+			String type = ei.getName();
+			PasiveEntity pe = new PasiveEntity(getNextId(),getNodeAt(ei.getX(),ei.getY()),this);
+			
+			pe.setAttribute(type,true);
+			pe.setAttribute("info",type);
+			pe.setImg(ImageController.getImage(type));
+			
+			this.simulator.addEntity(pe);
+		}
+		
 	}
 	
 	//GETTERS AND SETTERS

@@ -21,7 +21,7 @@ public class TerrainPanel extends AbstractCreatorPanel {
 
 	public TerrainPanel(PanelManager panelManager) {
 		super(panelManager);
-		ctrl = new TerrainPanel.Controller(1000, 1000, new Color(0, 0, 0, 255));
+		ctrl = new TerrainPanel.Controller(1000, 1000, new Color(255, 255, 255, 255));
 		modificationPanel.setViewportView(ctrl.img);
 	}
 

@@ -24,6 +24,7 @@ import simulator.control.UpdatesController;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import simulator.model.map.creator.EntityPanel.EntityInfo;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.Optimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
@@ -153,6 +154,7 @@ public class EvoSimulator {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Add an {@link SimulatorObserver}
 	 * @param observer

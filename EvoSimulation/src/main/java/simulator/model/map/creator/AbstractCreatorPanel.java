@@ -70,6 +70,7 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		protected ModificationImage img;
 		protected Point current;
 		public ViewImage viewObserver;
+		Color initColor;
 
 		/**
 		 * 
@@ -80,7 +81,8 @@ public abstract class AbstractCreatorPanel extends JPanel {
 		public Controller(int width, int height, Color initColor) {
 			this.width = width;
 			this.height = height;
-
+			
+			this.initColor = initColor;
 			current = new Point();
 
 			bufferImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -89,6 +91,10 @@ public abstract class AbstractCreatorPanel extends JPanel {
 			bufferGraphics.setColor(initColor);
 			bufferGraphics.fillRect(0, 0, width, height);
 
+		}
+		public void resetImg() {
+			bufferGraphics.setColor(initColor);
+			bufferGraphics.fillRect(0, 0, width, height);
 		}
 		/**
 		 * Resize the current canvas 

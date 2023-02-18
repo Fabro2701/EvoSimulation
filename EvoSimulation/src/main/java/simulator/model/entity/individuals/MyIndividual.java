@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
+import grammar.operator.crossover.SinglePointCrossover;
 import grammar.operator.mutation.SingleCodonFlipMutation;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
@@ -24,6 +25,7 @@ import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import util.Pair;
 import util.Util;
 
 public class MyIndividual extends GIndividual{
@@ -68,32 +70,32 @@ public class MyIndividual extends GIndividual{
 		HashSet<String> genes = genesMapper.mapGenes(c);
 		phenotype.setGenes(genes);
 	}
-//	/**
-//	 * Constructor invoked by reproduction methods 
-//	 * @param geno
-//	 * @param ctrl
-//	 * @param generation The greatest generation of parents
-//	 */
-//	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
-//		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
-//		ind.genotype = new Genotype(geno);
-//		ind.phenotype = new Phenotype();
-//		ind.mutate();
-//		for(String key:ind.grammars.keySet()) {
-//			Chromosome c = new Chromosome(CHROMOSOME_LENGTH);
-//			ind.genotype.addChromosome(c);
-//			LinkedList<Symbol> crom=null;
-//			crom = ind.grammars.get(key).parse(c);
-//			ind.phenotype.setSymbol(key, crom);
-//			if(ind.phenotype.valid==false) {
-//				ctrl.getStatsManager().onDeadOffSpring(0);
-//				ind.dispose();
-//			}
-//		}
-//		
-//		ind.generation =  generation+1;
-//		return ind;
-//	}
+	/**
+	 * Constructor invoked by reproduction methods 
+	 * @param geno
+	 * @param ctrl
+	 * @param generation The greatest generation of parents
+	 */
+	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
+		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
+		ind.genotype = new Genotype(geno);
+		ind.phenotype = new Phenotype();
+		//ind.mutate();
+		int i=0;
+		for(String key:ind.grammars.keySet()) {
+			Chromosome<Chromosome.Codon> c = ind.genotype.getChromosome(i);
+			LinkedList<Symbol> crom = ind.grammars.get(key).parse(c);
+			ind.phenotype.setSymbol(key, crom);
+			if(ind.phenotype.valid==false) {
+				ctrl.getStatsManager().onDeadOffSpring(0);
+				ind.dispose();
+			}
+			i++;
+		}
+		
+		ind.generation =  generation+1;
+		return ind;
+	}
 
 	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
 		Objects.requireNonNull(cs);
@@ -169,6 +171,11 @@ public class MyIndividual extends GIndividual{
 		if(entities.size()>0) 
 			entity = entities.get(RandomSingleton.nextInt(entities.size()));
 		return entity;
+	}
+	public void reproduce(MyIndividual i2) {
+		Pair<Genotype, Genotype> childs = new SinglePointCrossover().crossover(this.genotype, i2.genotype);
+		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.first, ctrl, generation+1));
+		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, generation+1));
 	}
 	public void mutate() {
 		new SingleCodonFlipMutation().mutate(genotype,this.node.radiation+0.01f);

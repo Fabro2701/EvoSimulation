@@ -17,12 +17,13 @@ public class Genotype extends ArrayList<Chromosome>{
 	public Genotype(JSONObject genotype) {
  		System.err.println("Genotype pending...");
 	}
-	//	public Genotype(Genotype copy) {
-//		super();
-//		for(Chromosome c:copy) {
-//			this.add(new Chromosome(c));
-//		}
-//	}
+	public Genotype(Genotype copy) {
+		super();
+ 		for(Chromosome c:copy) {
+ 			this.add(new Chromosome(c));
+ 		}
+	}
+
 //	public Genotype(JSONObject c) {
 //		super();
 //		this.add(new Chromosome(c.getJSONObject("chromosome")));

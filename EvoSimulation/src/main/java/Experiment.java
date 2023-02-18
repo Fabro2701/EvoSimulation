@@ -96,9 +96,13 @@ public class Experiment {
 		simulator.loadSetup(SetupController.from(this.setup));
 		simulator.setImgRefreshRate(this.imgRefreshRate);
 		
+		//imgs
+		if(this.imgsdir!=null)ImageController.loadFromDirectory(this.imgsdir);
+		
 		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
 		controller.loadEvents(new FileInputStream(this.events));
+		controller.loadPE(simulator.getMap().getEntitiesInfo());
 		
 		//genes
 		if(genes!=null)GIndividual.Genes.loadFromFile(this.genes);
@@ -124,8 +128,7 @@ public class Experiment {
 	        });
 		}
 		
-		//imgs
-		if(this.imgsdir!=null)ImageController.loadFromDirectory(this.imgsdir);
+		
 
 	}
 	public static class Builder{
