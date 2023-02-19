@@ -17,6 +17,7 @@ import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.GIndividual;
+import simulator.model.entity.individuals.PolymorphismController;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;
@@ -36,6 +37,7 @@ public class Experiment {
 	int imgRefreshRate;
 	String attId;
 	String imgsdir;
+	String poly;
 	public void run() {
 		try {
 			parse();
@@ -60,7 +62,8 @@ public class Experiment {
 		if(properties.containsKey("imgRefreshRate"))builder.setImgRefreshRate(Integer.valueOf(properties.getProperty("imgRefreshRate")));
 		if(properties.containsKey("attId"))builder.setAttId(properties.getProperty("attId"));
 		if(properties.containsKey("imgsdir"))builder.setImgsdir(properties.getProperty("imgsdir"));
-		
+		if(properties.containsKey("poly"))builder.setPoly(properties.getProperty("poly"));
+
 		return builder.build();
 	}
 	/**
@@ -107,6 +110,9 @@ public class Experiment {
 		//genes
 		if(genes!=null)GIndividual.Genes.loadFromFile(this.genes);
 		
+		//polymorphims
+		if(poly!=null)PolymorphismController.loadFromFile(this.poly);
+		
 		//constants controller
 		if(this.constantsCtrl) {
 			ConstantsController constantsCtrl = new ConstantsController();
@@ -146,6 +152,7 @@ public class Experiment {
 		int imgRefreshRate = 1;
 		String attId;
 		String imgsdir;
+		String poly;
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -186,6 +193,10 @@ public class Experiment {
 			this.imgsdir = imgsdir;
 			return this;
 		}
+		public Builder setPoly(String poly) {
+			this.poly = poly;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -211,6 +222,7 @@ public class Experiment {
 		this.imgRefreshRate = builder.imgRefreshRate;
 		this.attId = builder.attId;
 		this.imgsdir = builder.imgsdir;
+		this.poly = builder.poly;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")

@@ -9,3 +9,4 @@ genes = resources/scenarios/obesidad/genes.genes
 imgRefreshRate = 10
 attId = imc
 imgsdir = resources/entities/
+poly = resources/scenarios/obesidad/poly.poly

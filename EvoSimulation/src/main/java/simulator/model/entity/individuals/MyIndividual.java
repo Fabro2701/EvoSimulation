@@ -23,6 +23,7 @@ import simulator.control.ImageController;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
+import simulator.model.entity.individuals.PolymorphismController.VARIATION;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import util.Pair;
@@ -55,6 +56,8 @@ public class MyIndividual extends GIndividual{
 		
 		genotype = new Genotype();
 		phenotype = new Phenotype();
+		
+		//grammars chroms
 		for(String key:grammars.keySet()) {
 			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, Chromosome.Codon::new);
 			genotype.addChromosome(c);
@@ -65,10 +68,17 @@ public class MyIndividual extends GIndividual{
 				dispose();
 			}
 		}
+		
+		//genes chrom
 		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextBoolean());
 		GIndividual.Genes genesMapper = new GIndividual.Genes();
 		HashSet<String> genes = genesMapper.mapGenes(c);
 		phenotype.setGenes(genes);
+		
+		//polymorphims chrom
+		Chromosome<Integer> c2 = new Chromosome<Integer>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextInt(256));
+		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
+		phenotype.setPolymorphims(polys);
 	}
 	/**
 	 * Constructor invoked by reproduction methods 

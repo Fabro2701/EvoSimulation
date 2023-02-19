@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import simulator.Constants;
 import simulator.RandomSingleton;
-import simulator.model.entity.individuals.PolymorphismController.VARIATION;
 
 public class PolymorphismController implements Mapper{
 	protected static Map<String,List<VARIATION>>variations;

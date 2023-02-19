@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import setup.OOPParser;
+import simulator.model.entity.individuals.PolymorphismController.VARIATION;
 import simulator.model.evaluation.ActionEvaluator;
 import grammar.Evaluator;
 import grammar.Parser;
@@ -30,7 +31,9 @@ public class Phenotype{
 	Map<String,String> codes;
 	List<LinkedList<Symbol>> symbols;
 	HashSet<String>genes;
+	private Map<String, VARIATION> polys;
 	Parser parser = new Parser();
+	
 	public Phenotype() {
 		super();
 		symbols = new ArrayList<LinkedList<Symbol>>();
@@ -84,6 +87,12 @@ public class Phenotype{
 		return this.genes.contains(gene);
 	}
 
+	public void setPolymorphims(Map<String, VARIATION> polys) {
+		this.polys = polys;
+	}
+	public VARIATION getVariation(String gen) {
+		return this.polys.get(gen);
+	}
 	
 	
 	private void setVisualization() {
