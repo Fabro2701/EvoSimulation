@@ -74,11 +74,13 @@ public class MyIndividual extends GIndividual{
 		GIndividual.Genes genesMapper = new GIndividual.Genes();
 		HashSet<String> genes = genesMapper.mapGenes(c);
 		phenotype.setGenes(genes);
+		genotype.addChromosome(c);
 		
 		//polymorphims chrom
-		Chromosome<Integer> c2 = new Chromosome<Integer>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextInt(256));
+		Chromosome<Float> c2 = new Chromosome<Float>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextFloat());
 		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
 		phenotype.setPolymorphims(polys);
+		genotype.addChromosome(c2);
 	}
 	/**
 	 * Constructor invoked by reproduction methods 

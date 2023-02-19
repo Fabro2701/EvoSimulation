@@ -11,6 +11,6 @@ public interface Mapper {
 	public abstract Object mapChromosome(Chromosome<?> c);
 	public default LinkedList<Symbol> mapGrammar(Chromosome<Chromosome.Codon> c){return null;}
 	public default HashSet<String> mapGenes(Chromosome<Boolean> c){return null;}
-	public default Map<String,VARIATION> mapPolymorphisms(Chromosome<Integer> c) {return null;}
+	public default Map<String,VARIATION> mapPolymorphisms(Chromosome<Float> c) {return null;}
 
 }

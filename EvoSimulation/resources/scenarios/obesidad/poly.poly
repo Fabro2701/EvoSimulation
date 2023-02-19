@@ -1,2 +1,2 @@
-poly1(2) = AA,TT
-poly2(r) = CG
+poly1(2) = AA(0.25),TT(0.25),AC(0.25),AG(0.25)
+poly2(r) = CG(1)
