@@ -1,0 +1,81 @@
+CT    0.386313
+CC    0.355408
+TT    0.258278
+Name: rs11549465, dtype: float64
+CT    0.368653
+TT    0.337748
+CC    0.293598
+Name: rs4994, dtype: float64
+TT    0.403974
+CT    0.390728
+CC    0.205298
+Name: rs429358, dtype: float64
+AA    0.692053
+CA    0.254967
+CC    0.052980
+Name: rs762551, dtype: float64
+TT    0.501104
+CT    0.324503
+CC    0.174393
+Name: rs8192678, dtype: float64
+CT    0.467991
+TT    0.302428
+CC    0.229581
+Name: rs35874116, dtype: float64
+CC    0.842163
+CG    0.139073
+GG    0.018764
+Name: rs738409, dtype: float64
+CC    0.63245
+CA    0.32340
+AA    0.04415
+Name: rs571312, dtype: float64
+CC    0.874172
+CT    0.100442
+TT    0.025386
+Name: rs480902, dtype: float64
+AA    0.593819
+GG    0.293598
+AG    0.112583
+Name: rs1137100, dtype: float64
+TT    0.434879
+CC    0.310155
+CT    0.254967
+Name: rs7412, dtype: float64
+CC    0.540839
+CG    0.370861
+GG    0.088300
+Name: rs713598, dtype: float64
+CC    0.569536
+CT    0.250552
+TT    0.179912
+Name: rs660839, dtype: float64
+CC    0.700883
+CT    0.204194
+TT    0.094923
+Name: rs6821591, dtype: float64
+CG    0.402870
+CC    0.365342
+GG    0.231788
+Name: rs12033832, dtype: float64
+GG    0.577263
+GA    0.327815
+AA    0.094923
+Name: rs11549467, dtype: float64
+CC    0.600442
+CT    0.315673
+TT    0.083885
+Name: rs5030980, dtype: float64
+CC    0.700883
+CT    0.218543
+TT    0.080574
+Name: rs10246939, dtype: float64
+GG    0.745033
+AG    0.211921
+AA    0.043046
+Name: rs1042713, dtype: float64
+CC     0.433775
+CT     0.343267
+TT     0.221854
+UND    0.001104
+Name: rs104894023, dtype: float64

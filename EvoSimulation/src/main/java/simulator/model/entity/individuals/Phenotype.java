@@ -29,6 +29,7 @@ public class Phenotype{
 	boolean valid;
 	Map<String,Evaluator> evaluators;
 	Map<String,String> codes;
+	Map<String,JSONArray> grammarASTs;
 	List<LinkedList<Symbol>> symbols;
 	HashSet<String>genes;
 	private Map<String, VARIATION> polys;
@@ -41,6 +42,7 @@ public class Phenotype{
 		valid=true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
 		codes = new LinkedHashMap<>();
+		grammarASTs = new LinkedHashMap<>();
 		/*parser = new OOPParser() {
 			@Override
 			protected JSONObject Program() {
@@ -52,15 +54,7 @@ public class Phenotype{
  		System.err.println("pending");
 	}
 	public void evaluate(String key, HashMap<String,String>observations, MyIndividual ind) {
-		
-		OOPParser parser = new OOPParser() {
-			@Override
-			protected JSONObject Program() {
-				return new JSONObject().put("list", this.Especification());
-			}
-		};
-		JSONArray arr = parser.parse(codes.get(key)).getJSONArray("list");
-		ActionEvaluator eval = new ActionEvaluator(arr);
+		ActionEvaluator eval = new ActionEvaluator(this.grammarASTs.get(key));
 		java.util.Map<String, Object>vars = new HashMap<String, Object>();
 		vars.put("this", ind);
 		eval.evaluate(vars);
@@ -77,7 +71,16 @@ public class Phenotype{
 			this.valid=false;
 			return;
 		}
-		this.codes.put(key, symbolRepresentation(crom));
+		String code = symbolRepresentation(crom);
+		this.codes.put(key, code);
+		
+		OOPParser parser = new OOPParser() {
+			@Override
+			protected JSONObject Program() {
+				return new JSONObject().put("list", this.Especification());
+			}
+		};
+		this.grammarASTs.put(key, parser.parse(code).getJSONArray("list"));
 		//this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
 	}
 	public void setGenes(HashSet<String>genes) {

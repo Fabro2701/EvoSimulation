@@ -69,7 +69,7 @@ public class PolymorphismController implements Mapper{
 
 				positions.put(name, p);
 				
-				String[]vs = properties.getProperty((String) key).split(",");
+				String[]vs = properties.getProperty((String) key).replaceAll("\\s","").split(",");
 				variations.put(name, Arrays.stream(vs).map((String v)->VARIATION.valueOf(v.split("[(]")[0])).collect(Collectors.toList()));
 				
 				Pattern pattern = Pattern.compile("[0-9.]+");
@@ -89,7 +89,6 @@ public class PolymorphismController implements Mapper{
 		TA,TC,TG,TT
 	}
 	public static void main(String args[]) {
-
 		try {
 			PolymorphismController.loadFromFile("resources/scenarios/obesidad/poly.poly");
 		} catch (IOException e) {
