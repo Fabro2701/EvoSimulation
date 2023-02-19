@@ -70,7 +70,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	public void perform(List<Entity>entities, Map map) {
 		for(String actionid:grammars.keySet()) {
 			int t = this.grammarController.getTime(actionid);
-			if(t==-1) {
+			if(t==-1) {//execute only once
 				if(!this.exs.get(actionid)) {
 					this.exs.put(actionid, true);
 					this.phenotype.evaluate(actionid, this.observationManager.getVariables(), (MyIndividual) this);
