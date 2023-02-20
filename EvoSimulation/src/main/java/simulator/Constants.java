@@ -8,7 +8,7 @@ public final class Constants {
 	public static final int PHEROMONE_LENGTH = 8;
 	
 	public static final int CHROMOSOME_LENGTH = 70;
-	public static final int PLOIDY = 2;
+	public static final int PLOIDY = 1;
 	
 	public static final int DEFAULT_OBSERVATIONS_REFRESH_RATE = 1;
 	

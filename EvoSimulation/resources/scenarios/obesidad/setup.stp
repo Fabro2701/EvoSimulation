@@ -138,4 +138,7 @@ interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"
 					this.setAttribute("state", state);
 					
 					
+				}
+				rep("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+					this.reproduce(e2);
 				}.

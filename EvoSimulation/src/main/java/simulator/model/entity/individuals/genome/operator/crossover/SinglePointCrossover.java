@@ -21,8 +21,11 @@ public class SinglePointCrossover extends CrossoverOperation{
 			Chromosome child1 = new Chromosome(c1);
 			Chromosome child2 = new Chromosome(c2);
 			for(int j=crossPoint;j<child1.getLength();j++) {
-				child1.setIntToCodon(j, c2.getCodon(j).getIntValue());
-				child2.setIntToCodon(j, c1.getCodon(j).getIntValue());
+				Object tmp = child1.getCodon(j);
+				child1.setCodon(j, child2.getCodon(j));
+				child2.setCodon(j, tmp);
+				//child1.setIntToCodon(j, c2.getCodon(j).getIntValue());
+				//child2.setIntToCodon(j, c1.getCodon(j).getIntValue());
 			}
 			gchild1.add(child1);
 			gchild2.add(child2);

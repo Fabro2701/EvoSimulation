@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import simulator.Constants.MOVE;
+import simulator.Constants;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.control.ImageController;
@@ -96,11 +97,13 @@ public class MyIndividual extends GIndividual{
 		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
 		ind.genotype = new Genotype(geno);
 		ind.phenotype = new Phenotype();
-		//ind.mutate();
+		ind.mutate();
+		
+		//grammars chroms
 		int i=0;
 		for(String key:ind.grammars.keySet()) {
 			Chromosome<Chromosome.Codon> c = ind.genotype.getChromosome(i);
-			LinkedList<Symbol> crom = ind.grammars.get(key).parse(c);
+			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(c);
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
@@ -108,6 +111,17 @@ public class MyIndividual extends GIndividual{
 			}
 			i++;
 		}
+		
+		//genes chrom
+		Chromosome<Boolean> c = ind.genotype.getChromosome(ind.genotype.size()-2);
+		GIndividual.Genes genesMapper = new GIndividual.Genes();
+		HashSet<String> genes = genesMapper.mapGenes(c);
+		ind.phenotype.setGenes(genes);
+		
+		//polymorphims chrom
+		Chromosome<Float> c2 = ind.genotype.getChromosome(ind.genotype.size()-1);
+		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
+		ind.phenotype.setPolymorphims(polys);
 		
 		ind.generation =  generation+1;
 		return ind;
@@ -194,7 +208,7 @@ public class MyIndividual extends GIndividual{
 		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, generation+1));
 	}
 	public void mutate() {
-		new SingleCodonFlipMutation().mutate(genotype,this.node.radiation+0.01f);
+		new SingleCodonFlipMutation().mutate(genotype,0.10f);
 		ctrl.getStatsManager().onMutation();
 	}
 	@Override
