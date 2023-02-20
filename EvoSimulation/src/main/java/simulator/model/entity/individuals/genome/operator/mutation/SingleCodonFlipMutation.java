@@ -1,8 +1,8 @@
-package grammar.operator.mutation;
+package simulator.model.entity.individuals.genome.operator.mutation;
 
 import simulator.RandomSingleton;
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Genotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Genotype;
 
 public class SingleCodonFlipMutation extends MutationOperation{
 

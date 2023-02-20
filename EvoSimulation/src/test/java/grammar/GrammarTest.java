@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import grammar.AbstractGrammar.Production;
 import grammar.AbstractGrammar.Rule;
 import grammar.AbstractGrammar.Symbol;
-import simulator.model.entity.individuals.Chromosome;
+import simulator.model.entity.individuals.genome.Chromosome;
 
 class GrammarTest {
 

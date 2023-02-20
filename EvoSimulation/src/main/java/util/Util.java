@@ -15,8 +15,8 @@ import java.util.List;
 
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Genotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Genotype;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 

@@ -1,6 +1,6 @@
-package grammar.operator.crossover;
+package simulator.model.entity.individuals.genome.operator.crossover;
 
-import simulator.model.entity.individuals.Genotype;
+import simulator.model.entity.individuals.genome.Genotype;
 import util.Pair;
 
 public abstract class CrossoverOperation {

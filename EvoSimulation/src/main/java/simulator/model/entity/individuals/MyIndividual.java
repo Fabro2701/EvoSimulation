@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
-import grammar.operator.crossover.SinglePointCrossover;
-import grammar.operator.mutation.SingleCodonFlipMutation;
 import simulator.Constants.MOVE;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
@@ -23,7 +21,13 @@ import simulator.control.ImageController;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
-import simulator.model.entity.individuals.PolymorphismController.VARIATION;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Genotype;
+import simulator.model.entity.individuals.genome.Phenotype;
+import simulator.model.entity.individuals.genome.PolymorphismController;
+import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
+import simulator.model.entity.individuals.genome.operator.crossover.SinglePointCrossover;
+import simulator.model.entity.individuals.genome.operator.mutation.SingleCodonFlipMutation;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import util.Pair;
@@ -63,7 +67,7 @@ public class MyIndividual extends GIndividual{
 			genotype.addChromosome(c);
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
 			phenotype.setSymbol(key, crom);
-			if(phenotype.valid==false) {
+			if(phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				dispose();
 			}
@@ -98,7 +102,7 @@ public class MyIndividual extends GIndividual{
 			Chromosome<Chromosome.Codon> c = ind.genotype.getChromosome(i);
 			LinkedList<Symbol> crom = ind.grammars.get(key).parse(c);
 			ind.phenotype.setSymbol(key, crom);
-			if(ind.phenotype.valid==false) {
+			if(ind.phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				ind.dispose();
 			}
@@ -123,7 +127,7 @@ public class MyIndividual extends GIndividual{
 			ind.genotype.addChromosome(cs.get(i));
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(cs.get(i));
 			ind.phenotype.setSymbol(key, crom);
-			if(ind.phenotype.valid==false) {
+			if(ind.phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				ind.dispose();
 			}

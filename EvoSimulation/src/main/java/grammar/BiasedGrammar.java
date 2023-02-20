@@ -19,9 +19,9 @@ import grammar.derivations.DerivationTree;
 import grammar.derivations.TreeNode;
 import simulator.RandomSingleton;
 import simulator.model.entity.Entity;
-import simulator.model.entity.individuals.Chromosome;
 import simulator.model.entity.individuals.GIndividual;
-import simulator.model.entity.individuals.Phenotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Phenotype;
 
 public class BiasedGrammar extends AbstractGrammar{
 	HashMap<Symbol,ArrayList<Integer>>_rulesMerits;

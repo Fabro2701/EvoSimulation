@@ -15,8 +15,8 @@ import org.json.JSONObject;
 import grammar.AbstractGrammar.Production;
 import grammar.AbstractGrammar.Symbol;
 import grammar.bnf.BNFParser;
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Phenotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Phenotype;
 
 /**
  * 

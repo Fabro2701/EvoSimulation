@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Chromosome.Codon;
-import simulator.model.entity.individuals.Mapper;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Mapper;
+import simulator.model.entity.individuals.genome.Chromosome.Codon;
 
 
 public abstract class AbstractGrammar implements Mapper{

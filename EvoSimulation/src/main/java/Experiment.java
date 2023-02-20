@@ -17,7 +17,7 @@ import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.GIndividual;
-import simulator.model.entity.individuals.PolymorphismController;
+import simulator.model.entity.individuals.genome.PolymorphismController;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;

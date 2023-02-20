@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import grammar.AbstractGrammar.Symbol;
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Phenotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Phenotype;
 
 public class IntronGrammar extends StandardGrammar{
 	@Override

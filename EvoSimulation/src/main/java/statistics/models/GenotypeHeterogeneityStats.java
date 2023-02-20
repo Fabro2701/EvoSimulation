@@ -8,8 +8,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import simulator.model.EvoSimulator;
 import simulator.model.entity.PasiveEntity;
-import simulator.model.entity.individuals.Genotype;
 import simulator.model.entity.individuals.MyIndividual;
+import simulator.model.entity.individuals.genome.Genotype;
 import statistics.StatsData;
 import util.Util;
 

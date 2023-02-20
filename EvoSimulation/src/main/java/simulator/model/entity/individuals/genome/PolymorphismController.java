@@ -1,4 +1,4 @@
-package simulator.model.entity.individuals;
+package simulator.model.entity.individuals.genome;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

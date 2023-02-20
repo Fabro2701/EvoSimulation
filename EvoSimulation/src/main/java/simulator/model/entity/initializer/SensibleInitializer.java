@@ -16,7 +16,7 @@ import grammar.AbstractGrammar.SymbolType;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
-import simulator.model.entity.individuals.Chromosome;
+import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.map.Node;
 
 public class SensibleInitializer extends AbstractInitializer{

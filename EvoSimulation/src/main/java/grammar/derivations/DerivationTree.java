@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import grammar.AbstractGrammar;
 import grammar.AbstractGrammar.Production;
 import grammar.AbstractGrammar.Symbol;
+import simulator.model.entity.individuals.genome.Chromosome;
 import grammar.BiasedGrammar;
-import simulator.model.entity.individuals.Chromosome;
 
 public class DerivationTree {
 	private TreeNode _current, _root , _deepest;

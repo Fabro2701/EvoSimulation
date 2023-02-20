@@ -1,8 +1,8 @@
-package grammar.operator.crossover;
+package simulator.model.entity.individuals.genome.operator.crossover;
 
 import simulator.RandomSingleton;
-import simulator.model.entity.individuals.Chromosome;
-import simulator.model.entity.individuals.Genotype;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Genotype;
 import util.Pair;
 
 public class SinglePointCrossover extends CrossoverOperation{

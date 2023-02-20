@@ -1,4 +1,4 @@
-package simulator.model.entity.individuals;
+package simulator.model.entity.individuals.genome;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,8 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import setup.OOPParser;
-import simulator.model.entity.individuals.PolymorphismController.VARIATION;
+import simulator.model.entity.individuals.MyIndividual;
+import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
 import simulator.model.evaluation.ActionEvaluator;
 import grammar.Evaluator;
 import grammar.Parser;
@@ -158,5 +159,11 @@ public class Phenotype{
 		for(String gen:this.genes)genes.put(gen);
 		
 		return new JSONObject().put("genes", genes);
+	}
+	public boolean isValid() {
+		return valid;
+	}
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 }

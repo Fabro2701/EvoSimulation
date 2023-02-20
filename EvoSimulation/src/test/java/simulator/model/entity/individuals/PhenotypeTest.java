@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import grammar.AbstractGrammar.Symbol;
 import grammar.StandardGrammar;
 import simulator.Constants.MOVE;
+import simulator.model.entity.individuals.genome.Chromosome;
+import simulator.model.entity.individuals.genome.Phenotype;
 
 class PhenotypeTest {
 
