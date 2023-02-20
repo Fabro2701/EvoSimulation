@@ -1,4 +1,4 @@
-grammars := action(1); "grammar.StandardGrammar"; "resources/scenarios/obesidad/obesidad_acts.bnf".
+grammars := action(-1); "grammar.StandardGrammar"; "resources/scenarios/obesidad/obesidad_acts.bnf".
 
 global := a(){
 			let mu = 60*52;

@@ -33,13 +33,19 @@ public class Phenotype{
 	List<LinkedList<Symbol>> symbols;
 	HashSet<String>genes;
 	private Map<String, VARIATION> polys;
-	Parser parser = new Parser();
+	
+	OOPParser parser = new OOPParser() {
+		@Override
+		protected JSONObject Program() {
+			return new JSONObject().put("list", this.Especification());
+		}
+	};
 	
 	public Phenotype() {
 		super();
 		symbols = new ArrayList<LinkedList<Symbol>>();
 		//for(int i=0;i<Constants.PLOIDY;i++)symbols.add(null);
-		valid=true;
+		valid = true;
 		evaluators = new LinkedHashMap<String, Evaluator>();
 		codes = new LinkedHashMap<>();
 		grammarASTs = new LinkedHashMap<>();
@@ -74,12 +80,7 @@ public class Phenotype{
 		String code = symbolRepresentation(crom);
 		this.codes.put(key, code);
 		
-		OOPParser parser = new OOPParser() {
-			@Override
-			protected JSONObject Program() {
-				return new JSONObject().put("list", this.Especification());
-			}
-		};
+		
 		this.grammarASTs.put(key, parser.parse(code).getJSONArray("list"));
 		//this.evaluators.put(key, new Evaluator(parser.parse(symbolRepresentation(crom))));
 	}

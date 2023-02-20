@@ -80,7 +80,17 @@ public class PolymorphismController implements Mapper{
 			ex.printStackTrace();
 		}
 		
-		
+		//normalize probs
+		for(String k:probs.keySet()) {
+			List<Float>l = probs.get(k);
+			float sum=0f;
+			for(Float f:l) {
+				sum += f;
+			}
+			for(int i=0;i<l.size();i++) {
+				l.set(i, l.get(i)/sum);
+			}
+		}
 	}
 	public enum VARIATION{
 		AA,AC,AG,AT,
