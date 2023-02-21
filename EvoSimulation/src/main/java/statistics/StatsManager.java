@@ -168,6 +168,12 @@ public class StatsManager extends JFrame implements StatsObserver{
 			o.onDeadOffSpring(type);
 		}
 	}
+	@Override 
+	public void onEvent(String type) {
+		for(StatsObserver o:observers) {
+			o.onEvent(type);
+		}
+	}
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub

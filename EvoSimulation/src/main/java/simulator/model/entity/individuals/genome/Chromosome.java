@@ -42,7 +42,6 @@ public class Chromosome <T>{
 		super();
 		this.length = copy.length;
 		this.supplier = copy.supplier;
-		//Collections.copy(this.codons, copy.codons);///deep copy?
 		this.codons = new ArrayList<>();
 		for(int i=0;i<copy.codons.size();i++) {
 			Object o = copy.codons.get(i);

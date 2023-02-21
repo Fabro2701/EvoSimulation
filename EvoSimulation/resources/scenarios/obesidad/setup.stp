@@ -58,6 +58,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					}
 				}
 				if(this.getAge()>=mu){
+					((this.getCtrl()).getStatsManager()).onEvent("age death");
 					this.dispose();
 				}
 				
@@ -140,5 +141,7 @@ interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"
 					
 				}
 				rep("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-					this.reproduce(e2);
+					let p = (static "simulator.RandomSingleton").nextDouble();
+					
+					if(p<=0.001)this.reproduce(e2);
 				}.

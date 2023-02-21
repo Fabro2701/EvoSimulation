@@ -51,7 +51,6 @@ public final class Constants {
 	public static final String BestIndividualCodeBuilder_TYPE = "bic";
 	public static final String ChildDepthStatsBuilder_TYPE = "cd";
 	public static final String DeadOffSpringBuilder_TYPE = "dos";
-	public static final String EnergyBuilder_TYPE = "es";
 	public static final String GenesBuilder_TYPE = "ge";
 	public static final String GenotypeHeterogeneityBuilder_TYPE = "gh";
 	public static final String MutationReproductionBuilder_TYPE = "mr";
@@ -66,6 +65,7 @@ public final class Constants {
 	public static final String RefreshStatsBuilder_TYPE = "rs";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";
 	public static final String SaveStatsImageBuilder_TYPE = "sti";
+	public static final String EventsStatsBuilder_TYPE = "es";
 	
 
 	public static final String PasiveEntityBuilder_TYPE = "pe";

@@ -115,6 +115,7 @@ public abstract class Entity{
 	public void dispose() {
 		alive = false;
 		this.attributes.clear();
+		//this.ctrl.getStatsManager().onEvent("natural death");
 	}
 	
 	public Entity setAttribute(String key, Object value) {

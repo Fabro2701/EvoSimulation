@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.json.JSONObject;
@@ -36,6 +37,10 @@ import util.Util;
 
 public class MyIndividual extends GIndividual{
 	protected List<Entity>children;
+	
+	private static Supplier<Chromosome.Codon>suppCodon = Chromosome.Codon::new;
+	private static Supplier<Boolean>suppBool = ()->RandomSingleton.nextBoolean();
+	private static Supplier<Float>suppFloat = ()->RandomSingleton.nextFloat();
 
 	/**
 	 * Base Constructor
@@ -64,7 +69,7 @@ public class MyIndividual extends GIndividual{
 		
 		//grammars chroms
 		for(String key:grammars.keySet()) {
-			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, Chromosome.Codon::new);
+			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, suppCodon);
 			genotype.addChromosome(c);
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
 			phenotype.setSymbol(key, crom);
@@ -75,14 +80,14 @@ public class MyIndividual extends GIndividual{
 		}
 		
 		//genes chrom
-		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextBoolean());
+		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, suppBool);
 		GIndividual.Genes genesMapper = new GIndividual.Genes();
 		HashSet<String> genes = genesMapper.mapGenes(c);
 		phenotype.setGenes(genes);
 		genotype.addChromosome(c);
 		
 		//polymorphims chrom
-		Chromosome<Float> c2 = new Chromosome<Float>(CHROMOSOME_LENGTH, ()->RandomSingleton.nextFloat());
+		Chromosome<Float> c2 = new Chromosome<Float>(CHROMOSOME_LENGTH, suppFloat);
 		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
 		phenotype.setPolymorphims(polys);
 		genotype.addChromosome(c2);
@@ -203,6 +208,7 @@ public class MyIndividual extends GIndividual{
 		return entity;
 	}
 	public void reproduce(MyIndividual i2) {
+		this.ctrl.getStatsManager().onEvent("reproduction");
 		Pair<Genotype, Genotype> childs = new SinglePointCrossover().crossover(this.genotype, i2.genotype);
 		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.first, ctrl, generation+1));
 		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, generation+1));

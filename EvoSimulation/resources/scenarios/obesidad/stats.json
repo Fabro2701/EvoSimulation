@@ -12,10 +12,20 @@
 {
  type:"ge",
  data:{
-       title:"Population age",
+       title:"Genes",
        x:"Time",
        y:"",
        updateRate:300,
+       visualizer:"bar"
+      }
+},
+{
+ type:"es",
+ data:{
+       title:"Events",
+       x:"Time",
+       y:"",
+       updateRate:100,
        visualizer:"bar"
       }
 }
