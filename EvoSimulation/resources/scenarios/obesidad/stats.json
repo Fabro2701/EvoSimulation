@@ -28,5 +28,17 @@
        updateRate:100,
        visualizer:"bar"
       }
+},
+{
+ type:"a",
+ data:{
+       title:"Attribute diabetes",
+       x:"Time",
+       y:"",
+       updateRate:500,
+       visualizer:"line",
+       attribute:"diabetes",
+       group:true
+      }
 }
 ]
