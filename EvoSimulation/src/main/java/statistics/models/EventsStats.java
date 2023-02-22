@@ -23,6 +23,7 @@ public class EventsStats extends StatsData{
 		super(updateRate);
 		dataset = new DefaultCategoryDataset();
 		events = new HashMap<>();
+		serialize = false;
 	}
 	
 	@Override 

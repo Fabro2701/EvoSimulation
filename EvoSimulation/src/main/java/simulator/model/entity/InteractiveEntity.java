@@ -38,7 +38,7 @@ public abstract class InteractiveEntity extends Entity{
 			exs.put(k, false);
 		}
 		
-		init();
+		
 	}
 	protected abstract void init();
 	

@@ -1,0 +1,62 @@
+let imc = this.getAttribute("imc");
+
+let rs11549467 = (this.getPhenotype()).getVariation("rs11549467");
+let rs6821591 = (this.getPhenotype()).getVariation("rs6821591");
+let rs5030980 = (this.getPhenotype()).getVariation("rs5030980");
+let rs4994 = (this.getPhenotype()).getVariation("rs4994");
+
+let p = (static "simulator.RandomSingleton").nextDouble();
+let si = 0; 
+let no = 1; 
+
+if(imc.equals("O")){
+	if(rs11549467.equals("GG")){
+		if(rs6821591.equals("CT")){
+			si = 0;
+			no = 28;
+		}
+		else{
+			si = 15;
+			no = 91;
+		}
+	}
+	else{
+		if(rs11549467.equals("GA")){
+			si = 21;
+			no = 70;
+		}
+		else{
+			si = 12;
+			no = 10;
+		}
+
+	}
+}
+else{
+	if(imc.equals("S")){
+		if(rs4994.equals("TT")){
+			si = 6;
+			no = 145;
+		}
+		else{
+			si = 29;
+			no = 189;
+		}
+
+	}
+	else{
+		if(rs5030980.equals("CT")){
+			si = 11;
+			no = 137;
+		}
+		else{
+			si = 4;
+			no = 457;
+		}
+	}
+}
+
+if(p<(si/(si+no))){
+	this.setAttribute("diabetes", true);
+	this.notifyEvent("diabetes");
+}

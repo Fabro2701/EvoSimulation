@@ -115,7 +115,6 @@ public abstract class Entity{
 	public void dispose() {
 		alive = false;
 		this.attributes.clear();
-		//this.ctrl.getStatsManager().onEvent("natural death");
 	}
 	
 	public Entity setAttribute(String key, Object value) {
@@ -128,6 +127,9 @@ public abstract class Entity{
 	}
 	public Object getAttribute(String key) {
 		return this.attributes.get(key);
+	}
+	public void notifyEvent(String id) {
+		this.ctrl.getStatsManager().onEvent(id);
 	}
 
 	public JSONObject toJSON() {

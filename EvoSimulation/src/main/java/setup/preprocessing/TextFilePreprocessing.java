@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * TextFilePreprocessing replaces all file[filename] appearances with the file content
+ * TextFilePreprocessing replaces all file(filename) appearances with the file content
  * @author Fabrizio Ortega
  *
  */

@@ -74,7 +74,7 @@ public class ActionEvaluator {
 				r = this.eval(expression, env);
 			}
 			catch(EvaluationException e) {
-				System.err.println("expression:\n"+expression.toString(4));
+				//System.err.println("expression:\n"+expression.toString(4));
 				e.printStackTrace();
 			}
 		}

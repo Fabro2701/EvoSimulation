@@ -6,7 +6,7 @@ global := a(){
 			let gamma = 0.0003226;
 			let p1 = 0.020;
 			let p2 = 0.042;
-			let p = 1/7;
+			let pe = 1/7;
 			let e1 = 0.004;
 			let e2 = 0.024;
 			let N0 = 0.704;
@@ -27,28 +27,36 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			  else{
 			  	this.setAttribute("imc","N");
 			  }
-
+		}
+		initactiveDiabetes("simulator.model.entity.individuals.MyIndividual"){
+			  this.setAttribute("diabetes", false);
+			  file(resources/scenarios/obesidad/poly_rules.txt)
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();
 			p = (p*7.0+35.6)*52;
-			this.setAge(p);
-					 
+			this.setAge(p); 
 	 	}
 		initpasive("simulator.model.entity.PasiveEntity"){
 			
 			 
 	 	}.
-updates := update1("simulator.model.entity.individuals.MyIndividual"){
+updates :=  update_diabetes("simulator.model.entity.individuals.MyIndividual"){
+				if(!this.getAttribute("diabetes")){
+					;
+				}
+		    }
+			update1("simulator.model.entity.individuals.MyIndividual"){
 				
 				let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
 				if(imc.equals("S")){
 					if(p<=gamma){
 						this.setAttribute("imc","O");
+						this.notifyEvent("self_S_to_O");
 					}
 				}
-				p = (static "simulator.RandomSingleton").nextDouble();
+				/*p = (static "simulator.RandomSingleton").nextDouble();
 				if((this.getPhenotype()).hasGene("gen1") && p<=0.003){
 					if(imc.equals("N")){
 						this.setAttribute("imc","S");
@@ -56,9 +64,8 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					else if(imc.equals("S")){
 						this.setAttribute("imc","O");
 					}
-				}
+				}*/
 				if(this.getAge()>=mu){
-					((this.getCtrl()).getStatsManager()).onEvent("age death");
 					this.dispose();
 				}
 				
@@ -100,18 +107,20 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 		   }
 		  
 		   update2("simulator.model.entity.individuals.MyIndividual"){
-			   let imc = this.getAttribute("imc");
+				let imc = this.getAttribute("imc");
 				let p = (static "simulator.RandomSingleton").nextDouble();
-				let sn = p1*p2*p;
-				let os = e1*e2*p;
+				let sn = p1*p2*pe;
+				let os = e1*e2*pe;
 				if(imc.equals("S")){
 					if(p<=sn){
 						this.setAttribute("imc","N");
+						this.notifyEvent("self_S_to_N");
 					}
 				}
 				else if(imc.equals("O")){
 					if(p<=os){
 						this.setAttribute("imc","S");
+						this.notifyEvent("self_O_to_S");
 					}
 				}
 		   }.
@@ -119,14 +128,18 @@ actions := <action> NOTHING{
 		   					;
 		   				   }.  
 interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-					let imc1 = this.getAttribute("imc");
-					let imc2 = e2.getAttribute("imc");
-					let p = (static "simulator.RandomSingleton").nextDouble();
-					if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
-						if(p<=beta){
-							this.setAttribute("imc","S");
-						}
-					}		
+					if(this.hasAttribute("rest")&&this.getAttribute("rest")>0&&
+					   e2.hasAttribute("rest")&&e2.getAttribute("rest")>0){
+						let imc1 = this.getAttribute("imc");
+						let imc2 = e2.getAttribute("imc");
+						let p = (static "simulator.RandomSingleton").nextDouble();
+						if(imc1.equals("N")&&((imc2.equals("S")||imc2.equals("O")))){
+							if(p<=beta){
+								this.setAttribute("imc","S");
+								this.notifyEvent("intc_N_to_S");
+							}
+						}	
+					}	
 				}
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();

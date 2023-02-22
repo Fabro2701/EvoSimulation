@@ -54,6 +54,8 @@ public class MyIndividual extends GIndividual{
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
 		children = new ArrayList<Entity>();
+		
+		
 	}
 	/**
 	 * Main constructor used by factories to create random entities
@@ -76,6 +78,7 @@ public class MyIndividual extends GIndividual{
 			if(phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				dispose();
+				return;
 			}
 		}
 		
@@ -91,6 +94,8 @@ public class MyIndividual extends GIndividual{
 		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
 		phenotype.setPolymorphims(polys);
 		genotype.addChromosome(c2);
+		
+		init();
 	}
 	/**
 	 * Constructor invoked by reproduction methods 
@@ -113,6 +118,7 @@ public class MyIndividual extends GIndividual{
 			if(ind.phenotype.isValid()==false) {
 				ctrl.getStatsManager().onDeadOffSpring(0);
 				ind.dispose();
+				return ind;
 			}
 			i++;
 		}
@@ -129,6 +135,8 @@ public class MyIndividual extends GIndividual{
 		ind.phenotype.setPolymorphims(polys);
 		
 		ind.generation =  generation+1;
+		
+		ind.init();
 		return ind;
 	}
 
