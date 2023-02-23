@@ -5,12 +5,15 @@ import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
+import console.model.CommandController;
+import console.view.AbstractConsoleGUI;
 import simulator.LauncherGUI;
 import simulator.OptimizedLauncherGUI;
 import simulator.control.ConstantsController;
 import simulator.control.Controller;
 import simulator.control.ImageController;
 import simulator.control.SetupController;
+import simulator.control.console.SimulationOptionsModel;
 import simulator.events.Event;
 import simulator.events.EventManager;
 import simulator.factories.BuilderBasedFactory;
@@ -123,9 +126,16 @@ public class Experiment {
 		}
 		
 		//visualization
+		
 		if(this.visualization == VISU.BASIC) {
 			SwingUtilities.invokeLater(() -> {
-				new LauncherGUI(controller).setVisible(true);
+				LauncherGUI lgui = new LauncherGUI(controller);
+				lgui.setVisible(true);
+				SwingUtilities.invokeLater(()->{
+					new AbstractConsoleGUI(700,400,
+										   new CommandController(new SimulationOptionsModel(controller, lgui)))
+					.setVisible(true);
+					});
 			});
 		}
 		else if(this.visualization == VISU.OPTIMIZED) {

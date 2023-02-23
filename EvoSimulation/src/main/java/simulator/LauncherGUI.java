@@ -239,11 +239,11 @@ public class LauncherGUI extends javax.swing.JFrame {
 
     private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
     	simStop = false;
-    	runEvent(10000);
+    	runEvent(100000);
     	
     }                                      
 
-    private void runEvent(int n) {
+    public void runEvent(int n) {
     	if ( n>0 && !simStop) {
 	         try {
 	        	 controller.run(1);
@@ -255,7 +255,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	         SwingUtilities.invokeLater( new Runnable() {
 	        	@Override
 	     		public void run() {
-	        		runEvent(n);
+	        		runEvent(n-1);
 	     		}
 	         });
 	   } 
@@ -304,6 +304,9 @@ public class LauncherGUI extends javax.swing.JFrame {
     private void jcbExperimentsActionPerformed(java.awt.event.ActionEvent evt) {     
     	this.entityViewer.runExperiment(this.jcbExperiments.getSelectedItem().toString());
     }
+	public void setSimStop(boolean simStop) {
+		this.simStop = simStop;
+	}
 	/**
      * @param args the command line arguments
      */

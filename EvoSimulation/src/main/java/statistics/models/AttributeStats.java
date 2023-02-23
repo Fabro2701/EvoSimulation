@@ -31,6 +31,7 @@ public class AttributeStats extends StatsData{
 		dataset = new DefaultCategoryDataset();
 		this.groupby = groupby;
 		this.att = att;
+		this.serialize = false;
 	}
 
 	@Override 

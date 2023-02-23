@@ -12,6 +12,8 @@ global := a(){
 			let N0 = 0.704;
 			let S0 = 0.39;
 			let O0 = 0.16;
+			
+			let diabetesDeathProb = 0.0001;
 		  }.
 init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
@@ -42,9 +44,17 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			 
 	 	}.
 updates :=  update_diabetes("simulator.model.entity.individuals.MyIndividual"){
-				if(!this.getAttribute("diabetes")){
-					;
+			
+				let p = (static "simulator.RandomSingleton").nextFloat();
+				if(this.hasAttribute("diabetes")&&this.getAttribute("diabetes")){
+					if(p<diabetesDeathProb){
+						this.notifyEvent("diabetes death");
+						this.dispose();
+					}
 				}
+				/*else{
+					file(resources/scenarios/obesidad/poly_rules.txt);
+				}*/
 		    }
 			update1("simulator.model.entity.individuals.MyIndividual"){
 				
