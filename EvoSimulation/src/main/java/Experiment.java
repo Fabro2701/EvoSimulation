@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import console.model.CommandController;
 import console.view.AbstractConsoleGUI;
@@ -74,6 +78,12 @@ public class Experiment {
 	 * @throws IOException 
 	 */
 	private void parse() throws IOException {
+		
+		/*try {
+		    UIManager.setLookAndFeel( new FlatIntelliJLaf() );
+		} catch( Exception ex ) {
+		    System.err.println( "Failed to initialize theme. Using fallback." );
+		}*/
 		
 		//factories
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(this.eventsFactory);
