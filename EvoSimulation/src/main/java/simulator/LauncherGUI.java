@@ -1,11 +1,11 @@
 package simulator;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.swing.JFileChooser;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -36,10 +36,11 @@ public class LauncherGUI extends javax.swing.JFrame {
 	class ViewersController{
 		public ViewersController() {
 			viewersMap = new HashMap<String,AbstractViewer>();
-			viewersMap.put(jrbTemperatureView.getActionCommand(), new Viewer(controller));
-			viewersMap.put(jrb3DView.getActionCommand(), new Viewer3D(controller));
-			viewersMap.put(jrbNone.getActionCommand(), new EmptyViewer(controller));
-			changeView(jrbTemperatureView.getActionCommand());
+			viewersMap.put("2D", new Viewer(controller));
+			viewersMap.put("3D", new Viewer3D(controller));
+			viewersMap.put("None", new EmptyViewer(controller));
+			
+			changeView("2D");
 		}
 		
 		public void changeView(String key) {
@@ -48,7 +49,6 @@ public class LauncherGUI extends javax.swing.JFrame {
 					viewer = viewersMap.get(key);
 					viewer.activate();
 					jScrollPane1.setViewportView(viewer);
-					
 				}
 				else {
 					viewersMap.get(k).deactivate();
@@ -84,165 +84,109 @@ public class LauncherGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        //viewer = new Viewer(controller);
-        jbPlay = new javax.swing.JButton();
-        jbPause = new javax.swing.JButton();
-        jpTime = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPlay = new javax.swing.JToggleButton();
+        jVisuSelection = new javax.swing.JComboBox<>();
+        jSimulationTime = new TimeLabel(controller);
         jLabel1 = new javax.swing.JLabel();
-        jlSimulationTime = new TimeLabel(controller);
-        jbAddEntity = new javax.swing.JButton();
-        //jp3DViewer = new Viewer3D(controller);
-        jbAddEvent = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jrbTemperatureView = new javax.swing.JRadioButton();
-        jrb3DView = new javax.swing.JRadioButton();
-        jrbNone = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbPlay.setText("Play");
-        jbPlay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbPlayActionPerformed(evt);
+        jPlay.setText(".");
+        try {
+        	jPlay.setIcon(new ImageIcon(ImageIO.read(new File("resources/gui/play.png"))));
+			jPlay.setSelectedIcon(new ImageIcon(ImageIO.read(new File("resources/gui/pause.png"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        jPlay.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jPlayItemStateChanged(evt);
             }
         });
 
-        jbPause.setText("Pause");
-        jbPause.addActionListener(new java.awt.event.ActionListener() {
+        jVisuSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2D", "3D", "None" }));
+        jVisuSelection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbPauseActionPerformed(evt);
+                jVisuSelectionActionPerformed(evt);
             }
         });
+
+        jSimulationTime.setText("0");
 
         jLabel1.setText("Time:");
 
-        jlSimulationTime.setBackground(new java.awt.Color(255, 255, 255));
-        jlSimulationTime.setText("0");
-
-        javax.swing.GroupLayout jpTimeLayout = new javax.swing.GroupLayout(jpTime);
-        jpTime.setLayout(jpTimeLayout);
-        jpTimeLayout.setHorizontalGroup(
-            jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpTimeLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+                .addComponent(jVisuSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
-        jpTimeLayout.setVerticalGroup(
-            jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpTimeLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(jpTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jlSimulationTime, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jVisuSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSimulationTime)
+                    .addComponent(jLabel1))
+                .addContainerGap())
         );
 
-        jbAddEvent.setText("Add Event");
-        jbAddEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAddEventActionPerformed(evt);
-            }
-        });
-
-        jScrollPane1.setBorder(new javax.swing.border.MatteBorder(null));
-
-        jbAddEntity.setText("Add Entity");
-        jbAddEntity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAddEntityActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jrbTemperatureView);
-        jrbTemperatureView.setSelected(true);
-        jrbTemperatureView.setText("TemperatureView");
-        jrbTemperatureView.setToolTipText("");
-        jrbTemperatureView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbTemperatureViewActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jrb3DView);
-        jrb3DView.setText("3DView");
-        jrb3DView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrb3DViewActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jrbNone);
-        jrbNone.setText("None");
-        jrbNone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbNoneActionPerformed(evt);
-            }
-        });
+        jScrollPane1.setBackground(new java.awt.Color(245, 0, 245));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbPause)
-                        .addGap(4, 4, 4)
-                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbAddEntity, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbAddEvent)
-                        .addGap(165, 165, 165)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jrbTemperatureView)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jrbNone))
-                            .addComponent(jrb3DView))))
-                .addContainerGap(27, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbAddEvent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbAddEntity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbPause))
-                        .addComponent(jpTime, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbTemperatureView)
-                            .addComponent(jrbNone))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jrb3DView)
-                        .addContainerGap())))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>                          
 
-    private void jbPlayActionPerformed(java.awt.event.ActionEvent evt) {     
-    	simStop = false;
-    	runEvent(100000);
-    	
-    }                                      
 
+    /*private void jcbExperimentsActionPerformed(java.awt.event.ActionEvent evt) {     
+    	this.entityViewer.runExperiment(this.jcbExperiments.getSelectedItem().toString());
+    }*/
+	public void setSimStop(boolean simStop) {
+		this.simStop = simStop;
+	}
+                             
+    private void jVisuSelectionActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        this.viewsController.changeView((String) this.jVisuSelection.getSelectedItem());
+    }                                              
+
+    private void jPlayItemStateChanged(java.awt.event.ItemEvent evt) {                                       
+        if(this.jPlay.isSelected()) {
+        	simStop = false;
+        	runEvent(100000);
+        }
+        else {
+        	simStop = true;
+        }
+    }      
     public void runEvent(int n) {
     	if ( n>0 && !simStop) {
 	         try {
@@ -260,52 +204,6 @@ public class LauncherGUI extends javax.swing.JFrame {
 	         });
 	   } 
 
-	}
-
-	private void jbPauseActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        pauseEvent();
-    }                                       
-	
-    private void pauseEvent() {
-    	simStop = true;
-	}
-    
-    private void jbAddEntityActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        controller.addRandomEntity();
-    }
-    
-    private void jbAddEventActionPerformed(java.awt.event.ActionEvent evt) {      
-    	JFileChooser jfc = new JFileChooser("resources/loads/events");
-		int returnValue = jfc.showOpenDialog(null);
-
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			//System.out.println(selectedFile.getAbsolutePath());
-			try {
-				controller.addEvent(new FileInputStream(selectedFile));
-			
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-        
-    }   
-    private void jrbTemperatureViewActionPerformed(java.awt.event.ActionEvent evt) {                                        
-    	viewsController.changeView(evt.getActionCommand());
-    }                                                  
-
-    private void jrb3DViewActionPerformed(java.awt.event.ActionEvent evt) {                                          
-    	viewsController.changeView(evt.getActionCommand());
-    }      
-    private void jrbNoneActionPerformed(java.awt.event.ActionEvent evt) {                                           
-    	viewsController.changeView(evt.getActionCommand());
-    } 
-    private void jcbExperimentsActionPerformed(java.awt.event.ActionEvent evt) {     
-    	this.entityViewer.runExperiment(this.jcbExperiments.getSelectedItem().toString());
-    }
-	public void setSimStop(boolean simStop) {
-		this.simStop = simStop;
 	}
 	/**
      * @param args the command line arguments
@@ -338,24 +236,13 @@ public class LauncherGUI extends javax.swing.JFrame {
         });
     }*/
 
-    // Variables declaration - do not modify                   
-    private javax.swing.ButtonGroup buttonGroup1;
+    // Variables declaration - do not modify        
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JToggleButton jPlay;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JButton jbAddEntity;
-    private javax.swing.JButton jbAddEvent;
-    private javax.swing.JButton jbPause;
-    private javax.swing.JButton jbPlay;
-    private javax.swing.JComboBox<String> jcbExperiments;
-    private javax.swing.JLabel jlSimulationTime;
-    private javax.swing.JPanel jpExperiments;
-    private javax.swing.JPanel jpTime;
-    private javax.swing.JRadioButton jrb3DView;
-    private javax.swing.JRadioButton jrbNone;
-    private javax.swing.JRadioButton jrbTemperatureView;
-    private javax.swing.JScrollPane jspExperimentViewer;
+    private javax.swing.JLabel jSimulationTime;
+    private javax.swing.JComboBox<String> jVisuSelection;
     // End of variables declaration                   
 
 }
