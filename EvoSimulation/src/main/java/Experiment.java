@@ -45,6 +45,7 @@ public class Experiment {
 	String attId;
 	String imgsdir;
 	String poly;
+	boolean terminalCtrl;
 	public void run() {
 		try {
 			parse();
@@ -70,6 +71,7 @@ public class Experiment {
 		if(properties.containsKey("attId"))builder.setAttId(properties.getProperty("attId"));
 		if(properties.containsKey("imgsdir"))builder.setImgsdir(properties.getProperty("imgsdir"));
 		if(properties.containsKey("poly"))builder.setPoly(properties.getProperty("poly"));
+		if(properties.containsKey("terminalCtrl"))builder.setTerminalCtrl(Boolean.valueOf(properties.getProperty("terminalCtrl")));
 
 		return builder.build();
 	}
@@ -141,11 +143,13 @@ public class Experiment {
 			SwingUtilities.invokeLater(() -> {
 				LauncherGUI lgui = new LauncherGUI(controller);
 				lgui.setVisible(true);
-				SwingUtilities.invokeLater(()->{
-					new AbstractConsoleGUI(700,400,
-										   new CommandController(new SimulationOptionsModel(controller, lgui)))
-					.setVisible(true);
+				if(this.terminalCtrl) {
+					SwingUtilities.invokeLater(()->{
+						new AbstractConsoleGUI(700,400,
+											   new CommandController(new SimulationOptionsModel(controller, lgui)))
+						.setVisible(true);
 					});
+				}
 			});
 		}
 		else if(this.visualization == VISU.OPTIMIZED) {
@@ -173,6 +177,7 @@ public class Experiment {
 		String attId;
 		String imgsdir;
 		String poly;
+		boolean terminalCtrl = false;
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -217,6 +222,10 @@ public class Experiment {
 			this.poly = poly;
 			return this;
 		}
+		public Builder setTerminalCtrl(boolean terminalCtrl) {
+			this.terminalCtrl = terminalCtrl;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -243,6 +252,7 @@ public class Experiment {
 		this.attId = builder.attId;
 		this.imgsdir = builder.imgsdir;
 		this.poly = builder.poly;
+		this.terminalCtrl = builder.terminalCtrl;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")
