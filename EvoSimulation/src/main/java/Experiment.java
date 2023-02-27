@@ -49,7 +49,7 @@ public class Experiment {
 	public void run() {
 		try {
 			parse();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.err.println("Error while parsing Experiment attributes");
 			e.printStackTrace();
 		}
@@ -79,7 +79,7 @@ public class Experiment {
 	 * Parse the simulation attributes
 	 * @throws IOException 
 	 */
-	private void parse() throws IOException {
+	private void parse() throws Exception {
 		
 		/*try {
 		    UIManager.setLookAndFeel( new FlatIntelliJLaf() );
@@ -93,7 +93,14 @@ public class Experiment {
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(this.statsFactory);
 		 
 		//managers
-		StatsManager statsManager = new StatsManager(this.statsManager, statsFactory);
+		StatsManager statsManager = null;
+		try {
+			statsManager = new StatsManager(this.statsManager, statsFactory);
+		}catch(Exception e) {
+			System.err.println("Error creating StatsManager");
+			throw e;
+		}
+		
 		EventManager eventManager = new EventManager();
 		
 		//simulator

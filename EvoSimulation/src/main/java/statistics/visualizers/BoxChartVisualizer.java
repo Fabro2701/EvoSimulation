@@ -9,7 +9,7 @@ import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
 
 import statistics.StatsData;
 
-public class BoxChartVisualizer extends StatsVisualizer implements ChartI{
+public class BoxChartVisualizer extends StatsVisualizer{
 
 	public BoxChartVisualizer(StatsData data, String name, String x, String y) {
 		JFreeChart chart = ChartFactory.createBoxAndWhiskerChart(  

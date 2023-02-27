@@ -7,7 +7,7 @@ import org.jfree.data.category.CategoryDataset;
 
 import statistics.StatsData;
 
-public class LineChartVisualizer extends StatsVisualizer implements ChartI{
+public class LineChartVisualizer extends StatsVisualizer{
 
 	public LineChartVisualizer(StatsData data, String name, String x, String y) {
 		JFreeChart chart = ChartFactory.createLineChart(  

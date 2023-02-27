@@ -9,6 +9,11 @@ import javax.swing.JLabel;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.AbstractDataset;
 
+/**
+ * StatsData handles all {@link StatsObserver} events
+ * @author Fabrizio Ortega
+ *
+ */
 public abstract class StatsData implements StatsObserver{
 	protected AbstractDataset dataset;  
 	protected JLabel text;  
@@ -19,8 +24,6 @@ public abstract class StatsData implements StatsObserver{
 	
 	public StatsData(int updateRate) {
 		this.updateRate = updateRate;
-		
-		//manager.addObserver(this);
 	}
 	@Override
 	public void onRegister() {

@@ -40,6 +40,7 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 		}
 		
 	}
+	@Override
 	public T createInstance(JSONObject info, Controller controller) {
 		for(Builder<T> b: builders) {
 			T tmp = b.createInstance(info,controller);
@@ -50,6 +51,9 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 		System.err.println("type not found: "+info.getString("type"));
 		return null;
 		//throw new IllegalArgumentException();
+	}
+	public T createInstance(JSONObject info) {
+		return createInstance(info, null);
 	}
 	
 }

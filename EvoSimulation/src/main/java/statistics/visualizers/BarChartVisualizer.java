@@ -8,7 +8,7 @@ import org.jfree.data.category.CategoryDataset;
 
 import statistics.StatsData;
 
-public class BarChartVisualizer extends StatsVisualizer implements ChartI{
+public class BarChartVisualizer extends StatsVisualizer{
 
 	public BarChartVisualizer(StatsData data, String name, String x, String y) {
 		JFreeChart chart=ChartFactory.createBarChart(  

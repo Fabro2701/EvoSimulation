@@ -27,7 +27,7 @@ import statistics.visualizers.TextVisualizer;
 
 /**
  * StatsManager is a Frame where all stats models are allocated
- * This class manages his own factory for StatsData models
+ * This class manages his own factory for {@code StatsData} models
  * @author fabrizioortega
  *
  */
@@ -46,7 +46,7 @@ public class StatsManager extends JFrame implements StatsObserver{
 	public StatsManager() {
 		observers = new ArrayList<StatsObserver>();
 	}
-    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory){
+    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory) throws JSONException, FileNotFoundException, IllegalArgumentException{
     	this();
     	this.modelFactory = modelFactory;
     	loadConfig(config);
@@ -57,45 +57,39 @@ public class StatsManager extends JFrame implements StatsObserver{
     	this.pack();
     	this.setVisible(true);
     }
-	/**
-	 * Load the default models
-	 * @param modelFactory factory
-	 */
-	public StatsManager(BuilderBasedFactory<StatsData> modelFactory){
-		this("default",modelFactory);
-	}
     /**
      * Loads from filename the models to be displayed
      * @param filename
+     * @throws Exception 
      */
-    public void loadConfig(String filename) {
+    public void loadConfig(String filename) throws JSONException, FileNotFoundException, IllegalArgumentException{
     	observers.clear();
     	
-    	JSONArray config = null;
-    	
-    	try {
-    		config = new JSONArray(new JSONTokener(new FileInputStream(filename)));
-		} catch (JSONException | FileNotFoundException e) {
-			System.err.println("Error reading stats config in "+filename);
-			e.printStackTrace();
-		}
+    	JSONArray config = new JSONArray(new JSONTokener(new FileInputStream(filename)));
+		
     	
     	_panel = this.generateProperPanel(config.length());
-    	//_panel = new JPanel(new GridLayout(3, 3));//this will be dynamically resized
+    	//_panel = new JPanel(new GridLayout(3, 3));
     	this.setContentPane(_panel);
     	
     	//read 
     	for(int i=0;i<config.length();i++) {
     		JSONObject o = config.getJSONObject(i);
     		//create a StatsData
-    		StatsData model = modelFactory.createInstance(o, null);
+    		StatsData model = modelFactory.createInstance(o);
     		//given the StatsData create a StatsVisualizer
-    		StatsVisualizer visu = _chooseVisualizer(o.getJSONObject("data"), model);
+    		StatsVisualizer visu = chooseVisualizer(o.getJSONObject("data"), model);
+    		
     		this.addObserver(model);
     		_panel.add(visu.getPanel());
     	}
     	this.pack();
     }
+    /**
+     * Generates the proper panels distribution given by the {@link Constants#STATS_PANEL_RATIO}
+     * @param num
+     * @return
+     */
     private JPanel generateProperPanel(int num) {
     	final double ratio = Constants.STATS_PANEL_RATIO;
     	int rows = (int)Math.ceil(num/ratio);
@@ -108,27 +102,28 @@ public class StatsManager extends JFrame implements StatsObserver{
      * @param model
      * @return
      */
-    private StatsVisualizer _chooseVisualizer(JSONObject data, StatsData model) {
+    private StatsVisualizer chooseVisualizer(JSONObject data, StatsData model) throws IllegalArgumentException{
     	switch(data.getString("visualizer")) {
     		case "line":
-    			return new LineChartVisualizer(model,data.getString("title"),data.getString("x"),data.getString("y"));
+    			return new LineChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
     		case "area":
-    			return new AreaChartVisualizer(model,data.getString("title"),data.getString("x"),data.getString("y"));
+    			return new AreaChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
     		case "bar":
-    			return new BarChartVisualizer(model,data.getString("title"),data.getString("x"),data.getString("y"));
+    			return new BarChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
     		case "box":
-    			return new BoxChartVisualizer(model,data.getString("title"),data.getString("x"),data.getString("y"));
+    			return new BoxChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
     		case "text":
     			return new TextVisualizer(model);
+    		default:
+    			throw new IllegalArgumentException(data.getString("visualizer")+" doesnt match with any visualizer");
     		
     	}
-    	return null;
     }
     public List<StatsObserver>getModels(){
     	return this.observers;
     }
     /**
-     * Add a child StatsObserver to be managed
+     * Add a child {@link StatsObserver} to be managed
      * @param observer
      */
 	public void addObserver(StatsObserver observer) {

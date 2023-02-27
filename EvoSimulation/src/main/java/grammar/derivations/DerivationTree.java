@@ -71,7 +71,7 @@ public class DerivationTree {
 		return this._root.toString();
 	}
 	public static void main(String args[]) {
-		BiasedGrammar g = new BiasedGrammar();
+		/*BiasedGrammar g = new BiasedGrammar();
 		g.parseBNF("defaultBias");
 		DerivationTree t = new DerivationTree(g);
 		
@@ -90,7 +90,7 @@ public class DerivationTree {
 			else {
 				System.out.println("bad");
 			}
-		}
+		}*/
 		
 	}
 }

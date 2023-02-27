@@ -10,7 +10,7 @@ import org.jfree.data.category.CategoryDataset;
 
 import statistics.StatsData;
 
-public class AreaChartVisualizer extends StatsVisualizer implements ChartI{
+public class AreaChartVisualizer extends StatsVisualizer{
 
 	public AreaChartVisualizer(StatsData data, String name, String x, String y) {
 		JFreeChart chart = ChartFactory.createAreaChart(  

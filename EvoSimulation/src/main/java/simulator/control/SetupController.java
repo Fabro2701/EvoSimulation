@@ -42,7 +42,7 @@ public class SetupController {
 		String text = sb.toString();
 		text = TextFilePreprocessing.apply(text);
 		text = CommentPreprocessing.apply(text);
-		System.out.println(text);
+		//System.out.println(text);
 		
 		MainParser parser = new MainParser();
 		ctrl.program = parser.parse(text);
