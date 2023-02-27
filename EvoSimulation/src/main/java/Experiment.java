@@ -165,9 +165,9 @@ public class Experiment {
 		VISU visualization = VISU.BASIC;
 		OPTIMIZER optimizer = OPTIMIZER.BASIC;
 		String map;
-		String eventsFactory="eventsFactory",
-			   entitiesFactory="entitiesFactory",
-			   statsFactory="statsFactory";
+		String eventsFactory="resources/loads/factories/eventsFactory.factory",
+			   entitiesFactory="resources/loads/factories/entitiesFactory.factory",
+			   statsFactory="resources/loads/factories/statsFactory.factory";
 		String statsManager;
 		String setup;
 		String events;

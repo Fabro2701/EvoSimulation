@@ -21,7 +21,7 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 		this.builders = new ArrayList<Builder<T>>();
 		Properties properties = new Properties();
 		try {
-			properties.load(new FileInputStream("resources/loads/properties/"+filename+".properties"));
+			properties.load(new FileInputStream(filename));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

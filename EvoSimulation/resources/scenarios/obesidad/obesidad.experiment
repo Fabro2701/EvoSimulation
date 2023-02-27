@@ -5,6 +5,7 @@ optimizer = UNIFORM_GRID
 stats = resources/scenarios/obesidad/stats.json
 events = resources/scenarios/obesidad/events.json
 constantsCtrl = true
+terminalCtrl = true
 genes = resources/scenarios/obesidad/genes.genes
 imgRefreshRate = 10
 attId = imc

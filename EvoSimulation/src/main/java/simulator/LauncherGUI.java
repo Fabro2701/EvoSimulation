@@ -145,7 +145,6 @@ public class LauncherGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jScrollPane1.setBackground(new java.awt.Color(245, 0, 245));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
