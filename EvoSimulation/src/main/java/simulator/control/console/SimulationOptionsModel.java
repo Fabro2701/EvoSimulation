@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,6 +20,7 @@ import console.model.OptionsModel;
 import console.view.ConsoleEditor;
 import simulator.LauncherGUI;
 import simulator.control.Controller;
+import simulator.events.models.SaveSimulationEvent;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.evaluation.ActionEvaluator;
 import simulator.model.evaluation.EvaluationException;
@@ -58,7 +57,10 @@ public class SimulationOptionsModel implements OptionsModel{
 		addHelpDescription("View or/and edit global constants","constant");
 		
 		options.put("stats",  statsOption());
-		addHelpDescription("Load a stats models","stats");
+		addHelpDescription("Load stats models","stats");
+
+		options.put("save",  saveOption());
+		addHelpDescription("Save simulation","save");
 		
 		options.put("help",  new Options());
 		options.put("h",  new Options());
@@ -83,6 +85,8 @@ public class SimulationOptionsModel implements OptionsModel{
 		actions.put("constant", (c,e)->constantsAction(c,e));
 		
 		actions.put("stats", (c,e)->statsAction(c,e));
+		
+		actions.put("save", (c,e)->saveAction(c,e));
 
 		actions.put("help", (c,e)->helpAction(c,e));
 		actions.put("h", (c,e)->helpAction(c,e));
@@ -90,7 +94,20 @@ public class SimulationOptionsModel implements OptionsModel{
 		return actions;
 	}
 	
+	//Save
+	private Options saveOption() {
+		Options ops = new Options();
+		ops.addOption(Option.builder("d").longOpt("destination").hasArg().desc("Destination file").build());
 
+		return ops;
+	}
+	private boolean saveAction(CommandLine cmd, ConsoleEditor editor){
+		SaveSimulationEvent ev = new SaveSimulationEvent(0, 1, 0, cmd.getOptionValue("destination"), true);
+		this.ctrl.getEventManager().addEvent(ev);
+		editor.sendInfo("Simulation saved in "+cmd.getOptionValue("destination")+"\n");
+		return true;
+	}
+	
 	//Stats
 	private Options statsOption() {
 		Options ops = new Options();
@@ -100,18 +117,17 @@ public class SimulationOptionsModel implements OptionsModel{
 		return ops;
 	}
 	private boolean statsAction(CommandLine cmd, ConsoleEditor editor){
-		
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(cmd.getOptionValue("factory"));
 		StatsManager statsManager = null;
 		try {
 			statsManager = new StatsManager(cmd.getOptionValue("file"), statsFactory);
 			this.ctrl.addStatsManager(statsManager);
+			editor.sendInfo("Stats Models created\n");
 		} catch (JSONException | FileNotFoundException | IllegalArgumentException e) {
-			editor.sendError("Error loading statsManager");
+			editor.sendError("Error loading statsManager\n");
 			e.printStackTrace();
 			return false;
 		}
-		
 		return false;
 	}
 	

@@ -145,7 +145,6 @@ public class Experiment {
 		}
 		
 		//visualization
-		
 		if(this.visualization == VISU.BASIC) {
 			SwingUtilities.invokeLater(() -> {
 				LauncherGUI lgui = new LauncherGUI(controller);
