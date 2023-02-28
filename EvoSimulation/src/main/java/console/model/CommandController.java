@@ -50,7 +50,7 @@ public class CommandController {
 		return false;
 	}
 	/**
-	 * Searches a command that starts with query and return it
+	 * Searches a command that contains query and returns it
 	 * @param query
 	 * @return the command if exists or the query otherwise
 	 */

@@ -16,13 +16,17 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.json.JSONException;
 
 import console.model.OptionsModel;
 import console.view.ConsoleEditor;
 import simulator.LauncherGUI;
 import simulator.control.Controller;
+import simulator.factories.BuilderBasedFactory;
 import simulator.model.evaluation.ActionEvaluator;
 import simulator.model.evaluation.EvaluationException;
+import statistics.StatsData;
+import statistics.StatsManager;
 
 public class SimulationOptionsModel implements OptionsModel{
 	private Controller ctrl;
@@ -53,6 +57,9 @@ public class SimulationOptionsModel implements OptionsModel{
 		options.put("constant",  constantsOption());
 		addHelpDescription("View or/and edit global constants","constant");
 		
+		options.put("stats",  statsOption());
+		addHelpDescription("Load a stats models","stats");
+		
 		options.put("help",  new Options());
 		options.put("h",  new Options());
 		addHelpDescription("Prints commands help descriptions","help","h");
@@ -74,6 +81,8 @@ public class SimulationOptionsModel implements OptionsModel{
 		actions.put("event", (c,e)->eventsAction(c,e));
 		
 		actions.put("constant", (c,e)->constantsAction(c,e));
+		
+		actions.put("stats", (c,e)->statsAction(c,e));
 
 		actions.put("help", (c,e)->helpAction(c,e));
 		actions.put("h", (c,e)->helpAction(c,e));
@@ -81,6 +90,30 @@ public class SimulationOptionsModel implements OptionsModel{
 		return actions;
 	}
 	
+
+	//Stats
+	private Options statsOption() {
+		Options ops = new Options();
+		ops.addOption(Option.builder("f").longOpt("file").hasArg().desc("Models file").build());
+		ops.addOption(Option.builder("c").longOpt("factory").hasArg().desc("Factory file").build());
+
+		return ops;
+	}
+	private boolean statsAction(CommandLine cmd, ConsoleEditor editor){
+		
+		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>(cmd.getOptionValue("factory"));
+		StatsManager statsManager = null;
+		try {
+			statsManager = new StatsManager(cmd.getOptionValue("file"), statsFactory);
+			this.ctrl.addStatsManager(statsManager);
+		} catch (JSONException | FileNotFoundException | IllegalArgumentException e) {
+			editor.sendError("Error loading statsManager");
+			e.printStackTrace();
+			return false;
+		}
+		
+		return false;
+	}
 	
 	//Constants
 	private Options constantsOption() {

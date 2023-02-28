@@ -1,6 +1,7 @@
 package simulator;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.ConstantsController;
@@ -56,7 +58,13 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 
     private void _config() {
 		BuilderBasedFactory<StatsData> statsFactory = new BuilderBasedFactory<StatsData>("statsFactory");
-		StatsManager statsManager = new StatsManager("obesidad", statsFactory);
+		StatsManager statsManager = null;
+		try {
+			statsManager = new StatsManager("obesidad", statsFactory);
+		} catch (JSONException | FileNotFoundException | IllegalArgumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>("eventsFactory");
 		EventManager eventManager = new EventManager();

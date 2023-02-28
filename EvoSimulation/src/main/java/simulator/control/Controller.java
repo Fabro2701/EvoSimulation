@@ -1,6 +1,7 @@
 package simulator.control;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -34,7 +35,7 @@ public class Controller {
 	private BuilderBasedFactory<Entity> entityFactory;
 	private BuilderBasedFactory<Event> eventFactory;
 	private EventManager eventManager;
-	private StatsManager statsManager;
+	private List<StatsManager> statsManagers;//multiple models possible
 	private IdGenerator idGenerator;
 	private ImageController imgController;
 
@@ -42,8 +43,12 @@ public class Controller {
 		this.simulator = simulator;
 		this.entityFactory = entityFactory;
 		this.eventFactory = eventFactory;
+		
 		this.eventManager = eventManager;
-		this.statsManager = statsManager;
+		
+		this.statsManagers = new ArrayList<>();
+		this.statsManagers.add(statsManager);
+		
 		this.idGenerator = new IdGenerator();
 		this.imgController = new ImageController();
 	}
@@ -67,7 +72,7 @@ public class Controller {
 		for (int i = 0; i < runs; i++) {
 			if(eventManager!=null)eventManager.update(this, simulator.getTime());
 			simulator.step();
-			if(statsManager!=null)statsManager.onStep(simulator);
+			for(StatsManager sm:this.statsManagers)sm.onStep(simulator);
 		}
 	}
 
@@ -198,8 +203,11 @@ public class Controller {
 	public Map getMap() {
 		return simulator.getMap();
 	}
-	public StatsManager getStatsManager() {
-		return statsManager;
+	public List<StatsManager> getStatsManagers() {
+		return this.statsManagers;
+	}
+	public void addStatsManager(StatsManager m) {
+		this.statsManagers.add(m);
 	}
 	public List<Entity>getEntities(){
 		return this.simulator.getEntities();

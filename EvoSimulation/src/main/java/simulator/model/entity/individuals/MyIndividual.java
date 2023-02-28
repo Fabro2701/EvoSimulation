@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
 import simulator.Constants.MOVE;
-import simulator.Constants;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.control.ImageController;
@@ -32,6 +31,7 @@ import simulator.model.entity.individuals.genome.operator.crossover.SinglePointC
 import simulator.model.entity.individuals.genome.operator.mutation.SingleCodonFlipMutation;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import statistics.StatsManager;
 import util.Pair;
 import util.Util;
 
@@ -76,7 +76,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
 			phenotype.setSymbol(key, crom);
 			if(phenotype.isValid()==false) {
-				ctrl.getStatsManager().onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
 				dispose();
 				return;
 			}
@@ -116,7 +116,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(c);
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				ctrl.getStatsManager().onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
 				ind.dispose();
 				return ind;
 			}
@@ -155,7 +155,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(cs.get(i));
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				ctrl.getStatsManager().onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
 				ind.dispose();
 			}
 		}
@@ -216,14 +216,15 @@ public class MyIndividual extends GIndividual{
 		return entity;
 	}
 	public void reproduce(MyIndividual i2) {
-		this.ctrl.getStatsManager().onEvent("reproduction");
+		for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("reproduction");
+
 		Pair<Genotype, Genotype> childs = new SinglePointCrossover().crossover(this.genotype, i2.genotype);
 		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.first, ctrl, generation+1));
 		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, generation+1));
 	}
 	public void mutate() {
 		new SingleCodonFlipMutation().mutate(genotype,0.10f);
-		ctrl.getStatsManager().onMutation();
+		//ctrl.getStatsManager().onMutation();
 	}
 	@Override
 	public void update(EvoSimulator simulator) {

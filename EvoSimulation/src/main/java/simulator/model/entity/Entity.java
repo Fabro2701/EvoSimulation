@@ -20,6 +20,7 @@ import simulator.model.EvoSimulator;
 import simulator.model.evaluation.ActionEvaluator;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import statistics.StatsManager;
 
 public abstract class Entity{
 	protected String type, id;
@@ -129,7 +130,7 @@ public abstract class Entity{
 		return this.attributes.get(key);
 	}
 	public void notifyEvent(String id) {
-		this.ctrl.getStatsManager().onEvent(id);
+		for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent(id);
 	}
 
 	public JSONObject toJSON() {
