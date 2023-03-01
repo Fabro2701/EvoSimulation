@@ -17,6 +17,7 @@ public class MainGUIAbstract extends javax.swing.JFrame {
      */
     public MainGUIAbstract() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -29,7 +30,7 @@ public class MainGUIAbstract extends javax.swing.JFrame {
     private void initComponents() {
 
         scrollPane = new javax.swing.JScrollPane();
-        viewPanel = new ViewPanel(new SetupEditorController());
+        viewPanel = new ViewPanel(this, new SetupEditorController());
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
