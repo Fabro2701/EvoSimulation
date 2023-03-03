@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -7,15 +7,15 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
-import genome_editing.model.editor.block.DrawElement.StringShape;
+import block_manipulation.block.DrawElement.Shape;
+import block_manipulation.block.DrawElement.StringShape;
+
 
 public class StrBlock extends PredefinedBlock{
 	String text;
 	int textSize;
-	public StrBlock(JSONArray parameters) {
-		super(parameters);
-		// TODO Auto-generated constructor stub
+	public StrBlock(BlockManager manager, JSONArray parameters) {
+		super(manager, parameters);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class StrBlock extends PredefinedBlock{
 		switch(id) {
 			case "text":
 				text = value.getString("value");
-				textSize = BlockManager.g2.getFontMetrics().stringWidth(text);
+				textSize = manager.getGraphics().getFontMetrics().stringWidth(text);
 				break;
 			default:
 				System.err.println("unsupported parameter: "+id);
@@ -36,13 +36,15 @@ public class StrBlock extends PredefinedBlock{
 	}
 	@Override
 	public void paint(List<Shape> shapes) {
-		shapes.add(new StringShape(text, 
+		bufferShapes.clear();
+		bufferShapes.add(new StringShape(text, 
 								   this.base.x+2f, 
 								   this.base.y+stringHeight-2f, 
 								   Color.black));
 //		shapes.add(new DrawElement.Rectangle(this.base.x,     this.base.y, 
 //				 1, 100, 
 //				 color));
+		shapes.addAll(bufferShapes);
 	}
 
 	@Override
@@ -59,6 +61,10 @@ public class StrBlock extends PredefinedBlock{
 	@Override
 	public Block find(Point point) {
 		return null;
+	}
+	@Override
+	public List<Shape> getSelectableShapes() {
+		return List.of();
 	}
 
 

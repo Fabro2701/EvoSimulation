@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 
 import java.awt.Color;
@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class DrawElement {
+	static boolean borders = false;
 	public static abstract class Shape{
 		protected Color color;
 		public float priority;
@@ -35,26 +36,13 @@ public class DrawElement {
 			
 			g2.setColor(Color.black);
 			//g2.setStroke(new BasicStroke(4));
-			g2.drawRect((int)x, (int)y, (int)width, (int)height);
+			if(borders)g2.drawRect((int)x, (int)y, (int)width, (int)height);
 		}
-		/**
-		 * W. Randolph Franklin algorithm 
-		 * https://web.archive.org/web/20161108113341/https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-		 */
+
 		@Override
 		public boolean contains(Point point) {
-			float pointsx[] = new float[] {this.x, this.x+width, this.x+width, this.x};
-			float pointsy[] = new float[] {this.y, this.y, this.y+height, this.y+height};
-			int i;
-			int j;
-			boolean result = false;
-			for (i = 0, j = pointsx.length - 1; i < pointsx.length; j = i++) {
-			  if ((pointsy[i] > point.y) != (pointsy[j] > point.y) &&
-			      (point.x < (pointsx[j] - pointsx[i]) * (point.y - pointsy[i]) / (pointsy[j]-pointsy[i]) + pointsx[i])) {
-				  result = !result;
-			   }
-			}
-			return result;
+
+			return (point.x>=x&&point.x<=x+width)&&(point.y>=y&&point.y<=y+height);
 		}
 	}
 	public static class Triangle extends Shape{

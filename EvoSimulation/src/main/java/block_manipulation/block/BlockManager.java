@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -12,46 +12,44 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
-import genome_editing.model.editor.parsing.BlockParser;
-import genome_editing.model.elements.Vector2D;
+import block_manipulation.block.DrawElement.Shape;
+import block_manipulation.parsing.BlockParser;
+import block_manipulation.Vector2D;
 import simulator.Constants;
 import simulator.RandomSingleton;
-import simulator.model.entity.individuals.genome.Chromosome;
-import simulator.model.entity.individuals.genome.Chromosome.Codon;
+
 
 public class BlockManager{
-	Chromosome<Chromosome.Codon>chChoice;
 	Block root;
 	Vector2D base;
 	List<DrawElement.Shape>shapes;
-	static List<Integer>decisions;
-	static int cursor=0;
-	static HashMap<String, JSONArray>blockDescs;
-	static Graphics2D g2;
-	static HashMap<String, Color>blockColors;
-	
-	static {
+	List<Integer>decisions;
+	int cursor=0;
+	HashMap<String, JSONArray>blockDescs;
+	Graphics2D g2;
+	HashMap<String, Color>blockColors;
+
+	public BlockManager(Vector2D base) {
 		decisions = new ArrayList<Integer>(Constants.CHROMOSOME_LENGTH);
 
 		//decisions.stream().forEach(e->System.out.println(e));
 		
+		int alpha = 255;
 		blockColors = new HashMap<String, Color>();
-		blockColors.put("CODE", new Color(255,0,0,100));
-		blockColors.put("LINE", new Color(0,255,0,100));
-		blockColors.put("IF", new Color(0,0,255,100));
-		blockColors.put("COND", new Color(255,255,0,100));
-		blockColors.put("OBS", new Color(255,0,255,100));
-		blockColors.put("ACTION", new Color(0,255,255,100));
-		blockColors.put("OP", new Color(150,150,150,100));
-	}
-	
-	public BlockManager(Vector2D base) {
+		blockColors.put("CODE", new Color(255,0,0,alpha));
+		blockColors.put("LINE", new Color(0,255,0,alpha));
+		blockColors.put("IF", new Color(0,0,255,alpha));
+		blockColors.put("COND", new Color(255,255,0,alpha));
+		blockColors.put("OBS", new Color(255,0,255,alpha));
+		blockColors.put("ACTION", new Color(0,255,255,alpha));
+		blockColors.put("OP", new Color(150,150,150,alpha));
+		
 		this.base = base;
 		BlockParser parser = new BlockParser();
 		JSONObject program = parser.parseFile("test");
 
 		blockDescs = BlockCreator.loadBlocks(program);
+		
 		
 	}
 	public void move(Point current, MouseEvent e) {
@@ -62,7 +60,6 @@ public class BlockManager{
 		if(block != null && block instanceof RecursiveBlock) {
 			int position = ((RecursiveBlock)block).getPosition();
 			decisions.set(position, decisions.get(position)+1);
-			this.chChoice.getCodon(position).setInt(decisions.get(position));
 		}
 	}
 	public void paint(Graphics2D g) {
@@ -79,21 +76,25 @@ public class BlockManager{
 		});
 		shapes.stream().forEach(s->s.draw(g2));
 	}
-	public static int getNext() {
+	public int getNext() {
 		return decisions.get(cursor++);
 	}
 	public void setRoot(Block root) {
 		this.root = root;
 	}
-	public static int getCursor() {
+	public int getCursor() {
 		return cursor;
 	}
-	public void setChChoice(Chromosome<Codon> chChoice) {
-		this.chChoice = chChoice;
-		decisions.clear();
-		for(int i=0;i<Constants.CHROMOSOME_LENGTH;i++) {
-			decisions.add(this.chChoice.getCodon(i).getIntValue());
-		}
-
+	public List<Integer> getDecisions(){
+		return this.decisions;
+	}
+	public Color getBlockColor(String id) {
+		return this.blockColors.get(id);
+	}
+	public JSONArray getBlockDescription(String id) {
+		return this.blockDescs.get(id);
+	}
+	public Graphics2D getGraphics() {
+		return this.g2;
 	}
 }

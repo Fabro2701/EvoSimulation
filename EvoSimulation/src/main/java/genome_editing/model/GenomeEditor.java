@@ -7,42 +7,36 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import genome_editing.model.editor.block.Block;
-import genome_editing.model.editor.block.BlockCreator;
-import genome_editing.model.editor.block.BlockManager;
-import genome_editing.model.editor.block.DrawElement;
-import genome_editing.model.editor.block.DrawElement.Shape;
-import genome_editing.model.editor.block.RecursiveBlock;
-import genome_editing.model.editor.parsing.BlockParser;
-import genome_editing.model.elements.Vector2D;
-import genome_editing.model.elements.Vector3D;
+import block_manipulation.block.Block;
+import block_manipulation.block.BlockManager;
+import block_manipulation.block.RecursiveBlock;
+import block_manipulation.Vector2D;
 import simulator.Constants;
 import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.entity.individuals.genome.Genotype;
 
 public class GenomeEditor extends Editor{
 	Genotype geno;
-	GenomeVisualizer visualizer;
 	BlockManager manager;
 	Chromosome<Chromosome.Codon>chChoice;
-	public GenomeEditor(Genotype geno, GenomeVisualizer visualizer) {
+	public GenomeEditor(Genotype geno) {
 		super();
 		this.geno = geno;
 		this.chChoice = geno.get(0);
-		this.visualizer = visualizer;
 		this.init();
 	} 
 
 	private void init() {
 		manager = new BlockManager(new Vector2D(20f,80f));
+		List<Integer>decisions = manager.getDecisions();
+		decisions.clear();
+		for(int i=0;i<Constants.CHROMOSOME_LENGTH;i++) {
+			decisions.add(this.chChoice.getCodon(i).getIntValue());
+		}
+		//decisions.set(1, -1);
+		
 		MouseAdapter mouseA = new MouseAdapter() {
 			boolean pressed = false;
     		Point current = null;
@@ -68,7 +62,8 @@ public class GenomeEditor extends Editor{
 			}
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-		
+				Block.changeMult(-e.getWheelRotation()/10f);
+				GenomeEditor.this.repaint();
 			}
 		};
 		this.addMouseListener(mouseA);
@@ -85,14 +80,15 @@ public class GenomeEditor extends Editor{
 		g2.fillRect(2, 0, this.getWidth(), this.getHeight());
 		
 		g2.setColor(Color.black);
-		for(int i=0;i<Constants.PLOIDY;i++) {
+		/*for(int i=0;i<Constants.PLOIDY;i++) {
 			g2.drawString(geno.toString(i), 5, 10+13*i);		
-		}
+		}*/
+		g2.drawString(manager.getDecisions().toString(), 5, 10);	
 		
 		
-		RecursiveBlock block1 = new RecursiveBlock("CODE");
+		RecursiveBlock block1 = new RecursiveBlock(manager, "IF");
 
-		manager.setChChoice(this.chChoice);
+		
 		manager.setRoot(block1);
 		manager.paint(g2);
 		

@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -7,13 +7,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
-import genome_editing.model.elements.Vector2D;
+import block_manipulation.block.DrawElement.Shape;
+import block_manipulation.Vector2D;
 
 public class ChildrenBlock extends PredefinedBlock{
 	List<Block> children;
-	public ChildrenBlock(JSONArray parameters) {
-		super(parameters);
+	public ChildrenBlock(BlockManager manager, JSONArray parameters) {
+		super(manager, parameters);
 		
 	}
 	@Override
@@ -24,7 +24,7 @@ public class ChildrenBlock extends PredefinedBlock{
 	protected void setParameter(String id, JSONObject value) {
 		switch(id) {
 			case "e":
-				children.add(Block.forType(value));
+				children.add(Block.forType(manager, value));
 				break;
 			default:
 				System.err.println("unsupported parameter: "+id);
@@ -32,6 +32,7 @@ public class ChildrenBlock extends PredefinedBlock{
 	}
 	@Override
 	public void paint(List<Shape> shapes) {
+		bufferShapes.clear();
 		float shifty = 0f;
 		for(Block child:children) {
 			if(child instanceof PredefinedBlock)((PredefinedBlock) child).setColor(color);
@@ -39,7 +40,9 @@ public class ChildrenBlock extends PredefinedBlock{
 			child.paint(shapes);
 			shifty += child.getHeight();
 		}
-		shapes.add(new DrawElement.Rectangle(base.x, base.y, Block.inblockShift, shifty, color));
+		bufferShapes.add(new DrawElement.Rectangle(base.x, base.y, Block.inblockShift, shifty, color));
+		
+		shapes.addAll(bufferShapes);
 	}
 
 	@Override
@@ -64,6 +67,10 @@ public class ChildrenBlock extends PredefinedBlock{
 			if(block != null)return block;
 		}
 		return block;
+	}
+	@Override
+	public List<Shape> getSelectableShapes() {
+		return List.of(this.bufferShapes.get(0));
 	}
 
 

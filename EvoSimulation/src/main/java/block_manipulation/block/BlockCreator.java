@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.util.HashMap;
 

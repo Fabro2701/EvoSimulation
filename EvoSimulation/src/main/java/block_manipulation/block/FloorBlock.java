@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Point;
 import java.util.List;
@@ -6,13 +6,12 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
+import block_manipulation.block.DrawElement.Shape;
 
 public class FloorBlock  extends PredefinedBlock{
 	StrBlock name;
-	public FloorBlock(JSONArray parameters) {
-		super(parameters);
-		// TODO Auto-generated constructor stub
+	public FloorBlock(BlockManager manager, JSONArray parameters) {
+		super(manager, parameters);
 	}
 
 	@Override
@@ -24,8 +23,10 @@ public class FloorBlock  extends PredefinedBlock{
 	}
 	@Override
 	public void paint(List<Shape> shapes) {
-		// TODO Auto-generated method stub
-		shapes.add(new DrawElement.Rectangle(base.x, base.y, 40f, floorblockShift, color));
+		bufferShapes.clear();
+		bufferShapes.add(new DrawElement.Rectangle(base.x, base.y, 40f*mult, floorblockShift, color));
+
+		shapes.addAll(bufferShapes);
 	}
 
 	@Override
@@ -49,6 +50,10 @@ public class FloorBlock  extends PredefinedBlock{
 	@Override
 	public Block find(Point point) {
 		return null;
+	}
+	@Override
+	public List<Shape> getSelectableShapes() {
+		return List.of(this.bufferShapes.get(0));
 	}
 
 }

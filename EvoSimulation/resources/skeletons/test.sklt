@@ -16,11 +16,11 @@
 		  ],
 		  [
 		   Header(name=Str(text="line"))
-		   Children(e=Header(right=Str(text="return "),right=<ACTION>)),
+		   Children(e=Header(name=Str(text="return "),right=<ACTION>)),
  		   Floor()
 		  ].
 <IF> :- [
-		 Header(name=Str(text="if"),right=<COND>),
+		 Header(name=Str(text="if"),right=<COND>,right=<COND>),
 		 Children(e=<LINE>),
 		 Floor()
 		],
@@ -32,17 +32,23 @@
 		 Floor(),
 		].
 <COND> :- [
-		   Header(right=<OBS>,right=<OP>,right=<OBS>)
+		   Inner(names=<OBS>,names=<OP>,names=<OBS>)
+		  ],
+		  [
+		   Inner(names=<COND>,names=<OP>,names=<OBS>)
+		  ],
+		  [
+		   Inner(names=<OBS>,names=<OP>,names=<COND>)
 		  ].
-<OBS> :- [Header(right=Str(text="ae"))],
-		 [Header(name=Str(text="obs2"))],
-		 [Header(name=Str(text="qqqqqqq"))].
-<ACTION> :- [Header(right=Str(text="RIGHT"))],
-			[Header(right=Str(text="LEFT"))],
-			[Header(right=Str(text="UP"))],
-			[Header(right=Str(text="DOWN"))],
-			[Header(right=Str(text="NEUTRAL"))].
-<OP> :- [Header(name=Str(text="<"))],
-		[Header(name=Str(text=">"))],
-		[Header(name=Str(text="<="))],
-		[Header(name=Str(text=">="))].
+<OBS> :- [Inner(names=Str(text="ae"))],
+		 [Inner(names=Str(text="obs2"))],
+		 [Inner(names=Str(text="qqqqqqq"))].
+<ACTION> :- [Inner(names=Str(text="RIGHT"))],
+			[Inner(names=Str(text="LEFT"))],
+			[Inner(names=Str(text="UP"))],
+			[Inner(names=Str(text="DOWN"))],
+			[Inner(names=Str(text="NEUTRAL"))].
+<OP> :- [Inner(names=Str(text="<"))],
+		[Inner(names=Str(text=">"))],
+		[Inner(names=Str(text="<="))],
+		[Inner(names=Str(text=">="))].

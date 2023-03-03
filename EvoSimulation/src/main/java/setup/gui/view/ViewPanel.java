@@ -18,16 +18,19 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import setup.gui.control.SetupEditorController;
 import setup.gui.model.SetupEditorModel.EntitySeparator;
+import setup.gui.view.module.InteractionModule;
 import setup.gui.view.module.SeparatorModule;
 
 public class ViewPanel extends JPanel{
 	JFrame father;
-	List<State>states;
+	List<State>states;//change to less abstract and more organised dstruct
 	SetupEditorController ctrl;
 	CustomMouseAdapter mouse;
+	boolean recalculate = false;
 	
 	public ViewPanel(JFrame father, SetupEditorController ctrl) {
 		super();
@@ -45,7 +48,7 @@ public class ViewPanel extends JPanel{
 		setStates();
 	}
 	private void setStates() {
-		this.states = new ArrayList<>();
+		this.states.clear();
 		Point2D.Float root = new Point2D.Float(20f,20f);
 		
 		float i=0f;
@@ -63,8 +66,8 @@ public class ViewPanel extends JPanel{
 			this.states.add(state);
 			float j=1f;
 			for(String v:entry.getValue().getValues()) {
-				State vstate = State.from(entry.getValue().getAtt(), 
-										  v,
+				State vstate = State.from("separator", 
+										  entry.getValue().getAtt(),
 										  v, 
 										  new CircleShape(root.x+j*75f, 
 												  		  root.y+i*100f, 
@@ -85,7 +88,10 @@ public class ViewPanel extends JPanel{
 		g2.setColor(Color.white);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		this.setStates();
+		if(recalculate) {
+			this.setStates();
+			recalculate = false;
+		}
 
 		g2.setColor(Color.black);
 		for(State state:this.states) {
@@ -97,8 +103,8 @@ public class ViewPanel extends JPanel{
 		String name;
 		Shape shape;
 		Object id;
-		boolean selected = false;
 		Map<String, Object>attributes;
+		Color color;
 		public static State from(String clazz, Object id, String name, Shape shape) {
 			State s = new State();
 			s.clazz = clazz;
@@ -109,9 +115,11 @@ public class ViewPanel extends JPanel{
 			return s;
 		}
 		public void paint(Graphics2D g2) {
-			if(selected)g2.setColor(Color.red);
-			else g2.setColor(Color.black);
+			if(color==null)g2.setColor(Color.black);
+			else g2.setColor(color);
+			
 			shape.paint(g2);
+			
 			Point2D.Float c = shape.center();
 			int width = g2.getFontMetrics().stringWidth(name);
 			int height = g2.getFontMetrics().getHeight();
@@ -136,33 +144,59 @@ public class ViewPanel extends JPanel{
 		public Object getAttribute(String k) {
 			return this.attributes.get(k);
 		}
+		public State setAttribute(String k, Object v) {
+			this.attributes.put(k, v);
+			return this;
+		}
 	}
 	private class CustomMouseAdapter extends MouseAdapter{
 		State selection;
+		State selection2;
+		boolean sel2;
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Point p = e.getPoint();
-			if(selection==null) {
-				select(p);
-			}
-			else {
-				selection.selected = false;
-				if(!selection.isInside(p))select(p);
-			}
-			if(selection!=null) {
-				open(p);
-			}
-			ViewPanel.this.repaint();
-		}
-		private boolean select(Point p) {
-			for(State state:states) {
-				if(state.isInside(p)) {
-					selection = state;
-					selection.selected = true;
-					return true;
+			State aux = select(p);
+			if(aux!=null) {
+				if(SwingUtilities.isLeftMouseButton(e)) {
+					if(selection==aux) {
+						selection.color = null;
+						selection=null;
+						ViewPanel.this.repaint();
+						return;
+					}
+					if(selection2==aux) {
+						selection2.color = null;
+						selection2=null;
+						ViewPanel.this.repaint();
+						return;
+					}
+					if(selection==null) {
+						selection = aux;
+					}
+					else {
+						if(selection2==null) {
+							selection2 = aux;
+						}			
+					}			
+				}	
+				if(SwingUtilities.isRightMouseButton(e)) {
+					open(p, aux);
 				}
 			}
-			return false;
+			if(selection!=null)selection.color = Color.RED;
+			if(selection2!=null)selection2.color = Color.GREEN;
+			
+			ViewPanel.this.recalculate=false;
+			ViewPanel.this.repaint();
+		}
+		private State select(Point p) {
+			for(State state:states) {
+				if(state.isInside(p)) {
+					return state;
+				}
+			}
+			return null;
 		}
 		
 		JMenuItem separatorMenu;
@@ -170,29 +204,41 @@ public class ViewPanel extends JPanel{
 		JMenuItem interactionMenu;
 		
 		SeparatorModule separatorModule;
+		InteractionModule interactionModule;
 		public CustomMouseAdapter() {
 			separatorMenu = new JMenuItem("Separator");
 			separatorMenu.addActionListener((ActionEvent e)->accessSeparator(this.selection));
 			initMenu = new JMenuItem("Init");
 			interactionMenu = new JMenuItem("Interaction");
-			
-			separatorModule = new SeparatorModule(ViewPanel.this.father, ViewPanel.this.ctrl);
+			interactionMenu.addActionListener((ActionEvent e)->accessInteraction(this.selection, this.selection2));
+
+			separatorModule = new SeparatorModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 		}
 		
-		private void open(Point p) {
+		private void open(Point p, State state) {
 			JPopupMenu pm = new JPopupMenu();
+			if(selection!=null&&selection2==null) {
+				if(selection.clazz.equals("class"))pm.add(separatorMenu);
+			}
 			
-			if(this.selection.clazz.equals("class"))pm.add(separatorMenu);
 			pm.add(initMenu);
 			pm.add(interactionMenu);
 			
 			pm.show(ViewPanel.this, p.x, p.y);
 		}
-		public Object accessSeparator(State state) {//create one class for each access
+		public Object accessSeparator(State state) {
 			separatorModule.open(state);
-			
-			
-			ViewPanel.this.repaint();
+			this.selection = null;
+			this.selection2 = null;
+
+			return null;
+		}
+		public Object accessInteraction(State state1, State state2) {
+
+			separatorModule.open(state1, state2);
+
+			this.selection = null;
+			this.selection2 = null;
 			return null;
 		}
 	}
@@ -253,5 +299,10 @@ public class ViewPanel extends JPanel{
 		public Point2D.Float center() {
 			return new Point2D.Float(x+w/2f, y+h/2f);
 		}
+	}
+	public void recalculate() {
+		this.recalculate = true;
+		this.mouse.selection = null;
+		this.mouse.selection2 = null;
 	}
 }

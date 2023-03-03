@@ -1,4 +1,4 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -8,12 +8,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
+import block_manipulation.block.DrawElement.Shape;
 
 public abstract class PredefinedBlock extends Block{
 	Color color;
 	protected List<Shape>bufferShapes;
-	public PredefinedBlock(JSONArray parameters) {
+	public PredefinedBlock(BlockManager manager, JSONArray parameters) {
+		super(manager);
 		bufferShapes = new ArrayList<Shape>();
 		config();
 		for(int i=0;i<parameters.length();i++) {
@@ -24,6 +25,7 @@ public abstract class PredefinedBlock extends Block{
 	public List<Shape> getBufferShapes() {
 		return bufferShapes;
 	}
+	public abstract List<Shape> getSelectableShapes();
 	protected void setColor(Color color) {
 		this.color = color;
 	}

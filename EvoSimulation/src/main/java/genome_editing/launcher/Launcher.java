@@ -26,11 +26,11 @@ public class Launcher extends JFrame{
 		}
 		
 		this.setLayout(new GridLayout(1,2));
-		
+		 
 		GenomeVisualizer visualizer = new GenomeVisualizer(800,800,geno);
 		this.add(visualizer);
 		
-		GenomeEditor editor = new GenomeEditor(geno, visualizer);
+		GenomeEditor editor = new GenomeEditor(geno);
 		this.add(editor);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

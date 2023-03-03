@@ -1,4 +1,4 @@
-package genome_editing.model.editor.parsing;
+package block_manipulation.parsing;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

@@ -1,10 +1,10 @@
-package genome_editing.model.editor.block;
+package block_manipulation.block;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.List;
 
-import genome_editing.model.editor.block.DrawElement.Shape;
+import block_manipulation.block.DrawElement.Shape;
 
 public interface BlockRenderer {
 	public void paint(List<Shape> shapes);
