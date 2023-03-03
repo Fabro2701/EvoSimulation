@@ -88,7 +88,7 @@ public class RecursiveBlock extends Block{
 			this.incomplete=true;
 			shapes.add(new DrawElement.Rectangle(this.base.x, 
 												 this.base.y, 
-												 manager.getGraphics().getFontMetrics().stringWidth(rule), 
+												 manager.getGraphics().getFontMetrics().stringWidth(rule)*mult, 
 												 stringHeight, 
 												 color)
 					  );
@@ -111,7 +111,7 @@ public class RecursiveBlock extends Block{
 	}
 	@Override
 	public float getWidth() {
-		if(incomplete)return manager.getGraphics().getFontMetrics().stringWidth(rule);
+		if(incomplete)return manager.getGraphics().getFontMetrics().stringWidth(rule)*mult;
 		
 		float sum = 0f;
 		for(Block b:blocks) {

@@ -1,11 +1,16 @@
 package genome_editing.model;
 
+import java.awt.Dimension;
+
 public class Editor extends javax.swing.JPanel {
 
     /**
      * Creates new form GenomeEditor
      */
-    public Editor() {
+    public Editor(Dimension dim) {
+    	 setMaximumSize(dim);
+         setMinimumSize(dim);
+         this.setPreferredSize(dim);
         initComponents();
     }
 
@@ -18,19 +23,8 @@ public class Editor extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        setMaximumSize(new java.awt.Dimension(800, 800));
-        setMinimumSize(new java.awt.Dimension(800, 800));
+       
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
     }// </editor-fold>                        
 
 

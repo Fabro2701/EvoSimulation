@@ -1,6 +1,7 @@
 package genome_editing.model;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,10 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.List;
 
+import block_manipulation.Vector2D;
 import block_manipulation.block.Block;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
-import block_manipulation.Vector2D;
 import simulator.Constants;
 import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.entity.individuals.genome.Genotype;
@@ -21,8 +22,8 @@ public class GenomeEditor extends Editor{
 	Genotype geno;
 	BlockManager manager;
 	Chromosome<Chromosome.Codon>chChoice;
-	public GenomeEditor(Genotype geno) {
-		super();
+	public GenomeEditor(Dimension dim, Genotype geno) {
+		super(dim);
 		this.geno = geno;
 		this.chChoice = geno.get(0);
 		this.init();
@@ -35,7 +36,7 @@ public class GenomeEditor extends Editor{
 		for(int i=0;i<Constants.CHROMOSOME_LENGTH;i++) {
 			decisions.add(this.chChoice.getCodon(i).getIntValue());
 		}
-		//decisions.set(1, -1);
+		decisions.set(1, -1);
 		
 		MouseAdapter mouseA = new MouseAdapter() {
 			boolean pressed = false;

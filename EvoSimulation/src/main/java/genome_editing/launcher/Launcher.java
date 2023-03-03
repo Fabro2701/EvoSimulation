@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import genome_editing.model.GenomeEditor;
@@ -29,9 +30,12 @@ public class Launcher extends JFrame{
 		 
 		GenomeVisualizer visualizer = new GenomeVisualizer(800,800,geno);
 		this.add(visualizer);
-		
-		GenomeEditor editor = new GenomeEditor(geno);
-		this.add(editor);
+
+		JScrollPane scroll = new JScrollPane();
+		scroll.setPreferredSize(new Dimension(800,800));
+		GenomeEditor editor = new GenomeEditor(new Dimension(1500,800),geno);
+		scroll.setViewportView(editor);
+		this.add(scroll);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();

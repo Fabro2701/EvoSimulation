@@ -6,7 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class DrawElement {
-	static boolean borders = false;
+	static boolean borders = !false;
+	
 	public static abstract class Shape{
 		protected Color color;
 		public float priority;
