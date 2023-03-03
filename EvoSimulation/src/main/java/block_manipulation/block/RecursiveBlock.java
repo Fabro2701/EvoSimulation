@@ -75,6 +75,7 @@ public class RecursiveBlock extends Block{
 				JSONObject bo = production.getJSONObject(i);
 				Block b = Block.forType(manager, bo);
 				if(bo.getString("type").equals("PredefinedBlock")) {
+					//System.out.println(bo.toString(4));
 					((PredefinedBlock)b).setColor(color);
 				}
 				
@@ -85,8 +86,21 @@ public class RecursiveBlock extends Block{
 			}
 		}
 		else {
+			JSONArray params = new JSONArray();
+			params.put(new JSONObject().put("name", "reference")
+									   .put("type", "Parameter")
+									   .put("value", new JSONObject().put("value", this)));
+			
+			JSONObject jo = new JSONObject().put("type", "PredefinedBlock")
+											.put("id", "Ghost")
+											.put("params", params);
+			Block b = Block.forType(manager, jo);
+			b.setBase(new Vector2D(base.x, base.y));
+			blocks.add(b);
+			((PredefinedBlock)b).setColor(color);
+			b.paint(shapes);
 			this.incomplete=true;
-			shapes.add(new DrawElement.Rectangle(this.base.x, 
+			/*shapes.add(new DrawElement.Rectangle(this.base.x, 
 												 this.base.y, 
 												 manager.getGraphics().getFontMetrics().stringWidth(rule)*mult, 
 												 stringHeight, 
@@ -95,9 +109,8 @@ public class RecursiveBlock extends Block{
 			shapes.add(new StringShape(rule, 
 					   this.base.x+1f, 
 					   this.base.y+stringHeight-2f, 
-					   Color.black));
+					   Color.black));*/
 		}
-		int a=0;
 	}
 	@Override
 	public float getHeight() {
@@ -122,5 +135,9 @@ public class RecursiveBlock extends Block{
 
 	public int getPosition() {
 		return position;
+	}
+
+	public String getRule() {
+		return rule;
 	}
 }

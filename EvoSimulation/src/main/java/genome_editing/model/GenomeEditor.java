@@ -36,7 +36,7 @@ public class GenomeEditor extends Editor{
 		for(int i=0;i<Constants.CHROMOSOME_LENGTH;i++) {
 			decisions.add(this.chChoice.getCodon(i).getIntValue());
 		}
-		decisions.set(1, -1);
+		decisions.set(3, -1);
 		
 		MouseAdapter mouseA = new MouseAdapter() {
 			boolean pressed = false;

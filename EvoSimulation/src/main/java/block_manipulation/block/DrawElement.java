@@ -92,8 +92,9 @@ public class DrawElement {
 			g2.drawString(s, x, y);
 		}
 		@Override
-		public boolean contains(Point point) {
+		public boolean contains(Point point) {//fix pending
 			return false;
+			//return (point.x>=x&&point.x<=x+s.length()*2)&&(point.y>=y&&point.y<=y+Block.stringHeight);
 		}
 	}
 }
