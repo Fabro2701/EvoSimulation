@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
+import block_manipulation.Vector2D;
+import block_manipulation.block.BlockManager;
+import setup.gui.block.BlockEditor;
 import setup.gui.control.SetupEditorController;
 import setup.gui.model.SetupEditorModel.EntitySeparator;
 import setup.gui.view.ViewPanel;
@@ -21,15 +24,15 @@ import setup.gui.view.ViewPanel.State;
 
 public class InteractionModule extends Module{
 	JDialog dialog;
-	JTextPane editor;
-	EntitySeparator separator;
+	
 	
 	public InteractionModule(JFrame father, ViewPanel viewPanel, SetupEditorController ctrl) {
 		super(father, viewPanel, ctrl);
 		dialog = new JDialog(this.father);
-		dialog.setPreferredSize(new Dimension(400,400));
+		dialog.setPreferredSize(new Dimension(800,800));
 		dialog.setLayout(new BorderLayout());
-		editor = new JTextPane();
+		BlockManager manager = new BlockManager(new Vector2D(20f,80f));
+		BlockEditor editor = new BlockEditor(manager, "LINE", new Dimension(800,800));
 		dialog.add(editor, BorderLayout.CENTER);
 		JButton saveButton = new JButton("save");
 		saveButton.addActionListener(e->save(e));
@@ -40,35 +43,14 @@ public class InteractionModule extends Module{
 
 	@Override
 	public void open(State...states) {
-		//reading
-		separator = ctrl.getSeparators().get(states[0].getId());
-		if(separator.getAtt()!=null) {
-			StringJoiner sj = new StringJoiner(",");
-			for(String v:separator.getValues())sj.add(v);
-			editor.setText("("+separator.getAtt()+")"+sj.toString());
-		}
-		else editor.setText("");
+		State state1 = states[0];
+		State state2 = states[1];
+
+		
 		
 		dialog.setVisible(true);
 	}
 	public void save(ActionEvent e) {
-		try {
-			String text = editor.getText();
-			Pattern p = Pattern.compile("^[(][^)]+[)]");
-			Matcher m = p.matcher(text);
-			m.find();
-			String att = text.substring(1, m.end()-1);
-			separator.setAtt(att);
-			
-			String[] valsRead = text.substring(m.end()).split(",");
-			separator.setValues(valsRead);
-			this.viewPanel.recalculate();
-			father.repaint();
-		}catch(Exception ex) {
-			JOptionPane.showMessageDialog(this.dialog, "Failed saving separator, sintax:(attId)value1,value2,value3", "Dialog",
-			        JOptionPane.ERROR_MESSAGE);
-			System.err.println();
-			ex.printStackTrace();
-		}
+		
 	}
 }

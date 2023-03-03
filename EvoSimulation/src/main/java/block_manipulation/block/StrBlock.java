@@ -59,14 +59,10 @@ public class StrBlock extends PredefinedBlock{
 	}
 
 	@Override
-	public Block find(Point point) {
+	public Block findRecursive(Point point) {
 		return null;
 	}
-	@Override
-	public List<Shape> getSelectableShapes() {
-		return bufferShapes;
-		//return List.of();
-	}
+	
 
 
 

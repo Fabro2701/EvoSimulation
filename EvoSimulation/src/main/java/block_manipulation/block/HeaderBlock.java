@@ -183,23 +183,21 @@ public class HeaderBlock extends PredefinedBlock{
 	}
 	 */
 	@Override
-	public Block find(Point point) {
+	public Block findRecursive(Point point) {
 		Block block = null;
 		if(name!=null) {
-			block = name.find(point);
-			if(block != null)return block;
+			if((block = name.findRecursive(point))!= null)return block;
 		}
 		for(Block child:right) {
-			block = child.find(point);
-			if(block != null)return block;
+			if((block = child.findRecursive(point))!= null)return block;
 		}
 		return block;
 	}
 
-	@Override
+	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return List.of(this.bufferShapes.get(0));
-	}
+	}*/
 
 
 

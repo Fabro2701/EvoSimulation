@@ -28,38 +28,22 @@ public class RecursiveBlock extends Block{
 	}
 
 	@Override
-	public Block find(Point point) {
-		for(Block b:blocks) {
-			if(b instanceof PredefinedBlock) {
-				/*List<Shape>shapes = ((PredefinedBlock)b).getBufferShapes();
-				for(Shape s:shapes) {
-					if(s.contains(point)) return this;
-				}*/
-				List<Shape>shapes = ((PredefinedBlock)b).getSelectableShapes();
-				for(Shape s:shapes) {
-					if(s.contains(point)) return this;
-				}
-			}
-		}
+	public Block findRecursive(Point point) {
 		Block block = null;
 		for(Block b:blocks) {
-			block = b.find(point);
-			if(block != null)return block;
+			if(b instanceof PredefinedBlock) {
+				if((block=b.findPredefined(point))!=null)return this;
+			}
+		}
+		for(Block b:blocks) {
+			if((block=b.findRecursive(point))!=null)return block;
 		}
 		return block;
 	}
-	public void move(Point current, Point dest) {
-		for(Block b:blocks) {
-			if(b instanceof PredefinedBlock) {
-				List<Shape>shapes = ((PredefinedBlock)b).getBufferShapes();
-				for(Shape s:shapes) {
-					if(s.contains(current)) {
-						this.base.x += dest.x-current.x;
-						this.base.y += dest.y-current.y;
-					}
-				}
-			}
-		}
+	@Override
+	public Block findPredefined(Point point) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
 	public void paint(List<Shape> shapes) {
@@ -67,6 +51,7 @@ public class RecursiveBlock extends Block{
 		position = manager.getCursor();
 		int elec = manager.getNext();
 		if(elec!=-1) {
+			this.incomplete=false;
 			JSONArray r = manager.getBlockDescription(rule);
 			elec %= r.length();
 			JSONArray production = r.getJSONArray(elec);
@@ -140,4 +125,5 @@ public class RecursiveBlock extends Block{
 	public String getRule() {
 		return rule;
 	}
+
 }

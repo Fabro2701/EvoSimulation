@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import block_manipulation.Vector2D;
 
 
-public abstract class  Block implements BlockRenderer{
+public abstract class Block implements BlockRenderer{
 	protected BlockManager manager;
 	
 	protected Vector2D base;
@@ -25,6 +25,7 @@ public abstract class  Block implements BlockRenderer{
 	
 	protected static Font font = new Font("Courier New", 1, 13);
 	protected Color defaultColor = new Color(255,179,0,150);
+
 	public static Color white = new Color(255,255,255,255);
 	
 	public Block(BlockManager manager) {
@@ -53,7 +54,8 @@ public abstract class  Block implements BlockRenderer{
 		}
 		return null;
 	}
-	public abstract Block find(Point point);
+	public abstract Block findRecursive(Point point);
+	public abstract Block findPredefined(Point point);
 	public Vector2D getBase() {
 		return base;
 	}

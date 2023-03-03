@@ -213,6 +213,7 @@ public class ViewPanel extends JPanel{
 			interactionMenu.addActionListener((ActionEvent e)->accessInteraction(this.selection, this.selection2));
 
 			separatorModule = new SeparatorModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
+			interactionModule = new InteractionModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 		}
 		
 		private void open(Point p, State state) {
@@ -235,7 +236,7 @@ public class ViewPanel extends JPanel{
 		}
 		public Object accessInteraction(State state1, State state2) {
 
-			separatorModule.open(state1, state2);
+			interactionModule.open(state1, state2);
 
 			this.selection = null;
 			this.selection2 = null;

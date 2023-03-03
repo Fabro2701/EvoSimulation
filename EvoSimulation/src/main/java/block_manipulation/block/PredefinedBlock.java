@@ -25,10 +25,15 @@ public abstract class PredefinedBlock extends Block{
 	public List<Shape> getBufferShapes() {
 		return bufferShapes;
 	}
-	public abstract List<Shape> getSelectableShapes();
 	protected void setColor(Color color) {
 		this.color = color;
 	}
 	protected abstract void config();
 	protected abstract void setParameter(String id, JSONObject value);
+	public Block findPredefined(Point point) {
+		for(Shape shape:bufferShapes) {
+			if(shape.contains(point))return this;
+		}
+		return null;
+	}
 }

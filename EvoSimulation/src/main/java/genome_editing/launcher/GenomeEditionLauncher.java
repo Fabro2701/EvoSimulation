@@ -14,8 +14,8 @@ import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.entity.individuals.genome.Genotype;
 
 
-public class Launcher extends JFrame{
-	public Launcher() {
+public class GenomeEditionLauncher extends JFrame{
+	public GenomeEditionLauncher() {
 		Dimension dim = new Dimension(805*2,850);
 		this.setMinimumSize(dim);
 		this.setPreferredSize(dim);
@@ -41,7 +41,7 @@ public class Launcher extends JFrame{
 		this.pack();
 	}
 	public static void main(String args[]) {
-		SwingUtilities.invokeLater(()->new Launcher().setVisible(true));
+		SwingUtilities.invokeLater(()->new GenomeEditionLauncher().setVisible(true));
 	}
 
 }

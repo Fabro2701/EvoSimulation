@@ -105,18 +105,17 @@ public class InnerBlock extends PredefinedBlock{
 		return sum+(xmargin*2f)+(interChildx*(names.size()-1));
 	}
 	@Override
-	public Block find(Point point) {
+	public Block findRecursive(Point point) {
 		Block block = null;
 		for(Block child:names) {
-			block = child.find(point);
-			if(block != null)return block;
+			if((block = child.findRecursive(point))!= null)return block;
 		}
 		return block;
 	}
-	@Override
+	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return this.bufferShapes;
-	}
+	}*/
 
 
 

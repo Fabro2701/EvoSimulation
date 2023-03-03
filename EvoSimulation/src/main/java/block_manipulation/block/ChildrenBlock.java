@@ -60,18 +60,17 @@ public class ChildrenBlock extends PredefinedBlock{
 		return 0;
 	}
 	@Override
-	public Block find(Point point) {
+	public Block findRecursive(Point point) {
 		Block block = null;
 		for(Block child:children) {
-			block = child.find(point);
-			if(block != null)return block;
+			if((block = child.findRecursive(point))!= null)return block;
 		}
 		return block;
 	}
-	@Override
+	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return List.of(this.bufferShapes.get(0));
-	}
+	}*/
 
 
 	

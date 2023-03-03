@@ -46,6 +46,42 @@ public class DrawElement {
 			return (point.x>=x&&point.x<=x+width)&&(point.y>=y&&point.y<=y+height);
 		}
 	}
+	public static class Diamond extends Shape{
+		float x, y, width, height;
+		Color color;
+		public Diamond(float x, float y, float width, float height, Color color) {
+			super(color);
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.color = color;
+			priority = 0f;
+		}
+		@Override
+		public void draw(Graphics2D g2) {
+			g2.setColor(color);
+			g2.fillPolygon(new int[] {(int)(x+width/2f),(int)(x+width),(int)(x+width/2f),(int)x}, 
+						   new int[] {(int)(y),(int)(y+height/2f),(int)(y+height),(int)(y+height/2f)}, 
+						   4);
+			//g2.fillRect((int)x, (int)y, (int)width, (int)height);
+			//g2.fillRoundRect((int)x, (int)y, (int)width, (int)height, 10,10);
+			
+			g2.setColor(Color.black);
+			//g2.setStroke(new BasicStroke(4));
+			if(borders) {
+				g2.drawPolygon(new int[] {(int)(x+width/2f),(int)(x+width),(int)(x+width/2f),(int)x}, 
+						   new int[] {(int)(y),(int)(y+height/2f),(int)(y+height),(int)(y+height/2f)}, 
+						   4);
+			}
+		}
+
+		@Override
+		public boolean contains(Point point) {
+			//fix
+			return (point.x>=x&&point.x<=x+width)&&(point.y>=y&&point.y<=y+height);
+		}
+	}
 	public static class Triangle extends Shape{
 		float x1,x2,x3,y1,y2,y3;
 		Color color;

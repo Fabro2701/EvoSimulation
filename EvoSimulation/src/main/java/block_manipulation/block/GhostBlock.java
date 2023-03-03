@@ -36,14 +36,15 @@ public class GhostBlock extends PredefinedBlock{
 	public void paint(List<Shape> shapes) {
 		bufferShapes.clear();
 		
-		bufferShapes.add(new DrawElement.Rectangle(this.base.x, 
+		float sw = manager.getGraphics().getFontMetrics().stringWidth(reference.getRule());
+		bufferShapes.add(new DrawElement.Diamond(this.base.x, 
 												   this.base.y, 
-												   manager.getGraphics().getFontMetrics().stringWidth(reference.getRule())*mult, 
+												   sw*mult, 
 												   stringHeight, 
-												   color)
+												   manager.shouldBlockBeIluminated(reference.rule)?BlockUtil.iluminate(color):color)
 							);
 		bufferShapes.add(new StringShape(reference.getRule(), 
-				   this.base.x+2f, 
+				   this.base.x+(this.getWidth()*0.5f)-(sw*0.5f), 
 				   this.base.y+stringHeight-2f, 
 				   Color.black));
 		
@@ -63,14 +64,17 @@ public class GhostBlock extends PredefinedBlock{
 	}
 	
 	@Override
-	public Block find(Point point) {
+	public Block findRecursive(Point point) {
 		return null;
 	}
+	public String getReferenceRule() {
+		return this.reference.getRule();
+	}
 
-	@Override
+	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return bufferShapes;
-	}
+	}*/
 
 
 

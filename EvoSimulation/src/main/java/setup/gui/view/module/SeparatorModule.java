@@ -27,7 +27,7 @@ public class SeparatorModule extends Module{
 	public SeparatorModule(JFrame father, ViewPanel viewPanel, SetupEditorController ctrl) {
 		super(father, viewPanel, ctrl);
 		dialog = new JDialog(this.father);
-		dialog.setPreferredSize(new Dimension(700,700));
+		dialog.setPreferredSize(new Dimension(700,200));
 		dialog.setLayout(new BorderLayout());
 		editor = new JTextPane();
 		dialog.add(editor, BorderLayout.CENTER);
@@ -42,13 +42,35 @@ public class SeparatorModule extends Module{
 	@Override
 	public void open(State...states) {
 		//reading
-		
+		separator = ctrl.getSeparators().get(states[0].getId());
+		if(separator.getAtt()!=null) {
+			StringJoiner sj = new StringJoiner(",");
+			for(String v:separator.getValues())sj.add(v);
+			editor.setText("("+separator.getAtt()+")"+sj.toString());
+		}
+		else editor.setText("");
 		
 		dialog.setVisible(true);
 	}
-	private Object save(ActionEvent e) {
-		// TODO Auto-generated method stub
-		return null;
+	public void save(ActionEvent e) {
+		try {
+			String text = editor.getText();
+			Pattern p = Pattern.compile("^[(][^)]+[)]");
+			Matcher m = p.matcher(text);
+			m.find();
+			String att = text.substring(1, m.end()-1);
+			separator.setAtt(att);
+			
+			String[] valsRead = text.substring(m.end()).split(",");
+			separator.setValues(valsRead);
+			this.viewPanel.recalculate();
+			father.repaint();
+		}catch(Exception ex) {
+			JOptionPane.showMessageDialog(this.dialog, "Failed saving separator, sintax:(attId)value1,value2,value3", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+			System.err.println();
+			ex.printStackTrace();
+		}
 	}
 
 }
