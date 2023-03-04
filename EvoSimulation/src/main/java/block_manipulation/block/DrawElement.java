@@ -4,6 +4,7 @@ package block_manipulation.block;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 
 public class DrawElement {
 	static boolean borders = !false;
@@ -114,6 +115,7 @@ public class DrawElement {
 		String s;
 		float x, y;
 		Color color;
+		Rectangle2D r;
 		public StringShape(String s, float x, float y, Color color) {
 			super(color);
 			this.x = x;
@@ -122,15 +124,21 @@ public class DrawElement {
 			this.color = color;
 			priority = 2f;
 		}
+		public StringShape(String s, float x, float y, Color color, Rectangle2D r) {
+			this(s,x,y,color);
+			this.r = r;
+		}
 		@Override
 		public void draw(Graphics2D g2) {
 			g2.setColor(color);
 			g2.drawString(s, x, y);
 		}
 		@Override
-		public boolean contains(Point point) {//fix pending
+		public boolean contains(Point point) {
+			if(r!=null) {
+				return r.contains(point.x-x, point.y-y);
+			}
 			return false;
-			//return (point.x>=x&&point.x<=x+s.length()*2)&&(point.y>=y&&point.y<=y+Block.stringHeight);
 		}
 	}
 }

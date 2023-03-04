@@ -36,11 +36,14 @@ public class StrBlock extends PredefinedBlock{
 	}
 	@Override
 	public void paint(List<Shape> shapes) {
-		bufferShapes.clear();
+		bufferShapes.clear(); 
 		bufferShapes.add(new StringShape(text, 
 								   this.base.x+2f, 
 								   this.base.y+stringHeight-2f, 
-								   Color.black));
+								   Color.black,
+								   manager.getGraphics().getFontMetrics().getStringBounds(text, manager.getGraphics())
+								   )
+				);
 //		shapes.add(new DrawElement.Rectangle(this.base.x,     this.base.y, 
 //				 1, 100, 
 //				 color));

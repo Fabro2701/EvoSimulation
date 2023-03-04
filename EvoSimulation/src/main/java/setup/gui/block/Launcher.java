@@ -28,7 +28,7 @@ public class Launcher extends JFrame{
 
 		JScrollPane scroll2 = new JScrollPane();
 		scroll2.setPreferredSize(new Dimension(300,800));
-		BlockSelector selector = new BlockSelector(new Dimension(500,800), editor, "resources/skeletons/test.sklt");
+		BlockSelector selector = new BlockSelector(new Dimension(500,800), editor, "resources/skeletons/fsm1.sklt");
 		scroll2.setViewportView(selector);
 		this.add(scroll2);
 

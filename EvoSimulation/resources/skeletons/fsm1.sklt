@@ -1,6 +1,16 @@
-<TRANSITION>(250,100,89) :- 
+
+<STATE>:-[Inner(names=<NAME>)].
+<TRANSITION>:- 
 		  [<TTRANSITION>].
 <TTRANSITION> :- [
  		   Header(name=Str(text="line")),
  		   Floor()
 		  ].
+<NAME>:-[Str(text="name1")],
+		[Str(text="name2")],
+		[Str(text="name3")],
+		[Str(text="name4")],
+		[Str(text="name5")],
+		[Str(text="name6")].
+
+
