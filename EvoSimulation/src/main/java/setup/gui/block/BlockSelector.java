@@ -4,22 +4,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import block_manipulation.Vector2D;
-import block_manipulation.block.Block;
 import block_manipulation.block.BlockCreator;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
@@ -31,6 +35,7 @@ public class BlockSelector extends JPanel{
 	LinkedHashMap<String, JSONArray> blockDescs;
 	String currentSymbol;
 	public BlockSelector(Dimension dim, BlockEditor editor) {
+		
 		this.editor = editor;
 		this.editor.setBlockSelector(this);
 		this.setPreferredSize(dim);
@@ -42,10 +47,24 @@ public class BlockSelector extends JPanel{
 		JSONObject program = parser.parseFile("test");
 
 		blockDescs = BlockCreator.loadBlocks(program);
-		this.loadQueue("COND");
+		//this.loadQueue("COND");
 		this.setMouse();
+		this.setButtons();
+		
 	}
-	
+	private void setButtons() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		ButtonGroup g = new ButtonGroup();
+		Function<String,ActionListener> al = (String s)->{return (a)->loadQueue(s);};
+		for(String k:blockDescs.keySet()) {
+			JRadioButton b = new JRadioButton(k);
+			b.addActionListener(al.apply(k));
+			g.add(b);
+			panel.add(b);
+		}
+		this.add(panel);
+	}
 	public void loadQueue(String symbol) {
 		this.currentSymbol = symbol;
 		this.managers.clear();
