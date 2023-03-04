@@ -1,0 +1,6 @@
+<TRANSITION>(250,100,89) :- 
+		  [<TTRANSITION>].
+<TTRANSITION> :- [
+ 		   Header(name=Str(text="line")),
+ 		   Floor()
+		  ].

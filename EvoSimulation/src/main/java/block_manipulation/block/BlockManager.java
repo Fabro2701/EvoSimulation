@@ -1,26 +1,22 @@
 package block_manipulation.block;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import block_manipulation.block.DrawElement.Shape;
-import block_manipulation.parsing.BlockParser;
+import block_manipulation.BlockInfoSingleton;
+import block_manipulation.BlockInfoSingleton.BlockInfoSupplier;
 import block_manipulation.Vector2D;
-import simulator.Constants;
-import simulator.RandomSingleton;
+import block_manipulation.block.DrawElement.Shape;
 
 
 public class BlockManager implements Cloneable{
+	String filename;
 	private List<Integer>decisions;
 	private int cursor;
 	
@@ -28,32 +24,18 @@ public class BlockManager implements Cloneable{
 	private Vector2D base;
 
 	private List<DrawElement.Shape>shapes;
-	private HashMap<String, JSONArray>blockDescs;
-	private HashMap<String, Color>blockColors;
+
 	private HashMap<String, Boolean>blockIluminations;
+	BlockInfoSupplier blocksInfo;
 	
 	private Graphics2D g2;
+	
 
-	public BlockManager(Vector2D base) {
+	public BlockManager(String filename) {
+		this.filename = filename;
 		decisions = new ArrayList<Integer>();
 		cursor = 0;
-		
-		int alpha = 100;
-		blockColors = new HashMap<String, Color>();
-		blockColors.put("CODE", new Color(200,0,0,alpha));
-		blockColors.put("LINE", new Color(0,200,0,alpha));
-		blockColors.put("IF", new Color(0,0,200,alpha));
-		blockColors.put("COND", new Color(200,200,0,alpha));
-		blockColors.put("OBS", new Color(200,0,200,alpha));
-		blockColors.put("ACTION", new Color(0,200,200,alpha));
-		blockColors.put("OP", new Color(150,150,150,alpha));
-		
-		this.base = base;
-		BlockParser parser = new BlockParser();
-		JSONObject program = parser.parseFile("test");
-
-		blockDescs = BlockCreator.loadBlocks(program);
-		
+		blocksInfo = BlockInfoSingleton.fromFile(filename);
 		blockIluminations = new HashMap<>();
 	}
 	public void move(Point current, MouseEvent e) {
@@ -77,6 +59,7 @@ public class BlockManager implements Cloneable{
 		g2 = g;
 		shapes = new ArrayList<DrawElement.Shape>();
 		cursor=0;
+		Objects.requireNonNull(this.base);
 		root.setBase(base);
 		root.paint(shapes);
 		shapes.sort(new Comparator<Shape>(){
@@ -95,7 +78,8 @@ public class BlockManager implements Cloneable{
 	}
 	@Override
 	public Object clone() {
-		BlockManager m = new BlockManager(new Vector2D(this.base));
+		BlockManager m = new BlockManager(this.filename);
+		if(this.base!=null)m.setBase(new Vector2D(this.base));
 		((ArrayList)m.decisions).ensureCapacity(this.decisions.size());
 		for(int i=0;i<this.decisions.size();i++) {
 			m.decisions.add(this.decisions.get(i).intValue());
@@ -115,12 +99,6 @@ public class BlockManager implements Cloneable{
 	public List<Integer> getDecisions(){
 		return this.decisions;
 	}
-	public Color getBlockColor(String id) {
-		return this.blockColors.get(id);
-	}
-	public JSONArray getBlockDescription(String id) {
-		return this.blockDescs.get(id);
-	}
 	public Graphics2D getGraphics() {
 		return this.g2;
 	}
@@ -135,5 +113,8 @@ public class BlockManager implements Cloneable{
 	}
 	public void setBase(Vector2D base) {
 		this.base = base;
+	}
+	public BlockInfoSupplier getBlocksInfo() {
+		return blocksInfo;
 	}
 }

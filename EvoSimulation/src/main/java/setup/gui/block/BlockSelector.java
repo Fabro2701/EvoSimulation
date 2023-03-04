@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import javax.swing.BoxLayout;
@@ -23,8 +22,9 @@ import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import block_manipulation.BlockInfoSingleton;
 import block_manipulation.Vector2D;
-import block_manipulation.block.BlockCreator;
+import block_manipulation.BlockInfoSingleton.BlockInfoSupplier;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
 import block_manipulation.parsing.BlockParser;
@@ -32,21 +32,20 @@ import block_manipulation.parsing.BlockParser;
 public class BlockSelector extends JPanel{
 	BlockEditor editor;
 	List<BlockManager>managers;
-	LinkedHashMap<String, JSONArray> blockDescs;
 	String currentSymbol;
-	public BlockSelector(Dimension dim, BlockEditor editor) {
-		
+	String filename;
+	BlockInfoSupplier blocksInfo;
+	public BlockSelector(Dimension dim, BlockEditor editor, String filename) {
+		this.filename = filename;
 		this.editor = editor;
 		this.editor.setBlockSelector(this);
 		this.setPreferredSize(dim);
+		this.blocksInfo = BlockInfoSingleton.fromFile(filename);
 		
-		this.insertInitBlocks();
+		//this.insertInitBlocks();
 		
 		this.managers = new ArrayList<>();
-		BlockParser parser = new BlockParser();
-		JSONObject program = parser.parseFile("test");
 
-		blockDescs = BlockCreator.loadBlocks(program);
 		//this.loadQueue("COND");
 		this.setMouse();
 		this.setButtons();
@@ -57,7 +56,7 @@ public class BlockSelector extends JPanel{
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		ButtonGroup g = new ButtonGroup();
 		Function<String,ActionListener> al = (String s)->{return (a)->loadQueue(s);};
-		for(String k:blockDescs.keySet()) {
+		for(String k:blocksInfo.getKeys()) {
 			JRadioButton b = new JRadioButton(k);
 			b.addActionListener(al.apply(k));
 			g.add(b);
@@ -69,23 +68,27 @@ public class BlockSelector extends JPanel{
 		this.currentSymbol = symbol;
 		this.managers.clear();
 		
-		JSONArray descs = this.blockDescs.get(symbol);
+		JSONArray descs = blocksInfo.getDesc(symbol);
 		for(int i=0;i<descs.length();i++) {
-			BlockManager manager = new BlockManager(new Vector2D(50f,50f+i*70f));
+			BlockManager manager = new BlockManager(filename);
+			manager.setBase(new Vector2D(50f, 50f+i*70f));
 			manager.getDecisions().add(i);
 			managers.add(manager);
 		}
 		this.repaint();
 	}
 	private void insertInitBlocks() {
-		BlockManager m1 = new BlockManager(new Vector2D(20f,80f));
+		BlockManager m1 = new BlockManager(filename);
+		m1.setBase(new Vector2D(20f,80f));
 		m1.getDecisions().add(0);
-		BlockManager m2 = new BlockManager(new Vector2D(100f,70f));
+		BlockManager m2 = new BlockManager(filename);
+		m2.setBase(new Vector2D(100f,70f));
 		m2.getDecisions().add(0);
-		BlockManager m3 = new BlockManager(new Vector2D(100f,130f));
+		BlockManager m3 = new BlockManager(filename);
+		m3.setBase(new Vector2D(100f,130f));
 		m3.getDecisions().add(0);
 		
-		editor.insertBlock("IF", m1);
+		editor.insertBlock("TRANSITION", m1);
 		editor.insertBlock("COND", m2);
 		editor.insertBlock("LINE", m3);
 	}

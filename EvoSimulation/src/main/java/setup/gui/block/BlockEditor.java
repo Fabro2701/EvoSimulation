@@ -131,7 +131,7 @@ public class BlockEditor extends JPanel{
     					}
     			}
     			currentManager = null;
-    			//send to the foreground the current
+    			//send to the foreground the current pending
     			repaint();
     		}
 			@Override

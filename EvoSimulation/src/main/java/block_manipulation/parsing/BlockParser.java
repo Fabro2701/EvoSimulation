@@ -23,7 +23,7 @@ public class BlockParser {
 	}
 	public JSONObject parseFile(String filename){
 		StringBuilder sb = new StringBuilder();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("resources/skeletons/"+filename+".sklt")));){
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));){
 			String aux = reader.readLine();
 			while(aux != null) {
 				sb.append(aux);
@@ -58,10 +58,15 @@ public class BlockParser {
 
 	protected JSONObject RuleStatement() {
 		JSONObject key = this.NTSymbol();
+		String n = "r";
+		if(this._lookahead.getString("type").equals("COLOR")) {
+			n = this._eat("COLOR").getString("value");
+		}
 		_eat(":-");
 		JSONArray productions = this.AlignmentList();
 		_eat(".");
 		return new JSONObject().put("name", key)
+							   .put("color", n)
 							   .put("alignment", productions);
 	}
 

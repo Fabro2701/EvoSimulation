@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import block_manipulation.block.DrawElement.Shape;
 import block_manipulation.block.DrawElement.StringShape;
+import block_manipulation.BlockInfoSingleton;
 import block_manipulation.Vector2D;
 
 public class RecursiveBlock extends Block{
@@ -24,7 +25,7 @@ public class RecursiveBlock extends Block{
 		super(manager);
 		this.rule = ruleReference;
 		blocks = new ArrayList<Block>();
-		color = manager.getBlockColor(ruleReference);
+		color = manager.getBlocksInfo().getColor(ruleReference);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class RecursiveBlock extends Block{
 		int elec = manager.getNext();
 		if(elec!=-1) {
 			this.incomplete=false;
-			JSONArray r = manager.getBlockDescription(rule);
+			JSONArray r = manager.getBlocksInfo().getDesc(rule);
 			elec %= r.length();
 			JSONArray production = r.getJSONArray(elec);
 			float shifty = 0f;
