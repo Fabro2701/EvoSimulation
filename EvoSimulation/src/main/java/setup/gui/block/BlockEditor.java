@@ -23,19 +23,22 @@ import block_manipulation.block.RecursiveBlock;
 public class BlockEditor extends JPanel{
 	List<BlockManager> managers;
 	private List<String> initSymbols;
+	private BlockSelector selector;
+	
 	public BlockEditor(Dimension dim) {
 		managers = new ArrayList<>();
-		this.managers.add(new BlockManager(new Vector2D(20f,80f)));
+		this.initSymbols = new ArrayList<>();
+		/*this.managers.add(new BlockManager(new Vector2D(20f,80f)));
 		this.managers.add(new BlockManager(new Vector2D(100f, 70f)));
 		this.managers.add(new BlockManager(new Vector2D(100f, 130f)));
 		
-		this.initSymbols = new ArrayList<>();
+		
 		this.initSymbols.add("IF");
 		this.initSymbols.add("COND");
-		this.initSymbols.add("LINE");
-		this.setMinimumSize(dim);
+		this.initSymbols.add("LINE");*/
+		//this.setMinimumSize(dim);
 		this.setPreferredSize(dim);
-		this.setMaximumSize(dim);
+		//this.setMaximumSize(dim);
 		this.init();
 	}
 	/*public BlockEditor(Dimension dim) {
@@ -45,19 +48,29 @@ public class BlockEditor extends JPanel{
 		this.setMaximumSize(dim);
 		this.init();
 	}*/
+	public void insertBlock(String initSymbol, BlockManager manager, Vector2D pos) {
+		BlockManager m = (BlockManager)manager.clone();
+		if(pos!=null)m.setBase(pos);
+		this.managers.add(m);
+		this.initSymbols.add(initSymbol);
+		this.repaint();
+	}
+	public void insertBlock(String initSymbol, BlockManager manager) {
+		insertBlock(initSymbol, manager, null);
+	}
 	private void init() {
-		for(BlockManager manager:managers) {
+		/*for(BlockManager manager:managers) {
 			List<Integer>decisions = manager.getDecisions();
 			decisions.clear();
 			for(int i=0;i<100;i++) {
 				//decisions.add(RandomSingleton.nextInt(256));
-				decisions.add(-1);
+				//decisions.add(-1);
 			}
-			
-			decisions.set(0, 1);
+			decisions.add(0);
+			//decisions.set(0, 1);
 			//decisions.set(1, RandomSingleton.nextInt(256));
 			//decisions.set(2, 0);
-		}
+		}*/
 		
 		
 		MouseAdapter mouseA = new MouseAdapter() {
@@ -110,7 +123,7 @@ public class BlockEditor extends JPanel{
     					String rule = ((RecursiveBlock)releaseBlock).getRule();
     					int pos = ((RecursiveBlock)releaseBlock).getPosition();
     					if(rule.equals(((RecursiveBlock)currentManager.getRoot()).getRule()) && 
-    					   currentManager.getDecisions().get(pos)==-1) {
+    					    release.getDecisions().get(pos)==-1) {
     						release.merge(currentManager, ((RecursiveBlock)releaseBlock).getPosition());
     	    				int idx = managers.lastIndexOf(currentManager);
     	    				managers.remove(idx);
@@ -172,5 +185,8 @@ public class BlockEditor extends JPanel{
 		
 		//ghost blocks pending
 
+	}
+	public void setBlockSelector(BlockSelector selector) {
+		this.selector = selector;
 	}
 }

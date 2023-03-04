@@ -49,6 +49,7 @@ public class RecursiveBlock extends Block{
 	public void paint(List<Shape> shapes) {
 		blocks.clear();
 		position = manager.getCursor();
+		if(position>=manager.getDecisions().size())manager.getDecisions().add(-1);
 		int elec = manager.getNext();
 		if(elec!=-1) {
 			this.incomplete=false;

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ import simulator.Constants;
 import simulator.RandomSingleton;
 
 
-public class BlockManager{
+public class BlockManager implements Cloneable{
 	private List<Integer>decisions;
 	private int cursor;
 	
@@ -34,7 +35,7 @@ public class BlockManager{
 	private Graphics2D g2;
 
 	public BlockManager(Vector2D base) {
-		decisions = new ArrayList<Integer>(Constants.CHROMOSOME_LENGTH);
+		decisions = new ArrayList<Integer>();
 		cursor = 0;
 		
 		int alpha = 100;
@@ -89,8 +90,17 @@ public class BlockManager{
 	}
 	public void merge(BlockManager manager2, int pos) {
 		//preserve pending
-
+		decisions.remove(pos);
 		decisions.addAll(pos, manager2.decisions);
+	}
+	@Override
+	public Object clone() {
+		BlockManager m = new BlockManager(new Vector2D(this.base));
+		((ArrayList)m.decisions).ensureCapacity(this.decisions.size());
+		for(int i=0;i<this.decisions.size();i++) {
+			m.decisions.add(this.decisions.get(i).intValue());
+		}
+		return m;
 	}
 	public int getNext() {
 		return decisions.get(cursor++);
@@ -122,5 +132,8 @@ public class BlockManager{
 	}
 	public void clearIluminations() {
 		this.blockIluminations.clear();
+	}
+	public void setBase(Vector2D base) {
+		this.base = base;
 	}
 }
