@@ -78,6 +78,15 @@ public class ChildrenBlock extends PredefinedBlock{
 	public List<Shape> getSelectableShapes() {
 		return List.of(this.bufferShapes.get(0));
 	}*/
+	@Override
+	public JSONObject toJSON() {
+		JSONArray arr = new JSONArray();
+		for(Block b:this.children) {
+			arr.put(b.toJSON());
+		}
+		return new JSONObject().put("type", "ChildrenBlock")
+							   .put("blocks", arr);
+	}
 
 
 	

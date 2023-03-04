@@ -58,6 +58,7 @@ public abstract class Block implements BlockRenderer{
 	public abstract void rightClick(Point point, Component c);
 	public abstract Block findRecursive(Point point);
 	public abstract Block findPredefined(Point point);
+	public abstract JSONObject toJSON();
 	public Vector2D getBase() {
 		return base;
 	}

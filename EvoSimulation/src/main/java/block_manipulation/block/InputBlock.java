@@ -62,13 +62,17 @@ public class InputBlock extends PredefinedBlock{
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return stringHeight;
+		int nl = text.split("\n").length;
+		return  manager.getGraphics().getFontMetrics().getHeight()*nl;
 	}
 
 	@Override
 	public float getWidth() {
-		return textSize+3f;
+		int max=0;
+		for (String line : text.split("\n")) {
+			max = Math.max(max, manager.getGraphics().getFontMetrics().stringWidth(line));
+		}
+		return max+2f;
 	}
 
 	@Override
@@ -114,6 +118,13 @@ public class InputBlock extends PredefinedBlock{
 	private void save(String text, Component c) {
 		this.manager.setInputText(text, reference.getPosition());
 		c.repaint();
+	}
+	@Override
+	public JSONObject toJSON() {
+		String tmp = manager.getInputText(reference.getPosition());
+		this.text = tmp==null?this.text:tmp;
+		return new JSONObject().put("type", "InputBlock")
+							   .put("text", this.text);
 	}
 
 

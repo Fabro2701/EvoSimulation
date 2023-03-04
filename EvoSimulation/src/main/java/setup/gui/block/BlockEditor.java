@@ -64,6 +64,7 @@ public class BlockEditor extends JPanel{
 			public void mouseClicked(MouseEvent e) {
     			
     			if(SwingUtilities.isLeftMouseButton(e)) {
+    				if(managers.size()>0)System.out.println(managers.get(0).getRoot().toJSON().toString(4));
     				/*for(BlockManager manager:managers) {
     					if(manager.flip(e)) {
                 			repaint();

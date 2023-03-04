@@ -76,6 +76,11 @@ public class GhostBlock extends PredefinedBlock{
 	public void rightClick(Point point, Component c) {
 
 	}
+
+	@Override
+	public JSONObject toJSON() {
+		return new JSONObject().put("type", "GhostBlock");
+	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return bufferShapes;

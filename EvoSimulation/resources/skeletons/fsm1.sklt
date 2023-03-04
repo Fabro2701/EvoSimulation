@@ -1,17 +1,29 @@
-<TRANSITION_ID>:-[
-		 Header(name=Str(text="Transition declaration"),right=<STATE>,right=Str(text=" to "),right=<STATE>),
-		 Children(e=<TRANSITION>),
+<FSM_DEF>:- [
+			  Header(name=Str(text="Def FSM"),right=<NAME>),
+			  Children(e=<STATE_DEFLIST>),
+		 	  Floor(),
+			  Children(e=<TRANSITION_DEFLIST>),
+		 	  Floor(),
+		 	  Header(name=Str(text="init "),right=<NAME>)
+			 ].
+<STATE_DEFLIST>:-[Children(e=<STATE_DEF>,e=<STATE_DEFLIST>)],
+			     [<STATE_DEF>, Floor()].
+<STATE_DEF>:-[
+			  Header(name=Str(text="Def state"),right=<NAME>),
+			  Children(e=<ACTIONLIST>),
+		 	  Floor()
+			 ].
+<ACTIONLIST>:-[Children(e=<ACTION>,e=<ACTIONLIST>)],
+			  [<ACTION>].
+<ACTION>:-[Input(text="this.setAttribute(,);")].
+<TRANSITION_DEFLIST>:-[Children(e=<TRANSITION_DEF>,e=<TRANSITION_DEFLIST>)],
+			     		[<TRANSITION_DEF>, Floor()].
+<TRANSITION_DEF>:-[
+		 Header(name=Str(text="Def Transition"),right=<STATE>,right=Str(text=" to "),right=<STATE>),
+		 Children(e=<TRANSITION_TYPE>),
 		 Floor()
 		].
 <STATE>:-[Header(name=Str(text="name"),right=<NAME>)].
-<TRANSITION>:-[ 
-			   Inner(names=<STATE>,
-			   		 names=<TRANSITION_TYPE>,
-			   		 names=<STATE>)
-			  ],
-			  [ 
-			   Inner(names=<TRANSITION_TYPE>)
-			  ].
 <TRANSITION_TYPE>:- 
 		  [<TRUE_T>],
 		  [<PROB_T>],
@@ -34,18 +46,9 @@
 			[
    			Inner(names=<COND_T>,names=<OP>,names=<COND_T>)
 			].
-<NAME>:-[Str(text="name1")],
-		[Str(text="name2")],
-		[Str(text="name3")],
-		[Str(text="name4")],
-		[Str(text="name5")],
-		[Str(text="name6")].
-<NUM>:- [Input(text="asdffds")],
-		[Str(text="2")],
-		[Str(text="3")],
-		[Str(text="4")],
-		[Str(text="5")],
-		[Str(text="6")].
+
+<NAME>:-[Input(text="name")].
+<NUM>:- [Input(text="num")],[Input(text="rndint(1)")],[Input(text="rndfloat()")].
 <OP>:-  [Str(text=">")],
 		[Str(text=">=")],
 		[Str(text="<")],

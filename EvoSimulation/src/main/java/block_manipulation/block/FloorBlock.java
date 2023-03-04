@@ -61,4 +61,9 @@ public class FloorBlock  extends PredefinedBlock{
 		return List.of(this.bufferShapes.get(0));
 	}*/
 
+	@Override
+	public JSONObject toJSON() {
+		return new JSONObject().put("type", "FloorBlock");
+	}
+
 }

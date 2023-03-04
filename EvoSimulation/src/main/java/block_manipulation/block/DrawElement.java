@@ -131,7 +131,12 @@ public class DrawElement {
 		@Override
 		public void draw(Graphics2D g2) {
 			g2.setColor(color);
-			g2.drawString(s, x, y);
+			int i=0;
+			for (String line : s.split("\n")) {
+			      g2.drawString(line, x, y + i*g2.getFontMetrics().getHeight());
+			      i++;
+			}
+			//g2.drawString(s, x, y);
 		}
 		@Override
 		public boolean contains(Point point) {

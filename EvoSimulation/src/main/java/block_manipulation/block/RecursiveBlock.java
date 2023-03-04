@@ -128,6 +128,16 @@ public class RecursiveBlock extends Block{
 		}
 		return sum;
 	}
+	@Override
+	public JSONObject toJSON() {
+		JSONArray arr = new JSONArray();
+		for(Block b:this.blocks) {
+			arr.put(b.toJSON());
+		}
+		return new JSONObject().put("type", "RecursiveBlock")
+							   .put("rule", this.rule)
+							   .put("blocks", arr);
+	}
 
 	public int getPosition() {
 		return position;
@@ -136,5 +146,6 @@ public class RecursiveBlock extends Block{
 	public String getRule() {
 		return rule;
 	}
+
 
 }
