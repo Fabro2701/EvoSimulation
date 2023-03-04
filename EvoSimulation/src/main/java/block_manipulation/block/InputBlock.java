@@ -1,9 +1,15 @@
 package block_manipulation.block;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,10 +18,11 @@ import block_manipulation.block.DrawElement.Shape;
 import block_manipulation.block.DrawElement.StringShape;
 
 
-public class StrBlock extends PredefinedBlock{
+public class InputBlock extends PredefinedBlock{
 	String text;
 	int textSize;
-	public StrBlock(BlockManager manager, JSONArray parameters) {
+	protected RecursiveBlock reference;
+	public InputBlock(BlockManager manager, JSONArray parameters) {
 		super(manager, parameters);
 	}
 
@@ -38,6 +45,8 @@ public class StrBlock extends PredefinedBlock{
 	@Override
 	public void paint(List<Shape> shapes) {
 		bufferShapes.clear(); 
+		String tmp = manager.getInputText(reference.getPosition());
+		this.text = tmp==null?this.text:tmp;
 		bufferShapes.add(new StringShape(text, 
 								   this.base.x+2f, 
 								   this.base.y+stringHeight-2f, 
@@ -66,10 +75,47 @@ public class StrBlock extends PredefinedBlock{
 	public Block findRecursive(Point point) {
 		return null;
 	}
-	
+	@Override
+	public Block findPredefined(Point point) {
+		for(Shape shape:bufferShapes) {
+			if(shape.contains(point)) {				
+				return this;
+			}
+		}
+		return null;
+	}
 	@Override
 	public void rightClick(Point point, Component c) {
+		if(bufferShapes.get(0).contains(point))this.openDialog(point, c);
 	}
+
+	private void openDialog(Point point, Component c) {
+		JDialog dialog = new JDialog();
+		dialog.setPreferredSize(new Dimension(700,200));
+		dialog.setLayout(new BorderLayout());
+		JTextPane editor = new JTextPane();
+		String stext = manager.getInputText(reference.getPosition());
+		if(stext==null) {
+			manager.setInputText(this.text, reference.getPosition());
+			editor.setText(this.text);
+		}
+		else {
+			editor.setText(stext);
+		}
+		dialog.add(editor, BorderLayout.CENTER);
+		JButton saveButton = new JButton("save");
+		saveButton.addActionListener(e->save(editor.getText(), c));
+		dialog.add(saveButton, BorderLayout.PAGE_END);
+		dialog.setLocation(point.x, point.y);
+		dialog.pack();
+		dialog.setVisible(true);
+	}
+
+	private void save(String text, Component c) {
+		this.manager.setInputText(text, reference.getPosition());
+		c.repaint();
+	}
+
 
 
 

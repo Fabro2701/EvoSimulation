@@ -1,6 +1,7 @@
 package block_manipulation.block;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +193,17 @@ public class HeaderBlock extends PredefinedBlock{
 			if((block = child.findRecursive(point))!= null)return block;
 		}
 		return block;
+	}
+
+	@Override
+	public void rightClick(Point point, Component c) {
+		if(name!=null) {
+			name.rightClick(point, c);
+		}
+		for(Block child:right) {
+			child.rightClick(point, c);
+		}
+		
 	}
 
 	/*@Override

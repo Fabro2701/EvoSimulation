@@ -1,5 +1,6 @@
 package block_manipulation.block;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class FloorBlock  extends PredefinedBlock{
 	@Override
 	public Block findRecursive(Point point) {
 		return null;
+	}
+
+	@Override
+	public void rightClick(Point point, Component c) {
 	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {

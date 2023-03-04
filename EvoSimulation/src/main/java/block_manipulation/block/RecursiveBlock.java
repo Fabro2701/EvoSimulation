@@ -1,6 +1,7 @@
 package block_manipulation.block;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class RecursiveBlock extends Block{
 				if(bo.getString("type").equals("PredefinedBlock")) {
 					//System.out.println(bo.toString(4));
 					((PredefinedBlock)b).setColor(color);
+					if(b instanceof InputBlock)((InputBlock)b).reference = this;
 				}
 				
 				b.setBase(new Vector2D(base.x, base.y+shifty));
@@ -98,6 +100,13 @@ public class RecursiveBlock extends Block{
 					   this.base.y+stringHeight-2f, 
 					   Color.black));*/
 		}
+	}
+	@Override
+	public void rightClick(Point point, Component c) {
+		for(Block b:blocks) {
+			b.rightClick(point, c);
+		}
+
 	}
 	@Override
 	public float getHeight() {

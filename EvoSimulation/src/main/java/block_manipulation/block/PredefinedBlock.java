@@ -1,6 +1,7 @@
 package block_manipulation.block;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,4 +37,5 @@ public abstract class PredefinedBlock extends Block{
 		}
 		return null;
 	}
+	
 }

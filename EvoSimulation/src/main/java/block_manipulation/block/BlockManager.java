@@ -1,5 +1,6 @@
 package block_manipulation.block;
 
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import block_manipulation.BlockInfoSingleton;
@@ -30,6 +32,7 @@ public class BlockManager implements Cloneable{
 	
 	private Graphics2D g2;
 	
+	private List<InputIndex>inputsIdx; 
 
 	public BlockManager(String filename) {
 		this.filename = filename;
@@ -37,6 +40,7 @@ public class BlockManager implements Cloneable{
 		cursor = 0;
 		blocksInfo = BlockInfoSingleton.fromFile(filename);
 		blockIluminations = new HashMap<>();
+		inputsIdx = new ArrayList<>();
 	}
 	public void move(Point current, Point e) {
 		this.base.x += e.x-current.x;
@@ -73,6 +77,13 @@ public class BlockManager implements Cloneable{
 	}
 	public void merge(BlockManager manager2, int pos) {
 		//preserve pending
+		for(InputIndex ii:manager2.inputsIdx) {
+			ii.pos+=pos;
+		}
+		for(InputIndex ii:this.inputsIdx) {
+			if(ii.pos>=pos)ii.pos+=manager2.inputsIdx.size()-1;
+		}
+		this.inputsIdx.addAll(manager2.inputsIdx);
 		decisions.remove(pos);
 		decisions.addAll(pos, manager2.decisions);
 	}
@@ -86,10 +97,35 @@ public class BlockManager implements Cloneable{
 		}
 		return m;
 	}
+	protected class InputIndex{
+		int pos;
+		String text;
+		public InputIndex(int pos, String text) {
+			this.pos = pos;
+			this.text = text;
+		}
+	}
+	public String getInputText(int pos) {
+		for(InputIndex ii:this.inputsIdx)if(ii.pos==pos)return ii.text;
+		return null;
+	}
+	public void setInputText(String text, int pos) {
+		boolean found = false;
+		for(InputIndex ii:this.inputsIdx) {
+			if(ii.pos==pos) {
+				ii.text = text;
+				found = true;
+				break;
+			}
+		}
+		if(!found)this.inputsIdx.add(new InputIndex(pos, text));
+	}
+	public void propagateRightClick(Point point, Component c) {
+		root.rightClick(point, c);
+	}
 	public int getNext() {
 		return decisions.get(cursor++);
 	}
-
 	public void setRoot(Block root) {
 		this.root = root;
 	}

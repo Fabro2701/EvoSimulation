@@ -72,7 +72,9 @@ public class BlockEditor extends JPanel{
     				
     			}
     			if(SwingUtilities.isRightMouseButton(e)) {
-    				
+    				for(BlockManager manager:managers) {
+    					manager.propagateRightClick(e.getPoint(), BlockEditor.this);
+    				}
     			}
 			}
     		@Override

@@ -1,5 +1,6 @@
 package block_manipulation.block;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,12 @@ public class ChildrenBlock extends PredefinedBlock{
 			if((block = child.findRecursive(point))!= null)return block;
 		}
 		return block;
+	}
+	@Override
+	public void rightClick(Point point, Component c) {
+		for(Block child:children) {
+			child.rightClick(point, c);
+		}
 	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {

@@ -1,6 +1,7 @@
 package block_manipulation.block;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 
@@ -54,6 +55,7 @@ public abstract class Block implements BlockRenderer{
 		}
 		return null;
 	}
+	public abstract void rightClick(Point point, Component c);
 	public abstract Block findRecursive(Point point);
 	public abstract Block findPredefined(Point point);
 	public Vector2D getBase() {

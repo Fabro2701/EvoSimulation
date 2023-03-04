@@ -1,6 +1,7 @@
 package block_manipulation.block;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,10 @@ public class GhostBlock extends PredefinedBlock{
 		return this.reference.getRule();
 	}
 
+	@Override
+	public void rightClick(Point point, Component c) {
+
+	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return bufferShapes;

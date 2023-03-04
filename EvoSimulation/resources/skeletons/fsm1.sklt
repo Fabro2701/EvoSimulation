@@ -30,6 +30,9 @@
 			],
 			[
    			Inner(names=<NUM>,names=<OP>,names=<COND_T>)
+			],
+			[
+   			Inner(names=<COND_T>,names=<OP>,names=<COND_T>)
 			].
 <NAME>:-[Str(text="name1")],
 		[Str(text="name2")],
@@ -37,7 +40,7 @@
 		[Str(text="name4")],
 		[Str(text="name5")],
 		[Str(text="name6")].
-<NUM>:- [Str(text="1")],
+<NUM>:- [Input(text="asdffds")],
 		[Str(text="2")],
 		[Str(text="3")],
 		[Str(text="4")],
