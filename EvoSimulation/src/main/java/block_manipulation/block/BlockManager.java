@@ -38,9 +38,9 @@ public class BlockManager implements Cloneable{
 		blocksInfo = BlockInfoSingleton.fromFile(filename);
 		blockIluminations = new HashMap<>();
 	}
-	public void move(Point current, MouseEvent e) {
-		root.base.x += e.getPoint().x-current.x;
-		root.base.y += e.getPoint().y-current.y;
+	public void move(Point current, Point e) {
+		this.base.x += e.x-current.x;
+		this.base.y += e.y-current.y;
 	}
 	public boolean flip(MouseEvent e) {
 		Block block = root.findRecursive(e.getPoint());
@@ -113,6 +113,10 @@ public class BlockManager implements Cloneable{
 	}
 	public void setBase(Vector2D base) {
 		this.base = base;
+		if(this.root!=null)this.root.base=base;
+	}
+	public void updateRoot() {
+		if(this.root!=null)this.root.base=base;
 	}
 	public BlockInfoSupplier getBlocksInfo() {
 		return blocksInfo;

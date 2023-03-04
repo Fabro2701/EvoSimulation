@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -111,6 +112,9 @@ public class BlockSelector extends JPanel{
 	}
 	private void setMouse() {
 		MouseAdapter mouseA = new MouseAdapter() {
+			boolean pressed = false;
+    		Point current = null;
+    		BlockManager currentManager = null;
     		@Override
 			public void mouseClicked(MouseEvent e) {
     			if(SwingUtilities.isLeftMouseButton(e)) {
@@ -125,6 +129,35 @@ public class BlockSelector extends JPanel{
     			if(SwingUtilities.isRightMouseButton(e)) {
     				
     			}
+			}
+    		@Override
+			public void mousePressed(MouseEvent e) {
+    			pressed = true;
+    			current = e.getPoint();
+				for(BlockManager manager:managers) {
+    				if(manager.getRoot().findRecursive(e.getPoint())!=null) {
+    					currentManager = manager;
+    				}
+    			}
+				
+			}
+    		@Override
+			public void mouseReleased(MouseEvent e) {
+    			pressed = false;
+    			currentManager = null;
+			}
+    		@Override
+			public void mouseDragged(MouseEvent e) {
+				if(pressed && currentManager != null) {
+					currentManager.move(current, e.getPoint());
+					current = e.getPoint();
+					if(current.x<=0) {
+						editor.setBufferBlock(currentManager);
+						currentManager = null;
+					}
+					repaint();
+				}
+				
 			}
 		};
 		this.addMouseListener(mouseA);

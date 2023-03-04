@@ -24,6 +24,8 @@ public class BlockEditor extends JPanel{
 	List<BlockManager> managers;
 	private List<String> initSymbols;
 	private BlockSelector selector;
+	BlockManager bufferBlock;
+	private String bufferSymbol;
 	
 	public BlockEditor(Dimension dim) {
 		managers = new ArrayList<>();
@@ -41,50 +43,32 @@ public class BlockEditor extends JPanel{
 		//this.setMaximumSize(dim);
 		this.init();
 	}
-	/*public BlockEditor(Dimension dim) {
-		manager = new BlockManager(new Vector2D(20f,80f));
-		this.setMinimumSize(dim);
-		this.setPreferredSize(dim);
-		this.setMaximumSize(dim);
-		this.init();
-	}*/
-	public void insertBlock(String initSymbol, BlockManager manager, Vector2D pos) {
+
+	public BlockManager insertBlock(String initSymbol, BlockManager manager, Vector2D pos) {
 		BlockManager m = (BlockManager)manager.clone();
 		if(pos!=null)m.setBase(pos);
 		this.managers.add(m);
 		this.initSymbols.add(initSymbol);
 		this.repaint();
+		return m;
 	}
 	public void insertBlock(String initSymbol, BlockManager manager) {
 		insertBlock(initSymbol, manager, null);
 	}
 	private void init() {
-		/*for(BlockManager manager:managers) {
-			List<Integer>decisions = manager.getDecisions();
-			decisions.clear();
-			for(int i=0;i<100;i++) {
-				//decisions.add(RandomSingleton.nextInt(256));
-				//decisions.add(-1);
-			}
-			decisions.add(0);
-			//decisions.set(0, 1);
-			//decisions.set(1, RandomSingleton.nextInt(256));
-			//decisions.set(2, 0);
-		}*/
-		
-		
 		MouseAdapter mouseA = new MouseAdapter() {
 			boolean pressed = false;
     		Point current = null;
     		BlockManager currentManager = null;
     		@Override
 			public void mouseClicked(MouseEvent e) {
+    			
     			if(SwingUtilities.isLeftMouseButton(e)) {
-    				for(BlockManager manager:managers) {
+    				/*for(BlockManager manager:managers) {
     					if(manager.flip(e)) {
                 			repaint();
         				}
-    				}
+    				}*/
     				
     			}
     			if(SwingUtilities.isRightMouseButton(e)) {
@@ -95,6 +79,11 @@ public class BlockEditor extends JPanel{
 			public void mousePressed(MouseEvent e) {
     			pressed = true;
     			current = e.getPoint();
+    			if(pressed && bufferBlock != null) {
+    				currentManager = insertBlock(bufferSymbol, bufferBlock, new Vector2D(e.getPoint().x, e.getPoint().y));
+    				bufferBlock = null;
+					repaint();
+    			}
     			if(currentManager==null) {
     				for(BlockManager manager:managers) {
         				if(manager.getRoot().findRecursive(e.getPoint())!=null) {
@@ -102,7 +91,6 @@ public class BlockEditor extends JPanel{
         				}
         			}
     			}
-    			
 			}
     		@Override
 			public void mouseReleased(MouseEvent e) {
@@ -142,7 +130,7 @@ public class BlockEditor extends JPanel{
 							manager.iluminateRecursiveBlocks(((RecursiveBlock)currentManager.getRoot()).getRule());
 						}
 					}
-					currentManager.move(current, e);
+					currentManager.move(current, e.getPoint());
 					current = e.getPoint();
 					repaint();
 				}
@@ -188,5 +176,12 @@ public class BlockEditor extends JPanel{
 	}
 	public void setBlockSelector(BlockSelector selector) {
 		this.selector = selector;
+	}
+	public void setBufferBlock(BlockManager bufferBlock) {
+		this.setBufferBlock(bufferBlock, ((RecursiveBlock)bufferBlock.getRoot()).getRule());
+	}
+	public void setBufferBlock(BlockManager bufferBlock, String symbol) {
+		this.bufferBlock = bufferBlock;
+		this.bufferSymbol = symbol;
 	}
 }
