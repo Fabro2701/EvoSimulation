@@ -8,36 +8,88 @@ import org.json.JSONObject;
 
 import simulator.control.fsm.FSM;
 import simulator.control.fsm.SimpleState;
-import simulator.control.fsm.State;
+import simulator.control.fsm.StochasticComparisonTransition;
+import simulator.control.fsm.Transition;
+import simulator.control.fsm.TrueTransition;
 
 public class FSMBlockTranslation {
+	List<SimpleState>states;
 	FSM<String, String>evaluate(JSONObject program){
+		FSM<String, String>fsm = new FSM<String, String>();
 		
 		JSONArray blocks = program.getJSONArray("blocks");
-		JSONObject name = blocks.getJSONObject(0);
+		JSONObject nameDef = blocks.getJSONObject(0);
 		JSONObject statesDefs = blocks.getJSONObject(1).getJSONArray("children").getJSONObject(0);
-		JSONObject transDef = blocks.getJSONObject(3);
-		JSONObject init = blocks.getJSONObject(5);
+		JSONObject transDefs = blocks.getJSONObject(3).getJSONArray("children").getJSONObject(0);
+		String init = this.evaluateName(blocks.getJSONObject(5).getJSONArray("right").getJSONObject(0));
 		
-		
+		String name = this.evaluateName(nameDef.getJSONArray("right").getJSONObject(0));
 		
 		List<JSONObject>statesDef = extractFromList(statesDefs, "STATE_DEF");
-		List<SimpleState>states = this.evaluateStatesDefs(statesDef);
+		states = this.evaluateStatesDefs(statesDef);
 		
+		List<JSONObject>transDef = extractFromList(transDefs, "TRANSITION_DEF");
+		List<Pair<SimpleState, Transition>>trans = this.evaluateTransDefs(transDef);
+		
+		
+		
+		System.out.println(name);
 		for(SimpleState s:states) {
 			System.out.println(s.getData());
 			s.doJobs(null);
 		}
+		System.out.println(init);
+		
+		
+		for(Pair<SimpleState, Transition>t:trans) {
+			fsm.addTransition(t.first, t.second);
+		}
+		return fsm;
+	}
+	private List<Pair<SimpleState, Transition>> evaluateTransDefs(List<JSONObject> transDefs) {
+		List<Pair<SimpleState, Transition>> trans = new ArrayList<>();
+		for(JSONObject transDef:transDefs) {
+			trans.add(evaluateTransDef(transDef));
+		}
+		return trans;
+	}
+	private class Pair<E,T>{
+		E first;
+		T second;
+		public Pair(E first, T second) {
+			this.first = first;
+			this.second = second;
+		}
+	}
+	private Pair<SimpleState, Transition> evaluateTransDef(JSONObject TRANSITION_DEF) {
+		String state1 = evaluateName(TRANSITION_DEF.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0).getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
+		String state2 = evaluateName(TRANSITION_DEF.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(2).getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
+
+		JSONObject transType = TRANSITION_DEF.getJSONArray("blocks").getJSONObject(1).getJSONArray("children").getJSONObject(0);
+		String type = transType.getString("type");
+		switch(type) {
+		case "TRUE_T":
+			return new Pair<SimpleState, Transition>(getState(state1), new TrueTransition(getState(state2)));
+		case "PROB_T":
+			return new Pair<SimpleState, Transition>(getState(state1), new StochasticComparisonTransition(List.of(),List.of(),getState(state2)));
+		case "COND_T":
+			break;
+		}
+		
+		return null;
+	}
+	private SimpleState getState(String name) {
+		for(SimpleState state:this.states) if(state.getData().equals(name))return state;
 		return null;
 	}
 	private List<SimpleState> evaluateStatesDefs(List<JSONObject> statesDef) {
 		List<SimpleState> states = new ArrayList<>();
 		for(JSONObject stateDef:statesDef) {
-			states.add(evaluateStatesDef(stateDef));
+			states.add(evaluateStateDef(stateDef));
 		}
 		return states;
 	}
-	private SimpleState evaluateStatesDef(JSONObject STATE_DEF) {
+	private SimpleState evaluateStateDef(JSONObject STATE_DEF) {
 		String name = this.evaluateName(STATE_DEF.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
 		SimpleState state = new SimpleState(name);
 		
