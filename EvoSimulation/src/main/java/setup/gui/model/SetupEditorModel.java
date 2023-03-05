@@ -14,6 +14,7 @@ import simulator.model.entity.individuals.MyIndividual;
 public class SetupEditorModel {
 	private Map<Class<?>, EntitySeparator>separators;
 	private Map<String, FSMDeclaration>fsms;
+	private List<EntityInteraction>interactions;
 	private SetupEditorModel() {
 		separators = new LinkedHashMap<>();
 		fsms = new LinkedHashMap<>();
@@ -23,9 +24,13 @@ public class SetupEditorModel {
 		
 		//m.separators.put(MyIndividual.class, new EntitySeparator("imc","N", "S", "O"));
 		//m.separators.put(PasiveEntity.class, new EntitySeparator("info","supermarket", "house", "bar", "restaurant"));
-		//m.separators.put(PasiveEntity.class, new EntitySeparator());
+		m.separators.put(MyIndividual.class, new EntitySeparator());
+		m.separators.put(PasiveEntity.class, new EntitySeparator());
 
 		return m;
+	}
+	public static class EntityInteraction{
+		Object e1, e2;
 	}
 	public static class FSMDeclaration{
 		JSONObject json;

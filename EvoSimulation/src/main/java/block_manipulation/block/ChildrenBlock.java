@@ -85,7 +85,7 @@ public class ChildrenBlock extends PredefinedBlock{
 			arr.put(b.toJSON());
 		}
 		return new JSONObject().put("type", "ChildrenBlock")
-							   .put("blocks", arr);
+							   .put("children", arr);
 	}
 
 

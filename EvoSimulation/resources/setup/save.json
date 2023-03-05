@@ -2,6 +2,60 @@
     "fsms": [{
         "init": "FSM_DEF",
         "filename": "resources/skeletons/fsm1.sklt",
+        "inputs": [
+            {
+                "pos": 40,
+                "text": "init"
+            },
+            {
+                "pos": 1,
+                "text": "fsm1"
+            },
+            {
+                "pos": 4,
+                "text": "house"
+            },
+            {
+                "pos": 9,
+                "text": "super"
+            },
+            {
+                "pos": 17,
+                "text": "house"
+            },
+            {
+                "pos": 19,
+                "text": "super"
+            },
+            {
+                "pos": 25,
+                "text": "super"
+            },
+            {
+                "pos": 27,
+                "text": "house"
+            },
+            {
+                "pos": 34,
+                "text": "super"
+            },
+            {
+                "pos": 36,
+                "text": "house"
+            },
+            {
+                "pos": 6,
+                "text": "this.setAttribute(\"e\",2);"
+            },
+            {
+                "pos": 11,
+                "text": "this.setAttribute(\"rest\",4);"
+            },
+            {
+                "pos": 13,
+                "text": "this.setAttribute(\"rest\",\"re\");"
+            }
+        ],
         "root": {
             "blocks": [
                 {
@@ -11,7 +65,7 @@
                     },
                     "right": [{
                         "blocks": [{
-                            "text": "name",
+                            "text": "fsm1",
                             "type": "InputBlock"
                         }],
                         "rule": "NAME",
@@ -20,8 +74,110 @@
                     "type": "HeaderBlock"
                 },
                 {
-                    "blocks": [{
-                        "blocks": [{"type": "GhostBlock"}],
+                    "children": [{
+                        "blocks": [{
+                            "children": [
+                                {
+                                    "blocks": [
+                                        {
+                                            "name": {
+                                                "text": "Def state",
+                                                "type": "StrBlock"
+                                            },
+                                            "right": [{
+                                                "blocks": [{
+                                                    "text": "house",
+                                                    "type": "InputBlock"
+                                                }],
+                                                "rule": "NAME",
+                                                "type": "RecursiveBlock"
+                                            }],
+                                            "type": "HeaderBlock"
+                                        },
+                                        {
+                                            "children": [{
+                                                "blocks": [{
+                                                    "blocks": [{
+                                                        "text": "this.setAttribute(\"e\",2);",
+                                                        "type": "InputBlock"
+                                                    }],
+                                                    "rule": "ACTION",
+                                                    "type": "RecursiveBlock"
+                                                }],
+                                                "rule": "ACTIONLIST",
+                                                "type": "RecursiveBlock"
+                                            }],
+                                            "type": "ChildrenBlock"
+                                        },
+                                        {"type": "FloorBlock"}
+                                    ],
+                                    "rule": "STATE_DEF",
+                                    "type": "RecursiveBlock"
+                                },
+                                {
+                                    "blocks": [
+                                        {
+                                            "blocks": [
+                                                {
+                                                    "name": {
+                                                        "text": "Def state",
+                                                        "type": "StrBlock"
+                                                    },
+                                                    "right": [{
+                                                        "blocks": [{
+                                                            "text": "super",
+                                                            "type": "InputBlock"
+                                                        }],
+                                                        "rule": "NAME",
+                                                        "type": "RecursiveBlock"
+                                                    }],
+                                                    "type": "HeaderBlock"
+                                                },
+                                                {
+                                                    "children": [{
+                                                        "blocks": [{
+                                                            "children": [
+                                                                {
+                                                                    "blocks": [{
+                                                                        "text": "this.setAttribute(\"rest\",4);",
+                                                                        "type": "InputBlock"
+                                                                    }],
+                                                                    "rule": "ACTION",
+                                                                    "type": "RecursiveBlock"
+                                                                },
+                                                                {
+                                                                    "blocks": [{
+                                                                        "blocks": [{
+                                                                            "text": "this.setAttribute(\"rest\",\"re\");",
+                                                                            "type": "InputBlock"
+                                                                        }],
+                                                                        "rule": "ACTION",
+                                                                        "type": "RecursiveBlock"
+                                                                    }],
+                                                                    "rule": "ACTIONLIST",
+                                                                    "type": "RecursiveBlock"
+                                                                }
+                                                            ],
+                                                            "type": "ChildrenBlock"
+                                                        }],
+                                                        "rule": "ACTIONLIST",
+                                                        "type": "RecursiveBlock"
+                                                    }],
+                                                    "type": "ChildrenBlock"
+                                                },
+                                                {"type": "FloorBlock"}
+                                            ],
+                                            "rule": "STATE_DEF",
+                                            "type": "RecursiveBlock"
+                                        },
+                                        {"type": "FloorBlock"}
+                                    ],
+                                    "rule": "STATE_DEFLIST",
+                                    "type": "RecursiveBlock"
+                                }
+                            ],
+                            "type": "ChildrenBlock"
+                        }],
                         "rule": "STATE_DEFLIST",
                         "type": "RecursiveBlock"
                     }],
@@ -29,8 +185,272 @@
                 },
                 {"type": "FloorBlock"},
                 {
-                    "blocks": [{
-                        "blocks": [{"type": "GhostBlock"}],
+                    "children": [{
+                        "blocks": [{
+                            "children": [
+                                {
+                                    "blocks": [
+                                        {
+                                            "name": {
+                                                "text": "Def Transition",
+                                                "type": "StrBlock"
+                                            },
+                                            "right": [
+                                                {
+                                                    "blocks": [{
+                                                        "name": {
+                                                            "text": "name",
+                                                            "type": "StrBlock"
+                                                        },
+                                                        "right": [{
+                                                            "blocks": [{
+                                                                "text": "house",
+                                                                "type": "InputBlock"
+                                                            }],
+                                                            "rule": "NAME",
+                                                            "type": "RecursiveBlock"
+                                                        }],
+                                                        "type": "HeaderBlock"
+                                                    }],
+                                                    "rule": "STATE",
+                                                    "type": "RecursiveBlock"
+                                                },
+                                                {
+                                                    "text": " to ",
+                                                    "type": "StrBlock"
+                                                },
+                                                {
+                                                    "blocks": [{
+                                                        "name": {
+                                                            "text": "name",
+                                                            "type": "StrBlock"
+                                                        },
+                                                        "right": [{
+                                                            "blocks": [{
+                                                                "text": "super",
+                                                                "type": "InputBlock"
+                                                            }],
+                                                            "rule": "NAME",
+                                                            "type": "RecursiveBlock"
+                                                        }],
+                                                        "type": "HeaderBlock"
+                                                    }],
+                                                    "rule": "STATE",
+                                                    "type": "RecursiveBlock"
+                                                }
+                                            ],
+                                            "type": "HeaderBlock"
+                                        },
+                                        {
+                                            "children": [{
+                                                "blocks": [{
+                                                    "blocks": [{
+                                                        "names": [{
+                                                            "text": "true",
+                                                            "type": "StrBlock"
+                                                        }],
+                                                        "type": "InnerBlock"
+                                                    }],
+                                                    "rule": "TRUE_T",
+                                                    "type": "RecursiveBlock"
+                                                }],
+                                                "rule": "TRANSITION_TYPE",
+                                                "type": "RecursiveBlock"
+                                            }],
+                                            "type": "ChildrenBlock"
+                                        },
+                                        {"type": "FloorBlock"}
+                                    ],
+                                    "rule": "TRANSITION_DEF",
+                                    "type": "RecursiveBlock"
+                                },
+                                {
+                                    "blocks": [{
+                                        "children": [
+                                            {
+                                                "blocks": [
+                                                    {
+                                                        "name": {
+                                                            "text": "Def Transition",
+                                                            "type": "StrBlock"
+                                                        },
+                                                        "right": [
+                                                            {
+                                                                "blocks": [{
+                                                                    "name": {
+                                                                        "text": "name",
+                                                                        "type": "StrBlock"
+                                                                    },
+                                                                    "right": [{
+                                                                        "blocks": [{
+                                                                            "text": "super",
+                                                                            "type": "InputBlock"
+                                                                        }],
+                                                                        "rule": "NAME",
+                                                                        "type": "RecursiveBlock"
+                                                                    }],
+                                                                    "type": "HeaderBlock"
+                                                                }],
+                                                                "rule": "STATE",
+                                                                "type": "RecursiveBlock"
+                                                            },
+                                                            {
+                                                                "text": " to ",
+                                                                "type": "StrBlock"
+                                                            },
+                                                            {
+                                                                "blocks": [{
+                                                                    "name": {
+                                                                        "text": "name",
+                                                                        "type": "StrBlock"
+                                                                    },
+                                                                    "right": [{
+                                                                        "blocks": [{
+                                                                            "text": "house",
+                                                                            "type": "InputBlock"
+                                                                        }],
+                                                                        "rule": "NAME",
+                                                                        "type": "RecursiveBlock"
+                                                                    }],
+                                                                    "type": "HeaderBlock"
+                                                                }],
+                                                                "rule": "STATE",
+                                                                "type": "RecursiveBlock"
+                                                            }
+                                                        ],
+                                                        "type": "HeaderBlock"
+                                                    },
+                                                    {
+                                                        "children": [{
+                                                            "blocks": [{
+                                                                "blocks": [{
+                                                                    "name": {
+                                                                        "text": "prob",
+                                                                        "type": "StrBlock"
+                                                                    },
+                                                                    "right": [{
+                                                                        "blocks": [{
+                                                                            "text": "num",
+                                                                            "type": "InputBlock"
+                                                                        }],
+                                                                        "rule": "NUM",
+                                                                        "type": "RecursiveBlock"
+                                                                    }],
+                                                                    "type": "HeaderBlock"
+                                                                }],
+                                                                "rule": "PROB_T",
+                                                                "type": "RecursiveBlock"
+                                                            }],
+                                                            "rule": "TRANSITION_TYPE",
+                                                            "type": "RecursiveBlock"
+                                                        }],
+                                                        "type": "ChildrenBlock"
+                                                    },
+                                                    {"type": "FloorBlock"}
+                                                ],
+                                                "rule": "TRANSITION_DEF",
+                                                "type": "RecursiveBlock"
+                                            },
+                                            {
+                                                "blocks": [
+                                                    {
+                                                        "blocks": [
+                                                            {
+                                                                "name": {
+                                                                    "text": "Def Transition",
+                                                                    "type": "StrBlock"
+                                                                },
+                                                                "right": [
+                                                                    {
+                                                                        "blocks": [{
+                                                                            "name": {
+                                                                                "text": "name",
+                                                                                "type": "StrBlock"
+                                                                            },
+                                                                            "right": [{
+                                                                                "blocks": [{
+                                                                                    "text": "super",
+                                                                                    "type": "InputBlock"
+                                                                                }],
+                                                                                "rule": "NAME",
+                                                                                "type": "RecursiveBlock"
+                                                                            }],
+                                                                            "type": "HeaderBlock"
+                                                                        }],
+                                                                        "rule": "STATE",
+                                                                        "type": "RecursiveBlock"
+                                                                    },
+                                                                    {
+                                                                        "text": " to ",
+                                                                        "type": "StrBlock"
+                                                                    },
+                                                                    {
+                                                                        "blocks": [{
+                                                                            "name": {
+                                                                                "text": "name",
+                                                                                "type": "StrBlock"
+                                                                            },
+                                                                            "right": [{
+                                                                                "blocks": [{
+                                                                                    "text": "house",
+                                                                                    "type": "InputBlock"
+                                                                                }],
+                                                                                "rule": "NAME",
+                                                                                "type": "RecursiveBlock"
+                                                                            }],
+                                                                            "type": "HeaderBlock"
+                                                                        }],
+                                                                        "rule": "STATE",
+                                                                        "type": "RecursiveBlock"
+                                                                    }
+                                                                ],
+                                                                "type": "HeaderBlock"
+                                                            },
+                                                            {
+                                                                "children": [{
+                                                                    "blocks": [{
+                                                                        "blocks": [{
+                                                                            "name": {
+                                                                                "text": "prob",
+                                                                                "type": "StrBlock"
+                                                                            },
+                                                                            "right": [{
+                                                                                "blocks": [{
+                                                                                    "text": "rndfloat()",
+                                                                                    "type": "InputBlock"
+                                                                                }],
+                                                                                "rule": "NUM",
+                                                                                "type": "RecursiveBlock"
+                                                                            }],
+                                                                            "type": "HeaderBlock"
+                                                                        }],
+                                                                        "rule": "PROB_T",
+                                                                        "type": "RecursiveBlock"
+                                                                    }],
+                                                                    "rule": "TRANSITION_TYPE",
+                                                                    "type": "RecursiveBlock"
+                                                                }],
+                                                                "type": "ChildrenBlock"
+                                                            },
+                                                            {"type": "FloorBlock"}
+                                                        ],
+                                                        "rule": "TRANSITION_DEF",
+                                                        "type": "RecursiveBlock"
+                                                    },
+                                                    {"type": "FloorBlock"}
+                                                ],
+                                                "rule": "TRANSITION_DEFLIST",
+                                                "type": "RecursiveBlock"
+                                            }
+                                        ],
+                                        "type": "ChildrenBlock"
+                                    }],
+                                    "rule": "TRANSITION_DEFLIST",
+                                    "type": "RecursiveBlock"
+                                }
+                            ],
+                            "type": "ChildrenBlock"
+                        }],
                         "rule": "TRANSITION_DEFLIST",
                         "type": "RecursiveBlock"
                     }],
@@ -43,7 +463,10 @@
                         "type": "StrBlock"
                     },
                     "right": [{
-                        "blocks": [{"type": "GhostBlock"}],
+                        "blocks": [{
+                            "text": "init",
+                            "type": "InputBlock"
+                        }],
                         "rule": "NAME",
                         "type": "RecursiveBlock"
                     }],
@@ -56,34 +479,58 @@
         "decisions": [
             0,
             0,
-            -1,
-            -1,
-            -1
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            2,
+            0
         ],
         "base": {
-            "x": 551,
-            "y": 200
+            "x": 263,
+            "y": 157
         }
     }],
     "separators": [
         {
-            "att": "imc",
-            "values": [
-                "N",
-                "S",
-                "O",
-                "I"
-            ],
+            "values": [],
             "class": "simulator.model.entity.individuals.MyIndividual"
         },
         {
-            "att": "info",
-            "values": [
-                "supermarket",
-                "house",
-                "bar",
-                "restaurant"
-            ],
+            "values": [],
             "class": "simulator.model.entity.PasiveEntity"
         }
     ]

@@ -56,14 +56,14 @@ public class MainGUI extends MainGUIAbstract{
 		}
 		
 		JSONArray arr = o.getJSONArray("separators");
-		try {
+		/*try {
 			for(int i=0;i<arr.length();i++) {
 				JSONObject es = arr.getJSONObject(i);
 				ctrl.pushSeparator(Class.forName(es.getString("class")), es.getString("att"), es.getJSONArray("values").toList());
 			}
 		} catch (ClassNotFoundException | JSONException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		arr = o.getJSONArray("fsms");
 		for(int i=0;i<arr.length();i++) {

@@ -128,7 +128,7 @@ public class InnerBlock extends PredefinedBlock{
 			arr.put(b.toJSON());
 		}
 		return new JSONObject().put("type", "InnerBlock")
-							   .put("blocks", arr);
+							   .put("names", arr);
 	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {

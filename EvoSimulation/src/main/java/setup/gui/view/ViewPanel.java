@@ -10,9 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -29,6 +31,7 @@ import setup.gui.view.module.SeparatorModule;
 public class ViewPanel extends JPanel{
 	JFrame father;
 	List<State>states;//change to less abstract and more organised dstruct
+	List<Edge>edges;
 	SetupEditorController ctrl;
 	CustomMouseAdapter mouse;
 	boolean recalculate = false;
@@ -37,6 +40,7 @@ public class ViewPanel extends JPanel{
 	public ViewPanel(JFrame father, SetupEditorController ctrl) {
 		super();
 		this.states = new ArrayList<>();
+		edges = new ArrayList<>();
 		this.ctrl = ctrl;
 		this.father = father;
 		initView();
@@ -86,6 +90,53 @@ public class ViewPanel extends JPanel{
 			i++;
 		}
 	}
+	private void checkforModifications() {
+		//separator
+		Set<State>del = new HashSet<>();
+		Map<Class<?>, EntitySeparator> seps = this.ctrl.pullSeparators();
+		for(int i=0;i<this.states.size();i++) {
+			State state = this.states.get(i);
+			if(state.clazz.equals("separator")) {
+				boolean found=false;
+				for(Entry<Class<?>, EntitySeparator> entry:seps.entrySet()) {
+					if(state.getId().equals(entry.getValue().getAtt())) {
+						found=true;
+						if(!entry.getValue().getValues().contains(state.getName())) {
+							del.add(state);
+							System.out.println("delete "+state);
+						}
+					}
+				}
+				if(!found)System.out.println("2delete "+state);
+			}
+		}
+		this.states.removeAll(del);
+		
+		for(Entry<Class<?>, EntitySeparator> entry:seps.entrySet()) {
+			if(entry.getValue().getAtt()==null)continue;
+			for(String v:entry.getValue().getValues()) {
+				boolean found=false;
+				for(int i=0;i<this.states.size();i++) {
+					State state = this.states.get(i);
+					if(state.clazz.equals("separator")) {
+						if(state.id.equals(entry.getValue().getAtt())) {
+							if(v.equals(state.name)) {
+								found = true;
+							}
+						}
+					}
+				}
+				/*if(!found)states.add(State.from("separator", 
+										  entry.getValue().getAtt(),
+										  v, 
+										  new CircleShape(root.x+j*75f, 
+												  		  root.y+i*100f, 
+												  		  25f)
+										  ));*/
+			}
+			
+		}
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -96,6 +147,7 @@ public class ViewPanel extends JPanel{
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		if(recalculate) {
+			this.checkforModifications();
 			this.setStates();
 			recalculate = false;
 		}
@@ -103,6 +155,9 @@ public class ViewPanel extends JPanel{
 		g2.setColor(Color.black);
 		for(State state:this.states) {
 			state.paint(g2);
+		}
+		for(Edge edge:this.edges) {
+			edge.paint(g2);
 		}
 	}
 	public static class State{
@@ -137,7 +192,7 @@ public class ViewPanel extends JPanel{
 		}
 		@Override 
 		public String toString() {
-			return clazz+" "+name;
+			return clazz+" "+id+"  "+name;
 		}
 		public String getClazz() {
 			return clazz;
@@ -246,8 +301,8 @@ public class ViewPanel extends JPanel{
 			this.selection2 = null;
 		}
 		public void accessInteraction(State state1, State state2) {
-
-			interactionModule.open(state1, state2);
+			ViewPanel.this.addEdge(state1, state2);
+			//interactionModule.open(state1, state2);
 
 			this.selection = null;
 			this.selection2 = null;
@@ -260,10 +315,24 @@ public class ViewPanel extends JPanel{
 			this.selection2 = null;
 		}
 	}
-
-	
-	
-	
+	private static class Edge{
+		State state1, state2;
+		float x1,x2,y1,y2;
+		public Edge(State state1, State state2) {
+			this.state1 = state1;
+			this.state2 = state2;
+			Point2D.Float c1 = state1.shape.center();
+			Point2D.Float c2 = state2.shape.center();
+			x1 = c1.x;
+			x2 = c2.x;
+			y1 = c1.y;
+			y2 = c2.y;
+		}
+		public void paint(Graphics2D g2) {
+			g2.drawLine((int)x1, (int)y1,(int) x2, (int)y2);
+			//g2.drawLine((int)state1.shape.x, (int)state1.shape.y, (int)state2.shape.x, (int)state2.shape.y);
+		}
+	}
 	private abstract static class Shape{
 		protected float x,y;
 		
@@ -322,5 +391,10 @@ public class ViewPanel extends JPanel{
 		this.recalculate = true;
 		this.mouse.selection = null;
 		this.mouse.selection2 = null;
+	}
+	public void addEdge(State state1, State state2) {
+		this.edges.add(new Edge(state1, state2));
+		this.repaint();
+		
 	}
 }
