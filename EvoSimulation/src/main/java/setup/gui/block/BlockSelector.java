@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -153,6 +155,8 @@ public class BlockSelector extends JPanel{
 					current = e.getPoint();
 					if(current.x<=0) {
 						editor.setBufferBlock(currentManager);
+						//BlockSelector.this.transferFocusBackward();;
+						editor.requestFocusInWindow();
 						currentManager = null;
 					}
 					repaint();
@@ -163,5 +167,6 @@ public class BlockSelector extends JPanel{
 		this.addMouseListener(mouseA);
 		this.addMouseMotionListener(mouseA);;
 		this.addMouseWheelListener(mouseA);
+		
 	}
 }

@@ -4,12 +4,17 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.json.JSONObject;
 
 import block_manipulation.BlockInfoSingleton;
 import block_manipulation.BlockInfoSingleton.BlockInfoSupplier;
@@ -122,6 +127,19 @@ public class BlockManager implements Cloneable{
 	}
 	public void propagateRightClick(Point point, Component c) {
 		root.rightClick(point, c);
+	}
+	public void save(String filepath) {
+        JSONObject o = new JSONObject().put("filename", this.filename)
+        							   .put("decisions", this.decisions)
+        							   .put("root", root.toJSON());
+        try {
+			PrintWriter out = new PrintWriter(new FileWriter(filepath));
+			out.write(o.toString());
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public int getNext() {
 		return decisions.get(cursor++);

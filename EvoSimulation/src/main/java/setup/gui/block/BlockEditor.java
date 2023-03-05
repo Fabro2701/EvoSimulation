@@ -1,10 +1,15 @@
 package setup.gui.block;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -17,7 +22,6 @@ import javax.swing.SwingUtilities;
 import block_manipulation.Vector2D;
 import block_manipulation.block.Block;
 import block_manipulation.block.BlockManager;
-import block_manipulation.block.GhostBlock;
 import block_manipulation.block.RecursiveBlock;
 
 public class BlockEditor extends JPanel{
@@ -64,7 +68,7 @@ public class BlockEditor extends JPanel{
 			public void mouseClicked(MouseEvent e) {
     			
     			if(SwingUtilities.isLeftMouseButton(e)) {
-    				if(managers.size()>0)System.out.println(managers.get(0).getRoot().toJSON().toString(4));
+    				//if(managers.size()>0)System.out.println(managers.get(0).getRoot().toJSON().toString(4));
     				/*for(BlockManager manager:managers) {
     					if(manager.flip(e)) {
                 			repaint();
@@ -127,6 +131,7 @@ public class BlockEditor extends JPanel{
     		}
 			@Override
 			public void mouseDragged(MouseEvent e) {
+				
 				if(pressed && currentManager!=null) {
 					for(BlockManager manager:managers) {
 						if(currentManager!=manager) {
@@ -144,10 +149,25 @@ public class BlockEditor extends JPanel{
 				Block.changeMult(-e.getWheelRotation()/10f);
 				BlockEditor.this.repaint();
 			}
+			@Override
+		    public void mouseEntered(MouseEvent e) {
+				Point mousePoint = new Point(e.getPoint());
+				SwingUtilities.convertPointToScreen(mousePoint, BlockEditor.this);
+		        try {
+		            Robot robot = new Robot();
+		            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		            robot.mouseMove(mousePoint.x -1, mousePoint.y);
+		            //robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		        } catch (AWTException ex) {
+		            ex.printStackTrace();
+		        }
+				//BlockEditor.this.repaint();
+		    }
 		};
 		this.addMouseListener(mouseA);
 		this.addMouseMotionListener(mouseA);;
 		this.addMouseWheelListener(mouseA);
+		this.setFocusable(true);
 
 	}
 	
