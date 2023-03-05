@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 
 import setup.gui.control.SetupEditorController;
 import setup.gui.model.SetupEditorModel.EntitySeparator;
+import setup.gui.view.module.FSMModule;
 import setup.gui.view.module.InteractionModule;
 import setup.gui.view.module.SeparatorModule;
 
@@ -31,6 +32,7 @@ public class ViewPanel extends JPanel{
 	SetupEditorController ctrl;
 	CustomMouseAdapter mouse;
 	boolean recalculate = false;
+	State fsms;
 	
 	public ViewPanel(JFrame father, SetupEditorController ctrl) {
 		super();
@@ -42,6 +44,8 @@ public class ViewPanel extends JPanel{
 		mouse = new CustomMouseAdapter();
 		this.addMouseListener(mouse);
 		
+		
+		
 		this.repaint();
 	}
 	private void initView() {
@@ -51,7 +55,10 @@ public class ViewPanel extends JPanel{
 		this.states.clear();
 		Point2D.Float root = new Point2D.Float(20f,20f);
 		
-		float i=0f;
+		fsms = State.from("fsms", null, "FSMs", new CircleShape(root.x,root.y,30f));
+		this.states.add(fsms);
+		
+		float i=1f;
 		Map<Class<?>, EntitySeparator> seps = this.ctrl.getSeparators();
 		for(Entry<Class<?>, EntitySeparator> entry:seps.entrySet()) {
 			Class<?> k = entry.getKey();
@@ -205,6 +212,7 @@ public class ViewPanel extends JPanel{
 		
 		SeparatorModule separatorModule;
 		InteractionModule interactionModule;
+		FSMModule fsmsModule;
 		public CustomMouseAdapter() {
 			separatorMenu = new JMenuItem("Separator");
 			separatorMenu.addActionListener((ActionEvent e)->accessSeparator(this.selection));
@@ -214,9 +222,14 @@ public class ViewPanel extends JPanel{
 
 			separatorModule = new SeparatorModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 			interactionModule = new InteractionModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
+			fsmsModule  = new FSMModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 		}
 		
 		private void open(Point p, State state) {
+			if(state.clazz.equals("fsms")) {
+				accessFSMs(state);
+				return;
+			}
 			JPopupMenu pm = new JPopupMenu();
 			if(selection!=null&&selection2==null) {
 				if(selection.clazz.equals("class"))pm.add(separatorMenu);
@@ -227,20 +240,24 @@ public class ViewPanel extends JPanel{
 			
 			pm.show(ViewPanel.this, p.x, p.y);
 		}
-		public Object accessSeparator(State state) {
+		public void accessSeparator(State state) {
 			separatorModule.open(state);
 			this.selection = null;
 			this.selection2 = null;
-
-			return null;
 		}
-		public Object accessInteraction(State state1, State state2) {
+		public void accessInteraction(State state1, State state2) {
 
 			interactionModule.open(state1, state2);
 
 			this.selection = null;
 			this.selection2 = null;
-			return null;
+
+		}
+		public void accessFSMs(State state) {
+			fsmsModule.open(state);
+
+			this.selection = null;
+			this.selection2 = null;
 		}
 	}
 

@@ -10,10 +10,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import block_manipulation.BlockInfoSingleton;
@@ -71,12 +72,12 @@ public class BlockManager implements Cloneable{
 		Objects.requireNonNull(this.base);
 		root.setBase(base);
 		root.paint(shapes);
-		shapes.sort(new Comparator<Shape>(){
+		/*shapes.sort(new Comparator<Shape>(){
 			@Override
 			public int compare(Shape o1, Shape o2) {
 				return o1.priority<o2.priority?-1:o1.priority>o2.priority?1:0;
 			}
-		});
+		});*/
 		shapes.stream().forEach(s->s.draw(g2));
 		this.blockIluminations.clear();
 	}
@@ -128,9 +129,29 @@ public class BlockManager implements Cloneable{
 	public void propagateRightClick(Point point, Component c) {
 		root.rightClick(point, c);
 	}
+	public static BlockManager fromJSON(JSONObject o) {
+		BlockManager m = new BlockManager(o.getString("filename"));
+		m.setBase(new Vector2D(o.getJSONObject("base")));
+		Iterator<Object> it = o.getJSONArray("decisions").iterator();
+		while(it.hasNext()) {
+			m.decisions.add((Integer) it.next());
+		}
+		return m;
+	}
+	public JSONObject toJSON() {
+		JSONArray arr = new JSONArray();
+		for(Integer d:this.decisions)arr.put(d);
+        return new JSONObject().put("filename", this.filename)
+				   			   .put("decisions", arr)
+				   			   .put("init", ((RecursiveBlock)root).getRule())
+				   			   .put("root", root.toJSON())
+				   			   .put("base", this.base.toJSON());
+	}
 	public void save(String filepath) {
+		JSONArray arr = new JSONArray();
+		for(Integer d:this.decisions)arr.put(d);
         JSONObject o = new JSONObject().put("filename", this.filename)
-        							   .put("decisions", this.decisions)
+        							   .put("decisions", arr)
         							   .put("root", root.toJSON());
         try {
 			PrintWriter out = new PrintWriter(new FileWriter(filepath));

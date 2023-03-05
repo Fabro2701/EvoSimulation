@@ -28,7 +28,7 @@ public class InteractionModule extends Module{
 	
 	public InteractionModule(JFrame father, ViewPanel viewPanel, SetupEditorController ctrl) {
 		super(father, viewPanel, ctrl);
-		dialog = new JDialog(this.father);
+		/*dialog = new JDialog(this.father);
 		dialog.setPreferredSize(new Dimension(800,800));
 		dialog.setLayout(new BorderLayout());
 		BlockManager manager = new BlockManager(new Vector2D(20f,80f));
@@ -38,7 +38,7 @@ public class InteractionModule extends Module{
 		saveButton.addActionListener(e->save(e));
 		dialog.add(saveButton, BorderLayout.PAGE_END);
 		dialog.setLocationRelativeTo(father);
-		dialog.pack();
+		dialog.pack();*/
 	}
 
 	@Override

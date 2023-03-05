@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Robot;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,6 +16,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import block_manipulation.Vector2D;
 import block_manipulation.block.Block;
@@ -170,7 +171,13 @@ public class BlockEditor extends JPanel{
 		this.setFocusable(true);
 
 	}
-	
+	public void loadBlocks(JSONArray load) {
+		for(int i=0;i<load.length();i++) {
+			JSONObject o = load.getJSONObject(i);
+			this.managers.add(BlockManager.fromJSON(o));
+			this.initSymbols.add(o.getString("init"));
+		}
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
@@ -192,10 +199,6 @@ public class BlockEditor extends JPanel{
 			
 			yshift++;
 		}
-		
-		
-		//ghost blocks pending
-
 	}
 	public void setBlockSelector(BlockSelector selector) {
 		this.selector = selector;
@@ -207,4 +210,9 @@ public class BlockEditor extends JPanel{
 		this.bufferBlock = bufferBlock;
 		this.bufferSymbol = symbol;
 	}
+
+	public List<BlockManager> getManagers() {
+		return managers;
+	}
+
 }

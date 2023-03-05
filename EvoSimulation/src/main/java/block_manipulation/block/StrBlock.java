@@ -72,7 +72,7 @@ public class StrBlock extends PredefinedBlock{
 	}
 	@Override
 	public JSONObject toJSON() {
-		return new JSONObject().put("type", "IStrBlock")
+		return new JSONObject().put("type", "StrBlock")
 							   .put("text", this.text);
 	}
 

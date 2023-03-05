@@ -213,8 +213,8 @@ public class HeaderBlock extends PredefinedBlock{
 			arr.put(b.toJSON());
 		}
 		return new JSONObject().put("type", "HeaderBlock")
-				   			   .put("name", this.name)
-							   .put("blocks", arr);
+				   			   .put("name", this.name.toJSON())
+							   .put("right", arr);
 	}
 
 	/*@Override

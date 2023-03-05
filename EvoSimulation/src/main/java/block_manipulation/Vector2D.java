@@ -1,5 +1,7 @@
 package block_manipulation;
 
+import org.json.JSONObject;
+
 public class Vector2D implements Cloneable{
 	public float x,y;
 	public Vector2D() {
@@ -9,7 +11,11 @@ public class Vector2D implements Cloneable{
 		this.x = x;
 		this.y = y;
 	}
-	
+
+	public Vector2D(JSONObject j) {
+		x=j.getFloat("x");
+		y=j.getFloat("y");
+	}
 	public Vector2D(Vector2D copy) {
 		x=copy.x;
 		y=copy.y;
@@ -56,6 +62,10 @@ public class Vector2D implements Cloneable{
 	@Override
 	public Object clone() {
 		return new Vector2D(this);
+	}
+	public JSONObject toJSON() {
+		// TODO Auto-generated method stub
+		return new JSONObject().put("x", x).put("y", y);
 	}
 }
 
