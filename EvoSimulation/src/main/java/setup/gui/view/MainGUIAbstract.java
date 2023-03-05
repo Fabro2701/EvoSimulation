@@ -4,18 +4,21 @@
  */
 package setup.gui.view;
 
+import javax.swing.JMenuItem;
+
 import setup.gui.control.SetupEditorController;
 
 /**
  *
  * @author Fabrizio Ortega
  */
-public class MainGUIAbstract extends javax.swing.JFrame {
-
+public abstract class MainGUIAbstract extends javax.swing.JFrame {
+	protected SetupEditorController ctrl;
     /**
      * Creates new form MainGUIAbstract
      */
     public MainGUIAbstract() {
+    	ctrl = new SetupEditorController();
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -30,7 +33,7 @@ public class MainGUIAbstract extends javax.swing.JFrame {
     private void initComponents() {
 
         scrollPane = new javax.swing.JScrollPane();
-        viewPanel = new ViewPanel(this, new SetupEditorController());
+        viewPanel = new ViewPanel(this, ctrl);
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -64,6 +67,12 @@ public class MainGUIAbstract extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+        JMenuItem openButton = new JMenuItem("open");
+        openButton.addActionListener((a)->this.open());
+        JMenuItem saveButton = new JMenuItem("save");
+        saveButton.addActionListener((a)->this.save());
+        jMenu1.add(openButton);
+        jMenu1.add(saveButton);
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -89,40 +98,11 @@ public class MainGUIAbstract extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGUIAbstract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGUIAbstract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGUIAbstract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGUIAbstract.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    protected abstract void save();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainGUIAbstract().setVisible(true);
-            }
-        });
-    }
+    protected abstract void open();
+
+	
 
     // Variables declaration - do not modify                     
     private javax.swing.JMenu jMenu1;
@@ -130,6 +110,6 @@ public class MainGUIAbstract extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JPanel viewPanel;
+    protected ViewPanel viewPanel;
     // End of variables declaration                   
 }

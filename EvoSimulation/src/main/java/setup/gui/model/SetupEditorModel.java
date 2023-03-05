@@ -21,8 +21,8 @@ public class SetupEditorModel {
 	public static SetupEditorModel emptyModel() {
 		SetupEditorModel m = new SetupEditorModel();
 		
-		m.separators.put(MyIndividual.class, new EntitySeparator("imc","N", "S", "O"));
-		m.separators.put(PasiveEntity.class, new EntitySeparator("info","supermarket", "house", "bar", "restaurant"));
+		//m.separators.put(MyIndividual.class, new EntitySeparator("imc","N", "S", "O"));
+		//m.separators.put(PasiveEntity.class, new EntitySeparator("info","supermarket", "house", "bar", "restaurant"));
 		//m.separators.put(PasiveEntity.class, new EntitySeparator());
 
 		return m;
@@ -50,8 +50,13 @@ public class SetupEditorModel {
 		}
 		public EntitySeparator(String att, String...values){
 			this();
-			this.att=att;
+			this.att = att;
 			for(String v:values)this.values.add(v);
+		}
+		public EntitySeparator(String att, List<Object>values){
+			this();
+			this.att = att;
+			for(Object v:values)this.values.add((String) v);
 		}
 		public List<String> getValues() {
 			return values;

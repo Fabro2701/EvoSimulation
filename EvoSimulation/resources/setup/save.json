@@ -1,0 +1,90 @@
+{
+    "fsms": [{
+        "init": "FSM_DEF",
+        "filename": "resources/skeletons/fsm1.sklt",
+        "root": {
+            "blocks": [
+                {
+                    "name": {
+                        "text": "Def FSM",
+                        "type": "StrBlock"
+                    },
+                    "right": [{
+                        "blocks": [{
+                            "text": "name",
+                            "type": "InputBlock"
+                        }],
+                        "rule": "NAME",
+                        "type": "RecursiveBlock"
+                    }],
+                    "type": "HeaderBlock"
+                },
+                {
+                    "blocks": [{
+                        "blocks": [{"type": "GhostBlock"}],
+                        "rule": "STATE_DEFLIST",
+                        "type": "RecursiveBlock"
+                    }],
+                    "type": "ChildrenBlock"
+                },
+                {"type": "FloorBlock"},
+                {
+                    "blocks": [{
+                        "blocks": [{"type": "GhostBlock"}],
+                        "rule": "TRANSITION_DEFLIST",
+                        "type": "RecursiveBlock"
+                    }],
+                    "type": "ChildrenBlock"
+                },
+                {"type": "FloorBlock"},
+                {
+                    "name": {
+                        "text": "init ",
+                        "type": "StrBlock"
+                    },
+                    "right": [{
+                        "blocks": [{"type": "GhostBlock"}],
+                        "rule": "NAME",
+                        "type": "RecursiveBlock"
+                    }],
+                    "type": "HeaderBlock"
+                }
+            ],
+            "rule": "FSM_DEF",
+            "type": "RecursiveBlock"
+        },
+        "decisions": [
+            0,
+            0,
+            -1,
+            -1,
+            -1
+        ],
+        "base": {
+            "x": 551,
+            "y": 200
+        }
+    }],
+    "separators": [
+        {
+            "att": "imc",
+            "values": [
+                "N",
+                "S",
+                "O",
+                "I"
+            ],
+            "class": "simulator.model.entity.individuals.MyIndividual"
+        },
+        {
+            "att": "info",
+            "values": [
+                "supermarket",
+                "house",
+                "bar",
+                "restaurant"
+            ],
+            "class": "simulator.model.entity.PasiveEntity"
+        }
+    ]
+}

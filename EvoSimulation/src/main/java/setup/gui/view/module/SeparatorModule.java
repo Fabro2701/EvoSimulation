@@ -22,27 +22,27 @@ import setup.gui.view.ViewPanel.State;
 public class SeparatorModule extends Module{
 	JDialog dialog;
 	JTextPane editor;
-	EntitySeparator separator;
 	
 	public SeparatorModule(JFrame father, ViewPanel viewPanel, SetupEditorController ctrl) {
 		super(father, viewPanel, ctrl);
+		
+	}
+
+
+	@Override
+	public void open(State...states) {
 		dialog = new JDialog(this.father);
 		dialog.setPreferredSize(new Dimension(700,200));
 		dialog.setLayout(new BorderLayout());
 		editor = new JTextPane();
 		dialog.add(editor, BorderLayout.CENTER);
 		JButton saveButton = new JButton("save");
-		saveButton.addActionListener(e->save(e));
+		saveButton.addActionListener(e->save(states[0]));
 		dialog.add(saveButton, BorderLayout.PAGE_END);
 		dialog.setLocationRelativeTo(father);
 		dialog.pack();
-	}
-
-
-	@Override
-	public void open(State...states) {
 		//reading
-		separator = ctrl.getSeparators().get(states[0].getId());
+		EntitySeparator separator = ctrl.pullSeparators().get(states[0].getId());
 		if(separator.getAtt()!=null) {
 			StringJoiner sj = new StringJoiner(",");
 			for(String v:separator.getValues())sj.add(v);
@@ -52,17 +52,16 @@ public class SeparatorModule extends Module{
 		
 		dialog.setVisible(true);
 	}
-	public void save(ActionEvent e) {
+	public void save(State state) {
 		try {
 			String text = editor.getText();
 			Pattern p = Pattern.compile("^[(][^)]+[)]");
 			Matcher m = p.matcher(text);
 			m.find();
 			String att = text.substring(1, m.end()-1);
-			separator.setAtt(att);
 			
 			String[] valsRead = text.substring(m.end()).split(",");
-			separator.setValues(valsRead);
+			this.ctrl.pushSeparator((Class<?>) state.getId(), att, valsRead);
 			this.viewPanel.recalculate();
 			father.repaint();
 		}catch(Exception ex) {

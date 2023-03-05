@@ -59,7 +59,7 @@ public class ViewPanel extends JPanel{
 		this.states.add(fsms);
 		
 		float i=1f;
-		Map<Class<?>, EntitySeparator> seps = this.ctrl.getSeparators();
+		Map<Class<?>, EntitySeparator> seps = this.ctrl.pullSeparators();
 		for(Entry<Class<?>, EntitySeparator> entry:seps.entrySet()) {
 			Class<?> k = entry.getKey();
 			State state = State.from("class", 

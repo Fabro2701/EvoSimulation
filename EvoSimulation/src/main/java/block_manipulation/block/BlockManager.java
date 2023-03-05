@@ -147,21 +147,7 @@ public class BlockManager implements Cloneable{
 				   			   .put("root", root.toJSON())
 				   			   .put("base", this.base.toJSON());
 	}
-	public void save(String filepath) {
-		JSONArray arr = new JSONArray();
-		for(Integer d:this.decisions)arr.put(d);
-        JSONObject o = new JSONObject().put("filename", this.filename)
-        							   .put("decisions", arr)
-        							   .put("root", root.toJSON());
-        try {
-			PrintWriter out = new PrintWriter(new FileWriter(filepath));
-			out.write(o.toString());
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	public int getNext() {
 		return decisions.get(cursor++);
 	}

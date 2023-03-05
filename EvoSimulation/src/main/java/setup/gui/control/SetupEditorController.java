@@ -1,5 +1,6 @@
 package setup.gui.control;
 
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -14,8 +15,16 @@ public class SetupEditorController {
 	public SetupEditorController() {
 		model = SetupEditorModel.emptyModel();
 	}
-	public Map<Class<?>, EntitySeparator> getSeparators() {
+	public Map<Class<?>, EntitySeparator> pullSeparators() {
 		return model.getSeparators();
+	}
+	public void pushSeparator(Class<?> id, String att, String[] vals) {
+		EntitySeparator sep = new EntitySeparator(att, vals);
+		model.getSeparators().put((Class<?>) id, sep);
+	}
+	public void pushSeparator(Class<?> id, String att, List<Object> vals) {
+		EntitySeparator sep = new EntitySeparator(att, vals);
+		model.getSeparators().put((Class<?>) id, sep);
 	}
 	public void pushFSM(JSONObject jo) {
 		JSONArray arr = jo.getJSONObject("root").getJSONArray("blocks");
