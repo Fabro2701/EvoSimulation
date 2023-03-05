@@ -87,7 +87,7 @@ public class BlockManager implements Cloneable{
 			ii.pos+=pos;
 		}
 		for(InputIndex ii:this.inputsIdx) {
-			if(ii.pos>=pos)ii.pos+=manager2.inputsIdx.size()-1;
+			if(ii.pos>pos)ii.pos+=manager2.decisions.size()-1;
 		}
 		this.inputsIdx.addAll(manager2.inputsIdx);
 		decisions.remove(pos);
@@ -109,6 +109,9 @@ public class BlockManager implements Cloneable{
 		public InputIndex(int pos, String text) {
 			this.pos = pos;
 			this.text = text;
+		}
+		public JSONObject toJSON() {
+			return new JSONObject().put("text", text).put("pos", pos);
 		}
 	}
 	public String getInputText(int pos) {
@@ -141,8 +144,11 @@ public class BlockManager implements Cloneable{
 	public JSONObject toJSON() {
 		JSONArray arr = new JSONArray();
 		for(Integer d:this.decisions)arr.put(d);
+		JSONArray arr2 = new JSONArray();
+		for(InputIndex ii:this.inputsIdx)arr2.put(ii.toJSON());
         return new JSONObject().put("filename", this.filename)
 				   			   .put("decisions", arr)
+				   			   .put("inputs", arr2)
 				   			   .put("init", ((RecursiveBlock)root).getRule())
 				   			   .put("root", root.toJSON())
 				   			   .put("base", this.base.toJSON());
