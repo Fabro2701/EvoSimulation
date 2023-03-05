@@ -12,40 +12,59 @@ import simulator.control.fsm.State;
 
 public class FSMBlockTranslation {
 	FSM<String, String>evaluate(JSONObject program){
+		
 		JSONArray blocks = program.getJSONArray("blocks");
 		JSONObject name = blocks.getJSONObject(0);
 		JSONObject statesDefs = blocks.getJSONObject(1).getJSONArray("children").getJSONObject(0);
 		JSONObject transDef = blocks.getJSONObject(3);
 		JSONObject init = blocks.getJSONObject(5);
 		
-		List<JSONObject>statesDef = getStatesDef(statesDefs);
-		//for(JSONObject s:statesDef)System.out.println(s.toString(4));
-		List<SimpleState>states = this.evaluateStatesDef(statesDef);
-		//for(SimpleState s:states)System.out.println(s.getData());
+		
+		
+		List<JSONObject>statesDef = extractFromList(statesDefs, "STATE_DEF");
+		List<SimpleState>states = this.evaluateStatesDefs(statesDef);
+		
+		for(SimpleState s:states) {
+			System.out.println(s.getData());
+			s.doJobs(null);
+		}
 		return null;
 	}
-	private List<SimpleState> evaluateStatesDef(List<JSONObject> statesDef) {
+	private List<SimpleState> evaluateStatesDefs(List<JSONObject> statesDef) {
 		List<SimpleState> states = new ArrayList<>();
 		for(JSONObject stateDef:statesDef) {
-			String name = this.evaluateName(stateDef.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
-			SimpleState state = new SimpleState(name);
-			states.add(state);
+			states.add(evaluateStatesDef(stateDef));
 		}
 		return states;
+	}
+	private SimpleState evaluateStatesDef(JSONObject STATE_DEF) {
+		String name = this.evaluateName(STATE_DEF.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
+		SimpleState state = new SimpleState(name);
+		
+		List<String>actions = new ArrayList<>();
+		JSONObject actList = STATE_DEF.getJSONArray("blocks").getJSONObject(1).getJSONArray("children").getJSONObject(0);
+		List<JSONObject>acts = extractFromList(actList, "ACTION");
+		for(JSONObject a:acts) {
+			String as = evaluateName(a);
+			actions.add(as);
+			state.addJob(s->System.out.println(as));
+		}
+		
+		return state;
 	}
 	private String evaluateName(JSONObject NAME) {
 		return NAME.getJSONArray("blocks").getJSONObject(0).getString("text");
 	}
-	private List<JSONObject> getStatesDef(JSONObject STATE_DEFLIST) {
+	private List<JSONObject> extractFromList(JSONObject ob, String NT) {
 		List<JSONObject>list = new ArrayList<>();;
-		JSONArray blocks = STATE_DEFLIST.getJSONArray("blocks");
+		JSONArray blocks = ob.getJSONArray("blocks");
 		for(int i=0;i<blocks.length();i++) {
 			JSONObject block = blocks.getJSONObject(i);
 			if(block.getString("type").equals("ChildrenBlock")) {
 				list.add(block.getJSONArray("children").getJSONObject(0));
-				list.addAll(getStatesDef(block.getJSONArray("children").getJSONObject(1)));
+				list.addAll(extractFromList(block.getJSONArray("children").getJSONObject(1), NT));
 			}
-			else if(block.getString("type").equals("RecursiveBlock")){//STATE_DEF
+			else if(block.getString("type").equals("RecursiveBlock")){//NT
 				list.add(block);
 			}
 		}
