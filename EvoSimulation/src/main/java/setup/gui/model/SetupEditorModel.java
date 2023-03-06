@@ -16,21 +16,50 @@ public class SetupEditorModel {
 	private Map<String, FSMDeclaration>fsms;
 	private List<EntityInteraction>interactions;
 	private SetupEditorModel() {
-		separators = new LinkedHashMap<>();
-		fsms = new LinkedHashMap<>();
-		}
+		this.separators = new LinkedHashMap<>();
+		this.fsms = new LinkedHashMap<>();
+		this.interactions = new ArrayList<>();
+	}
 	public static SetupEditorModel emptyModel() {
 		SetupEditorModel m = new SetupEditorModel();
 		
-		//m.separators.put(MyIndividual.class, new EntitySeparator("imc","N", "S", "O"));
-		//m.separators.put(PasiveEntity.class, new EntitySeparator("info","supermarket", "house", "bar", "restaurant"));
-		m.separators.put(MyIndividual.class, new EntitySeparator());
+		m.separators.put(MyIndividual.class, new EntitySeparator("imc","N", "S", "O"));
+		m.separators.put(PasiveEntity.class, new EntitySeparator("info","supermarket", "house", "bar", "restaurant"));
+		/*m.separators.put(MyIndividual.class, new EntitySeparator());
 		m.separators.put(PasiveEntity.class, new EntitySeparator());
-
+		 */
 		return m;
 	}
 	public static class EntityInteraction{
 		Object e1, e2;
+		JSONObject json;
+		String code;
+		boolean generated = false;
+		public EntityInteraction(Object e1, Object e2, String code, JSONObject ob) {
+			this.e1 = e1;
+			this.e2 = e2;
+			this.json = ob;
+			this.code = code;
+			this.generated = false;
+		}
+		public Object getE1() {
+			return e1;
+		}
+		public Object getE2() {
+			return e2;
+		}
+		public JSONObject getJson() {
+			return json;
+		}
+		public String getCode() {
+			return code;
+		}
+		public void setCode(String code) {
+			this.code = code;
+		}
+		public void setJson(JSONObject json) {
+			this.json = json;
+		}
 	}
 	public static class FSMDeclaration{
 		JSONObject json;
@@ -82,5 +111,8 @@ public class SetupEditorModel {
 	}
 	public Map<String, FSMDeclaration> getFsms() {
 		return fsms;
+	}
+	public List<EntityInteraction> getInteractions() {
+		return interactions;
 	}
 }

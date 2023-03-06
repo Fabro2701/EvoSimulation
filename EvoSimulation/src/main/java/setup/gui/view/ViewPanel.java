@@ -147,7 +147,7 @@ public class ViewPanel extends JPanel{
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		if(recalculate) {
-			this.checkforModifications();
+			//this.checkforModifications();
 			this.setStates();
 			recalculate = false;
 		}
@@ -302,7 +302,7 @@ public class ViewPanel extends JPanel{
 		}
 		public void accessInteraction(State state1, State state2) {
 			ViewPanel.this.addEdge(state1, state2);
-			//interactionModule.open(state1, state2);
+			interactionModule.open(state1, state2);
 
 			this.selection = null;
 			this.selection2 = null;

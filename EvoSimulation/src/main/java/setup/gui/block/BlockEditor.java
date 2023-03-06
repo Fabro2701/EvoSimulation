@@ -164,7 +164,8 @@ public class BlockEditor extends JPanel{
 							manager.iluminateRecursiveBlocks(((RecursiveBlock)currentManager.getRoot()).getRule());
 						}
 					}
-					if(currentPos==0) {
+					//System.out.println(currentPos);
+					if(currentPos==0 || (currentBlock !=null && ((RecursiveBlock)currentBlock).isIncomplete())) {
 						currentManager.move(current, e.getPoint());
 					}
 					else if(currentPos>0) {

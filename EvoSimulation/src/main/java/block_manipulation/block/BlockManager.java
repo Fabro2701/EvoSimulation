@@ -138,7 +138,7 @@ public class BlockManager implements Cloneable{
 		}
 		return m;
 	}
-	protected class InputIndex{
+	protected static class InputIndex{
 		int pos;
 		String text;
 		public InputIndex(int pos, String text) {
@@ -181,6 +181,11 @@ public class BlockManager implements Cloneable{
 		Iterator<Object> it = o.getJSONArray("decisions").iterator();
 		while(it.hasNext()) {
 			m.decisions.add((Integer) it.next());
+		}
+		JSONArray inputs = o.getJSONArray("inputs");
+		for(int i=0;i<inputs.length();i++) {
+			JSONObject idx = inputs.getJSONObject(i);
+			m.inputsIdx.add(new InputIndex(idx.getInt("pos"),idx.getString("text")));
 		}
 		return m;
 	}

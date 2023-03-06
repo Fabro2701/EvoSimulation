@@ -159,5 +159,9 @@ public class RecursiveBlock extends Block{
 		return sum + 1;
 	}
 
+	public boolean isIncomplete() {
+		return incomplete;
+	}
+
 
 }

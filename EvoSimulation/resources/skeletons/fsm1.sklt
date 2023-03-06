@@ -7,17 +7,17 @@
 		 	  Header(name=Str(text="init "),right=<NAME>)
 			 ].
 <STATE_DEFLIST>:-[Children(e=<STATE_DEF>,e=<STATE_DEFLIST>)],
-			     [<STATE_DEF>, Floor()].
+			     [Children(e=<STATE_DEF>), Floor()].
 <STATE_DEF>:-[
 			  Header(name=Str(text="Def state"),right=<NAME>),
 			  Children(e=<ACTIONLIST>),
 		 	  Floor()
 			 ].
 <ACTIONLIST>:-[Children(e=<ACTION>,e=<ACTIONLIST>)],
-			  [<ACTION>].
+			  [Children(e=<ACTION>), Floor()].
 <ACTION>:-[Input(text="this.setAttribute(,);")].
 <TRANSITION_DEFLIST>:-[Children(e=<TRANSITION_DEF>,e=<TRANSITION_DEFLIST>)],
-			     		[<TRANSITION_DEF>, Floor()].
+			     		[Children(e=<TRANSITION_DEF>), Floor()].
 <TRANSITION_DEF>:-[
 		 Header(name=Str(text="Def Transition"),right=<STATE>,right=Str(text=" to "),right=<STATE>),
 		 Children(e=<TRANSITION_TYPE>),

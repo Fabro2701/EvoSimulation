@@ -108,7 +108,7 @@ public class InputBlock extends PredefinedBlock{
 		}
 		dialog.add(editor, BorderLayout.CENTER);
 		JButton saveButton = new JButton("save");
-		saveButton.addActionListener(e->save(editor.getText(), c));
+		saveButton.addActionListener(e->{save(editor.getText(), c);dialog.setVisible(false);});
 		dialog.add(saveButton, BorderLayout.PAGE_END);
 		dialog.setLocation(point.x, point.y);
 		dialog.pack();
