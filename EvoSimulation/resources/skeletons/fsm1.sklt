@@ -23,11 +23,19 @@
 		 Children(e=<TRANSITION_TYPE>),
 		 Floor()
 		].
-<STATE>:-[Header(name=Str(text="name"),right=<NAME>)].
 <TRANSITION_TYPE>:- 
 		  [<TRUE_T>],
 		  [<PROB_T>],
-		  [<COND_T>].
+		  [<COND_T>],
+		  [<COMP_T>],
+		  [<SCOMP_T>].
+<STATE>:-[Header(name=Str(text="name"),right=<NAME>)].
+<COMP_T> :- [
+ 		   Header(name=Str(text="equals:"),right=<NAME>)
+		  ].
+<SCOMP_T> :- [
+ 		   Header(name=Str(text="equals:"),right=<NAME>,right=<NUM>)
+		  ].
 <TRUE_T> :- [
  		   Inner(names=Str(text="true"))
 		  ].
