@@ -122,6 +122,14 @@ public class InnerBlock extends PredefinedBlock{
 		
 	}
 	@Override
+	public int decisionsUsed() {
+		int sum = 0;
+		for(Block child:names) {
+			sum += child.decisionsUsed();
+		}
+		return sum;
+	}
+	@Override
 	public JSONObject toJSON() {
 		JSONArray arr = new JSONArray();
 		for(Block b:this.names) {

@@ -76,6 +76,10 @@ public class GhostBlock extends PredefinedBlock{
 	public void rightClick(Point point, Component c) {
 
 	}
+	@Override
+	public int decisionsUsed() {
+		return 0;
+	}
 
 	@Override
 	public JSONObject toJSON() {

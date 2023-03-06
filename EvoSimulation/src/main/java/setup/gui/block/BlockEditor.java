@@ -65,10 +65,28 @@ public class BlockEditor extends JPanel{
 			boolean pressed = false;
     		Point current = null;
     		BlockManager currentManager = null;
+			Block currentBlock = null;
+			int currentPos = 0;
     		@Override
 			public void mouseClicked(MouseEvent e) {
     			
     			if(SwingUtilities.isLeftMouseButton(e)) {
+    				for(BlockManager manager:managers) {
+        				if((currentBlock=manager.getRoot().findRecursive(e.getPoint()))!=null) {
+        					currentManager = manager;
+        					currentPos = ((RecursiveBlock)currentBlock).getPosition();
+        					
+        					//System.out.println("des "+manager.getDecisionsUsed((RecursiveBlock) currentBlock));
+        					if(((RecursiveBlock) currentBlock).getPosition()!=0) {
+        						initSymbols.add(0, ((RecursiveBlock) currentBlock).getRule());
+            					BlockManager m = currentManager.detach((RecursiveBlock) currentBlock);
+            					managers.add(0, m);
+            					repaint();
+        					}
+        					
+        					break;
+        				}
+        			}
     				//if(managers.size()>0)System.out.println(managers.get(0).getRoot().toJSON().toString(4));
     				/*for(BlockManager manager:managers) {
     					if(manager.flip(e)) {
@@ -94,10 +112,17 @@ public class BlockEditor extends JPanel{
     			}
     			if(currentManager==null) {
     				for(BlockManager manager:managers) {
-        				if(manager.getRoot().findRecursive(e.getPoint())!=null) {
+        				if((currentBlock=manager.getRoot().findRecursive(e.getPoint()))!=null) {
         					currentManager = manager;
+        					currentPos = ((RecursiveBlock)currentBlock).getPosition();
+        					break;
         				}
         			}
+    				if(currentBlock!=null) {
+    					
+    					//System.out.println(currentPos);
+    					//System.out.println(currentManager.getRoot()+"  "+ currentBlock);
+    				}
     			}
 			}
     		@Override
@@ -139,7 +164,13 @@ public class BlockEditor extends JPanel{
 							manager.iluminateRecursiveBlocks(((RecursiveBlock)currentManager.getRoot()).getRule());
 						}
 					}
-					currentManager.move(current, e.getPoint());
+					if(currentPos==0) {
+						currentManager.move(current, e.getPoint());
+					}
+					else if(currentPos>0) {
+						
+					}
+					
 					current = e.getPoint();
 					repaint();
 				}
@@ -152,12 +183,14 @@ public class BlockEditor extends JPanel{
 			}
 			@Override
 		    public void mouseEntered(MouseEvent e) {
+	            currentPos=0;
 				Point mousePoint = new Point(e.getPoint());
 				SwingUtilities.convertPointToScreen(mousePoint, BlockEditor.this);
 		        try {
 		            Robot robot = new Robot();
 		            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 		            robot.mouseMove(mousePoint.x -1, mousePoint.y);
+		            currentPos=0;
 		            //robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 		        } catch (AWTException ex) {
 		            ex.printStackTrace();
@@ -187,8 +220,6 @@ public class BlockEditor extends JPanel{
 		
 		int yshift = 0;
 		for(BlockManager manager:managers) {
-			g2.setColor(Color.black);
-			g2.drawString(manager.getDecisions().toString(), 5, 10+yshift*15);	
 			
 			
 			RecursiveBlock block1 = new RecursiveBlock(manager, this.initSymbols.get(yshift));
@@ -196,6 +227,10 @@ public class BlockEditor extends JPanel{
 			
 			manager.setRoot(block1);
 			manager.paint(g2);
+			
+
+			g2.setColor(Color.black);
+			g2.drawString(manager.getDecisions().toString()+" "+manager.getInputsIdx().toString(), 5, 10+yshift*15);	
 			
 			yshift++;
 		}

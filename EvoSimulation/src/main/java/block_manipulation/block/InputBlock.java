@@ -120,6 +120,10 @@ public class InputBlock extends PredefinedBlock{
 		c.repaint();
 	}
 	@Override
+	public int decisionsUsed() {
+		return 0;
+	}
+	@Override
 	public JSONObject toJSON() {
 		String tmp = manager.getInputText(reference.getPosition());
 		this.text = tmp==null?this.text:tmp;

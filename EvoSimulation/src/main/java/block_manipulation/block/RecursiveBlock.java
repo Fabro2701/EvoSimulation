@@ -147,5 +147,17 @@ public class RecursiveBlock extends Block{
 		return rule;
 	}
 
+	public List<Block> getBlocks() {
+		return blocks;
+	}
+
+	@Override
+	public int decisionsUsed() {
+		//if(manager.getDecisions().get(this.position)==-1)return 0;
+		int sum = 0;
+		for(Block b:this.blocks)sum += b.decisionsUsed();
+		return sum + 1;
+	}
+
 
 }

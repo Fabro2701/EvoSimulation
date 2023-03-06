@@ -52,6 +52,41 @@ public class BlockManager implements Cloneable{
 		this.base.x += e.x-current.x;
 		this.base.y += e.y-current.y;
 	}
+	public BlockManager detach(RecursiveBlock block) {
+		
+		BlockManager m = new BlockManager(this.filename);
+		m.setBase(new Vector2D(block.base));
+		int des = block.decisionsUsed();
+		InputIndex idx = null;
+		List<InputIndex>rem = new ArrayList<>();
+		for(int i=block.position;i<block.position+des;i++) {
+			if((idx=this.getInput(i))!=null) {
+				rem.add(idx);
+			}
+			m.decisions.add(this.decisions.get(i));
+		}
+		this.inputsIdx.removeAll(rem);
+		for(InputIndex ii:this.inputsIdx) {
+			if(ii.pos>block.position)ii.pos -= des-1;
+		}
+		for(InputIndex ii:rem) {
+			ii.pos -= block.position;
+		}
+		m.inputsIdx.addAll(rem);
+		if(this.decisions.get(block.position)!=-1) {
+			this.decisions.set(block.position, -1);
+			for(int i=0;i<des-1;i++) {
+				this.decisions.remove(block.position+1);
+			}
+		}
+		
+		//System.out.println(getDecisionsUsed(this.));
+		return m;
+	}
+
+	public int getDecisionsUsed(RecursiveBlock block) {
+		return block.decisionsUsed();
+	}
 	public boolean flip(MouseEvent e) {
 		Block block = root.findRecursive(e.getPoint());
 		if(block != null && block instanceof RecursiveBlock) {
@@ -113,6 +148,14 @@ public class BlockManager implements Cloneable{
 		public JSONObject toJSON() {
 			return new JSONObject().put("text", text).put("pos", pos);
 		}
+		@Override
+		public String toString() {
+			return String.valueOf(pos);
+		}
+	}
+	public InputIndex getInput(int pos) {
+		for(InputIndex ii:this.inputsIdx)if(ii.pos==pos)return ii;
+		return null;
 	}
 	public String getInputText(int pos) {
 		for(InputIndex ii:this.inputsIdx)if(ii.pos==pos)return ii.text;
@@ -187,5 +230,8 @@ public class BlockManager implements Cloneable{
 	}
 	public BlockInfoSupplier getBlocksInfo() {
 		return blocksInfo;
+	}
+	public List<InputIndex> getInputsIdx() {
+		return inputsIdx;
 	}
 }

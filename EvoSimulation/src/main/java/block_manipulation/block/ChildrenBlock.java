@@ -74,6 +74,14 @@ public class ChildrenBlock extends PredefinedBlock{
 			child.rightClick(point, c);
 		}
 	}
+	@Override
+	public int decisionsUsed() {
+		int sum = 0;
+		for(Block child:children) {
+			sum += child.decisionsUsed();
+		}
+		return sum;
+	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return List.of(this.bufferShapes.get(0));

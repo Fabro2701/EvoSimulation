@@ -71,6 +71,10 @@ public class StrBlock extends PredefinedBlock{
 	public void rightClick(Point point, Component c) {
 	}
 	@Override
+	public int decisionsUsed() {
+		return 0;
+	}
+	@Override
 	public JSONObject toJSON() {
 		return new JSONObject().put("type", "StrBlock")
 							   .put("text", this.text);

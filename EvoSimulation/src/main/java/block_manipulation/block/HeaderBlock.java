@@ -207,6 +207,17 @@ public class HeaderBlock extends PredefinedBlock{
 	}
 
 	@Override
+	public int decisionsUsed() {
+		int sum = 0;
+		if(name!=null) {
+			sum += name.decisionsUsed();
+		}
+		for(Block child:right) {
+			sum += child.decisionsUsed();
+		}
+		return sum;
+	}
+	@Override
 	public JSONObject toJSON() {
 		JSONArray arr = new JSONArray();
 		for(Block b:this.right) {

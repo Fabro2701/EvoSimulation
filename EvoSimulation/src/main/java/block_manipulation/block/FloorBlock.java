@@ -56,6 +56,10 @@ public class FloorBlock  extends PredefinedBlock{
 	@Override
 	public void rightClick(Point point, Component c) {
 	}
+	@Override
+	public int decisionsUsed() {
+		return 0;
+	}
 	/*@Override
 	public List<Shape> getSelectableShapes() {
 		return List.of(this.bufferShapes.get(0));
