@@ -3,8 +3,8 @@
         "init": "FSM_DEF",
         "filename": "resources/skeletons/fsm1.sklt",
         "inputs": [{
-            "pos": 25,
-            "text": "5.8"
+            "pos": 6,
+            "text": "this.setAttribute(\"rest\",10);"
         }],
         "root": {
             "blocks": [
@@ -47,7 +47,7 @@
                                         "children": [{
                                             "blocks": [{
                                                 "blocks": [{
-                                                    "text": "this.setAttribute(,);",
+                                                    "text": "this.setAttribute(\"rest\",10);",
                                                     "type": "InputBlock"
                                                 }],
                                                 "rule": "ACTION",

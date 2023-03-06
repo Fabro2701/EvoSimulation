@@ -1,17 +1,20 @@
 package setup.gui.block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import setup.OOPParser;
 import simulator.control.fsm.ComparisonTransition;
 import simulator.control.fsm.FSM;
 import simulator.control.fsm.SimpleState;
 import simulator.control.fsm.StochasticComparisonTransition;
 import simulator.control.fsm.Transition;
 import simulator.control.fsm.TrueTransition;
+import simulator.model.evaluation.ActionEvaluator;
 
 public class FSMBlockTranslation {
 	List<SimpleState>states;
@@ -97,17 +100,31 @@ public class FSMBlockTranslation {
 		String name = this.evaluateName(STATE_DEF.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0));
 		SimpleState state = new SimpleState(name);
 		
-		List<String>actions = new ArrayList<>();
+		OOPParser parser = new OOPParser() {
+			@Override
+			protected JSONObject Program() {
+				return new JSONObject().put("list", this.Especification());
+			}
+		};
+		
+		//List<String>actions = new ArrayList<>();
 		JSONObject actList = STATE_DEF.getJSONArray("blocks").getJSONObject(1).getJSONArray("children").getJSONObject(0);
 		List<JSONObject>acts = extractFromList(actList, "ACTION");
 		for(JSONObject a:acts) {
-			String as = evaluateName(a);
-			actions.add(as);
-			state.addJob(s->System.out.println(as));
+			String code = evaluateName(a);
+			JSONObject codeob = parser.parse(code);
+			//actions.add(as);
+			state.addJob(e->{
+				ActionEvaluator eval = new ActionEvaluator(codeob.getJSONArray("list"));
+				java.util.Map<String, Object>vars = new HashMap<String, Object>();
+				vars.put("this", e);
+				eval.evaluate(vars);
+			});
 		}
 		
 		return state;
 	}
+
 	private String evaluateName(JSONObject NAME) {
 		return NAME.getJSONArray("blocks").getJSONObject(0).getString("text");
 	}
@@ -168,7 +185,7 @@ public class FSMBlockTranslation {
 				+ "                                        \"children\": [{\r\n"
 				+ "                                            \"blocks\": [{\r\n"
 				+ "                                                \"blocks\": [{\r\n"
-				+ "                                                    \"text\": \"this.setAttribute(,);\",\r\n"
+				+ "                                                    \"text\": \"this.setAttribute(\\\"rest\\\",10);\",\r\n"
 				+ "                                                    \"type\": \"InputBlock\"\r\n"
 				+ "                                                }],\r\n"
 				+ "                                                \"rule\": \"ACTION\",\r\n"
