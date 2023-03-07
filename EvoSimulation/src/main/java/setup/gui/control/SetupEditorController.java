@@ -93,6 +93,12 @@ public class SetupEditorController {
 			if(!found)model.getInteractions().add(new EntityInteraction(o1,o2,code,codejo));
 		}
 	}
+	public JSONObject pullGlobal() {
+		return model.getGlobal();
+	}
+	public void pushGlobal(JSONObject jo) {
+		model.setGlobal(jo);
+	}
 	private String evaluateName(JSONObject NAME) {
 		return NAME.getJSONArray("blocks").getJSONObject(0).getString("text");
 	}

@@ -42,7 +42,7 @@ public class BlockConstructionLauncher extends JPanel{
 	public static void main(String args[]) {
 		
 		SwingUtilities.invokeLater(()->{JFrame f = new JFrame();
-										f.setContentPane(new BlockConstructionLauncher("resources/skeletons/oop.sklt"));
+										f.setContentPane(new BlockConstructionLauncher("resources/skeletons/global.sklt"));
 										//f.setLocationRelativeTo(null);
 										f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 										f.pack();

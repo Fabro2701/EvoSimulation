@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import setup.gui.control.SetupEditorController;
 import setup.gui.model.SetupEditorModel.EntitySeparator;
 import setup.gui.view.module.FSMModule;
+import setup.gui.view.module.GlobalModule;
 import setup.gui.view.module.InteractionModule;
 import setup.gui.view.module.SeparatorModule;
 
@@ -36,6 +37,7 @@ public class ViewPanel extends JPanel{
 	CustomMouseAdapter mouse;
 	boolean recalculate = false;
 	State fsms;
+	State global;
 	
 	public ViewPanel(JFrame father, SetupEditorController ctrl) {
 		super();
@@ -61,6 +63,9 @@ public class ViewPanel extends JPanel{
 		
 		fsms = State.from("fsms", null, "FSMs", new CircleShape(root.x,root.y,30f));
 		this.states.add(fsms);
+		
+		global = State.from("global", null, "Global", new CircleShape(root.x+75f,root.y,30f));
+		this.states.add(global);
 		
 		float i=1f;
 		Map<Class<?>, EntitySeparator> seps = this.ctrl.pullSeparators();
@@ -264,25 +269,35 @@ public class ViewPanel extends JPanel{
 		JMenuItem separatorMenu;
 		JMenuItem initMenu;
 		JMenuItem interactionMenu;
+		JMenuItem globalMenu;
 		
 		SeparatorModule separatorModule;
 		InteractionModule interactionModule;
 		FSMModule fsmsModule;
+		GlobalModule globalModule;
 		public CustomMouseAdapter() {
 			separatorMenu = new JMenuItem("Separator");
 			separatorMenu.addActionListener((ActionEvent e)->accessSeparator(this.selection));
 			initMenu = new JMenuItem("Init");
 			interactionMenu = new JMenuItem("Interaction");
 			interactionMenu.addActionListener((ActionEvent e)->accessInteraction(this.selection, this.selection2));
+			globalMenu = new JMenuItem("Global");
+			globalMenu.addActionListener((ActionEvent e)->accessGlobal(this.selection));
 
 			separatorModule = new SeparatorModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 			interactionModule = new InteractionModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
 			fsmsModule  = new FSMModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
+			globalModule  = new GlobalModule(ViewPanel.this.father, ViewPanel.this, ViewPanel.this.ctrl);
+
 		}
 		
 		private void open(Point p, State state) {
 			if(state.clazz.equals("fsms")) {
 				accessFSMs(state);
+				return;
+			}
+			if(state.clazz.equals("global")) {
+				accessGlobal(state);
 				return;
 			}
 			JPopupMenu pm = new JPopupMenu();
@@ -294,6 +309,11 @@ public class ViewPanel extends JPanel{
 			pm.add(interactionMenu);
 			
 			pm.show(ViewPanel.this, p.x, p.y);
+		}
+		public void accessGlobal(State state) {
+			globalModule.open(state);
+			this.selection = null;
+			this.selection2 = null;
 		}
 		public void accessSeparator(State state) {
 			separatorModule.open(state);

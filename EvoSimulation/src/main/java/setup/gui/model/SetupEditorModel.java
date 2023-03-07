@@ -15,6 +15,7 @@ public class SetupEditorModel {
 	private Map<Class<?>, EntitySeparator>separators;
 	private Map<String, FSMDeclaration>fsms;
 	private List<EntityInteraction>interactions;
+	private JSONObject global;
 	private SetupEditorModel() {
 		this.separators = new LinkedHashMap<>();
 		this.fsms = new LinkedHashMap<>();
@@ -114,5 +115,11 @@ public class SetupEditorModel {
 	}
 	public List<EntityInteraction> getInteractions() {
 		return interactions;
+	}
+	public JSONObject getGlobal() {
+		return global;
+	}
+	public void setGlobal(JSONObject global) {
+		this.global = global;
 	}
 }
