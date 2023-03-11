@@ -63,11 +63,9 @@ public class RecursiveBlock extends Block{
 				JSONObject bo = production.getJSONObject(i);
 				Block b = Block.forType(manager, bo);
 				if(bo.getString("type").equals("PredefinedBlock")) {
-					//System.out.println(bo.toString(4));
 					((PredefinedBlock)b).setColor(color);
 					if(b instanceof InputBlock)((InputBlock)b).reference = this;
 				}
-				
 				b.setBase(new Vector2D(base.x, base.y+shifty));
 				blocks.add(b);
 				b.paint(shapes);
@@ -79,7 +77,6 @@ public class RecursiveBlock extends Block{
 			params.put(new JSONObject().put("name", "reference")
 									   .put("type", "Parameter")
 									   .put("value", new JSONObject().put("value", this)));
-			
 			JSONObject jo = new JSONObject().put("type", "PredefinedBlock")
 											.put("id", "Ghost")
 											.put("params", params);
@@ -89,16 +86,6 @@ public class RecursiveBlock extends Block{
 			((PredefinedBlock)b).setColor(color);
 			b.paint(shapes);
 			this.incomplete=true;
-			/*shapes.add(new DrawElement.Rectangle(this.base.x, 
-												 this.base.y, 
-												 manager.getGraphics().getFontMetrics().stringWidth(rule)*mult, 
-												 stringHeight, 
-												 color)
-					  );
-			shapes.add(new StringShape(rule, 
-					   this.base.x+1f, 
-					   this.base.y+stringHeight-2f, 
-					   Color.black));*/
 		}
 	}
 	@Override

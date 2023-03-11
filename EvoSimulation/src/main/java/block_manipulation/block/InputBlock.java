@@ -36,7 +36,7 @@ public class InputBlock extends PredefinedBlock{
 		switch(id) {
 			case "text":
 				text = value.getString("value");
-				textSize = manager.getGraphics().getFontMetrics().stringWidth(text);
+				if((manager.getGraphics()!=null))textSize = manager.getGraphics().getFontMetrics().stringWidth(text);
 				break;
 			default:
 				System.err.println("unsupported parameter: "+id);
@@ -51,7 +51,7 @@ public class InputBlock extends PredefinedBlock{
 								   this.base.x+2f, 
 								   this.base.y+stringHeight-2f, 
 								   Color.black,
-								   manager.getGraphics().getFontMetrics().getStringBounds(text, manager.getGraphics())
+								   (manager.getGraphics()!=null)?manager.getGraphics().getFontMetrics().getStringBounds(text, manager.getGraphics()):null
 								   )
 				);
 //		shapes.add(new DrawElement.Rectangle(this.base.x,     this.base.y, 
@@ -63,14 +63,14 @@ public class InputBlock extends PredefinedBlock{
 	@Override
 	public float getHeight() {
 		int nl = text.split("\n").length;
-		return  manager.getGraphics().getFontMetrics().getHeight()*nl;
+		return  (manager.getGraphics()!=null)?manager.getGraphics().getFontMetrics().getHeight()*nl:0;
 	}
 
 	@Override
 	public float getWidth() {
 		int max=0;
 		for (String line : text.split("\n")) {
-			max = Math.max(max, manager.getGraphics().getFontMetrics().stringWidth(line));
+			if(manager.getGraphics()!=null)max = Math.max(max, manager.getGraphics().getFontMetrics().stringWidth(line));
 		}
 		return max+2f;
 	}

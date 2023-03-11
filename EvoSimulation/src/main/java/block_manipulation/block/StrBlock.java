@@ -29,7 +29,7 @@ public class StrBlock extends PredefinedBlock{
 		switch(id) {
 			case "text":
 				text = value.getString("value");
-				textSize = manager.getGraphics().getFontMetrics().stringWidth(text);
+				if(manager.getGraphics()!=null)textSize = manager.getGraphics().getFontMetrics().stringWidth(text);
 				break;
 			default:
 				System.err.println("unsupported parameter: "+id);
@@ -42,7 +42,7 @@ public class StrBlock extends PredefinedBlock{
 								   this.base.x+2f, 
 								   this.base.y+stringHeight-2f, 
 								   Color.black,
-								   manager.getGraphics().getFontMetrics().getStringBounds(text, manager.getGraphics())
+								   (manager.getGraphics()!=null)?manager.getGraphics().getFontMetrics().getStringBounds(text, manager.getGraphics()):null
 								   )
 				);
 //		shapes.add(new DrawElement.Rectangle(this.base.x,     this.base.y, 

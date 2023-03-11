@@ -83,7 +83,10 @@ public class BlockManager implements Cloneable{
 		//System.out.println(getDecisionsUsed(this.));
 		return m;
 	}
-
+	public boolean isComplete() {
+		for(Integer i:this.decisions)if(i.intValue()==-1)return false;
+		return true;
+	}
 	public int getDecisionsUsed(RecursiveBlock block) {
 		return block.decisionsUsed();
 	}
@@ -115,6 +118,15 @@ public class BlockManager implements Cloneable{
 		});*/
 		shapes.stream().forEach(s->s.draw(g2));
 		this.blockIluminations.clear();
+	}
+	public void buildBlocks(String symbol) {
+		RecursiveBlock r = new RecursiveBlock(this, symbol);
+		this.setRoot(r);
+		shapes = new ArrayList<DrawElement.Shape>();
+		cursor=0;
+		Objects.requireNonNull(this.base);
+		root.setBase(base);
+		root.paint(shapes);
 	}
 	public void merge(BlockManager manager2, int pos) {
 		//preserve pending
@@ -199,7 +211,9 @@ public class BlockManager implements Cloneable{
 				   			   .put("inputs", arr2)
 				   			   .put("init", ((RecursiveBlock)root).getRule())
 				   			   .put("root", root.toJSON())
-				   			   .put("base", this.base.toJSON());
+				   			   .put("base", this.base.toJSON())
+				   			   .put("complete", isComplete());
+        						
 	}
 
 	public int getNext() {

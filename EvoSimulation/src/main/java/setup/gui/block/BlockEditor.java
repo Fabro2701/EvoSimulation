@@ -251,4 +251,8 @@ public class BlockEditor extends JPanel{
 		return managers;
 	}
 
+	public List<String> getInitSymbols() {
+		return initSymbols;
+	}
+
 }
