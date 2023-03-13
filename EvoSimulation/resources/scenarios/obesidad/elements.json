@@ -1,0 +1,382 @@
+[
+    {
+        "pos": {
+            "x": 104,
+            "y": 34
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "diagram.elements.EntityElement",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 361,
+            "y": 44
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "diagram.elements.GroupElement",
+        "managers": []
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 197,
+            "y": 141
+        },
+        "blocks": [],
+        "father": "EntityElement",
+        "type": "Group",
+        "value": "O",
+        "managers": []
+    },
+    {
+        "att": "att2",
+        "pos": {
+            "x": 431,
+            "y": 143
+        },
+        "blocks": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "code",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 588,
+                "y": 149
+            }
+        }],
+        "father": "GroupElement",
+        "type": "Group",
+        "value": "value2",
+        "managers": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "code",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 588,
+                "y": 149
+            }
+        }]
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 197,
+            "y": 249
+        },
+        "blocks": [],
+        "father": "EntityElement",
+        "type": "Group",
+        "value": "S",
+        "managers": []
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 193,
+            "y": 355
+        },
+        "blocks": [],
+        "father": "EntityElement",
+        "type": "Group",
+        "value": "N",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 311,
+            "y": 169
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "code",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 649,
+                "y": 98
+            }
+        }],
+        "from": "imcOEntityElement",
+        "id": "int",
+        "to": "att2value2GroupElement",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "code",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 649,
+                "y": 98
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 257,
+            "y": 52
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "re\nerw\n\nwe\nw\nee"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "re\nerw\n\nwe\nw\nee",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 622,
+                "y": 108
+            }
+        }],
+        "from": "EntityElement",
+        "id": "int2",
+        "to": "GroupElement",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "re\nerw\n\nwe\nw\nee"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [{
+                            "blocks": [{
+                                "text": "id",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "NAME",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "re\nerw\n\nwe\nw\nee",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 622,
+                "y": 108
+            }
+        }]
+    }
+]

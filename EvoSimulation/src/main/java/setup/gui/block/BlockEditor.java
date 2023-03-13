@@ -187,7 +187,7 @@ public class BlockEditor extends JPanel{
 	            currentPos=0;
 				Point mousePoint = new Point(e.getPoint());
 				SwingUtilities.convertPointToScreen(mousePoint, BlockEditor.this);
-		        try {
+		        /*try {
 		            Robot robot = new Robot();
 		            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 		            robot.mouseMove(mousePoint.x -1, mousePoint.y);
@@ -195,7 +195,7 @@ public class BlockEditor extends JPanel{
 		            //robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 		        } catch (AWTException ex) {
 		            ex.printStackTrace();
-		        }
+		        }*/
 				//BlockEditor.this.repaint();
 		    }
 		};
