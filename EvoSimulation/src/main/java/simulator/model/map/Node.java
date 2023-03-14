@@ -51,11 +51,6 @@ public class Node {
 		this.y = y;
 	}
 
-	// @Override
-	// public String toString() {
-	// return "("+Float.toString(temperature)+" - "+Float.toString(radiation)+" -
-	// "+Float.toString(food)+")";
-	// }
 	public static void main(String args[]) {
 		Node n = new Node(0,0,250/255f, 100/255f, 0, null);
 		System.out.println(n.elevation);

@@ -82,7 +82,7 @@ public class MapCreator extends javax.swing.JFrame {
 		public void loadPanels(String filePath) {
 			try {
 				terrainPanel.setImage(ImageIO.read(new File(filePath + "/terrain.png")));
-				//attributesPanel.setImage(ImageIO.read(new File(filePath + "/attributes.png")));
+				attributesPanel.setImage(ImageIO.read(new File(filePath + "/attributes.png")));
 				((EntityPanel)entitiesPanel).loadEntities(new FileInputStream(filePath + "/entities.json"));
 				elevationPanel.setImage(ImageIO.read(new File(filePath + "/elevation.png")));
 			} catch (IOException e) {
@@ -123,8 +123,9 @@ public class MapCreator extends javax.swing.JFrame {
 		setMinimumSize(new java.awt.Dimension(1400, 750));
 
 		jtpMainPanel.addTab("Terrain", terrainPanel);
-		jtpMainPanel.addTab("Entities", entitiesPanel);
 		jtpMainPanel.addTab("Elevation", elevationPanel);
+		jtpMainPanel.addTab("Attributes", attributesPanel);
+		jtpMainPanel.addTab("Entities", entitiesPanel);
 
 		jMenu1.setText("File");
 

@@ -143,7 +143,7 @@ public class ElevationPanel extends AbstractCreatorPanel {
 					@Override
 					public void mouseWheelMoved(MouseWheelEvent e) {
 						if (e.getWheelRotation() != 0) {
-							xs += e.getWheelRotation();
+							xs -= e.getWheelRotation();
 							update(buffer);
 						}
 					}
@@ -155,13 +155,11 @@ public class ElevationPanel extends AbstractCreatorPanel {
 							pressed = true;
 							current = e.getPoint();
 						}
-						//
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						pressed = false;
-
 					}
 
 					@Override
@@ -189,7 +187,9 @@ public class ElevationPanel extends AbstractCreatorPanel {
 			public void focus() {
 				this.requestFocusInWindow();
 			}
-
+			public void update() {
+				update(buffer);
+			}
 			private BufferedImage reduceImage(BufferedImage img, int w, int h) {
 				Image imgS = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
 				BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -427,9 +427,7 @@ public class ElevationPanel extends AbstractCreatorPanel {
 								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))));
 	}// </editor-fold>
 
-	private void jbZoomInActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
+	
 
 	private void jsStrokeSizeStateChanged(javax.swing.event.ChangeEvent evt) {
 		((Controller) ctrl).setStrokeSize(jsStrokeSize.getValue());
@@ -439,9 +437,13 @@ public class ElevationPanel extends AbstractCreatorPanel {
 	private void jsIntensistyStateChanged(javax.swing.event.ChangeEvent evt) {
 		((Controller) ctrl).setIntensity(jsIntensisty.getValue());
 	}
-
+	private void jbZoomInActionPerformed(java.awt.event.ActionEvent evt) {
+		((ElevationPanel.Controller)ctrl).xs -= 1;
+		((ElevationPanel.Controller.ViewImage)ctrl.viewObserver).update();
+	}
 	private void jbZoomOutActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		((ElevationPanel.Controller)ctrl).xs += 1;
+		((ElevationPanel.Controller.ViewImage)ctrl.viewObserver).update();
 	}
 
 	// Variables declaration - do not modify
