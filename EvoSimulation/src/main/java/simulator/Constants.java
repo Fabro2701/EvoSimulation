@@ -52,6 +52,7 @@ public final class Constants {
 	public static final String ChildDepthStatsBuilder_TYPE = "cd";
 	public static final String DeadOffSpringBuilder_TYPE = "dos";
 	public static final String GenesBuilder_TYPE = "ge";
+	public static final String PolyBuilder_TYPE = "p";
 	public static final String GenotypeHeterogeneityBuilder_TYPE = "gh";
 	public static final String MutationReproductionBuilder_TYPE = "mr";
 	public static final String PopulationAgeBuilder_TYPE = "pa";

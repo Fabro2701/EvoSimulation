@@ -166,4 +166,7 @@ public class Phenotype{
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
+	public Map<String, VARIATION> getPolys() {
+		return polys;
+	}
 }

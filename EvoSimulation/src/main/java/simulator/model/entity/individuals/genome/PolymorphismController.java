@@ -98,6 +98,9 @@ public class PolymorphismController implements Mapper{
 		GA,GC,GG,GT,
 		TA,TC,TG,TT
 	}
+	public static Map<String, List<VARIATION>> getVariations() {
+		return variations;
+	}
 	public static void main(String args[]) {
 		try {
 			PolymorphismController.loadFromFile("resources/scenarios/obesidad/poly.poly");

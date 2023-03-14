@@ -40,5 +40,16 @@
        attribute:"diabetes",
        group:true
       }
+},
+{
+ type:"p",
+ data:{
+       title:"Polymorphism rs11549467",
+       x:"Time",
+       y:"",
+       updateRate:1000,
+       visualizer:"bar",
+       poly:"rs11549467"
+      }
 }
 ]
