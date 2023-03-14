@@ -15,14 +15,16 @@ public class UpdatesTranslation {
 		sb.append(id);
 		String c = null;
 		boolean g = false;
+		GroupElement ge = null;
 		if(e instanceof EntityElement) {
 			c = ((EntityElement)e).getClazz().getName();
 		}
 		else {
 			c = ((EntityElement)((GroupElement)e).getFather()).getClazz().getName();
 			g = true;
+			ge = (GroupElement)e;
 		}
-		GroupElement ge = (GroupElement)e;
+		
 		sb.append("(\""+c+"\")");
 		sb.append("{\n");
 		if(g) {

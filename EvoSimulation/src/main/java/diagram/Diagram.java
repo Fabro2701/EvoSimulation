@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.json.JSONArray;
@@ -358,7 +359,9 @@ public class Diagram extends JPanel{
 			 
 			 panel.add(dpanel);
 			 
-			 panel.add(codep);
+			 JScrollPane cscode = new JScrollPane();
+			 cscode.setViewportView(codep);
+			 panel.add(cscode);
 			 
 			 //frame.setLocationRelativeTo(null);
 			 frame.pack();

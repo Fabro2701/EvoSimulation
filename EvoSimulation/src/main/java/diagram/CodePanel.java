@@ -42,11 +42,12 @@ public class CodePanel extends JTextPane{
 		int tab=0;
 		for(String line:lines) {
 			if(line.contains("}"))tab--;
-			for(int i=0;i<tab;i++)sb.append("\t");
+			for(int i=0;i<tab;i++)sb.append("      ");
 			sb.append(line).append('\n');
 			if(line.contains("{"))tab++;
 		}
 		
 		this.setText(sb.toString());
+		this.setCaretPosition(0);
 	}
 }
