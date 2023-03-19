@@ -47,6 +47,8 @@ public final class Constants {
 		}
 	}
 	
+	public static final int DEFAULT_STATS_REFRESHRATE = 500;
+	public static final boolean DEFAULT_STATS_SERIALIZE = false;
 	//builder types
 	public static final String BestIndividualCodeBuilder_TYPE = "bic";
 	public static final String ChildDepthStatsBuilder_TYPE = "cd";

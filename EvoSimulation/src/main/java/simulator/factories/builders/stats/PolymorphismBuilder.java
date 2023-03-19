@@ -14,7 +14,10 @@ public class PolymorphismBuilder extends StatsBuilder{
 	@Override
 	public StatsData createTheInstance(JSONObject o, Controller ctrl) {
 		// TODO Auto-generated method stub
-		return new PolymorphismStats(o.getInt("updateRate"),o.getString("poly"));
+		return new PolymorphismStats(o.optInt("updateRate", Constants.DEFAULT_STATS_REFRESHRATE), 
+				  					 o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE),
+				  					 o.getString("poly")
+				  					);
 	}
 
 }

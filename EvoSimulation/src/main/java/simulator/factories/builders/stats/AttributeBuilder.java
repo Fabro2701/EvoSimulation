@@ -14,8 +14,11 @@ public class AttributeBuilder extends StatsBuilder{
 	}
 	@Override
 	public StatsData createTheInstance(JSONObject o, Controller ctrl) {
-		// TODO Auto-generated method stub
-		return new AttributeStats(o.getInt("updateRate"), o.getString("attribute"), o.getBoolean("group"));
+		return new AttributeStats(o.optInt("updateRate", Constants.DEFAULT_STATS_REFRESHRATE), 
+								  o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE),
+								  o.getString("attribute"), 
+								  o.optBoolean("group", false)
+								 );
 	}
 
 }

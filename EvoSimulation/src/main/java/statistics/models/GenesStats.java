@@ -25,10 +25,10 @@ public class GenesStats extends StatsData{
 	private int currentTime=0;
 	Map<String, List<Integer>> rules;
 	int op = 1;
-	public GenesStats(int updateRate) {
-		super(updateRate);
+	public GenesStats(int updateRate, boolean serialize, int op) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
-		
+		this.op = op;
 		
 	}
 

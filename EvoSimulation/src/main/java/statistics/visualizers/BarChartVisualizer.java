@@ -16,7 +16,7 @@ public class BarChartVisualizer extends StatsVisualizer{
 		        x, 
 		        y, 
 		        (CategoryDataset) data.getDataSet() , 
-		        PlotOrientation.VERTICAL,  
+		        PlotOrientation.HORIZONTAL,  
 		        true,true,false  
 		       );  
 		this.panel = new ChartPanel(chart);  

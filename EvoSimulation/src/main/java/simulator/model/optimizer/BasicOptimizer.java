@@ -9,7 +9,7 @@ import simulator.model.entity.Entity;
 import simulator.model.map.Map;
 import util.Util;
 
-public class BasicOptimizer extends Optimizer{
+public class BasicOptimizer implements Optimizer{
 	EvoSimulator simulator;
 	
 	public BasicOptimizer(EvoSimulator simulator) {

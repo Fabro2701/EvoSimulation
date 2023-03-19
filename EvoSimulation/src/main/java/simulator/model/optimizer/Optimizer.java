@@ -1,17 +1,11 @@
 package simulator.model.optimizer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import simulator.model.entity.Entity;
-import simulator.model.entity.PasiveEntity;
-import simulator.model.entity.individuals.GIndividual;
-import simulator.model.entity.observations.AbstractObservation;
 import simulator.model.map.Map;
-import util.Util;
 
-public abstract class Optimizer {
+public interface Optimizer {
 	public abstract void update(Map map, List<Entity>entities, int time);
 //	protected HashMap<String,String>getObservations(Entity e, List<Entity>entities){
 //		if(e instanceof PasiveEntity)return null;

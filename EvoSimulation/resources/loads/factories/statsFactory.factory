@@ -2,10 +2,8 @@ builders = \
 simulator.factories.builders.stats.PopulationAgeBuilder,\
 simulator.factories.builders.stats.PopulationCountBuilder,\
 simulator.factories.builders.stats.GenesBuilder,\
-simulator.factories.builders.stats.MutationReproductionBuilder,\
 simulator.factories.builders.stats.ChildDepthBuilder,\
 simulator.factories.builders.stats.GenotypeHeterogeneityBuilder,\
-simulator.factories.builders.stats.DeadOffSpringBuilder,\
 simulator.factories.builders.stats.BestIndividualCodeBuilder,\
 simulator.factories.builders.stats.EventsStatsBuilder,\
 simulator.factories.builders.stats.AttributeBuilder,\

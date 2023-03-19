@@ -2,6 +2,7 @@ package simulator.factories.builders.stats;
 
 import org.json.JSONObject;
 
+import simulator.Constants;
 import simulator.control.Controller;
 import statistics.StatsData;
 import statistics.models.PopulationCountStats;
@@ -15,7 +16,9 @@ public class PopulationCountBuilder extends StatsBuilder{
 	@Override
 	public StatsData createTheInstance(JSONObject o, Controller ctrl) {
 		// TODO Auto-generated method stub
-		return new PopulationCountStats(o.getInt("updateRate"));
+		return new PopulationCountStats(o.optInt("updateRate", Constants.DEFAULT_STATS_REFRESHRATE), 
+				  						o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE)
+				  					   );
 	}
 
 }

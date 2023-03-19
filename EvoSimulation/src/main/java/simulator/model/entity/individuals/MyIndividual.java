@@ -76,7 +76,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
 			phenotype.setSymbol(key, crom);
 			if(phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
 				dispose();
 				return;
 			}
@@ -116,7 +116,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(c);
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");;
 				ind.dispose();
 				return ind;
 			}
@@ -155,7 +155,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(cs.get(i));
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onDeadOffSpring(0);
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
 				ind.dispose();
 			}
 		}

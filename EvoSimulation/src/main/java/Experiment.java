@@ -94,12 +94,9 @@ public class Experiment {
 		 
 		//managers
 		StatsManager statsManager = null;
-		try {
-			statsManager = new StatsManager(this.statsManager, statsFactory);
-		}catch(Exception e) {
-			System.err.println("Error creating StatsManager");
-			throw e;
-		}
+		
+		statsManager = new StatsManager(this.statsManager, statsFactory);
+		
 		
 		EventManager eventManager = new EventManager();
 		

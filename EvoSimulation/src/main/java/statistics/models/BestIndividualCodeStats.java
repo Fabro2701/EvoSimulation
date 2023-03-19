@@ -13,8 +13,8 @@ public class BestIndividualCodeStats extends StatsData{
 
 	private int currentTime=0;
 	
-	public BestIndividualCodeStats(int updateRate) {
-		super(updateRate);
+	public BestIndividualCodeStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		this.text = new JLabel();
 	}
 	

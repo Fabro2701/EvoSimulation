@@ -26,8 +26,8 @@ public class AttributeStats extends StatsData{
 	boolean groupby;
 	String att;
 	
-	public AttributeStats(int updateRate, String att, boolean groupby) {
-		super(updateRate);
+	public AttributeStats(int updateRate, boolean serialize, String att, boolean groupby) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 		this.groupby = groupby;
 		this.att = att;

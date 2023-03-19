@@ -31,6 +31,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 		initComponents();
         viewsController = new ViewersController();
         configureComponents();
+        this.setLocationRelativeTo(null);
 	}
 	
 	class ViewersController{

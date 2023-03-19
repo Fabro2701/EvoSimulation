@@ -18,8 +18,8 @@ public class ChildDepthStats extends StatsData{
 
 	private int currentTime=0;
 	
-	public ChildDepthStats(int updateRate) {
-		super(updateRate);
+	public ChildDepthStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 	}
 	

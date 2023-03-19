@@ -20,10 +20,11 @@ public abstract class StatsData implements StatsObserver{
 	protected int updateRate;
 	
 	protected PrintWriter fileWriter;
-	protected boolean serialize = true;
+	protected boolean serialize;
 	
-	public StatsData(int updateRate) {
+	public StatsData(int updateRate, boolean serialize) {
 		this.updateRate = updateRate;
+		this.serialize = serialize;
 	}
 	@Override
 	public void onRegister() {

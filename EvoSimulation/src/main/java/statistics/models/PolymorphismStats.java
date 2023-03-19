@@ -27,8 +27,8 @@ public class PolymorphismStats extends StatsData{
 
 	private int currentTime=0;
 	String poly;
-	public PolymorphismStats(int updateRate, String poly) {
-		super(updateRate);
+	public PolymorphismStats(int updateRate, boolean serialize, String poly) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();	
 		this.poly = poly;
 	}

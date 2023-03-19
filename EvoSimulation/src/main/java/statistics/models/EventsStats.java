@@ -19,8 +19,8 @@ public class EventsStats extends StatsData{
 	private int currentTime=0;
 	Map<String, AtomicInteger> events;
 
-	public EventsStats(int updateRate) {
-		super(updateRate);
+	public EventsStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 		events = new HashMap<>();
 		serialize = false;
@@ -36,7 +36,7 @@ public class EventsStats extends StatsData{
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			for(String key:events.keySet()) {
-				((DefaultCategoryDataset)dataset).addValue(events.get(key), 0, key);
+				((DefaultCategoryDataset)dataset).addValue(events.get(key), "-", key);
 
 			}
 		}

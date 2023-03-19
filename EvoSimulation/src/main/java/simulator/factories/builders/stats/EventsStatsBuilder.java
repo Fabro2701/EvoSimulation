@@ -16,8 +16,9 @@ public class EventsStatsBuilder extends StatsBuilder{
 	}
 	@Override
 	public StatsData createTheInstance(JSONObject o, Controller ctrl) {
-		// TODO Auto-generated method stub
-		return new EventsStats(o.getInt("updateRate"));
+		return new EventsStats(o.optInt("updateRate", Constants.DEFAULT_STATS_REFRESHRATE), 
+							   o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE)
+							  );
 	}
 
 }

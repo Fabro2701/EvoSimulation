@@ -21,7 +21,7 @@ import util.Util;
  * @author fabrizioortega
  *
  */
-public class UniformGridOptimizer extends Optimizer{
+public class UniformGridOptimizer implements Optimizer{
 	EvoSimulator simulator;
 	Grid grids[][];
 	int xDivision;

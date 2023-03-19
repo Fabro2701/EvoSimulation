@@ -24,34 +24,40 @@ import simulator.RandomSingleton;
 import simulator.model.map.creator.EntityPanel.EntityInfo;
 import util.Pair;;
 
+/**
+ * Map class represents the map where all the simulation events occur
+ * <p>
+ * The model is given by a {@link Node} Matrix (2d java array)
+ * @author Fabrizio Ortega
+ *
+ */
 public class Map {
 	private Node[][] nodes;
-	private List<Node> landNodes;
+	private List<Node> landNodes;//nodes with NODE_TYPE.LAND type
+	
 	private BufferedImage attributesImg;
 	private BufferedImage elevationImg;
 	private BufferedImage terrainImg;
-	private String fileName;
 	public int HEIGHT, WIDTH;
+	private String fileName;
 	
-	List<EntityInfo>entitiesInfo;
+	private List<EntityInfo>entitiesInfo;//entities to be added
 
 	/**
-	 * Create the map given the folder name
+	 * Creates a map given a directory name
 	 * @param fileName name of the folder
+	 * @throws IOException 
 	 */
-	public Map(String fileName) {
+	public Map(String fileName) throws IOException, IllegalArgumentException {
 		this.fileName = fileName;
-		try {
-			this.attributesImg = ImageIO.read(new File(fileName + "/attributes.png"));
-			this.elevationImg = ImageIO.read(new File(fileName + "/elevation.png"));
-			this.terrainImg = ImageIO.read(new File(fileName + "/terrain.png"));
-
-			if (attributesImg.getHeight() != elevationImg.getHeight() || attributesImg.getWidth() != elevationImg.getWidth())
-				System.err.println("Map loading: Images dimensions are not equal");
-		} catch (IOException e) {
-			System.err.println("Error reading map at:"+fileName);
-			e.printStackTrace();
-		}
+		
+		this.attributesImg = ImageIO.read(new File(fileName + "/attributes.png"));
+		this.elevationImg = ImageIO.read(new File(fileName + "/elevation.png"));
+		this.terrainImg = ImageIO.read(new File(fileName + "/terrain.png"));
+		
+		if (attributesImg.getHeight() != elevationImg.getHeight() || attributesImg.getWidth() != elevationImg.getWidth())
+			throw new IllegalArgumentException("Images dimensions are not equal");
+		
 
 		this.HEIGHT = attributesImg.getHeight();
 		this.WIDTH = attributesImg.getWidth();
@@ -73,16 +79,13 @@ public class Map {
 		applyTerrainMask();
 		
 		entitiesInfo = new ArrayList<>();
-		try {
-			JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(fileName + "/entities.json")));
-			for(int i=0;i<ents.length();i++) {
-				JSONObject o = ents.getJSONObject(i);
-				entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y")));
-			}
-		} catch (JSONException | FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		 
+		JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(fileName + "/entities.json")));
+		for(int i=0;i<ents.length();i++) {
+			JSONObject o = ents.getJSONObject(i);
+			entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y")));
 		}
+
 		
 	}
 	private void applyTerrainMask() {
@@ -103,7 +106,7 @@ public class Map {
 	 * @param move
 	 * @return
 	 */
-	public Node getValidModuloMove(Node node, MOVE move) {
+	public Node getValidNodeModulo(Node node, MOVE move) {
 		Pair<Integer, Integer> change = move.getPosChange();
 		Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(node.x + change.first,
 				node.y + change.second);
@@ -116,7 +119,7 @@ public class Map {
 			if(this.nodes[newPos.second][newPos.first].type == NODE_TYPE.LAND) {
 				return this.nodes[newPos.second][newPos.first];
 			}
-			return getValidModuloMove(this.nodes[newPos.second][newPos.first], move);
+			return getValidNodeModulo(this.nodes[newPos.second][newPos.first], move);
 		}
 		else {
 			if(node.type == NODE_TYPE.VOID) {
@@ -130,7 +133,7 @@ public class Map {
 			}
 			else {
 				
-				return getValidWallRestrictedMove(node, move);
+				return getValidNodeWallRestricted(node, move);
 			}
 		}		
 	}
@@ -164,7 +167,7 @@ public class Map {
 	 * @param move
 	 * @return
 	 */
-	public Node getValidWallRestrictedMove(Node node, MOVE move) {
+	public Node getValidNodeWallRestricted(Node node, MOVE move) {
 		Pair<Integer, Integer> change = move.getPosChange();
 		Pair<Integer, Integer> newPos = new Pair<Integer, Integer>(node.x + change.first,
 				node.y + change.second);
@@ -187,7 +190,7 @@ public class Map {
 	 */
 	public Node getValidMove(Node node, MOVE move) {
 		if(move == MOVE.NEUTRAL)return node;
-		return getValidWallRestrictedMove(node,move);
+		return getValidNodeWallRestricted(node,move);
 		//return getValidModuloMove(node,move);
 	}
 	public Node getNextNode(int x, int y, Node node) {

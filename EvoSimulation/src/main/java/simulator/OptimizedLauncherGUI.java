@@ -28,9 +28,7 @@ import simulator.factories.builders.events.AddRandomEntitiesGeneratorEventBuilde
 import simulator.factories.builders.events.SaveSimulationEventBuilder;
 import simulator.factories.builders.stats.BestIndividualCodeBuilder;
 import simulator.factories.builders.stats.ChildDepthBuilder;
-import simulator.factories.builders.stats.DeadOffSpringBuilder;
 import simulator.factories.builders.stats.GenotypeHeterogeneityBuilder;
-import simulator.factories.builders.stats.MutationReproductionBuilder;
 import simulator.factories.builders.stats.PopulationAgeBuilder;
 import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
@@ -72,7 +70,12 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		BuilderBasedFactory<Entity> entityFactory = new BuilderBasedFactory<Entity>("entitiesFactory");
 
 		SetupController setup = SetupController.from("resources/setup/default.stp");
-		simulator = new EvoSimulator("flat1000");
+		try {
+			simulator = new EvoSimulator("flat1000");
+		} catch (IllegalArgumentException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);

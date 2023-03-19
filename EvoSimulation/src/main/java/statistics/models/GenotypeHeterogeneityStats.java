@@ -17,8 +17,8 @@ public class GenotypeHeterogeneityStats extends StatsData{
 
 	private int currentTime=0;
 	
-	public GenotypeHeterogeneityStats(int updateRate) {
-		super(updateRate);
+	public GenotypeHeterogeneityStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 	}
 	

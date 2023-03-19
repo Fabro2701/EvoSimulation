@@ -57,15 +57,17 @@ public class EvoSimulator {
 	
 	private int imgRefreshRate = 1;
 	
-	public EvoSimulator() {
+	public EvoSimulator() throws IllegalArgumentException, IOException {
 		this("test1000void2");
 		this.setOptimizer(new BasicOptimizer(this));
 	}
 	/**
 	 * 
 	 * @param map Map dir
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
 	 */
-	public EvoSimulator(String map) {		
+	public EvoSimulator(String map) throws IllegalArgumentException, IOException {		
 		this.time = 0;
 		this.map = new Map(map);
 		this.observers = new ArrayList<>();

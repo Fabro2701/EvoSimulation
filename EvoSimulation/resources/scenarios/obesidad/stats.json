@@ -4,7 +4,6 @@
  data:{
        title:"Population count",
        x:"Time",
-       y:"",
        updateRate:500,
        visualizer:"line"
       }
@@ -13,8 +12,6 @@
  type:"ge",
  data:{
        title:"Genes",
-       x:"Time",
-       y:"",
        updateRate:300,
        visualizer:"bar"
       }
@@ -23,8 +20,6 @@
  type:"es",
  data:{
        title:"Events",
-       x:"Time",
-       y:"",
        updateRate:100,
        visualizer:"bar"
       }
@@ -34,7 +29,6 @@
  data:{
        title:"Attribute diabetes",
        x:"Time",
-       y:"",
        updateRate:500,
        visualizer:"line",
        attribute:"diabetes",
@@ -45,8 +39,6 @@
  type:"p",
  data:{
        title:"Polymorphism rs11549467",
-       x:"Time",
-       y:"",
        updateRate:1000,
        visualizer:"bar",
        poly:"rs11549467"

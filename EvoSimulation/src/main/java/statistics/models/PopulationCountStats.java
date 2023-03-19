@@ -19,8 +19,8 @@ public class PopulationCountStats extends StatsData{
 
 	private int currentTime=0;
 	
-	public PopulationCountStats(int updateRate) {
-		super(updateRate);
+	public PopulationCountStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 
 	}

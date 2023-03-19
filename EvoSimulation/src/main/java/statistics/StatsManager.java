@@ -50,10 +50,10 @@ public class StatsManager extends JFrame implements StatsObserver{
     	this();
     	this.modelFactory = modelFactory;
     	loadConfig(config);
-    	Dimension d = new Dimension(700,700);
-    	this.setMaximumSize(d);
+    	Dimension d = new Dimension(900,700);
     	this.setMinimumSize(d);
     	this.setPreferredSize(d);
+    	this.setResizable(true);
     	this.pack();
     	this.setVisible(true);
     }
@@ -105,13 +105,13 @@ public class StatsManager extends JFrame implements StatsObserver{
     private StatsVisualizer chooseVisualizer(JSONObject data, StatsData model) throws IllegalArgumentException{
     	switch(data.getString("visualizer")) {
     		case "line":
-    			return new LineChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
+    			return new LineChartVisualizer(model, data.optString("title",""), data.optString("x",""), data.optString("y",""));
     		case "area":
-    			return new AreaChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
+    			return new AreaChartVisualizer(model, data.optString("title",""), data.optString("x",""), data.optString("y",""));
     		case "bar":
-    			return new BarChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
+    			return new BarChartVisualizer(model, data.optString("title",""), data.optString("x",""), data.optString("y",""));
     		case "box":
-    			return new BoxChartVisualizer(model, data.getString("title"), data.getString("x"), data.getString("y"));
+    			return new BoxChartVisualizer(model, data.optString("title",""), data.optString("x",""), data.optString("y",""));
     		case "text":
     			return new TextVisualizer(model);
     		default:
@@ -143,24 +143,6 @@ public class StatsManager extends JFrame implements StatsObserver{
 		if(simulator.getEntities().size()<50)return;
 		for(StatsObserver o:observers) {
 			o.onStep(simulator);
-		}
-	}
-	@Override 
-	public void onMutation() {
-		for(StatsObserver o:observers) {
-			o.onMutation();
-		}
-	}
-	@Override 
-	public void onReproduction() {
-		for(StatsObserver o:observers) {
-			o.onReproduction();
-		}
-	}
-	@Override 
-	public void onDeadOffSpring(int type) {
-		for(StatsObserver o:observers) {
-			o.onDeadOffSpring(type);
 		}
 	}
 	@Override 

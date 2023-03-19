@@ -17,8 +17,8 @@ public class PopulationAgeStats extends StatsData{
 	private int alivePopulation;
 	private int currentTime=0;
 	
-	public PopulationAgeStats(int updateRate) {
-		super(updateRate);
+	public PopulationAgeStats(int updateRate, boolean serialize) {
+		super(updateRate, serialize);
 		dataset = new DefaultCategoryDataset();
 		//dataset = new DefaultBoxAndWhiskerXYDataset("depth");
 
