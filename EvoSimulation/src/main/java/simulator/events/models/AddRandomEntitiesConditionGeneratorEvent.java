@@ -53,7 +53,6 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 				o.put("type", typeTo);
 				JSONObject data = new JSONObject();
 				
-				//if(id.equals("r"))data.put("id", String.valueOf(RandomSingleton.nextInt(1000)));
 				if(id.equals("r"))data.put("id", ctrl.getNextId());
 				else data.put("id", this.id);
 				

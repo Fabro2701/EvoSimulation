@@ -28,14 +28,11 @@ public class AddRandomEntitiesGeneratorEvent extends MultipleTimeEvent{
 			o.put("type", typeTo);
 			JSONObject data = new JSONObject();
 			
-			//if(id.equals("r"))data.put("id", String.valueOf(RandomSingleton.nextInt(1000)));
 			if(id.equals("r"))data.put("id", ctrl.getNextId());
 			else data.put("id", this.id);
 			
 			data.put("x", RandomSingleton.nextInt(ctrl.getMap().WIDTH));
 			data.put("y", RandomSingleton.nextInt(ctrl.getMap().HEIGHT));
-//			data.put("x", 100);
-//			data.put("y", 100);
 			data.put("properties", properties);
 			o.put("data", data);
 			arr.put(o);

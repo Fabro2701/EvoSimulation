@@ -8,10 +8,8 @@
                 "time":0,
                 "times":1000,
                 "interval":100,
-                "timelapse":50,
                 "typeTo":"mi",
                 "amount":200
-                
             }
         }
     ]
