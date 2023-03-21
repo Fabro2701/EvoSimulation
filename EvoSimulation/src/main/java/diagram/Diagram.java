@@ -105,6 +105,7 @@ public class Diagram extends JPanel{
 				 String s = GlobalTranslation.translate((GlobalElement) p.first, p.second.getJSONObject("root"));
 				 codePanel.insertString(s);
 			 }
+			 codePanel.insertString("\n\n");
 		 }
 		 if(os.containsKey("INIT_DEF")) {
 			 codePanel.insertString("init :=\n");
@@ -112,6 +113,7 @@ public class Diagram extends JPanel{
 				 String s = UpdatesTranslation.translate((EntityElement) p.first,p.second.getJSONObject("root"));
 				 codePanel.insertString(s);
 			 }
+			 codePanel.insertString("\n\n");
 		 }
 		 if(os.containsKey("UPDATE_DEF")) {
 			 codePanel.insertString("updates :=\n");
@@ -119,6 +121,7 @@ public class Diagram extends JPanel{
 				 String s = UpdatesTranslation.translate(p.first,p.second.getJSONObject("root"));
 				 codePanel.insertString(s);
 			 }
+			 codePanel.insertString("\n\n");
 		 }
 		 if(os.containsKey("INTERACTION_DEF")) {
 			 codePanel.insertString("interactions :=\n");
@@ -126,6 +129,7 @@ public class Diagram extends JPanel{
 				 String s = InteractionsTranslation.translate((InteractionElement) p.first,p.second.getJSONObject("root"));
 				 codePanel.insertString(s);
 			 }
+			 codePanel.insertString("\n\n");
 		 }
 		 try {
 			codePanel.stylize();

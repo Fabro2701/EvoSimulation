@@ -18,7 +18,7 @@ import javax.swing.text.StyledEditorKit;
 
 
 public class CodePanel extends JTextPane{
-	public Style redStyle,blueStyle,globalStyle;
+	public Style redStyle,blueStyle,greenStyle;
 	List<CodeStyle> styles;
 
 	public CodePanel() {
@@ -27,21 +27,25 @@ public class CodePanel extends JTextPane{
 
 		redStyle = sc.addStyle("red", null);
 		blueStyle = sc.addStyle("blue", null);
+		greenStyle = sc.addStyle("blue", null);
 		StyleConstants.setForeground(redStyle, new Color(148, 25, 36));
-		StyleConstants.setForeground(blueStyle, new Color(0, 71, 148));
+		StyleConstants.setForeground(blueStyle, new Color(3, 95, 185));
+		StyleConstants.setForeground(greenStyle, new Color(2, 122, 19));
 		
 	
-		 this.setPreferredSize(new Dimension(600,500));
-		 this.setMinimumSize(new Dimension(600,500));
+		 this.setPreferredSize(new Dimension(800,500));
+		 this.setMinimumSize(new Dimension(800,500));
 		 
-		 this.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
+		 this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 		 
 	
 		 styles = new ArrayList<>();
 		 styles.add(new CodeStyle("[\\s]if\\(","if",redStyle));
-		 styles.add(new CodeStyle("this",redStyle));
-		 styles.add(new CodeStyle("new",redStyle));
+		 styles.add(new CodeStyle("this|let|new",redStyle));
+	
 		 styles.add(new CodeStyle("\"[^\"]*\"",blueStyle));
+		 styles.add(new CodeStyle("(global|init|updates|interactions) :=",greenStyle));
+		 styles.add(new CodeStyle("\\n[\\d\\w]*",greenStyle));
 		 
 	
 	}
