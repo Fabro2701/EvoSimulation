@@ -34,6 +34,7 @@ public class ToolBar extends JPanel{
 	Map<Element, Point>initpositions;
 	public ToolBar() {
 		this.setPreferredSize(new Dimension(800,100));
+		this.setMaximumSize(new Dimension(800,100));
 		this.setLayout(new BorderLayout());
 		this.initElements();
 		JButton compileButton = new JButton("compile");

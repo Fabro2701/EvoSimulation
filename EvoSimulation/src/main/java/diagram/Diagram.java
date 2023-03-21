@@ -1,6 +1,7 @@
 package diagram;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -29,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,9 @@ public class Diagram extends JPanel{
 	 Element eBuffer;
 	 public Diagram(ToolBar toolBar, CodePanel codePanel) {
 		 this.setPreferredSize(new Dimension(800,500));
+		 //this.setMaximumSize(new Dimension(800,500));
+		 this.setMinimumSize(new Dimension(800,500));
+		 
 		 elements = new ArrayList<>();
 		 this.toolBar = toolBar;
 		 toolBar.setDiagram(this);
@@ -122,7 +127,12 @@ public class Diagram extends JPanel{
 				 codePanel.insertString(s);
 			 }
 		 }
-		 codePanel.stylize();
+		 try {
+			codePanel.stylize();
+		} catch (BadLocationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	 }
 	 public void insertElement(Element element) {
 		 insertElement(element,  null,false);
@@ -334,7 +344,7 @@ public class Diagram extends JPanel{
 		 SwingUtilities.invokeLater(()->{
 			 JFrame frame = new JFrame();
 			 JPanel panel = new JPanel();
-			 panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+			 panel.setLayout(new BorderLayout());
 			 frame.setContentPane(panel);
 			 
 
@@ -357,11 +367,10 @@ public class Diagram extends JPanel{
 			 
 			 dpanel.add(bpanel);
 			 
-			 panel.add(dpanel);
+			 panel.add(dpanel,BorderLayout.WEST);
 			 
-			 JScrollPane cscode = new JScrollPane();
-			 cscode.setViewportView(codep);
-			 panel.add(cscode);
+			 JScrollPane cscode = new JScrollPane(codep);
+			 panel.add(cscode,BorderLayout.CENTER);
 			 
 			 //frame.setLocationRelativeTo(null);
 			 frame.pack();
