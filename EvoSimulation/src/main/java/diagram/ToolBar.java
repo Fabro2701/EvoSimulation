@@ -112,6 +112,7 @@ public class ToolBar extends JPanel{
 		 Point currentPoint;
 		 boolean pressed = false;
 		 Element currentElement=null;
+		 boolean out = false;
 		 @Override
 		 public void mouseClicked(MouseEvent ev) {
 			 Point p = ev.getPoint();
@@ -128,8 +129,10 @@ public class ToolBar extends JPanel{
 			 for(Element e:elements) {
 				 Element s = null;
 				 if((s=e.contains(currentPoint))!=null) {
-					 currentElement = s;
-					 break;
+					 if(!(s instanceof PendingElement)) {
+						 currentElement = s;
+						 break;
+					 }
 				 }
 			 }
 		 }
@@ -138,23 +141,34 @@ public class ToolBar extends JPanel{
 			 currentPoint = null;
 			 currentElement = null;
 			 pressed = false;
+			 out = false;
 		 }
 		@Override
 		public void mouseDragged(MouseEvent ev){
 			Point p = ev.getPoint();
 			if(pressed) {
+				
+				//System.out.println(11);
 				if(currentElement!=null) {
 					if(p.y>=ToolBar.this.getHeight()) {
-						MouseEvent me = new MouseEvent(ToolBar.this, MouseEvent.MOUSE_RELEASED,1,0,0,0,1,false);
+						out = true;
 						EventQueue eventQueue = Toolkit.getDefaultToolkit().getSystemEventQueue();
-						eventQueue.postEvent(me);
+						//eventQueue.postEvent(new MouseEvent(ToolBar.this, MouseEvent.MOUSE_RELEASED,1,0,0,0,1,false));
+
 						diagram.insertElement((Element)currentElement.clone(), new Point(p.x,0), true);
 						currentElement.setPos(ToolBar.this.initpositions.get(currentElement));
+						currentElement = null;
+
+						eventQueue.postEvent(new MouseEvent(ToolBar.this.diagram, MouseEvent.MOUSE_PRESSED,1,0,p.x,0,1,false));
 					}
 					else {
 						currentElement.setPos(p);
 					}
 					repaint();
+				}
+				if(out) {
+					EventQueue eventQueue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+					eventQueue.postEvent(new MouseEvent(ToolBar.this.diagram, MouseEvent.MOUSE_DRAGGED,1,0,p.x,p.y-ToolBar.this.getHeight(),1,false));
 				}
 			}
 		}

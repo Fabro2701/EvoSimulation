@@ -123,8 +123,8 @@
     },
     {
         "pos": {
-            "x": 361,
-            "y": 44
+            "x": 374,
+            "y": 33
         },
         "blocks": [],
         "type": "Entity",
@@ -144,15 +144,18 @@
         "managers": []
     },
     {
-        "att": "att2",
+        "att": "info",
         "pos": {
-            "x": 431,
-            "y": 143
+            "x": 461,
+            "y": 139
         },
         "blocks": [{
             "init": "UPDATE_DEF",
             "filename": "resources/skeletons/updates.sklt",
-            "inputs": [],
+            "inputs": [{
+                "pos": 1,
+                "text": "superUpdate"
+            }],
             "root": {
                 "blocks": [
                     {
@@ -162,7 +165,7 @@
                         },
                         "right": [{
                             "blocks": [{
-                                "text": "id",
+                                "text": "superUpdate",
                                 "type": "InputBlock"
                             }],
                             "rule": "NAME",
@@ -199,11 +202,14 @@
         }],
         "father": "PasiveEntity",
         "type": "Group",
-        "value": "value2",
+        "value": "supermarket",
         "managers": [{
             "init": "UPDATE_DEF",
             "filename": "resources/skeletons/updates.sklt",
-            "inputs": [],
+            "inputs": [{
+                "pos": 1,
+                "text": "superUpdate"
+            }],
             "root": {
                 "blocks": [
                     {
@@ -213,7 +219,7 @@
                         },
                         "right": [{
                             "blocks": [{
-                                "text": "id",
+                                "text": "superUpdate",
                                 "type": "InputBlock"
                             }],
                             "rule": "NAME",
@@ -274,6 +280,30 @@
         "managers": []
     },
     {
+        "att": "info",
+        "pos": {
+            "x": 457,
+            "y": 231
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "bar",
+        "managers": []
+    },
+    {
+        "att": "info",
+        "pos": {
+            "x": 454,
+            "y": 322
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "restaurant",
+        "managers": []
+    },
+    {
         "pos": {
             "x": 311,
             "y": 169
@@ -281,7 +311,10 @@
         "blocks": [{
             "init": "INTERACTION_DEF",
             "filename": "resources/skeletons/interact.sklt",
-            "inputs": [],
+            "inputs": [{
+                "pos": 1,
+                "text": "int"
+            }],
             "root": {
                 "blocks": [
                     {
@@ -291,7 +324,7 @@
                         },
                         "right": [{
                             "blocks": [{
-                                "text": "id",
+                                "text": "int",
                                 "type": "InputBlock"
                             }],
                             "rule": "NAME",
@@ -322,18 +355,21 @@
             ],
             "complete": true,
             "base": {
-                "x": 649,
-                "y": 98
+                "x": 564,
+                "y": 109
             }
         }],
         "from": "imcOMyIndividual",
         "id": "int",
-        "to": "att2value2PasiveEntity",
+        "to": "infosupermarketPasiveEntity",
         "type": "Interaction",
         "managers": [{
             "init": "INTERACTION_DEF",
             "filename": "resources/skeletons/interact.sklt",
-            "inputs": [],
+            "inputs": [{
+                "pos": 1,
+                "text": "int"
+            }],
             "root": {
                 "blocks": [
                     {
@@ -343,7 +379,7 @@
                         },
                         "right": [{
                             "blocks": [{
-                                "text": "id",
+                                "text": "int",
                                 "type": "InputBlock"
                             }],
                             "rule": "NAME",
@@ -374,8 +410,8 @@
             ],
             "complete": true,
             "base": {
-                "x": 649,
-                "y": 98
+                "x": 564,
+                "y": 109
             }
         }]
     },
@@ -498,118 +534,8 @@
             ],
             "complete": true,
             "base": {
-                "x": 622,
-                "y": 108
-            }
-        }]
-    },
-    {
-        "pos": {
-            "x": 580,
-            "y": 50
-        },
-        "blocks": [{
-            "init": "GLOBAL_DEF",
-            "filename": "resources/skeletons/global.sklt",
-            "inputs": [{
-                "pos": 2,
-                "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\t\t\t\nlet diabetesDeathProb = 0.0001;"
-            }],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Global variables def",
-                            "type": "StrBlock"
-                        },
-                        "right": [],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "names": [{
-                                    "blocks": [{
-                                        "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\t\t\t\nlet diabetesDeathProb = 0.0001;",
-                                        "type": "InputBlock"
-                                    }],
-                                    "rule": "CODE",
-                                    "type": "RecursiveBlock"
-                                }],
-                                "type": "InnerBlock"
-                            }],
-                            "rule": "DECLARATION",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "GLOBAL_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 518,
-                "y": 144
-            }
-        }],
-        "id": "a",
-        "type": "Global",
-        "managers": [{
-            "init": "GLOBAL_DEF",
-            "filename": "resources/skeletons/global.sklt",
-            "inputs": [{
-                "pos": 2,
-                "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\t\t\t\nlet diabetesDeathProb = 0.0001;"
-            }],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Global variables def",
-                            "type": "StrBlock"
-                        },
-                        "right": [],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "names": [{
-                                    "blocks": [{
-                                        "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\t\t\t\nlet diabetesDeathProb = 0.0001;",
-                                        "type": "InputBlock"
-                                    }],
-                                    "rule": "CODE",
-                                    "type": "RecursiveBlock"
-                                }],
-                                "type": "InnerBlock"
-                            }],
-                            "rule": "DECLARATION",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "GLOBAL_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 518,
-                "y": 144
+                "x": 484,
+                "y": 147
             }
         }]
     }
