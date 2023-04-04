@@ -115,7 +115,6 @@ public class Experiment {
 		}
 		
 		simulator.setDebug(true);
-		simulator.loadSetup(SetupController.from(this.setup));
 		simulator.setImgRefreshRate(this.imgRefreshRate);
 		
 		//imgs
@@ -123,6 +122,7 @@ public class Experiment {
 		
 		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
+		controller.loadSetup(SetupController.from(this.setup));
 		controller.loadEvents(new FileInputStream(this.events));
 		controller.loadPE(simulator.getMap().getEntitiesInfo());
 		

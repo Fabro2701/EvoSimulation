@@ -20,15 +20,20 @@ public class UpdatesController extends ModuleController{
 	Map<String, BiConsumer<Entity, EvoSimulator>>updates;
 	Map<String, List<Class<?>>>rules;
 	Map<String, String>codes;
+	public UpdatesController() {
+		super();
+	}
 	public UpdatesController(JSONObject declaration) {
 		super(declaration);
 	}
-
 	@Override
-	protected void parse(JSONObject declaration) {
+	protected void init() {
 		updates = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
 		codes = new LinkedHashMap<>();
+	}
+	@Override
+	protected void parse(JSONObject declaration) {
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {

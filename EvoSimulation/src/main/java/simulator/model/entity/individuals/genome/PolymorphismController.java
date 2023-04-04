@@ -16,7 +16,7 @@ import simulator.Constants;
 import simulator.RandomSingleton;
 
 public class PolymorphismController implements Mapper{
-	protected static Map<String,List<VARIATION>>variations;
+	protected static Map<String,List<VARIATION>>variations = new LinkedHashMap<>();;
 	protected static Map<String,Integer>positions;
 	protected static Map<String,List<Float>>probs;
 	

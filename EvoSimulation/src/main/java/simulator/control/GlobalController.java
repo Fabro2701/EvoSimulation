@@ -15,15 +15,22 @@ import simulator.model.evaluation.ActionEvaluator;
 public class GlobalController extends ModuleController{
 	Map<String, Consumer<Entity>>statements;
 	Map<String, String>codes;
+	public GlobalController() {
+		super();
+	}
 	public GlobalController(JSONObject declaration) {
 		super(declaration);
 		
 	}
 
 	@Override
-	protected void parse(JSONObject declaration) {
+	protected void init() {
 		statements = new LinkedHashMap<>();
 		codes = new LinkedHashMap<>();
+	}
+	@Override
+	protected void parse(JSONObject declaration) {
+		
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {

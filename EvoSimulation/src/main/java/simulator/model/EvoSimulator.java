@@ -47,13 +47,7 @@ public class EvoSimulator {
 	private boolean debug=false;
 	private boolean save=false;
 	
-	private SetupController setupCtrl;
-	private GrammarController grammarController;
-	private ActionsController actionsController;
-	private InteractionsController interactionsController;
-	private UpdatesController updatesController;
-	private InitController initController;
-	private GlobalController globalController;
+
 	
 	private int imgRefreshRate = 1;
 	
@@ -83,16 +77,7 @@ public class EvoSimulator {
 		
 		this.startTime = System.currentTimeMillis();
 	}
-	public void loadSetup(SetupController setup) {
-		setupCtrl = setup;
-		this.grammarController = (GrammarController) setupCtrl.getModule("GrammarController");
-		this.actionsController = (ActionsController) setupCtrl.getModule("ActionsController");
-		this.interactionsController = (InteractionsController) setupCtrl.getModule("InteractionsController");
-		this.updatesController = (UpdatesController) setupCtrl.getModule("UpdatesController");
-		this.initController = (InitController) setupCtrl.getModule("InitController");
-		this.globalController = (GlobalController) setupCtrl.getModule("GlobalController");
-
-	}
+	
 
 	/**
 	 * Step the simulator once
@@ -220,8 +205,7 @@ public class EvoSimulator {
 
 		return new JSONObject().put("time", time)
 							   .put("entities", entitiesArr)
-							   .put("map", map.getFileName())//.put("map", map.toJSON())// ?too heavy
-							   .put("setup", this.setupCtrl.getFilename());
+							   .put("map", map.getFileName());//.put("map", map.toJSON())// ?too heavy
 	}
 	
 	/**
@@ -253,24 +237,7 @@ public class EvoSimulator {
 	public void setSave(boolean save) {
 		this.save = save;
 	}
-	public SetupController getSetupCtrl() {
-		return setupCtrl;
-	}
-	public ActionsController getActionsController() {
-		return actionsController;
-	}
-	public GrammarController getGrammarController() {
-		return grammarController;
-	}
-	public InteractionsController getInteractionsController() {
-		return interactionsController;
-	}
-	public UpdatesController getUpdatesController() {
-		return updatesController;
-	}
-	public InitController getInitController() {
-		return initController;
-	}
+	
 	public void setOptimizer(Optimizer optimizer) {
 		this.optimizer = optimizer;
 	}

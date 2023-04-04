@@ -106,7 +106,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	}
 	
 	public static class Genes implements Mapper{
-		static java.util.Map<String, List<Integer>>rules;
+		static java.util.Map<String, List<Integer>>rules = new LinkedHashMap<>();
 //		static {
 //			rules = new LinkedHashMap<>();
 //			rules.put("gen1", List.of(0));

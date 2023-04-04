@@ -17,16 +17,23 @@ public class InitController extends ModuleController{
 	Map<String, Consumer<Entity>>statements;
 	Map<String, List<Class<?>>>rules;
 	Map<String, String>codes;
+	public InitController() {
+		super();
+	}
 	public InitController(JSONObject declaration) {
 		super(declaration);
 		
 	}
 
 	@Override
-	protected void parse(JSONObject declaration) {
+	protected void init() {
 		statements = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
 		codes = new LinkedHashMap<>();
+	}
+	@Override
+	protected void parse(JSONObject declaration) {
+		
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {

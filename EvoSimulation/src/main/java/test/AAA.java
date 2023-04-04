@@ -1,5 +1,14 @@
 package test;
 
-public enum AAA implements TestI{
-	A1,A2;
+import java.lang.annotation.Documented;
+
+@ClassPreamble(hola = "aaaa")
+public class AAA{
+	
+}
+
+@Documented
+@interface ClassPreamble {
+
+   String hola();
 }

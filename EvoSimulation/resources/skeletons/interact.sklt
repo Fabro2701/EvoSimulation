@@ -1,7 +1,6 @@
 <INTERACTION_DEF> :- [
- 		   Header(name=Str(text="Interaction def"),right=<NAME>),
+ 		   Header(name=Str(text="Interaction def")),
  		   Children(e=<CODE>),
  		   Floor()
 		  ].
 <CODE> :- [Input(text="code")].
-<NAME> :- [Input(text="id")].

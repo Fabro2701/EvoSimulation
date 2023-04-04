@@ -7,6 +7,15 @@
  		   Header(name=Str(text="Init def"),right=<NAME>),
  		   Children(e=<CODE>),
  		   Floor()
-		  ].
+		  ],
+		  [
+ 		   Header(name=Str(text="Init def"),right=<NAME>),
+ 		   Children(e=<GROUP_DIS>),
+ 		   Floor()
+ 		  ].
 <CODE> :- [Input(text="code")].
 <NAME> :- [Input(text="id")].
+<GROUP_DIS>:-[Children(e=<GD>,e=<GROUP_DIS>)],
+			 [Children(e=<GD>), Floor()].
+<GD> :- [Inner(names=<NAME>,names=<NUM>)].
+<NUM> :- [Input(text="0")].

@@ -79,14 +79,14 @@ public class Map {
 		applyTerrainMask();
 		
 		entitiesInfo = new ArrayList<>();
-		 
-		JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(fileName + "/entities.json")));
-		for(int i=0;i<ents.length();i++) {
-			JSONObject o = ents.getJSONObject(i);
-			entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y")));
+		File entsFile = new File(fileName + "/entities.json");
+		if(entsFile.exists()) {
+			JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(entsFile)));
+			for(int i=0;i<ents.length();i++) {
+				JSONObject o = ents.getJSONObject(i);
+				entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y")));
+			}
 		}
-
-		
 	}
 	private void applyTerrainMask() {
 		for (int y = 0; y < HEIGHT; y++) {

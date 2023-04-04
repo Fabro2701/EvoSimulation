@@ -13,15 +13,21 @@ import simulator.model.evaluation.ActionEvaluator;
 public class ActionsController extends ModuleController{
 	Map<String, Map<String, ActionI>>actions;
 	Map<String, Map<String, String>>codes;
+	public ActionsController() {
+		super();
+	}
 	public ActionsController(JSONObject declaration) {
 		super(declaration);
 		
 	}
 
 	@Override
-	protected void parse(JSONObject declaration) {
+	protected void init() {
 		actions = new LinkedHashMap<>();
 		codes = new LinkedHashMap<>();
+	}
+	@Override
+	protected void parse(JSONObject declaration) {
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {

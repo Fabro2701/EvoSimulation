@@ -11,14 +11,20 @@ import grammar.AbstractGrammar;
 public class GrammarController extends ModuleController{
 	Map<String, AbstractGrammar>grammars;
 	Map<String, Integer>times;
+	public GrammarController() {
+		super();
+	}
 	public GrammarController(JSONObject declaration) {
 		super(declaration);
+	}
+	@Override
+	protected void init() {
+		grammars = new LinkedHashMap<>();
+		times = new LinkedHashMap<>();
 	}
 
 	@Override
 	protected void parse(JSONObject declaration) {
-		grammars = new LinkedHashMap<>();
-		times = new LinkedHashMap<>();
 		try {
 			JSONArray list = declaration.getJSONArray("list");
 			for(int i=0;i<list.length();i++) {

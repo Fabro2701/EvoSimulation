@@ -9,10 +9,11 @@ import diagram.elements.InteractionElement;
 
 public class InteractionsTranslation {
 	public static String translate(InteractionElement e, JSONObject ob) {
-		String id = ob.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(0).getJSONArray("blocks").getJSONObject(0).getString("text");
 		JSONObject cjo = ob.getJSONArray("blocks").getJSONObject(1).getJSONArray("children").getJSONObject(0).getJSONArray("blocks").getJSONObject(0);
 		String body = cjo.getString("text");
 		StringBuilder sb = new StringBuilder();
+		String id = e.getId();
+
 		sb.append(id);
 		
 		GroupElement fromE = null;

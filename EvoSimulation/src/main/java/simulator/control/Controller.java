@@ -3,6 +3,7 @@ package simulator.control;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +39,14 @@ public class Controller {
 	private List<StatsManager> statsManagers;//multiple models possible
 	private IdGenerator idGenerator;
 	private ImageController imgController;
+	
+	private SetupController setupCtrl;
+	private GrammarController grammarController;
+	private ActionsController actionsController;
+	private InteractionsController interactionsController;
+	private UpdatesController updatesController;
+	private InitController initController;
+	private GlobalController globalController;
 
 	public Controller(EvoSimulator simulator, BuilderBasedFactory<Entity> entityFactory, BuilderBasedFactory<Event> eventFactory, EventManager eventManager, StatsManager statsManager) {
 		this.simulator = simulator;
@@ -160,6 +169,22 @@ public class Controller {
 		return simulator.getMap().getRandomNode();
 	}
 	
+	public void loadSetup(SetupController setup) {
+		this.setupCtrl = setup;
+		this.grammarController = (GrammarController) setupCtrl.getModule("GrammarController");
+		this.grammarController =  Objects.requireNonNullElse(this.grammarController, new GrammarController());
+		this.actionsController = (ActionsController) setupCtrl.getModule("ActionsController");
+		this.actionsController =  Objects.requireNonNullElse(this.actionsController, new ActionsController());
+		this.interactionsController = (InteractionsController) setupCtrl.getModule("InteractionsController");
+		this.interactionsController =  Objects.requireNonNullElse(this.interactionsController, new InteractionsController());
+		this.updatesController = (UpdatesController) setupCtrl.getModule("UpdatesController");
+		this.updatesController =  Objects.requireNonNullElse(this.updatesController, new UpdatesController());
+		this.initController = (InitController) setupCtrl.getModule("InitController");
+		this.initController =  Objects.requireNonNullElse(this.initController, new InitController());
+		this.globalController = (GlobalController) setupCtrl.getModule("GlobalController");
+		this.globalController =  Objects.requireNonNullElse(this.globalController, new GlobalController());
+	}
+	
 	/**
 	 * 
 	 * @return The next id provided by {@link Controller#idGenerator}
@@ -221,22 +246,22 @@ public class Controller {
 		this.imgController = imgController;
 	}
 	public SetupController getSetupCtrl() {
-		return simulator.getSetupCtrl();
+		return setupCtrl;
 	}
 	public ActionsController getActionsController() {
-		return simulator.getActionsController();
+		return actionsController;
 	}
 	public GrammarController getGrammarController() {
-		return simulator.getGrammarController();
+		return grammarController;
 	}
 	public InteractionsController getInteractionsController() {
-		return simulator.getInteractionsController();
+		return interactionsController;
 	}
 	public UpdatesController getUpdatesController() {
-		return simulator.getUpdatesController();
+		return updatesController;
 	}
 	public InitController getInitController() {
-		return simulator.getInitController();
+		return initController;
 	}
 	public EvoSimulator getSimulator() {
 		return simulator;

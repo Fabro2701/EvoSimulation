@@ -1,4 +1,3 @@
-grammars := action; "grammar.StandardGrammar"; "resources/scenarios/infection/default.bnf".
 
 global := a(){
 			let mu = 60*520;
@@ -79,9 +78,7 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 					if(node != null)this.setNode(node);
 				}
 		   }.
-actions := <action> NOTHING{
-		   					;
-		   				   }.  
+
 interactions := infectionInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 	
 					let p = (static "simulator.RandomSingleton").nextDouble();

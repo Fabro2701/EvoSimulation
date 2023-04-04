@@ -50,8 +50,8 @@ public class FSM<I, R> {
 	}
 	
 	static FSM<String, String> MyIndividualFSM = createMyIndividualFSM();
-	static FSM<String, String> MyIndividualFSM2 = createMyIndividualFSM2();//current eval doesnt work with numeric method names
-	public static FSM<String, String> getMyIndividualFSM(){return MyIndividualFSM2;}
+	//static FSM<String, String> MyIndividualFSM2 = createMyIndividualFSM2();//current eval doesnt work with numeric method names
+	public static FSM<String, String> getMyIndividualFSM(){return MyIndividualFSM;}
 	public static FSM<String, String> createMyIndividualFSM() {
 		FSM<String, String> fsm = new FSM<>();
 		
