@@ -32,7 +32,13 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 		}
 		initactiveDiabetes("simulator.model.entity.individuals.MyIndividual"){
 			  this.setAttribute("diabetes", false);
-			  file(resources/scenarios/obesidad/poly_rules.txt)
+			  /*file(resources/scenarios/obesidad/poly_rules.txt)*/
+			  tree(resources/others/tree.txt,NO,SI)
+			  let p = (static "simulator.RandomSingleton").nextFloat();
+			  if(p<(SI/(SI+NO))){
+					this.setAttribute("diabetes", true);
+					this.notifyEvent("diabetes");
+				}
 		}
 		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
 			let p = (static "simulator.RandomSingleton").nextGaussian();

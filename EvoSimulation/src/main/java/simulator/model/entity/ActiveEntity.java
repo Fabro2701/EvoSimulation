@@ -1,10 +1,6 @@
 package simulator.model.entity;
 
 
-
-import java.awt.Image;
-
-
 import simulator.control.Controller;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;

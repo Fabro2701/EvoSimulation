@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
@@ -17,41 +21,35 @@ import java.util.regex.Pattern;
  */
 public class TreeClassifierPreprocessing implements Preprocessing{
 	public static String apply(String input) {
-		StringBuilder out = new StringBuilder();
-		/*int i=0;
-				
-		Pattern p = Pattern.compile("file\\([^)]+\\)");
+		StringBuilder out = new StringBuilder(input);
+
+		Pattern p = Pattern.compile("tree\\([^)]+\\)");
 		Matcher m = p.matcher(input); 
 		while(m.find()) {
 			int ini = m.start();
 			int end = m.end();
 			
-			out.append(input.substring(i, ini));
-			i=end+1;
-			
-			String path = input.substring(ini+5, end-1);
-			String inFileText = StringfromFile(path);
-			
-			out.append(inFileText);
+			String header = m.group();
+			String headers[] = header.substring(5, header.length()-1).split(",");
+			String file = headers[0];
+
+			String clazzs[] = Arrays.copyOfRange(headers, 1, headers.length);
+			String tree = null;
+			try {
+				tree = new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			out.replace(ini, end, parseTree(tree, clazzs));
 	
 		}
-		out.append(input.substring(i, input.length()));*/
+		
 		return out.toString();
 	}
-	private static String StringfromFile(String path) {
-		StringBuilder sb = new StringBuilder();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))){
-			String aux = null;
-			while((aux = reader.readLine())!=null) {
-				sb.append(aux);
-				sb.append("\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sb.toString();
-	}
-	private static String parseTree(String text) {
+
+	private static String parseTree(String text, String[]clazzs) {
 		StringBuilder sb = new StringBuilder();
 		int sep=4;
 
@@ -82,7 +80,7 @@ public class TreeClassifierPreprocessing implements Preprocessing{
 		//rules.stream().forEach(s->System.out.println(s));
 
 		//vars
-		String[]clazzs = new String[] {"NO","SI"};
+		//String[]clazzs = new String[] {"NO","SI"};
 		sb.append("let ").append(clazzs[0]).append(" = 0;").append('\n');
 		sb.append("let ").append(clazzs[1]).append(" = 0;").append('\n').append('\n');
 		
@@ -100,9 +98,10 @@ public class TreeClassifierPreprocessing implements Preprocessing{
 				m.find();
 				String id = sts[i].substring(0,m.start());
 				if(!atts.contains(id)) {
-					String assign = translateAtt(id);
+					String cond = translateAtt(id);
 					atts.add(id);
-					sb.append("let ").append(id).append(" = ").append(assign).append(";").append('\n');
+					sb.append("let ").append(id).append(" = 0;\n");
+					sb.append("if(").append(cond).append(")").append(id).append(" = 1;\n");
 				}
 				
 			}
@@ -119,22 +118,24 @@ public class TreeClassifierPreprocessing implements Preprocessing{
 		}
 		sb.append('\n');
 		sb.append(ifsb.toString());
-		System.out.println(sb.toString());
+		//System.out.println(sb.toString());
 		return sb.toString();
 	}
 	public static String translateAtt(String id) {
 		if(id.contains("IMC")) {
 			String g = id.substring(5);
-			return "this.getAttribute(\"imc\").equals("+g+")?1:0;";
+			return "(this.getAttribute(\"imc\")).equals(\""+g+"\")";
 		}
 		else {
 			String p = id.substring(0, id.length()-3);
 			String b = id.substring(id.length()-2);
-			return "this.getPhenotype().getVariation(\""+p+"\").equals("+b+")?1:0;";
+			return "((this.getPhenotype()).getVariation(\""+p+"\")).equals(\""+b+"\")";
 		}
 	}
 	public static void main(String args[]) {
-		String s = StringfromFile("resources/others/tree.txt");
-		parseTree(s);
+		String text = "123tree(resources/others/tree.txt,NO,SI)123";
+		String r = TreeClassifierPreprocessing.apply(text);
+		System.out.println(r);
+
 	}
 }

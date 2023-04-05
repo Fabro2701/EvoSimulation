@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import setup.MainParser;
 import setup.preprocessing.TextFilePreprocessing;
 import setup.preprocessing.CommentPreprocessing;
+import setup.preprocessing.TreeClassifierPreprocessing;
 
 public class SetupController {
 	JSONObject program;
@@ -40,8 +41,9 @@ public class SetupController {
 			e.printStackTrace();
 		}
 		String text = sb.toString();
-		text = TextFilePreprocessing.apply(text);
 		text = CommentPreprocessing.apply(text);
+		text = TextFilePreprocessing.apply(text);
+		text = TreeClassifierPreprocessing.apply(text);
 		//System.out.println(text);
 		
 		MainParser parser = new MainParser();
