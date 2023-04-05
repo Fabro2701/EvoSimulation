@@ -12,7 +12,6 @@ import simulator.model.evaluation.ActionEvaluator;
 
 public class ActionsController extends ModuleController{
 	Map<String, Map<String, ActionI>>actions;
-	Map<String, Map<String, String>>codes;
 	public ActionsController() {
 		super();
 	}
@@ -24,7 +23,6 @@ public class ActionsController extends ModuleController{
 	@Override
 	protected void init() {
 		actions = new LinkedHashMap<>();
-		codes = new LinkedHashMap<>();
 	}
 	@Override
 	protected void parse(JSONObject declaration) {
@@ -46,7 +44,6 @@ public class ActionsController extends ModuleController{
 					codes.put(name, ac.getString("code"));
 				}
 				this.actions.put(id, inacts);
-				this.codes.put(id, codes);
 				//this.actions.computeIfAbsent(id, k -> new LinkedHashSet<ActionI>()).add((e,es,m)->{});
 			}
 		}catch(Exception e) {
@@ -58,8 +55,5 @@ public class ActionsController extends ModuleController{
 		return actions;
 	}
 
-	@Override
-	public String getCode(Object... id) {
-		return codes.get(id[0]).get(id[1]);
-	}
+	
 }

@@ -43,7 +43,7 @@ init := initactiveImc("simulator.model.entity.individuals.MyIndividual"){
 			
 			 
 	 	}.
-updates :=  update_diabetes("simulator.model.entity.individuals.MyIndividual"){
+updates :=  update_diabetes(2)("simulator.model.entity.individuals.MyIndividual"){
 			
 				let p = (static "simulator.RandomSingleton").nextFloat();
 				if(this.hasAttribute("diabetes")&&this.getAttribute("diabetes")){

@@ -16,7 +16,6 @@ import simulator.model.evaluation.ActionEvaluator;
 public class InitController extends ModuleController{
 	Map<String, Consumer<Entity>>statements;
 	Map<String, List<Class<?>>>rules;
-	Map<String, String>codes;
 	public InitController() {
 		super();
 	}
@@ -29,7 +28,6 @@ public class InitController extends ModuleController{
 	protected void init() {
 		statements = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
-		codes = new LinkedHashMap<>();
 	}
 	@Override
 	protected void parse(JSONObject declaration) {
@@ -47,7 +45,6 @@ public class InitController extends ModuleController{
 					rules.computeIfAbsent(name, c->new ArrayList<>()).add(Class.forName(clazz.getString("value")));
 				}
 				this.statements.put(name, (e) -> new ActionEvaluator(spec).evaluatePairs("this",e));
-				codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -64,9 +61,4 @@ public class InitController extends ModuleController{
 		return this.rules.get(id).contains(clazz);
 	}
 
-	@Override
-	public String getCode(Object... id) {
-		// TODO Auto-generated method stub
-		return codes.get(id[0]);
-	}
 }

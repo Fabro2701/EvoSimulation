@@ -16,10 +16,5 @@ public abstract class ModuleController {
 	}
 	protected abstract void init();
 	protected abstract void parse(JSONObject declaration);
-	/**
-	 * Returns the corresponding plain text
-	 * @param id
-	 * @return
-	 */
-	public abstract String getCode(Object...id);
+
 }

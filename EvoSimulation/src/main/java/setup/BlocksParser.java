@@ -37,8 +37,15 @@ public class BlocksParser extends OOPParser{
 
 	protected JSONObject InteractionDeclaration() {
 		String name = this._eat("IDENTIFIER").getString("value");
-		
+
 		this._eat("(");
+		int freq = 1;
+		if(this._lookahead.getString("type").equals("NUMBER")) {
+			freq = this._eat("NUMBER").getInt("value");
+			this._eat(")");
+			this._eat("(");
+		}
+		
 		JSONArray clazzs = new JSONArray();
 		while(this._lookahead != null && !this._lookahead.getString("type").equals(")") && !(this._lookahead.getString("type").equals(",") && this._eat(",")==null)) {
 			clazzs.put(this.StringLiteral());
@@ -46,17 +53,15 @@ public class BlocksParser extends OOPParser{
 		
 		this._eat(")");
 		
-		int c1 = this._tokenizer.get_cursor();
 		this._eat("{");
 		JSONArray spec = this.Especification();
-		int c2 = this._tokenizer.get_cursor();
-		String code = this._string.substring(c1+1,c2-1);
 		this._eat("}");
 		return new JSONObject().put("type", "declaration")
 				   			   .put("clazzs", clazzs)
 							   .put("spec", spec)
 							   .put("name", name)
-							   .put("code", code);
+							   .put("freq", freq)
+							   ;
 	}
 
 }

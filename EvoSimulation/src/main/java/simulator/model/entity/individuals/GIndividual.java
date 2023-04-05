@@ -57,7 +57,10 @@ public abstract class GIndividual extends AbstractIndividual{
 		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 		
 		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
+		java.util.Map<String, Integer> freqs = updates.getUpdatesFreq();
+		
 		for(String id:updates_l.keySet()) {
+			if(evoSimulator.getTime()%freqs.get(id)!=0)continue;
 			try {
 				if(updates.match(id, this.getClass())) {
 					if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);

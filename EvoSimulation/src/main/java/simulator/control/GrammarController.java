@@ -52,9 +52,5 @@ public class GrammarController extends ModuleController{
 	public int getTime(String id) {
 		return this.times.get(id);
 	}
-	@Override
-	public String getCode(Object... id) {
-		System.out.println("unimplented GrammarController");
-		return null;
-	}
+
 }

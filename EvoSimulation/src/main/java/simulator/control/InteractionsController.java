@@ -17,7 +17,6 @@ import util.Pair;
 public class InteractionsController extends ModuleController{
 	Map<String, InteractionI>interactions;
 	Map<String, Pair<List<Class<?>>,List<Class<?>>>>rules;
-	Map<String, String>codes;
 
 	public InteractionsController() {
 		super();
@@ -30,7 +29,6 @@ public class InteractionsController extends ModuleController{
 	protected void init() {
 		interactions = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
-		codes = new LinkedHashMap<>();
 	}
 	@Override
 	protected void parse(JSONObject declaration) {
@@ -53,7 +51,6 @@ public class InteractionsController extends ModuleController{
 				}
 				
 				this.interactions.put(name, (e1,e2,m,time) -> new ActionEvaluator(spec).evaluatePairs("this", e1, "e2", e2, "m", m, "time", time));
-				this.codes.put(name, actso.getString("code"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -70,9 +67,5 @@ public class InteractionsController extends ModuleController{
 		Pair<List<Class<?>>,List<Class<?>>>pair = this.rules.get(id);
 		return pair.first.contains(clazzFrom) && pair.second.contains(clazzTo);
 	}
-	@Override
-	public String getCode(Object... id) {
-		// TODO Auto-generated method stub
-		return codes.get(id[0]);
-	}
+
 }
