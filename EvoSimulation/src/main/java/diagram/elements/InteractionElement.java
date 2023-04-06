@@ -224,12 +224,14 @@ public class InteractionElement extends Element {
 		PendingElement pe = new PendingElement(this.getShape().leftPoint());
 		pe.setFather(this);
 		pe.setF((Element father, Element connection)->((InteractionElement)father).setFrom(connection));
+		pe.setFilter(e -> e instanceof EntityElement || e instanceof GroupElement);
 		return pe;
 	}
 	public PendingElement createPendingToChild() {
 		PendingElement pe = new PendingElement(this.getShape().rightPoint());
 		pe.setFather(this);
 		pe.setF((Element father, Element connection)->((InteractionElement)father).setTo(connection));
+		pe.setFilter(e -> e instanceof EntityElement || e instanceof GroupElement);
 		return pe;
 	}
 

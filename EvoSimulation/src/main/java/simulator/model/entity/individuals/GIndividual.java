@@ -108,15 +108,15 @@ public abstract class GIndividual extends AbstractIndividual{
 		String e2id = e2.getId();
 		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
 		java.util.Map<String, Integer> interactionsFreq = interactions.getInteractionsFreq();
-		for(String id:interactions_l.keySet()) {
-			if(interactions.match(id, this.getClass(), e2.getClass())) {
-				java.util.Map<String, Integer> intMap = this.interactionsMap.get(id);
+		for(String intid:interactions_l.keySet()) {
+			if(interactions.match(intid, this.getClass(), e2.getClass())) {
+				java.util.Map<String, Integer> intMap = this.interactionsMap.get(intid);
 				if(intMap.containsKey(e2id)){
-					if((time-intMap.get(e2id))%interactionsFreq.get(id)!=0) {
+					if((time-intMap.get(e2id))%interactionsFreq.get(intid)!=0) {
 						continue;
 					}
 				}
-				interactions_l.get(id).perform(this, e2, ctrl.getMap(), time);
+				interactions_l.get(intid).perform(this, e2, ctrl.getMap(), time);
 				intMap.put(e2id, time);
 			}
 		}

@@ -118,6 +118,7 @@ public class GroupElement extends Element {
 		PendingElement pe = new PendingElement(this.getShape().leftPoint());
 		pe.setFather(this);
 		pe.setF((Element father, Element connection)->((GroupElement)father).setFather(connection));
+		pe.setFilter(e -> e instanceof EntityElement);
 		return pe;
 	}
 	@Override

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import diagram.elements.EntityElement.EntityShape;
 public class PendingElement extends Element {
 	Element father;
 	BiConsumer<Element,Element>f;
-	//Predicate filter //to filter elemnt to be connected
+	Predicate<Element>filter;
 	Point connection;
 
 	public PendingElement(Point point) {
@@ -31,6 +32,7 @@ public class PendingElement extends Element {
 		return "pending";
 	}
 	public void connect(Element e) {
+		//if(filter.test(e))
 		f.accept(father, e);
 		//this.setConnection(e.getPos());
 	}
@@ -105,6 +107,14 @@ public class PendingElement extends Element {
 
 	public void setFather(Element father) {
 		this.father = father;
+	}
+
+	public Predicate<Element> getFilter() {
+		return filter;
+	}
+
+	public void setFilter(Predicate<Element> filter) {
+		this.filter = filter;
 	}
 
 	@Override

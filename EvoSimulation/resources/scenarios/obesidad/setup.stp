@@ -169,7 +169,7 @@ interactions := imcInteraction(2)("simulator.model.entity.individuals.MyIndividu
 					
 					
 				}
-				rep("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+				rep(100)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 					let p = (static "simulator.RandomSingleton").nextDouble();
 					
 					if(p<=0.001)this.reproduce(e2);

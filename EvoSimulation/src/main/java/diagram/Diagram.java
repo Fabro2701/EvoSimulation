@@ -224,9 +224,12 @@ public class Diagram extends JPanel {
 				for (Element e : elements) {
 					Element s = null;
 					if ((s = e.contains(ev.getPoint())) != null) {
-						((PendingElement) currentElement).connect(s);
-						found = true;
-						break;
+						if(((PendingElement) currentElement).getFilter().test(s)) {
+							((PendingElement) currentElement).connect(s);
+							found = true;
+							break;
+						}
+						
 					}
 				}
 				if (!found)
