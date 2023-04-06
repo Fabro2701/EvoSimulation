@@ -143,7 +143,7 @@ updates :=  update_diabetes(2)("simulator.model.entity.individuals.MyIndividual"
 actions := <action> NOTHING{
 		   					;
 		   				   }.  
-interactions := imcInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+interactions := imcInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 					if(this.hasAttribute("rest")&&this.getAttribute("rest")>0&&
 					   e2.hasAttribute("rest")&&e2.getAttribute("rest")>0){
 						let imc1 = this.getAttribute("imc");

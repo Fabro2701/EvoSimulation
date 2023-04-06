@@ -3,18 +3,18 @@ package simulator.model.entity.individuals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import simulator.control.Controller;
-import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
@@ -34,9 +34,13 @@ public abstract class GIndividual extends AbstractIndividual{
 	
 	private int count = 0;
 	
+	private java.util.Map<String, java.util.Map<String,Integer>>interactionsMap;
+	
 	public GIndividual(String id, Node n, Controller ctrl) {
 		super(id, n, ctrl);
 		observationManager = new ObservationManager(this);
+		interactionsMap = new HashMap<>();
+		this.interactions.getInteractions().keySet().stream().forEach(i->interactionsMap.put(i, new HashMap<>()));
 	}
 	@Override
 	protected void init() {
@@ -100,10 +104,20 @@ public abstract class GIndividual extends AbstractIndividual{
 	}
 	@Override
 	public void myInteract(Entity e2) {
+		int time = ctrl.getSimulator().getTime();
+		String e2id = e2.getId();
 		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
+		java.util.Map<String, Integer> interactionsFreq = interactions.getInteractionsFreq();
 		for(String id:interactions_l.keySet()) {
 			if(interactions.match(id, this.getClass(), e2.getClass())) {
-				interactions_l.get(id).perform(this, e2, ctrl.getMap(), ctrl.getSimulator().getTime());
+				java.util.Map<String, Integer> intMap = this.interactionsMap.get(id);
+				if(intMap.containsKey(e2id)){
+					if((time-intMap.get(e2id))%interactionsFreq.get(id)!=0) {
+						continue;
+					}
+				}
+				interactions_l.get(id).perform(this, e2, ctrl.getMap(), time);
+				intMap.put(e2id, time);
 			}
 		}
 	}

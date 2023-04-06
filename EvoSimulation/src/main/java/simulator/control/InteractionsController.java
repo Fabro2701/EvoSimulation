@@ -16,6 +16,7 @@ import util.Pair;
 
 public class InteractionsController extends ModuleController{
 	Map<String, InteractionI>interactions;
+	Map<String, Integer>interactionsFreq;
 	Map<String, Pair<List<Class<?>>,List<Class<?>>>>rules;
 
 	public InteractionsController() {
@@ -28,6 +29,7 @@ public class InteractionsController extends ModuleController{
 	@Override
 	protected void init() {
 		interactions = new LinkedHashMap<>();
+		interactionsFreq = new LinkedHashMap<>();
 		rules = new LinkedHashMap<>();
 	}
 	@Override
@@ -51,6 +53,7 @@ public class InteractionsController extends ModuleController{
 				}
 				
 				this.interactions.put(name, (e1,e2,m,time) -> new ActionEvaluator(spec).evaluatePairs("this", e1, "e2", e2, "m", m, "time", time));
+				this.interactionsFreq.put(name, actso.getInt("freq"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -62,6 +65,9 @@ public class InteractionsController extends ModuleController{
 	}
 	public Map<String, InteractionI> getInteractions() {
 		return interactions;
+	}
+	public Map<String, Integer> getInteractionsFreq() {
+		return interactionsFreq;
 	}
 	public boolean match(String id, Class<?>clazzFrom, Class<?>clazzTo) {
 		Pair<List<Class<?>>,List<Class<?>>>pair = this.rules.get(id);
