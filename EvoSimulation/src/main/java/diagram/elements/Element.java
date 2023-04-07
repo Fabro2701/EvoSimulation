@@ -24,7 +24,6 @@ import diagram.Pair;
 import setup.gui.block.BlockConstructionLauncher;
 
 public abstract class Element implements Cloneable{
-	public static String directory = "scenarios/obesidad/";
 	protected Point pos;
 	protected Diagram diagram;
 	protected Shape shape;

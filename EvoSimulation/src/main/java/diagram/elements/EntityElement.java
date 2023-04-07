@@ -184,6 +184,7 @@ public class EntityElement extends Element {
 		EntityElement e = new EntityElement(this.pos);
 		e.setClazz(this.clazz);
 		e.setPos(pos);
+		e.setDiagram(diagram);
 		return e;
 	}
 

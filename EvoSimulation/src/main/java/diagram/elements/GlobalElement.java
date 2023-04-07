@@ -146,6 +146,7 @@ public class GlobalElement extends Element {
 		GlobalElement e = new GlobalElement(this.pos);
 		e.setId(id);
 		e.setPos(pos);
+		e.setDiagram(diagram);
 		return e;
 	}
 

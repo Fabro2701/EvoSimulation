@@ -90,6 +90,7 @@ public class PendingElement extends Element {
 		e.setConnection(connection);
 		e.setFather(father);
 		e.setPos(new Point(pos));
+		e.setDiagram(diagram);
 		return e;
 	}
 

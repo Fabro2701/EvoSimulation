@@ -156,6 +156,7 @@ public class GroupElement extends Element {
 		e.setValue(value);
 		e.setFather(e.createPendingChild());
 		e.setPos(pos);
+		e.setDiagram(diagram);
 		return e;
 	}
 

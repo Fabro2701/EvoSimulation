@@ -1,306 +1,34 @@
 [
     {
         "pos": {
-            "x": 104,
-            "y": 34
-        },
-        "blocks": [{
-            "init": "INIT_DEF",
-            "filename": "resources/skeletons/updates.sklt",
-            "inputs": [
-                {
-                    "pos": 1,
-                    "text": "initactiveImc"
-                },
-                {
-                    "pos": 2,
-                    "text": "let fsm = (static \"simulator.control.fsm.FSM\").getMyIndividualFSM();\nthis.setAttribute(\"state\",fsm.getCurrent());\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\nif(p<=O0){\nthis.setAttribute(\"imc\",\"O\");\n}\nelse if(p<=S0+O0){\nthis.setAttribute(\"imc\",\"S\");\n}\nelse{\nthis.setAttribute(\"imc\",\"N\");\n}"
-                }
-            ],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Init def",
-                            "type": "StrBlock"
-                        },
-                        "right": [{
-                            "blocks": [{
-                                "text": "initactiveImc",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "NAME",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "text": "let fsm = (static \"simulator.control.fsm.FSM\").getMyIndividualFSM();\nthis.setAttribute(\"state\",fsm.getCurrent());\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\nif(p<=O0){\nthis.setAttribute(\"imc\",\"O\");\n}\nelse if(p<=S0+O0){\nthis.setAttribute(\"imc\",\"S\");\n}\nelse{\nthis.setAttribute(\"imc\",\"N\");\n}",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "CODE",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "INIT_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 454,
-                "y": 284
-            }
-        }],
-        "type": "Entity",
-        "clazz": "simulator.model.entity.individuals.MyIndividual",
-        "managers": [{
-            "init": "INIT_DEF",
-            "filename": "resources/skeletons/updates.sklt",
-            "inputs": [
-                {
-                    "pos": 1,
-                    "text": "initactiveImc"
-                },
-                {
-                    "pos": 2,
-                    "text": "let fsm = (static \"simulator.control.fsm.FSM\").getMyIndividualFSM();\nthis.setAttribute(\"state\",fsm.getCurrent());\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\nif(p<=O0){\nthis.setAttribute(\"imc\",\"O\");\n}\nelse if(p<=S0+O0){\nthis.setAttribute(\"imc\",\"S\");\n}\nelse{\nthis.setAttribute(\"imc\",\"N\");\n}"
-                }
-            ],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Init def",
-                            "type": "StrBlock"
-                        },
-                        "right": [{
-                            "blocks": [{
-                                "text": "initactiveImc",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "NAME",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "text": "let fsm = (static \"simulator.control.fsm.FSM\").getMyIndividualFSM();\nthis.setAttribute(\"state\",fsm.getCurrent());\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\nif(p<=O0){\nthis.setAttribute(\"imc\",\"O\");\n}\nelse if(p<=S0+O0){\nthis.setAttribute(\"imc\",\"S\");\n}\nelse{\nthis.setAttribute(\"imc\",\"N\");\n}",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "CODE",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "INIT_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 454,
-                "y": 284
-            }
-        }]
-    },
-    {
-        "pos": {
-            "x": 374,
-            "y": 33
+            "x": 140,
+            "y": 73
         },
         "blocks": [],
         "type": "Entity",
-        "clazz": "simulator.model.entity.PasiveEntity",
+        "clazz": "diagram.elements.EntityElement",
         "managers": []
     },
     {
-        "att": "imc",
         "pos": {
-            "x": 197,
-            "y": 141
+            "x": 386,
+            "y": 117
         },
         "blocks": [],
-        "father": "MyIndividual",
-        "type": "Group",
-        "value": "O",
+        "type": "Entity",
+        "clazz": "diagram.elements.EntityElement",
         "managers": []
     },
     {
-        "att": "info",
         "pos": {
-            "x": 461,
-            "y": 139
-        },
-        "blocks": [{
-            "init": "UPDATE_DEF",
-            "filename": "resources/skeletons/updates.sklt",
-            "inputs": [{
-                "pos": 1,
-                "text": "superUpdate"
-            }],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Update def",
-                            "type": "StrBlock"
-                        },
-                        "right": [{
-                            "blocks": [{
-                                "text": "superUpdate",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "NAME",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "text": "code",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "CODE",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "UPDATE_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 588,
-                "y": 149
-            }
-        }],
-        "father": "PasiveEntity",
-        "type": "Group",
-        "value": "supermarket",
-        "managers": [{
-            "init": "UPDATE_DEF",
-            "filename": "resources/skeletons/updates.sklt",
-            "inputs": [{
-                "pos": 1,
-                "text": "superUpdate"
-            }],
-            "root": {
-                "blocks": [
-                    {
-                        "name": {
-                            "text": "Update def",
-                            "type": "StrBlock"
-                        },
-                        "right": [{
-                            "blocks": [{
-                                "text": "superUpdate",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "NAME",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "HeaderBlock"
-                    },
-                    {
-                        "children": [{
-                            "blocks": [{
-                                "text": "code",
-                                "type": "InputBlock"
-                            }],
-                            "rule": "CODE",
-                            "type": "RecursiveBlock"
-                        }],
-                        "type": "ChildrenBlock"
-                    },
-                    {"type": "FloorBlock"}
-                ],
-                "rule": "UPDATE_DEF",
-                "type": "RecursiveBlock"
-            },
-            "decisions": [
-                0,
-                0,
-                0
-            ],
-            "complete": true,
-            "base": {
-                "x": 588,
-                "y": 149
-            }
-        }]
-    },
-    {
-        "att": "imc",
-        "pos": {
-            "x": 197,
-            "y": 249
+            "x": 269,
+            "y": 112
         },
         "blocks": [],
-        "father": "MyIndividual",
-        "type": "Group",
-        "value": "S",
-        "managers": []
-    },
-    {
-        "att": "imc",
-        "pos": {
-            "x": 193,
-            "y": 355
-        },
-        "blocks": [],
-        "father": "MyIndividual",
-        "type": "Group",
-        "value": "N",
-        "managers": []
-    },
-    {
-        "att": "info",
-        "pos": {
-            "x": 457,
-            "y": 231
-        },
-        "blocks": [],
-        "father": "PasiveEntity",
-        "type": "Group",
-        "value": "bar",
-        "managers": []
-    },
-    {
-        "att": "info",
-        "pos": {
-            "x": 454,
-            "y": 322
-        },
-        "blocks": [],
-        "father": "PasiveEntity",
-        "type": "Group",
-        "value": "restaurant",
+        "from": "EntityElement",
+        "id": "int",
+        "to": "EntityElement",
+        "type": "Interaction",
         "managers": []
     }
 ]

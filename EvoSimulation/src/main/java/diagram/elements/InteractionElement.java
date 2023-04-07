@@ -218,6 +218,7 @@ public class InteractionElement extends Element {
 		e.setTo(e.createPendingToChild());
 		
 		e.setPos(new Point(pos));
+		e.setDiagram(diagram);
 		return e;
 	}
 	public PendingElement createPendingFromChild() {
