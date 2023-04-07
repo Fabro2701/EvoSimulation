@@ -16,6 +16,9 @@ public class InteractionsTranslation {
 
 		sb.append(id);
 		
+		String freq = ob.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(1).getJSONArray("blocks").getJSONObject(0).getString("text");
+		sb.append("(").append(freq).append(")");
+		
 		GroupElement fromE = null;
 		String from = null;
 		boolean fromb = false;

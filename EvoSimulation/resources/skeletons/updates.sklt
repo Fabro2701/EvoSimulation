@@ -1,5 +1,5 @@
 <UPDATE_DEF> :- [
- 		   Header(name=Str(text="Update def"),right=<NAME>),
+ 		   Header(name=Str(text="Update def"),right=<NAME>,right=Str(text="freq:"),right=<NUM>),
  		   Children(e=<CODE>),
  		   Floor()
 		  ].
@@ -18,4 +18,5 @@
 <GROUP_DIS>:-[Children(e=<GD>,e=<GROUP_DIS>)],
 			 [Children(e=<GD>), Floor()].
 <GD> :- [Inner(names=<NAME>,names=<NUM>)].
-<NUM> :- [Input(text="0")].
+<NUM> :- [Input(text="num")],
+		 [Input(text="1")].

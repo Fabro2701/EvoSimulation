@@ -13,6 +13,13 @@ public class UpdatesTranslation {
 		String body = cjo.getString("text");
 		StringBuilder sb = new StringBuilder();
 		sb.append(id);
+		
+		if(ob.getString("rule").equals("UPDATE_DEF")) {
+			String freq = ob.getJSONArray("blocks").getJSONObject(0).getJSONArray("right").getJSONObject(2).getJSONArray("blocks").getJSONObject(0).getString("text");
+			sb.append("(").append(freq).append(")");
+		}
+		
+		
 		String c = null;
 		boolean g = false;
 		GroupElement ge = null;
