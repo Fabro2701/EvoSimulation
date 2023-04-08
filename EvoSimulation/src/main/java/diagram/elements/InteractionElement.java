@@ -1,6 +1,7 @@
 package diagram.elements;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -86,6 +87,7 @@ public class InteractionElement extends Element {
 		g2.drawString(id, 
 				pos.x-g2.getFontMetrics().stringWidth(id)/2, 
 				pos.y);
+
 		if(from instanceof PendingElement) {
 			from.draw(g2);
 		}

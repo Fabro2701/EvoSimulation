@@ -1,5 +1,6 @@
 package setup.gui.block;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -19,20 +20,20 @@ public class BlockConstructionLauncher extends JPanel{
 		this.setPreferredSize(dim);
 		this.setMaximumSize(dim);
 		
-		this.setLayout(new FlowLayout());
+		this.setLayout(new BorderLayout());
 
 	
 		JScrollPane scroll = new JScrollPane();
 		scroll.setPreferredSize(new Dimension(800,800));
 		editor = new BlockEditor(new Dimension(1500,800));
 		scroll.setViewportView(editor);
-		this.add(scroll);
+		this.add(scroll, BorderLayout.CENTER);
 
 		JScrollPane scroll2 = new JScrollPane();
 		scroll2.setPreferredSize(new Dimension(300,800));
 		BlockSelector selector = new BlockSelector(new Dimension(500,800), editor, filename);
 		scroll2.setViewportView(selector);
-		this.add(scroll2);
+		this.add(scroll2, BorderLayout.LINE_END);
 
 
 	}

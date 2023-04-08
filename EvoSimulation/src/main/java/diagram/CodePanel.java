@@ -41,7 +41,8 @@ public class CodePanel extends JTextPane{
 	
 		 styles = new ArrayList<>();
 		 styles.add(new CodeStyle("[\\s]if\\(","if",redStyle));
-		 styles.add(new CodeStyle("this|let|new",redStyle));
+		 styles.add(new CodeStyle("[\\s]else\\{","else",redStyle));
+		 styles.add(new CodeStyle("this|let|new|e2|map",redStyle));
 	
 		 styles.add(new CodeStyle("\"[^\"]*\"",blueStyle));
 		 styles.add(new CodeStyle("(global|init|updates|interactions) :=",greenStyle));

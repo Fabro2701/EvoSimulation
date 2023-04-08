@@ -1,0 +1,720 @@
+[
+    {
+        "pos": {
+            "x": 69,
+            "y": 51
+        },
+        "blocks": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [
+                {
+                    "pos": 2,
+                    "text": "1"
+                },
+                {
+                    "pos": 1,
+                    "text": "ageUpdate"
+                },
+                {
+                    "pos": 3,
+                    "text": "let age = this.getAttribute(\"age\");\nif(age>maxAge){\nthis.dispose();\n}\nelse{\nthis.setAttribute(\"age\", age+1);\n}\n"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "blocks": [{
+                                    "text": "ageUpdate",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            },
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let age = this.getAttribute(\"age\");\nif(age>maxAge){\nthis.dispose();\n}\nelse{\nthis.setAttribute(\"age\", age+1);\n}\n",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 354,
+                "y": 269
+            }
+        }],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.ActiveEntity",
+        "managers": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [
+                {
+                    "pos": 2,
+                    "text": "1"
+                },
+                {
+                    "pos": 1,
+                    "text": "ageUpdate"
+                },
+                {
+                    "pos": 3,
+                    "text": "let age = this.getAttribute(\"age\");\nif(age>maxAge){\nthis.dispose();\n}\nelse{\nthis.setAttribute(\"age\", age+1);\n}\n"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "blocks": [{
+                                    "text": "ageUpdate",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            },
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let age = this.getAttribute(\"age\");\nif(age>maxAge){\nthis.dispose();\n}\nelse{\nthis.setAttribute(\"age\", age+1);\n}\n",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 354,
+                "y": 269
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 374,
+            "y": 54
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.PasiveEntity",
+        "managers": []
+    },
+    {
+        "att": "type",
+        "pos": {
+            "x": 150,
+            "y": 122
+        },
+        "blocks": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "chaseUpdt"
+                },
+                {
+                    "pos": 3,
+                    "text": "let nnode = map.nextNodeTo(find(\"type\",\"prey\"));\nthis.setNode(nnode);"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "blocks": [{
+                                    "text": "chaseUpdt",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            },
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let nnode = map.nextNodeTo(find(\"type\",\"prey\"));\nthis.setNode(nnode);",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                1,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 408,
+                "y": 341
+            }
+        }],
+        "father": "ActiveEntity",
+        "type": "Group",
+        "value": "predator",
+        "managers": [{
+            "init": "UPDATE_DEF",
+            "filename": "resources/skeletons/updates.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "chaseUpdt"
+                },
+                {
+                    "pos": 3,
+                    "text": "let nnode = map.nextNodeTo(find(\"type\",\"prey\"));\nthis.setNode(nnode);"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Update def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "blocks": [{
+                                    "text": "chaseUpdt",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            },
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let nnode = map.nextNodeTo(find(\"type\",\"prey\"));\nthis.setNode(nnode);",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "UPDATE_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                1,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 408,
+                "y": 341
+            }
+        }]
+    },
+    {
+        "att": "type",
+        "pos": {
+            "x": 143,
+            "y": 298
+        },
+        "blocks": [],
+        "father": "ActiveEntity",
+        "type": "Group",
+        "value": "prey",
+        "managers": []
+    },
+    {
+        "att": "att",
+        "pos": {
+            "x": 431,
+            "y": 128
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "lake",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 204,
+            "y": 173
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "50"
+                },
+                {
+                    "pos": 2,
+                    "text": "let p = (static \"simulator.RandomSingleton\").nextDouble();\nif(p<killProb && !e2.getAttribute(\"safe\")){\ne2.dispose();\n}"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "50",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let p = (static \"simulator.RandomSingleton\").nextDouble();\nif(p<killProb && !e2.getAttribute(\"safe\")){\ne2.dispose();\n}",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 415,
+                "y": 192
+            }
+        }],
+        "from": "typepredatorActiveEntity",
+        "id": "eatInteraction",
+        "to": "typepreyActiveEntity",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "50"
+                },
+                {
+                    "pos": 2,
+                    "text": "let p = (static \"simulator.RandomSingleton\").nextDouble();\nif(p<killProb && !e2.getAttribute(\"safe\")){\ne2.dispose();\n}"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "50",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let p = (static \"simulator.RandomSingleton\").nextDouble();\nif(p<killProb && !e2.getAttribute(\"safe\")){\ne2.dispose();\n}",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 415,
+                "y": 192
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 341,
+            "y": 228
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "this.setAttribute(\"safe\",true);"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "this.setAttribute(\"safe\",true);",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 445,
+                "y": 224
+            }
+        }],
+        "from": "typepreyActiveEntity",
+        "id": "safeInteraction",
+        "to": "attlakePasiveEntity",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "this.setAttribute(\"safe\",true);\n"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "this.setAttribute(\"safe\",true);\n",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 445,
+                "y": 224
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 581,
+            "y": 46
+        },
+        "blocks": [{
+            "init": "GLOBAL_DEF",
+            "filename": "resources/skeletons/global.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let killProb = 0.01;\nlet maxAge = 500;"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Global variables def",
+                            "type": "StrBlock"
+                        },
+                        "right": [],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "names": [{
+                                    "blocks": [{
+                                        "text": "let killProb = 0.01;\nlet maxAge = 500;",
+                                        "type": "InputBlock"
+                                    }],
+                                    "rule": "CODE",
+                                    "type": "RecursiveBlock"
+                                }],
+                                "type": "InnerBlock"
+                            }],
+                            "rule": "DECLARATION",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "GLOBAL_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 392,
+                "y": 295
+            }
+        }],
+        "id": "constAtts",
+        "type": "Global",
+        "managers": [{
+            "init": "GLOBAL_DEF",
+            "filename": "resources/skeletons/global.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let killProb = 0.01;\nlet maxAge = 500;"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Global variables def",
+                            "type": "StrBlock"
+                        },
+                        "right": [],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "names": [{
+                                    "blocks": [{
+                                        "text": "let killProb = 0.01;\nlet maxAge = 500;",
+                                        "type": "InputBlock"
+                                    }],
+                                    "rule": "CODE",
+                                    "type": "RecursiveBlock"
+                                }],
+                                "type": "InnerBlock"
+                            }],
+                            "rule": "DECLARATION",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "GLOBAL_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 392,
+                "y": 295
+            }
+        }]
+    }
+]

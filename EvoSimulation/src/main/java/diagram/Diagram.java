@@ -4,11 +4,10 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
@@ -83,7 +82,8 @@ public class Diagram extends JPanel {
 		g2.setColor(new Color(240, 240, 240));
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2.setColor(Color.black);
-		g2.setStroke(new BasicStroke(3));
+		g2.setFont(new Font("TimesRoman", Font.BOLD, 15)); 
+		//g2.setStroke(new BasicStroke(3));
 		for (Element e : elements) {
 			e.draw(g2);
 			for (PendingElement pe : e.getPendingElements()) {
@@ -405,7 +405,7 @@ public class Diagram extends JPanel {
 			JButton b = new JButton("save");
 			b.addActionListener((a) -> d.save("resources/diagram/elements.json"));
 			JButton b2 = new JButton("load");
-			b2.addActionListener((a) -> d.load("resources/diagram/elements.json"));
+			b2.addActionListener((a) -> d.load("resources/diagram/prey.json"));
 			bpanel.add(b2);
 			bpanel.add(b);
 
