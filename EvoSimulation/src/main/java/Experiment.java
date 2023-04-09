@@ -108,14 +108,16 @@ public class Experiment {
 		else Entity.groupF = e->"";
 		
 		//simulator optimizer
-		//simulator.setOptimizer(new DensityOptimizer(simulator,8));
 		simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
-		/*if(this.optimizer == OPTIMIZER.BASIC) {
+		if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
 		}
 		else if(this.optimizer == OPTIMIZER.UNIFORM_GRID) {
 			simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
-		}*/
+		}
+		else if(this.optimizer == OPTIMIZER.DENSITY) {
+			simulator.setOptimizer(new DensityOptimizer(simulator,8));
+		}
 		
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
@@ -241,7 +243,7 @@ public class Experiment {
 		BASIC,OPTIMIZED;
 	}
 	public enum OPTIMIZER{
-		BASIC,UNIFORM_GRID;
+		BASIC,UNIFORM_GRID,DENSITY;
 	}
 	private Experiment(Builder builder) {
 		this.visualization = builder.visualization;
