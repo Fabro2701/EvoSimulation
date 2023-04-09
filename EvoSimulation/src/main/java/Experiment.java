@@ -108,7 +108,8 @@ public class Experiment {
 		else Entity.groupF = e->"";
 		
 		//simulator optimizer
-		simulator.setOptimizer(new DensityOptimizer(simulator));
+		//simulator.setOptimizer(new DensityOptimizer(simulator,8));
+		simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
 		/*if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
 		}

@@ -1,0 +1,202 @@
+[
+    {
+        "x": 428,
+        "y": 463,
+        "type": "supermarket"
+    },
+    {
+        "x": 312,
+        "y": 534,
+        "type": "supermarket"
+    },
+    {
+        "x": 167,
+        "y": 611,
+        "type": "supermarket"
+    },
+    {
+        "x": 310,
+        "y": 643,
+        "type": "supermarket"
+    },
+    {
+        "x": 254,
+        "y": 688,
+        "type": "supermarket"
+    },
+    {
+        "x": 440,
+        "y": 616,
+        "type": "supermarket"
+    },
+    {
+        "x": 475,
+        "y": 531,
+        "type": "supermarket"
+    },
+    {
+        "x": 517,
+        "y": 626,
+        "type": "supermarket"
+    },
+    {
+        "x": 461,
+        "y": 675,
+        "type": "supermarket"
+    },
+    {
+        "x": 536,
+        "y": 519,
+        "type": "supermarket"
+    },
+    {
+        "x": 585,
+        "y": 540,
+        "type": "supermarket"
+    },
+    {
+        "x": 597,
+        "y": 654,
+        "type": "bar"
+    },
+    {
+        "x": 510,
+        "y": 705,
+        "type": "bar"
+    },
+    {
+        "x": 489,
+        "y": 778,
+        "type": "bar"
+    },
+    {
+        "x": 554,
+        "y": 759,
+        "type": "bar"
+    },
+    {
+        "x": 562,
+        "y": 699,
+        "type": "bar"
+    },
+    {
+        "x": 626,
+        "y": 725,
+        "type": "bar"
+    },
+    {
+        "x": 603,
+        "y": 789,
+        "type": "bar"
+    },
+    {
+        "x": 676,
+        "y": 683,
+        "type": "bar"
+    },
+    {
+        "x": 736,
+        "y": 756,
+        "type": "restaurant"
+    },
+    {
+        "x": 719,
+        "y": 815,
+        "type": "restaurant"
+    },
+    {
+        "x": 784,
+        "y": 735,
+        "type": "restaurant"
+    },
+    {
+        "x": 774,
+        "y": 834,
+        "type": "restaurant"
+    },
+    {
+        "x": 766,
+        "y": 787,
+        "type": "restaurant"
+    },
+    {
+        "x": 546,
+        "y": 843,
+        "type": "restaurant"
+    },
+    {
+        "x": 64,
+        "y": 306,
+        "type": "house"
+    },
+    {
+        "x": 43,
+        "y": 418,
+        "type": "house"
+    },
+    {
+        "x": 107,
+        "y": 367,
+        "type": "house"
+    },
+    {
+        "x": 156,
+        "y": 467,
+        "type": "house"
+    },
+    {
+        "x": 41,
+        "y": 493,
+        "type": "house"
+    },
+    {
+        "x": 88,
+        "y": 453,
+        "type": "house"
+    },
+    {
+        "x": 116,
+        "y": 529,
+        "type": "house"
+    },
+    {
+        "x": 181,
+        "y": 385,
+        "type": "house"
+    },
+    {
+        "x": 164,
+        "y": 309,
+        "type": "house"
+    },
+    {
+        "x": 232,
+        "y": 434,
+        "type": "house"
+    },
+    {
+        "x": 206,
+        "y": 526,
+        "type": "house"
+    },
+    {
+        "x": 253,
+        "y": 531,
+        "type": "house"
+    },
+    {
+        "x": 365,
+        "y": 504,
+        "type": "house"
+    },
+    {
+        "x": 308,
+        "y": 418,
+        "type": "house"
+    },
+    {
+        "x": 283,
+        "y": 337,
+        "type": "house"
+    }
+]

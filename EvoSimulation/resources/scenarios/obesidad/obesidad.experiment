@@ -1,4 +1,4 @@
-map = resources/maps/toledo2
+map = resources/maps/centered
 setup = resources/scenarios/obesidad/setup.stp
 visualization = BASIC
 optimizer = UNIFORM_GRID
