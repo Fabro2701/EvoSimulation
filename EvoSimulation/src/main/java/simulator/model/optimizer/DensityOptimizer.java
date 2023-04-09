@@ -42,11 +42,13 @@ public class DensityOptimizer implements Optimizer {
 	private class Grid{
 		List<Entity>inEntities;
 		int minx,miny,maxx,maxy;
+		Entry<Centroid, List<Entity>>cluster;
 		public Grid() {
 			inEntities = new ArrayList<Entity>();
 		}
 		public void assignCluster(Entry<Centroid, List<Entity>>cluster) {
-			List<Entity> es = cluster.getValue();
+			this.cluster = cluster;
+			/*List<Entity> es = cluster.getValue();
 			if(es.isEmpty()) {
 				maxx = 0;
 				maxy = 0;
@@ -58,6 +60,7 @@ public class DensityOptimizer implements Optimizer {
 			maxy = es.stream().max((Entity e1,Entity e2)->Integer.compare(e1.node.y, e2.node.y)).get().node.y;
 			minx = es.stream().min((Entity e1,Entity e2)->Integer.compare(e1.node.x, e2.node.x)).get().node.x;
 			miny = es.stream().min((Entity e1,Entity e2)->Integer.compare(e1.node.y, e2.node.y)).get().node.y;
+			*/
 		}
 		public boolean contains(Node node) {
 			int x = node.x, y = node.y;
@@ -120,7 +123,7 @@ public class DensityOptimizer implements Optimizer {
 		}
 	}
 	private void _assignGrids(List<Entity> entities) {
-		for(Entity e:entities) {
+		/*for(Entity e:entities) {
 			boolean assigned = false;
 			for(Grid g:grids) {
 				if(g.contains(e.node)) {
@@ -130,6 +133,20 @@ public class DensityOptimizer implements Optimizer {
 				}
 			}
 			if(!assigned)defaultGrid.inEntities.add(e);
+		}
+		*/
+		for(Entity e:entities) {
+			double md = 10000d;
+			Grid mg = defaultGrid;
+			for(Grid g:grids) {
+				Entry<Centroid, List<Entity>> c = g.cluster;
+				double d = KMeansClustering.dist(e,c.getKey());
+				if(d<md) {
+					md = d;
+					mg = g;
+				}
+			}
+			mg.inEntities.add(e);
 		}
 	}
 	public void _update(Map map, List<Entity> inEntities, List<Entity> entities) {

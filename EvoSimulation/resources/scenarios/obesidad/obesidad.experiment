@@ -1,7 +1,7 @@
 map = resources/maps/centered
 setup = resources/scenarios/obesidad/setup.stp
 visualization = BASIC
-optimizer = UNIFORM_GRID
+optimizer = DENSITY
 stats = resources/scenarios/obesidad/stats.json
 events = resources/scenarios/obesidad/events.json
 constantsCtrl = true

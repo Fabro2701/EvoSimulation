@@ -73,7 +73,7 @@ public class KMeansClustering {
 	}
 	
 
-	private double dist(Entity e, Centroid c) {
+	public static double dist(Entity e, Centroid c) {
 		return Math.sqrt(Math.pow(e.node.x-c.x, 2)+Math.pow(e.node.y-c.y, 2));
 	}
 
