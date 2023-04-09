@@ -97,7 +97,7 @@ public class EvoSimulator {
 		}
 		
 		//logic delegated to an optimizer
-		this.optimizer.update(map, entities, time);
+		if(!entities.isEmpty())this.optimizer.update(map, entities, time-1);
 		
 		//insert the pending entities
 		if(entitiesBuffer.size()>0) {

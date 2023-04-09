@@ -26,6 +26,7 @@ import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.GIndividual;
 import simulator.model.entity.individuals.genome.PolymorphismController;
 import simulator.model.optimizer.BasicOptimizer;
+import simulator.model.optimizer.DensityOptimizer;
 import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;
 import statistics.StatsData;
@@ -107,12 +108,13 @@ public class Experiment {
 		else Entity.groupF = e->"";
 		
 		//simulator optimizer
-		if(this.optimizer == OPTIMIZER.BASIC) {
+		simulator.setOptimizer(new DensityOptimizer(simulator));
+		/*if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
 		}
 		else if(this.optimizer == OPTIMIZER.UNIFORM_GRID) {
 			simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
-		}
+		}*/
 		
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
@@ -145,6 +147,7 @@ public class Experiment {
 		if(this.visualization == VISU.BASIC) {
 			SwingUtilities.invokeLater(() -> {
 				LauncherGUI lgui = new LauncherGUI(controller);
+				lgui.setFocusable(false);
 				lgui.setVisible(true);
 				if(this.terminalCtrl) {
 					SwingUtilities.invokeLater(()->{

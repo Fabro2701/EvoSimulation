@@ -108,7 +108,7 @@ public class UniformGridOptimizer implements Optimizer{
 		_assignGrids(entities);
 		
 		
-		//Create a pool and a task per each grid
+		//Create a pool and a task for each grid
 		ExecutorService service = Executors.newCachedThreadPool();
 		List<Future<?>>results = new ArrayList<Future<?>>();
 		
@@ -125,6 +125,7 @@ public class UniformGridOptimizer implements Optimizer{
 		}
 		for(int i=0;i<yDivision;i++) {
 			for(int j=0;j<xDivision;j++) {
+				if(grids[i][j].inEntities.isEmpty())continue;
 				results.add(service.submit(new Task(i,j)));
 			}
 		}
