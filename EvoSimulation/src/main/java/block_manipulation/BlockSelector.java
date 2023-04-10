@@ -1,10 +1,12 @@
-package setup.gui.block;
+package block_manipulation;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -25,12 +27,11 @@ import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import block_manipulation.BlockInfoSingleton;
-import block_manipulation.Vector2D;
 import block_manipulation.BlockInfoSingleton.BlockInfoSupplier;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
 import block_manipulation.parsing.BlockParser;
+import diagram.ToolBar;
 
 public class BlockSelector extends JPanel{
 	BlockEditor editor;
@@ -114,6 +115,7 @@ public class BlockSelector extends JPanel{
 	}
 	private void setMouse() {
 		MouseAdapter mouseA = new MouseAdapter() {
+			boolean out = false;
 			boolean pressed = false;
     		Point current = null;
     		BlockManager currentManager = null;
@@ -134,6 +136,7 @@ public class BlockSelector extends JPanel{
 			}
     		@Override
 			public void mousePressed(MouseEvent e) {
+    			out=false;
     			pressed = true;
     			current = e.getPoint();
 				for(BlockManager manager:managers) {
@@ -146,22 +149,39 @@ public class BlockSelector extends JPanel{
     		@Override
 			public void mouseReleased(MouseEvent e) {
     			pressed = false;
+    			Point p = e.getPoint();
+    			if(out) {
+					EventQueue eventQueue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+					eventQueue.postEvent(new MouseEvent(editor, MouseEvent.MOUSE_RELEASED,1,0,
+							p.x+editor.getWidth(),p.y,1,false));
+				}
+    			out=false;
     			currentManager = null;
+    			
 			}
     		@Override
 			public void mouseDragged(MouseEvent e) {
+    			Point p = e.getPoint();
 				if(pressed && currentManager != null) {
 					currentManager.move(current, e.getPoint());
 					current = e.getPoint();
 					if(current.x<=0) {
+						currentManager.setBase(new Vector2D(editor.getWidth()-1,p.y));
 						editor.setBufferBlock(currentManager);
-						//BlockSelector.this.transferFocusBackward();;
-						editor.requestFocusInWindow();
 						currentManager = null;
+						EventQueue eventQueue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+						eventQueue.postEvent(new MouseEvent(editor, MouseEvent.MOUSE_PRESSED,1,0,
+								editor.getWidth()-1,p.y,1,false));
+						out = true;
+						
 					}
 					repaint();
 				}
-				
+				if(out) {
+					EventQueue eventQueue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+					eventQueue.postEvent(new MouseEvent(editor, MouseEvent.MOUSE_DRAGGED,1,0,
+							p.x+editor.getWidth(),p.y,1,false));
+				}
 			}
 		};
 		this.addMouseListener(mouseA);

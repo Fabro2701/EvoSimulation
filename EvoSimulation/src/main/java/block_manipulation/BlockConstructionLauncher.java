@@ -1,4 +1,5 @@
-package setup.gui.block;
+package block_manipulation;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import block_manipulation.BlockEditor;
+import block_manipulation.BlockSelector;
 import block_manipulation.Vector2D;
 import block_manipulation.block.BlockManager;
 
@@ -25,7 +28,7 @@ public class BlockConstructionLauncher extends JPanel{
 	
 		JScrollPane scroll = new JScrollPane();
 		scroll.setPreferredSize(new Dimension(800,800));
-		editor = new BlockEditor(new Dimension(1500,800));
+		editor = new BlockEditor(new Dimension(800,800));
 		scroll.setViewportView(editor);
 		this.add(scroll, BorderLayout.CENTER);
 

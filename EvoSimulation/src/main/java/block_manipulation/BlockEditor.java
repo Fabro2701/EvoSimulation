@@ -1,4 +1,4 @@
-package setup.gui.block;
+package block_manipulation;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -20,7 +20,6 @@ import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import block_manipulation.Vector2D;
 import block_manipulation.block.Block;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
@@ -159,6 +158,7 @@ public class BlockEditor extends JPanel{
 			public void mouseDragged(MouseEvent e) {
 				
 				if(pressed && currentManager!=null) {
+	    			//System.out.println(current);
 					for(BlockManager manager:managers) {
 						if(currentManager!=manager) {
 							manager.iluminateRecursiveBlocks(((RecursiveBlock)currentManager.getRoot()).getRule());

@@ -231,6 +231,9 @@ public class BlockManager implements Cloneable{
 	public Graphics2D getGraphics() {
 		return this.g2;
 	}
+	public Vector2D getBase() {
+		return base;
+	}
 	public Block getRoot() {
 		return root;
 	}

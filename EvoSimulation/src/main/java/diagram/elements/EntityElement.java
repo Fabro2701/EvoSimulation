@@ -24,7 +24,7 @@ import block_manipulation.block.BlockManager;
 import diagram.CodePanel;
 import diagram.Diagram;
 import diagram.translation.UpdatesTranslation;
-import setup.gui.block.BlockConstructionLauncher;
+import block_manipulation.BlockConstructionLauncher;
  
 public class EntityElement extends Element {
 

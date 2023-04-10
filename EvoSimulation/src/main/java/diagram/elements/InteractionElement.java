@@ -21,7 +21,7 @@ import block_manipulation.Vector2D;
 import block_manipulation.block.BlockManager;
 import diagram.CodePanel;
 import diagram.Diagram;
-import setup.gui.block.BlockConstructionLauncher;
+import block_manipulation.BlockConstructionLauncher;
 
 public class InteractionElement extends Element {
 	private String id;

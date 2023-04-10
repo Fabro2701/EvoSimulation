@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import block_manipulation.block.BlockManager;
 import diagram.Diagram;
 import diagram.Pair;
-import setup.gui.block.BlockConstructionLauncher;
+import block_manipulation.BlockConstructionLauncher;
 
 public abstract class Element implements Cloneable{
 	protected Point pos;

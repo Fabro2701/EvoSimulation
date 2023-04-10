@@ -17,11 +17,11 @@ import javax.swing.JTextPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import block_manipulation.BlockEditor;
 import block_manipulation.Vector2D;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
-import setup.gui.block.BlockConstructionLauncher;
-import setup.gui.block.BlockEditor;
+import block_manipulation.BlockConstructionLauncher;
 import setup.gui.control.SetupEditorController;
 import setup.gui.model.SetupEditorModel.EntitySeparator;
 import setup.gui.view.ViewPanel;

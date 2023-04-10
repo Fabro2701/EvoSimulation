@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import block_manipulation.BlockConstructionLauncher;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
-import setup.gui.block.BlockConstructionLauncher;
 import setup.gui.control.SetupEditorController;
 import setup.gui.view.ViewPanel;
 import setup.gui.view.ViewPanel.State;
