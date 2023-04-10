@@ -2,12 +2,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import console.model.CommandController;
 import console.view.AbstractConsoleGUI;
@@ -33,6 +35,34 @@ import statistics.StatsData;
 import statistics.StatsManager;
 
 public class Experiment {
+	static Logger logger = Logger.getLogger("Experiment");
+	static {
+		logger.setUseParentHandlers(false); // Desactivar el SimpleFormatter por defecto
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new Formatter() {
+        	private static final String ANSI_RESET = "\u001B[0m";
+            private static final String ANSI_RED = "\u001B[31m";
+            private static final String ANSI_YELLOW = "\033[0;33m";
+            private static final String ANSI_BLUE = "\u001B[32m";
+
+            @Override
+            public String format(LogRecord record) {
+                String message = record.getMessage();
+                if (record.getLevel() == Level.SEVERE) {
+                    return ANSI_RED + message + ANSI_RESET + System.lineSeparator();
+                } else if (record.getLevel() == Level.WARNING) {
+                    return ANSI_YELLOW + message + ANSI_RESET + System.lineSeparator();
+                } else if (record.getLevel() == Level.INFO) {
+                    return ANSI_BLUE + message + ANSI_RESET + System.lineSeparator();
+                } else {
+                    return message + System.lineSeparator();
+                }
+            }
+        	
+        }); // Usar un Formatter personalizado
+        logger.addHandler(handler);
+	}
+	
 	VISU visualization;
 	OPTIMIZER optimizer;
 	String map;
@@ -108,7 +138,7 @@ public class Experiment {
 		else Entity.groupF = e->"";
 		
 		//simulator optimizer
-		simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
+		logger.log(Level.INFO, "Optimizer selected: "+this.optimizer.toString());
 		if(this.optimizer == OPTIMIZER.BASIC) {
 			simulator.setOptimizer(new BasicOptimizer(simulator));
 		}
@@ -123,7 +153,14 @@ public class Experiment {
 		simulator.setImgRefreshRate(this.imgRefreshRate);
 		
 		//imgs
-		if(this.imgsdir!=null)ImageController.loadFromDirectory(this.imgsdir);
+		if(this.imgsdir!=null) {
+			ImageController.loadFromDirectory(this.imgsdir);
+			//logger.log(Level.INFO, "Images directory: "+this.imgsdir);
+			logger.log(Level.SEVERE, "Images directory: "+this.imgsdir);
+		}
+		else {
+			
+		}
 		
 		//controller
 		Controller controller = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
@@ -264,6 +301,8 @@ public class Experiment {
 		this.terminalCtrl = builder.terminalCtrl;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
+		//String y = Character.toString( 138_519 );
+		//System.out.println( y ) ;
 		/*Experiment exp = new Experiment.Builder("resources/maps/flat1000", "resources/setup/obesidad.stp")
 												 .setVisualization(VISU.OPTIMIZED)
 												 .setOptimizer(OPTIMIZER.UNIFORM_GRID)
