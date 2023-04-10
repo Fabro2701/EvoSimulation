@@ -148,6 +148,9 @@ public class Experiment {
 		else if(this.optimizer == OPTIMIZER.DENSITY) {
 			simulator.setOptimizer(new DensityOptimizer(simulator,8));
 		}
+		else {
+			logger.log(Level.SEVERE, "Optimizer "+this.optimizer.toString()+ "not supported");
+		}
 		
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
@@ -155,11 +158,10 @@ public class Experiment {
 		//imgs
 		if(this.imgsdir!=null) {
 			ImageController.loadFromDirectory(this.imgsdir);
-			//logger.log(Level.INFO, "Images directory: "+this.imgsdir);
-			logger.log(Level.SEVERE, "Images directory: "+this.imgsdir);
+			logger.log(Level.INFO, "Images directory: "+this.imgsdir);
 		}
 		else {
-			
+			logger.log(Level.WARNING, "No images directory provided");
 		}
 		
 		//controller
@@ -169,13 +171,20 @@ public class Experiment {
 		controller.loadPE(simulator.getMap().getEntitiesInfo());
 		
 		//genes
-		if(genes!=null)GIndividual.Genes.loadFromFile(this.genes);
+		if(genes!=null) {
+			GIndividual.Genes.loadFromFile(this.genes);
+			logger.log(Level.INFO, "Loading genes from: "+this.genes);
+		}
 		
 		//polymorphims
-		if(poly!=null)PolymorphismController.loadFromFile(this.poly);
+		if(poly!=null) {
+			PolymorphismController.loadFromFile(this.poly);
+			logger.log(Level.INFO, "Loading Polymorphisms from: "+this.poly);
+		}
 		
 		//constants controller
 		if(this.constantsCtrl) {
+			logger.log(Level.INFO, "Loading Constants Controller...");
 			ConstantsController constantsCtrl = new ConstantsController();
 			SwingUtilities.invokeLater(() -> {
 		        	new ConstantsViewer(constantsCtrl);
@@ -185,11 +194,13 @@ public class Experiment {
 		
 		//visualization
 		if(this.visualization == VISU.BASIC) {
+			logger.log(Level.INFO, "Deploying basic visualization...");
 			SwingUtilities.invokeLater(() -> {
 				LauncherGUI lgui = new LauncherGUI(controller);
 				lgui.setFocusable(false);
 				lgui.setVisible(true);
 				if(this.terminalCtrl) {
+					logger.log(Level.INFO, "Opening Terminal Controller...");
 					SwingUtilities.invokeLater(()->{
 						new AbstractConsoleGUI(700,400,
 											   new CommandController(new SimulationOptionsModel(controller, lgui)))
@@ -199,6 +210,7 @@ public class Experiment {
 			});
 		}
 		else if(this.visualization == VISU.OPTIMIZED) {
+			logger.log(Level.INFO, "Deploying optimized visualization...");
 			SwingUtilities.invokeLater(() -> {
 	        	new OptimizedLauncherGUI(controller).setVisible(true);
 	        });
