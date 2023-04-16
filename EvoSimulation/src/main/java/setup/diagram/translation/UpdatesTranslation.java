@@ -1,10 +1,10 @@
-package diagram.translation;
+package setup.diagram.translation;
 
 import org.json.JSONObject;
 
-import diagram.elements.Element;
-import diagram.elements.EntityElement;
-import diagram.elements.GroupElement;
+import setup.diagram.elements.Element;
+import setup.diagram.elements.EntityElement;
+import setup.diagram.elements.GroupElement;
 
 public class UpdatesTranslation {
 	public static String translate(Element e, JSONObject ob) {

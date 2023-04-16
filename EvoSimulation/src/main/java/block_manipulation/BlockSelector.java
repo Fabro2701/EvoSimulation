@@ -31,7 +31,7 @@ import block_manipulation.BlockInfoSingleton.BlockInfoSupplier;
 import block_manipulation.block.BlockManager;
 import block_manipulation.block.RecursiveBlock;
 import block_manipulation.parsing.BlockParser;
-import diagram.ToolBar;
+import setup.diagram.ToolBar;
 
 public class BlockSelector extends JPanel{
 	BlockEditor editor;

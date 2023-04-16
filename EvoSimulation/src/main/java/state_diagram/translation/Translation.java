@@ -37,7 +37,16 @@ public class Translation {
 		sb.append(transitionsStates());
 		sb.append("}");
 		
-		String code = sb.toString();
+		int tab=0;
+		StringBuilder sb2 = new StringBuilder();
+		for(String line:sb.toString().split("\n")) {
+			if(line.contains("}"))tab--;
+			for(int i=0;i<tab;i++)sb2.append("      ");
+			sb2.append(line).append('\n');
+			if(line.contains("{"))tab++;
+		}
+		
+		String code = sb2.toString();
 		PrintWriter writer = new PrintWriter(path+"Functions.java", "UTF-8");
 		writer.println(code);
 		writer.close();

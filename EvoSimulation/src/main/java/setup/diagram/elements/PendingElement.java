@@ -1,4 +1,4 @@
-package diagram.elements;
+package setup.diagram.elements;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,9 +8,10 @@ import java.util.function.Predicate;
 
 import org.json.JSONObject;
 
-import diagram.CodePanel;
-import diagram.elements.Element.Shape;
-import diagram.elements.EntityElement.EntityShape;
+
+import setup.diagram.CodePanel;
+import setup.diagram.elements.Element.Shape;
+import setup.diagram.elements.EntityElement.EntityShape;
 
 public class PendingElement extends Element {
 	Element father;

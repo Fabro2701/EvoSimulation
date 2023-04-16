@@ -1,4 +1,4 @@
-package diagram;
+package setup.diagram;
 
 public class Pair<E,T> {
 	E first;

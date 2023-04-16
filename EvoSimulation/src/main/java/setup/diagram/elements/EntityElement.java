@@ -1,10 +1,13 @@
-package diagram.elements;
+package setup.diagram.elements;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,34 +16,65 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import block_manipulation.Vector2D;
 import block_manipulation.block.BlockManager;
-import diagram.CodePanel;
-import diagram.Diagram;
-import diagram.translation.GlobalTranslation;
+
+import setup.diagram.CodePanel;
+import setup.diagram.Diagram;
+import setup.diagram.translation.UpdatesTranslation;
 import block_manipulation.BlockConstructionLauncher;
  
-public class GlobalElement extends Element {
+public class EntityElement extends Element {
 
-	String id;
-	public GlobalElement(Point point) {
+	Class<?> clazz;
+	public EntityElement(Point point) {
 		super(point);
 		this.shape = new EntityShape(25,25);
-		this.blockLauncher = new BlockConstructionLauncher("resources/skeletons/global.sklt");
+		this.blockLauncher = new BlockConstructionLauncher("resources/skeletons/updates.sklt");
 	}
 	@Override
 	public String fileName() {
-		return "Global"+id;
+		return clazz.getSimpleName();
 	}
-	
 
-	public static GlobalElement fromJSON(Diagram diagram, JSONObject ob) {
+
+	/*@Override
+	public List<JSONObject> getBlocks() {
+		panel.insertString("init := \n");
+		for(JSONObject o:this.blocks) {
+			if(o.getString("init").equals("INIT_DEF")) {
+				panel.insertString("initImc"+"(\""+clazz.getName()+"\"){\n");
+				String s = UpdatesTranslation.translate(o.getJSONObject("root"));
+				panel.insertString(s+'\n');
+				panel.insertString("}\n");
+			}
+		}
+		panel.insertString(".\n");
+		panel.insertString("updates := \n");
+		for(JSONObject o:this.blocks) {
+			if(o.getString("init").equals("UPDATE_DEF")) {
+				panel.insertString("update"+"(\""+clazz.getName()+"\"){\n");
+				String s = UpdatesTranslation.translate(o.getJSONObject("root"));
+				panel.insertString(s+'\n');
+				panel.insertString("}\n");
+			}
+		}
+		panel.insertString(".\n");
+	}*/
+
+
+	public static EntityElement fromJSON(Diagram diagram, JSONObject ob) {
 		JSONObject pos = ob.getJSONObject("pos");
-		GlobalElement e = new GlobalElement(new Point(pos.getInt("x"),pos.getInt("y")));
+		EntityElement e = new EntityElement(new Point(pos.getInt("x"),pos.getInt("y")));
 		e.setDiagram(diagram);
-		e.setId(ob.getString("id"));
+		try {
+			e.setClazz(Class.forName(ob.getString("clazz")));
+		} catch (ClassNotFoundException | JSONException e1) {
+			e1.printStackTrace();
+		}
 		JSONArray arr = ob.getJSONArray("managers");
 		e.blockLauncher.getEditor().loadBlocks(arr);
 		for(int i=0;i<e.blockLauncher.getEditor().getManagers().size();i++) {
@@ -54,7 +88,6 @@ public class GlobalElement extends Element {
 		}
 		return e;
 	}
-
 	@Override
 	public JSONObject toJSON() {
 		JSONArray arr = new JSONArray();
@@ -63,8 +96,8 @@ public class GlobalElement extends Element {
 			//arr.put(m.toJSON());
 		}
 		return new JSONObject().put("pos", new JSONObject().put("x",pos.x).put("y", pos.y))
-							   .put("id", id)
-							   .put("type", "Global")
+							   .put("clazz", clazz.getName())
+							   .put("type", "Entity")
 							   .put("managers", arr)
 							   .put("blocks", new JSONArray(this.blocks));
 	}
@@ -76,13 +109,18 @@ public class GlobalElement extends Element {
 		panel.setLayout(new BorderLayout());
 		JPanel proppanel = new JPanel();
 		proppanel.setLayout(new GridLayout(0,2));
-		JLabel l = new JLabel("id");
-		JTextField t = new JTextField(this.getId());
+		JLabel l = new JLabel("class");
+		JTextField t = new JTextField(this.clazz.getName());
 		proppanel.add(l);proppanel.add(t);
 		panel.add(proppanel, BorderLayout.CENTER);
 		JButton saveb = new JButton("save");
 		saveb.addActionListener(a->{
-			this.setId(t.getText());
+			try {
+				Class<?>c = Class.forName(t.getText());
+				this.setClazz(c);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 			dialog.setVisible(false);
 			diagram.repaint();
 		});
@@ -94,10 +132,11 @@ public class GlobalElement extends Element {
 	@Override
 	public void draw(Graphics2D g2) {
 		shape.draw(g2);
-		g2.drawString(id, 
-				pos.x-g2.getFontMetrics().stringWidth(id)/2, 
+		g2.drawString(clazz.getSimpleName(), 
+				pos.x-g2.getFontMetrics().stringWidth(clazz.getSimpleName())/2, 
 				pos.y+g2.getFontMetrics().getHeight()/4);
 	}
+
 
 	protected class EntityShape extends Shape{
 		int w,h;
@@ -143,18 +182,18 @@ public class GlobalElement extends Element {
 	}
 	@Override
 	public Object clone() {
-		GlobalElement e = new GlobalElement(this.pos);
-		e.setId(id);
+		EntityElement e = new EntityElement(this.pos);
+		e.setClazz(this.clazz);
 		e.setPos(pos);
 		e.setDiagram(diagram);
 		return e;
 	}
 
-	public String getId() {
-		return id;
+	public Class<?> getClazz() {
+		return clazz;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
 	}
 
 }

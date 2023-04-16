@@ -15,7 +15,7 @@
                 "y": 215
             },
             "continuous": false,
-            "action": "(MyIndividual e) e.setAttribute(\"current\",\"house\");",
+            "action": "(MyIndividual e) e.setAttribute(\"dest\",\"house\");",
             "ID": 19,
             "id": "house",
             "class": "SimpleState"
@@ -40,7 +40,7 @@
                 "y": 124
             },
             "continuous": false,
-            "action": "(MyIndividual e) e.setAttribute(\"current\",\"restaurant\");",
+            "action": "(MyIndividual e) e.setAttribute(\"dest\",\"restaurant\");",
             "ID": 45,
             "id": "restaurant",
             "class": "SimpleState"
@@ -52,7 +52,7 @@
                 "y": 340
             },
             "continuous": false,
-            "action": "(MyIndividual e) e.setAttribute(\"current\",\"bar\");",
+            "action": "(MyIndividual e) e.setAttribute(\"dest\",\"bar\");",
             "ID": 58,
             "id": "bar",
             "class": "SimpleState"

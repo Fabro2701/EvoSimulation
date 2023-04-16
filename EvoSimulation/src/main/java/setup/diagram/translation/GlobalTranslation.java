@@ -1,8 +1,8 @@
-package diagram.translation;
+package setup.diagram.translation;
 
 import org.json.JSONObject;
 
-import diagram.elements.GlobalElement;
+import setup.diagram.elements.GlobalElement;
 
 public class GlobalTranslation {
 	public static String translate(GlobalElement e,JSONObject ob) {

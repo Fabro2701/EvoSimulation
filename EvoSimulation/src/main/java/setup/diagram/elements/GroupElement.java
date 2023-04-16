@@ -1,4 +1,4 @@
-package diagram.elements;
+package setup.diagram.elements;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
@@ -19,8 +19,9 @@ import org.json.JSONObject;
 
 import block_manipulation.Vector2D;
 import block_manipulation.block.BlockManager;
-import diagram.CodePanel;
-import diagram.Diagram;
+
+import setup.diagram.CodePanel;
+import setup.diagram.Diagram;
 import block_manipulation.BlockConstructionLauncher;
 
 public class GroupElement extends Element {

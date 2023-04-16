@@ -1,4 +1,4 @@
-package diagram;
+package setup.diagram;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +15,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledEditorKit;
+
+
 
 
 public class CodePanel extends JTextPane{

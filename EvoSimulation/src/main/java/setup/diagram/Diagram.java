@@ -1,4 +1,4 @@
-package diagram;
+package setup.diagram;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -36,15 +36,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import diagram.elements.Element;
-import diagram.elements.EntityElement;
-import diagram.elements.GlobalElement;
-import diagram.elements.GroupElement;
-import diagram.elements.InteractionElement;
-import diagram.elements.PendingElement;
-import diagram.translation.GlobalTranslation;
-import diagram.translation.InteractionsTranslation;
-import diagram.translation.UpdatesTranslation;
+import setup.diagram.elements.Element;
+import setup.diagram.elements.EntityElement;
+import setup.diagram.elements.GlobalElement;
+import setup.diagram.elements.GroupElement;
+import setup.diagram.elements.InteractionElement;
+import setup.diagram.elements.PendingElement;
+import setup.diagram.translation.GlobalTranslation;
+import setup.diagram.translation.InteractionsTranslation;
+import setup.diagram.translation.UpdatesTranslation;
 
 public class Diagram extends JPanel {
 	private ToolBar toolBar;

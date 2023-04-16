@@ -42,20 +42,20 @@ public class Experiment {
         handler.setFormatter(new Formatter() {
         	private static final String ANSI_RESET = "\u001B[0m";
             private static final String ANSI_RED = "\u001B[31m";
-            private static final String ANSI_YELLOW = "\033[0;33m";
+            private static final String ANSI_YELLOW = "\u001B[33m";
             private static final String ANSI_BLUE = "\u001B[32m";
 
             @Override
             public String format(LogRecord record) {
-                String message = record.getMessage();
+                String message = record.getMessage()+ "\n";
                 /*if (record.getLevel() == Level.SEVERE) {
-                    return ANSI_RED + message + ANSI_RESET + System.lineSeparator();
+                    return ANSI_RED + message + ANSI_RESET;
                 } else if (record.getLevel() == Level.WARNING) {
-                    return ANSI_YELLOW + message + ANSI_RESET + System.lineSeparator();
+                    return ANSI_YELLOW + message + ANSI_RESET;
                 } else if (record.getLevel() == Level.INFO) {
-                    return ANSI_BLUE + message + ANSI_RESET + System.lineSeparator();
+                    return ANSI_BLUE + message + ANSI_RESET;
                 } else {*/
-                    return message + System.lineSeparator();
+                    return message;
                 /*}*/
             }
         	
@@ -217,7 +217,7 @@ public class Experiment {
 		}
 		
 		
-
+		//System.out.println("\u001B[0m");
 	}
 	public static class Builder{
 		VISU visualization = VISU.BASIC;

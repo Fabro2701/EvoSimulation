@@ -7,8 +7,9 @@ global := a(){
 		  }.
 		  
 init := initactive("simulator.model.entity.individuals.MyIndividual"){
-				this.setAttribute("status","healthy");
-				this.setAttribute("current","house");
+				this.setAttribute("status","healthy");;
+				this.setAttribute("current","none");
+				this.setAttribute("dest","house");
 				let map = (static "util.Util").createMap();
 				map.put("e",this);
 				this.setAttribute("map",map);
@@ -32,7 +33,7 @@ updates :=
 			    }
 		   }
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){
-		   			let dir = this.getAttribute("current");
+		   			let dir = this.getAttribute("dest");
 		   			/*(static "util.Util").printlnString(dir);*/
 		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(dir));
 					if(node != null)this.setNode(node);
@@ -41,6 +42,8 @@ updates :=
 interactions := 
 				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					let info = e2.getAttribute("info");
+					/*(static "util.Util").printlnString(info);*/
+					this.setAttribute("current",info);
 					(this.getAttribute("flow")).step(this.getAttribute("map"));
 					
 					/*let state = fsm.run(this.getAttribute("state"), info);

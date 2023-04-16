@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 public class Launcher extends JFrame{
 	public static void main(String args[]) {;
 		SwingUtilities.invokeLater(()->{
+			String filename = "resources/scenarios/test/fsm.json";
 			Launcher launcher = new Launcher();
 			
 			
@@ -41,11 +42,11 @@ public class Launcher extends JFrame{
 			JPanel buttonsPanel = new JPanel();
 			buttonsPanel.setLayout(new FlowLayout());
 			JButton saveButton = new JButton("SAVE");
-			saveButton.addActionListener(ae->diagram.save());
+			saveButton.addActionListener(ae->diagram.save(filename));
 			JButton loadButton = new JButton("LOAD");
 			loadButton.addActionListener(ae->{
 				try {
-					diagram.load();
+					diagram.load(filename);
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException
 						| ClassNotFoundException e) {
@@ -70,11 +71,11 @@ public class Launcher extends JFrame{
 				public void keyPressed(KeyEvent e) {
 					if (e.isControlDown()) {
 						if (e.getKeyCode() == KeyEvent.VK_S) {
-					      diagram.save();
+					      diagram.save(filename);
 						}
 						else if (e.getKeyCode() == KeyEvent.VK_O) {
 							try {
-								diagram.load();
+								diagram.load(filename);
 							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException| InvocationTargetException | NoSuchMethodException | SecurityException| ClassNotFoundException e1) {
 								e1.printStackTrace();
 							}

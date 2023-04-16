@@ -1,4 +1,4 @@
-package diagram;
+package setup.diagram;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,12 +21,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
-import diagram.elements.Element;
-import diagram.elements.EntityElement;
-import diagram.elements.GlobalElement;
-import diagram.elements.GroupElement;
-import diagram.elements.InteractionElement;
-import diagram.elements.PendingElement;
+import setup.diagram.elements.Element;
+import setup.diagram.elements.EntityElement;
+import setup.diagram.elements.GlobalElement;
+import setup.diagram.elements.GroupElement;
+import setup.diagram.elements.InteractionElement;
+import setup.diagram.elements.PendingElement;
 
 public class ToolBar extends JPanel{
 	Diagram diagram;

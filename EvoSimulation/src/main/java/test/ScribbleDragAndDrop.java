@@ -1,4 +1,4 @@
-package diagram;
+package test;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
