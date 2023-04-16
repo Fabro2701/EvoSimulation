@@ -1,0 +1,10 @@
+map = resources/maps/toledo2
+setup = resources/scenarios/test/setup.stp
+visualization = BASIC
+optimizer = UNIFORM_GRID
+stats = resources/scenarios/test/stats.json
+events = resources/scenarios/test/events.json
+constantsCtrl = false
+imgRefreshRate = 10
+attId = status
+imgsdir = resources/entities/

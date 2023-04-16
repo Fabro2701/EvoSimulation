@@ -48,15 +48,15 @@ public class Experiment {
             @Override
             public String format(LogRecord record) {
                 String message = record.getMessage();
-                if (record.getLevel() == Level.SEVERE) {
+                /*if (record.getLevel() == Level.SEVERE) {
                     return ANSI_RED + message + ANSI_RESET + System.lineSeparator();
                 } else if (record.getLevel() == Level.WARNING) {
                     return ANSI_YELLOW + message + ANSI_RESET + System.lineSeparator();
                 } else if (record.getLevel() == Level.INFO) {
                     return ANSI_BLUE + message + ANSI_RESET + System.lineSeparator();
-                } else {
+                } else {*/
                     return message + System.lineSeparator();
-                }
+                /*}*/
             }
         	
         }); // Usar un Formatter personalizado
@@ -325,7 +325,7 @@ public class Experiment {
 		exp.run();
 		*/
 		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
-		Experiment exp2 = Experiment.fromFile("resources/scenarios/obesidad/obesidad.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/test/test.experiment");
 		exp2.run();
 	}
 }

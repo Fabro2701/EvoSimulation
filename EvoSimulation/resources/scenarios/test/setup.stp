@@ -1,0 +1,50 @@
+
+global := a(){
+			let diagram = new "state_diagram.Diagram"();
+			diagram.load("resources/scenarios/test/fsm.json");
+			
+			
+		  }.
+		  
+init := initactive("simulator.model.entity.individuals.MyIndividual"){
+				this.setAttribute("status","healthy");
+				this.setAttribute("current","house");
+				let map = (static "util.Util").createMap();
+				map.put("e",this);
+				this.setAttribute("map",map);
+				
+				let flow = diagram.createFlow();
+				this.setAttribute("flow",flow);
+		}.
+updates := 
+		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
+				if(!this.hasAttribute("house")){
+			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
+			    	this.setAttribute("house",house);
+			    }
+			    if(!this.hasAttribute("restaurant")){
+			    	let restaurant = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"restaurant");
+			    	this.setAttribute("restaurant",restaurant);
+			    }
+			    if(!this.hasAttribute("bar")){
+			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
+			    	this.setAttribute("bar",bar);
+			    }
+		   }
+		   updateMov("simulator.model.entity.individuals.MyIndividual"){
+		   			let dir = this.getAttribute("current");
+		   			/*(static "util.Util").printlnString(dir);*/
+		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(dir));
+					if(node != null)this.setNode(node);
+		   }.
+
+interactions := 
+				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+					let info = e2.getAttribute("info");
+					(this.getAttribute("flow")).step(this.getAttribute("map"));
+					
+					/*let state = fsm.run(this.getAttribute("state"), info);
+					
+					if(oldstate!=state)oldstate.doJobs(this);
+					this.setAttribute("state", state);*/
+				}.

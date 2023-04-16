@@ -10,8 +10,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.List;
-
 
 import simulator.Constants.MOVE;
 import simulator.model.entity.Entity;
@@ -21,7 +21,9 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class Util {
-	
+	public static java.util.Map<String, Object>createMap(){
+		return new HashMap<>();
+	}
 	public static void printlnString(String s) {
 		System.out.println(s);
 	}

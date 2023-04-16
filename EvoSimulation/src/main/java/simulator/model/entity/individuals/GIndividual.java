@@ -58,7 +58,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	@Override
 	public void update(EvoSimulator evoSimulator) {
 		super.update(evoSimulator);
-		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
+		//observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 		
 		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
 		java.util.Map<String, Integer> freqs = updates.getUpdatesFreq();
