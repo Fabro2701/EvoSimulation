@@ -189,11 +189,38 @@ public class MyIndividual extends GIndividual{
 		else ind.phenotype = new Phenotype(phenotype);
 		return ind;
 	}
-	public Node nextNodeTowards(Map map, Entity entity) {
-		Node node = entity.node;
+	public Node nextNodeTowards_(Map map, Node node) {
 		int x = (node.x-this.node.x); if(x!=0)x=x>0?1:-1;
 		int y = (node.y-this.node.y); if(y!=0)y=y>0?1:-1;
 		return map.getNodeAt(this.node.x+x, this.node.y+y);
+	}
+	public Node nextNodeTowards(Map map, Entity entity) {
+		return nextNodeTowards_(map,entity.node);
+	}
+	public Node nextNodeStraightTowards_(Map map, Node node) {
+		double dx = node.x - this.node.x;
+		double dy = node.y - this.node.y;
+	    
+		if(dx==0&&dy==0)return this.node;
+	    double proportion = Math.abs(dx / dy);
+	    
+	    int x=0,y=0;
+	    if(dx!=0)x=dx>0?1:-1;
+	    if(dy!=0)y=dy>0?1:-1;
+	    
+	    double th = 3d;
+	    if(proportion>=th) {
+	    	return map.getNodeAt(this.node.x+x, this.node.y);
+	    }
+	    else if(proportion<=1/th) {
+	    	return map.getNodeAt(this.node.x, this.node.y+y);
+	    }
+	    else {
+	    	return map.getNodeAt(this.node.x+x, this.node.y+y);
+	    }
+	}
+	public Node nextNodeStraightTowards(Map map, Entity entity) {
+		return nextNodeStraightTowards_(map,entity.node);
 	}
 	public Entity getEntityClosestAttribute(EvoSimulator simulator, String attribute) {
 		List<Entity>entities = simulator.getEntities();
