@@ -23,7 +23,7 @@ public class TransitionProperties extends ElementProperties {
 		JPanel proppanel = new JPanel();
 		proppanel.setLayout(new GridLayout(0,2));
 		
-		JLabel codeLabel = new JLabel("Code:");
+		JLabel codeLabel = new JLabel("Code"+e.ID+":");
 		codeField = new JTextArea(e.getCode());
 		proppanel.add(codeLabel);proppanel.add(codeField);
 		

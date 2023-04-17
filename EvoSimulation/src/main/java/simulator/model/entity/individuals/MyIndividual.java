@@ -63,7 +63,7 @@ public class MyIndividual extends GIndividual{
 	 * @param n node
 	 * @param ctrl
 	 */
-	public MyIndividual(String id, Node node, Controller ctrl) {
+	public MyIndividual(String id, Node node, Controller ctrl, String code) {
 		this(ctrl, id, node);
 		
 		genotype = new Genotype();
@@ -95,8 +95,14 @@ public class MyIndividual extends GIndividual{
 		phenotype.setPolymorphims(polys);
 		genotype.addChromosome(c2);
 		
+		if(code.length()>0)this.apply(code);
+		
 		init();
 	}
+	public MyIndividual(String id, Node node, Controller ctrl) {
+		this(id,node,ctrl,"");
+	}
+
 	/**
 	 * Constructor invoked by reproduction methods 
 	 * @param geno
@@ -197,7 +203,7 @@ public class MyIndividual extends GIndividual{
 	public Node nextNodeTowards(Map map, Entity entity) {
 		return nextNodeTowards_(map,entity.node);
 	}
-	public Node nextNodeStraightTowards_(Map map, Node node) {
+	public Node nextNodeStraightTowards_(Map map, Node node, double th) {
 		double dx = node.x - this.node.x;
 		double dy = node.y - this.node.y;
 	    
@@ -208,7 +214,6 @@ public class MyIndividual extends GIndividual{
 	    if(dx!=0)x=dx>0?1:-1;
 	    if(dy!=0)y=dy>0?1:-1;
 	    
-	    double th = 3d;
 	    if(proportion>=th) {
 	    	return map.getNodeAt(this.node.x+x, this.node.y);
 	    }
@@ -219,8 +224,11 @@ public class MyIndividual extends GIndividual{
 	    	return map.getNodeAt(this.node.x+x, this.node.y+y);
 	    }
 	}
+	public Node nextNodeStraightTowardsEsp(Map map, Entity entity, double th) {
+		return nextNodeStraightTowards_(map,entity.node,th);
+	}
 	public Node nextNodeStraightTowards(Map map, Entity entity) {
-		return nextNodeStraightTowards_(map,entity.node);
+		return nextNodeStraightTowards_(map,entity.node,3d);
 	}
 	public Entity getEntityClosestAttribute(EvoSimulator simulator, String attribute) {
 		List<Entity>entities = simulator.getEntities();

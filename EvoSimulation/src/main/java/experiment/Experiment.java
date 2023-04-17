@@ -1,3 +1,4 @@
+package experiment;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import console.model.CommandController;
 import console.view.AbstractConsoleGUI;
@@ -112,11 +115,11 @@ public class Experiment {
 	 */
 	private void parse() throws Exception {
 		
-		/*try {
+		try {
 		    UIManager.setLookAndFeel( new FlatIntelliJLaf() );
 		} catch( Exception ex ) {
 		    System.err.println( "Failed to initialize theme. Using fallback." );
-		}*/
+		}
 		
 		//factories
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>(this.eventsFactory);
@@ -126,8 +129,11 @@ public class Experiment {
 		//managers
 		StatsManager statsManager = null;
 		
-		statsManager = new StatsManager(this.statsManager, statsFactory);
-		
+		if(this.statsManager!=null) {
+			logger.log(Level.INFO, "Loading stats models from: "+this.statsManager);
+			statsManager = new StatsManager(this.statsManager, statsFactory);
+		}
+
 		
 		EventManager eventManager = new EventManager();
 		
@@ -325,7 +331,7 @@ public class Experiment {
 		exp.run();
 		*/
 		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
-		Experiment exp2 = Experiment.fromFile("resources/scenarios/test/test.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/metro/metro.experiment");
 		exp2.run();
 	}
 }

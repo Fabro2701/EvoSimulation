@@ -27,14 +27,15 @@ public class MyIndividualBuilder extends EntityBuilder{
 									o.getJSONObject("properties"),ctrl);
 		}
 		else{
-			mi =  new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),ctrl);
-		}
-		if(o.has("properties")) {
-			JSONObject properties = o.getJSONObject("properties");
-			if(properties.has("apply")) {
-				mi.apply(properties.getString("apply"));
+			if(o.has("properties")) {
+				JSONObject properties = o.getJSONObject("properties");
+				if(properties.has("apply")) {
+					mi =  new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),ctrl,properties.getString("apply"));
+				}
 			}
+			else mi =  new MyIndividual(o.getString("id"),ctrl.getNodeAt(o.getInt("x"),o.getInt("y")),ctrl);
 		}
+	
 		return mi;
 	}
 }

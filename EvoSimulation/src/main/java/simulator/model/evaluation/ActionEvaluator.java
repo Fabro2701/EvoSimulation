@@ -220,25 +220,28 @@ public class ActionEvaluator {
 	private Object evalNewExpression(JSONObject query, Environment env) throws EvaluationException {
 		
 		JSONArray arguments = query.getJSONArray("arguments");
+		Object args[] = new Object[arguments.length()];
+		for(int i=0;i<arguments.length();i++) {
+			args[i] = eval(arguments.getJSONObject(i), env);
+			//clazzs[i] = args[i].getClass();
+		}
 		
-//		Class<?>clazzs[] = new Class<?>[arguments.length()];
-//		Object args[] = new Object[arguments.length()];
-//		for(int i=0;i<arguments.length();i++) {
-//			args[i] = eval(arguments.getJSONObject(i), env);
-//			clazzs[i] = args[i].getClass();
-//		}
+
 		
 		JSONObject callee = query.getJSONObject("callee");
 		String clazzS = callee.getString("value");
 
 		try {
 			Class<?> clazz = Class.forName(clazzS);
-			Object object = clazz.getConstructors()[0].newInstance(null);
-			return object;
+			for(var c:clazz.getConstructors()) {
+				if(c.getParameterCount()==args.length)return c.newInstance(args);
+			}
+			//for(var c:clazz.getConstructors())if(c.getParameterCount()==0)return c.newInstance(null);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e) {
 			e.printStackTrace();
 			throw new EvaluationException("New Expression failed");
 		}
+		return null;
 	}
 	private Object evalNumberLiteral(JSONObject query) throws EvaluationException{
 		try {

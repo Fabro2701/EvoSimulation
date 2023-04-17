@@ -56,7 +56,7 @@ public class Controller {
 		this.eventManager = eventManager;
 		
 		this.statsManagers = new ArrayList<>();
-		this.statsManagers.add(statsManager);
+		if(statsManager!=null)this.statsManagers.add(statsManager);
 		
 		this.idGenerator = new IdGenerator();
 		this.imgController = new ImageController();
@@ -218,6 +218,9 @@ public class Controller {
 			pe.setAttribute(type,true);
 			pe.setAttribute("info",type);
 			pe.setImg(ImageController.getImage(type));
+			
+			String code = ei.getCode();
+			if(code.length()>0)pe.apply(code);
 			
 			this.simulator.addEntity(pe);
 		}

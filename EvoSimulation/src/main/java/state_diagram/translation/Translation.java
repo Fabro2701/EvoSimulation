@@ -47,7 +47,7 @@ public class Translation {
 		}
 		
 		String code = sb2.toString();
-		PrintWriter writer = new PrintWriter(path+"Functions.java", "UTF-8");
+		PrintWriter writer = new PrintWriter(path+"Functions"+fsm+".java", "UTF-8");
 		writer.println(code);
 		writer.close();
 		
@@ -109,7 +109,7 @@ public class Translation {
 	public static void main(String args[]) {
 		Diagram diagram = new Diagram();
 		try {
-			diagram.load("resources/scenarios/test/fsm.json");
+			diagram.load("resources/scenarios/metro/ruta3.json");
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -118,9 +118,9 @@ public class Translation {
 		try {
 			Translation trs = new Translation(diagram.getElems(),
 											  diagram.getTransitions(),
-											  "src/main/java/state_diagram/product/",
-											  "state_diagram.product",
-											  "");
+											  "src/main/java/experiment/models/metro/",
+											  "experiment.models.metro",
+											  diagram.getFsmID());
 			trs.run();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

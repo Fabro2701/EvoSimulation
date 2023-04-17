@@ -403,9 +403,9 @@ public class Diagram extends JPanel {
 			JPanel bpanel = new JPanel();
 			bpanel.setLayout(new BoxLayout(bpanel, BoxLayout.X_AXIS));
 			JButton b = new JButton("save");
-			b.addActionListener((a) -> d.save("resources/diagram/elements.json"));
+			b.addActionListener((a) -> d.save("resources/scenarios/metro/diagram.json"));
 			JButton b2 = new JButton("load");
-			b2.addActionListener((a) -> d.load("resources/diagram/prey.json"));
+			b2.addActionListener((a) -> d.load("resources/scenarios/metro/diagram.json"));
 			bpanel.add(b2);
 			bpanel.add(b);
 

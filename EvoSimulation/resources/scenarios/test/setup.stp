@@ -1,9 +1,7 @@
 
 global := a(){
-			let diagram = new "state_diagram.Diagram"();
+			let diagram = (static "state_diagram.Diagram").forName("");
 			diagram.load("resources/scenarios/test/fsm.json");
-			
-			
 		  }.
 		  
 init := initactive("simulator.model.entity.individuals.MyIndividual"){
@@ -14,7 +12,7 @@ init := initactive("simulator.model.entity.individuals.MyIndividual"){
 				map.put("e",this);
 				this.setAttribute("map",map);
 				
-				let flow = diagram.createFlow();
+				let flow = diagram.createFlow("state_diagram.product.");
 				this.setAttribute("flow",flow);
 		}.
 updates := 
@@ -33,6 +31,7 @@ updates :=
 			    }
 		   }
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){
+		   			(this.getAttribute("flow")).step(this.getAttribute("map"));
 		   			let dir = this.getAttribute("dest");
 		   			/*(static "util.Util").printlnString(dir);*/
 		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(dir));
@@ -44,10 +43,5 @@ interactions :=
 					let info = e2.getAttribute("info");
 					/*(static "util.Util").printlnString(info);*/
 					this.setAttribute("current",info);
-					(this.getAttribute("flow")).step(this.getAttribute("map"));
 					
-					/*let state = fsm.run(this.getAttribute("state"), info);
-					
-					if(oldstate!=state)oldstate.doJobs(this);
-					this.setAttribute("state", state);*/
 				}.

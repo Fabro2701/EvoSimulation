@@ -1,0 +1,9 @@
+map = resources/maps/metroMap
+setup = resources/scenarios/metro/setupmetro.stp
+visualization = BASIC
+optimizer = UNIFORM_GRID
+events = resources/scenarios/metro/events.json
+constantsCtrl = false
+imgRefreshRate = 10
+attId = info
+imgsdir = resources/entities/

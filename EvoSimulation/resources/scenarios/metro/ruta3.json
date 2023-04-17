@@ -1,0 +1,145 @@
+{
+    "elems": [
+        {
+            "pos": {
+                "x": 73,
+                "y": 98
+            },
+            "ID": 6,
+            "class": "InitState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 258,
+                "y": 133
+            },
+            "continuous": false,
+            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"F\");",
+            "ID": 19,
+            "id": "F",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 268,
+                "y": 290
+            },
+            "continuous": false,
+            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"C\");",
+            "ID": 32,
+            "id": "C",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 287,
+                "y": 447
+            },
+            "continuous": false,
+            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"D\");",
+            "ID": 45,
+            "id": "D",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 315,
+                "y": 285
+            },
+            "continuous": false,
+            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"C\");",
+            "ID": 62,
+            "id": "Caux",
+            "class": "SimpleState"
+        },
+        {
+            "toID": 19,
+            "code": "",
+            "fromShift": {
+                "x": 1,
+                "y": -9
+            },
+            "toShift": {
+                "x": -21,
+                "y": -22
+            },
+            "ID": 58,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 6
+        },
+        {
+            "toID": 32,
+            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"F\");",
+            "fromShift": {
+                "x": -16,
+                "y": 2
+            },
+            "toShift": {
+                "x": -18,
+                "y": -41
+            },
+            "ID": 59,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        },
+        {
+            "toID": 45,
+            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"C\");",
+            "fromShift": {
+                "x": -16,
+                "y": 2
+            },
+            "toShift": {
+                "x": -20,
+                "y": -40
+            },
+            "ID": 60,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 62,
+            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"D\");",
+            "fromShift": {
+                "x": 8,
+                "y": -38
+            },
+            "toShift": {
+                "x": 7,
+                "y": 3
+            },
+            "ID": 75,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 45
+        },
+        {
+            "toID": 19,
+            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"C\");",
+            "fromShift": {
+                "x": 2,
+                "y": -43
+            },
+            "toShift": {
+                "x": 9,
+                "y": -19
+            },
+            "ID": 76,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 62
+        }
+    ],
+    "fsmid": "FCD",
+    "base": {
+        "x": 1,
+        "y": -2
+    }
+}

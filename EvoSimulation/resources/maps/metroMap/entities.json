@@ -1,0 +1,38 @@
+[
+    {
+        "x": 90,
+        "y": 90,
+        "type": "estacion",
+        "code":"this.setAttribute(\"A\",true);this.setAttribute(\"station\",\"A\");"
+    },
+    {
+        "x": 210,
+        "y": 400,
+        "type": "estacion",
+        "code":"this.setAttribute(\"B\",true);this.setAttribute(\"station\",\"B\");"
+    },
+    {
+        "x": 400,
+        "y": 260,
+        "type": "estacion",
+        "code":"this.setAttribute(\"C\",true);this.setAttribute(\"station\",\"C\");"
+    },
+    {
+        "x": 400,
+        "y": 120,
+        "type": "estacion",
+        "code":"this.setAttribute(\"D\",true);this.setAttribute(\"station\",\"D\");"
+    },
+    {
+        "x": 600,
+        "y": 240,
+        "type": "estacion",
+        "code":"this.setAttribute(\"E\",true);this.setAttribute(\"station\",\"E\");"
+    },
+    {
+        "x": 435,
+        "y": 438,
+        "type": "estacion",
+        "code":"this.setAttribute(\"F\",true);this.setAttribute(\"station\",\"F\");"
+    }
+]

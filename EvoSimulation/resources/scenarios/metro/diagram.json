@@ -1,0 +1,32 @@
+[
+    {
+        "pos": {
+            "x": 135,
+            "y": 159
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.individuals.MyIndividual",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 514,
+            "y": 159
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.PasiveEntity",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 62,
+            "y": 61
+        },
+        "blocks": [],
+        "id": "global",
+        "type": "Global",
+        "managers": []
+    }
+]

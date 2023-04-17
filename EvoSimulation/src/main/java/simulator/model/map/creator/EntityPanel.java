@@ -26,7 +26,7 @@ import simulator.model.map.creator.MapCreator.PanelManager;
  * @author fabrizioortega
  */
 public class EntityPanel extends AbstractCreatorPanel {
-
+	static String[] pes = new String[] {"estacion"};
 	
 	public EntityPanel(PanelManager panelManager) {
 		super(panelManager);
@@ -41,16 +41,18 @@ public class EntityPanel extends AbstractCreatorPanel {
 		// models has all the Attributes
 		protected HashMap<String, Attribute> models;
 		private Map<String, List<EntityInfo>>entities;
+		
+		
 
 		public Controller(int width, int height, Color initColor) {
 			super(width, height, initColor);
 
 			models = new HashMap<String, Attribute>();
-			models.put("house", new Attribute("resources/entities/house.png","house", width, height));
-			models.put("supermarket", new Attribute("resources/entities/supermarket.png","supermarket", width, height));
-			models.put("bar", new Attribute("resources/entities/bar.png","bar", width, height));
-			models.put("restaurant", new Attribute("resources/entities/restaurant.png","restaurant", width, height));
-			selection = models.get("house");
+			for(String pe:pes) {
+				models.put(pe, new Attribute("resources/entities/"+pe+".png",pe, width, height));
+			}
+			
+			selection = models.get(pes[0]);
 			img = new ModificationImage(new ImageIcon(bufferImage));
 			
 			entities = new HashMap<>();
@@ -138,12 +140,16 @@ public class EntityPanel extends AbstractCreatorPanel {
 		((EntityPanel.Controller)this.ctrl).loadEntities(arr);
 	}
 	public static class EntityInfo{
-		String name;
+		String name,code="";
 		int x, y;
-		public EntityInfo(String name, int x, int y){
+		public EntityInfo(String name, int x, int y, String code){
 			this.name = name;
 			this.x = x;
 			this.y = y;
+			this.code = code;
+		}
+		public EntityInfo(String name, int x, int y){
+			this(name,x,y,"");
 		}
 		public EntityInfo(JSONObject o) {
 			this.name = o.getString("type");
@@ -158,6 +164,9 @@ public class EntityPanel extends AbstractCreatorPanel {
 		}
 		public String getName() {
 			return name;
+		}
+		public String getCode() {
+			return code;
 		}
 	}
 	@Override
@@ -182,7 +191,7 @@ public class EntityPanel extends AbstractCreatorPanel {
 
 		jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 
-		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "house", "supermarket","bar","restaurant" }));
+		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(pes));
 		jComboBox1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jComboBox1ActionPerformed(evt);

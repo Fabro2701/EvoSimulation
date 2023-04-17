@@ -64,6 +64,11 @@ public class Diagram extends JPanel{
 		this.elems.add(new Corner(this, base, new Point(100,100)));
 		this.elems.add(new CompoundState(this, base, new Point(300,100)));*/
 	}
+	public static Diagram forName(String fsmID) {
+		Diagram d = new Diagram();
+		d.fsmID = fsmID;
+		return d;
+	}
 
 	private class CustomMouse extends MouseAdapter{
 		
@@ -342,6 +347,7 @@ public class Diagram extends JPanel{
 		System.out.println("Saving");
 		JSONObject ob = new JSONObject();
 		ob.put("base", new JSONObject().put("x", base.x).put("y", base.y));
+		ob.put("fsmid", this.fsmID);
 		JSONArray arr = new JSONArray();
 		for(var e:elems) {
 			arr.put(e.toJSON());
@@ -383,6 +389,7 @@ public class Diagram extends JPanel{
 			e.printStackTrace();
 		}
 		this.base = Util.pointFromJSON(ob.getJSONObject("base"));
+		this.fsmID = ob.getString("fsmid");
 		JSONArray arr = ob.getJSONArray("elems");
 		
 		List<Element>tmpElements = new ArrayList<>();
@@ -407,8 +414,8 @@ public class Diagram extends JPanel{
 		
 		
 	}
-	public FlowController createFlow() {
-		FlowController ctrl = new FlowController(getFsmID());
+	public FlowController createFlow(String pck) {
+		FlowController ctrl = new FlowController(pck, getFsmID());
 		InitState ini = this.getInit();
 		ctrl.setCurrent(new InitStateProduct(ctrl, ini));
 		return ctrl;

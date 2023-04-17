@@ -13,9 +13,11 @@ public class FlowController {
 	Product current;
 	Map<Element,Product>products;
 	String fsm;
-	public FlowController(String fsm) {
+	private String pck;
+	public FlowController(String pck, String fsm) {
 		products = new HashMap<>();
 		this.fsm = fsm;
+		this.pck = pck;
 	}
 	
 	public void step(Map<String, Object>map) {
@@ -36,7 +38,7 @@ public class FlowController {
 	}
 	
 	public Object invoke(String id, Object... params) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
-		Class<?> clazz = Class.forName("state_diagram.product.Functions"+fsm);
+		Class<?> clazz = Class.forName(pck+"Functions"+fsm);
 		
 	    Method method = null;
 	    for(Method m:clazz.getDeclaredMethods()) {
@@ -55,14 +57,14 @@ public class FlowController {
 	public static void main(String args[]) {
 		Diagram diagram = new Diagram();
 		try {
-			diagram.load();
+			diagram.load("resources/scenarios/test/fsm.json");
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		FlowController ctrl = new FlowController(diagram.getFsmID()); 
+		FlowController ctrl = new FlowController("state_diagram.product.",diagram.getFsmID()); 
 		InitState ini = diagram.getInit();
 		ctrl.setCurrent(new InitStateProduct(ctrl, ini));
 		

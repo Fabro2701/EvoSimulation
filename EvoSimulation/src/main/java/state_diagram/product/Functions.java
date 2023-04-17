@@ -9,7 +9,7 @@ public class Functions {
       public static void restaurantAction45(MyIndividual e) {
              e.setAttribute("dest","restaurant");
       }
-      public static void barAction58(MyIndividual e) {
+      public static void barAction58(MyIndividual e) { 
              e.setAttribute("dest","bar");
       }
       public static boolean transition71() {

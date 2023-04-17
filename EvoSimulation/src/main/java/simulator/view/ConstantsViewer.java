@@ -1,7 +1,9 @@
 package simulator.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.text.DecimalFormat;
 import java.util.Map;
 
@@ -23,17 +25,16 @@ public class ConstantsViewer extends JFrame{
 	JScrollPane spane;
 	ConstantsController ctrl;
 	public ConstantsViewer() {
-		this.setSize(700, 400);
+		this.setPreferredSize(new Dimension(200,400));
 		//JPanel cpanel = new JPanel();
 		//cpanel.setLayout(null);
         panel = new MyPanel();
-		spane = new JScrollPane(panel);
-
-       // panel.setSize(910, 410); 
-        //panel.setBackground(Color.blue);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        this.getContentPane().add(spane);
+		//spane = new JScrollPane(panel);
+        panel.setLayout(new GridLayout(0,3));
+   
+        this.getContentPane().add(panel);
         //this.setContentPane(cpanel);
+        this.pack();
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
@@ -52,10 +53,11 @@ public class ConstantsViewer extends JFrame{
 			panel.removeAll();
 			for(String key:vars.keySet()) {
 				Object ob = vars.get(key);
-				JComponent comp = new JPanel();
-				comp.setLayout(new BoxLayout(comp, BoxLayout.X_AXIS));
-				comp.setAlignmentX(Component.LEFT_ALIGNMENT);
-				comp.add(new JLabel(key));
+				if(!(ob instanceof Number))continue;
+				/*JComponent comp = new JPanel();
+				comp.setLayout(new GridLayout(0,3));
+				comp.setAlignmentX(Component.LEFT_ALIGNMENT);*/
+				panel.add(new JLabel(key));
 				
 				double value = ((Number)ob).doubleValue();
 				SpinnerNumberModel model = new SpinnerNumberModel(value, -100000.0, 100000.0, 0.001); 
@@ -66,9 +68,10 @@ public class ConstantsViewer extends JFrame{
 		        format.setMaximumFractionDigits(10);
 		        editor.getTextField().setHorizontalAlignment(SwingConstants.CENTER);
 				spinner.addChangeListener(e->ctrl.update(key, spinner.getValue()));
-				comp.add(spinner);
-				comp.add(new JLabel(String.valueOf(ob)));
-				panel.add(comp);
+				panel.add(spinner);
+				String obstr = String.valueOf(ob);
+				panel.add(new JLabel(obstr.length()>=15?obstr.substring(0, 10):obstr));
+
 			}
 			this.revalidate();
 			repaint();
@@ -77,7 +80,5 @@ public class ConstantsViewer extends JFrame{
 	public void repaint(Map<String, Object> vars) {
 		panel.setComps(vars);
 	}
-	public static void main(String args[]) {
-		new ConstantsViewer();
-	}
+	
 }
