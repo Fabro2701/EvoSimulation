@@ -213,14 +213,14 @@ public class Controller {
 	public void loadPE(List<EntityInfo> entitiesInfo) {
 		for(EntityInfo ei:entitiesInfo) {
 			String type = ei.getName();
-			PasiveEntity pe = new PasiveEntity(getNextId(),getNodeAt(ei.getX(),ei.getY()),this);
+			PasiveEntity pe = new PasiveEntity(getNextId(),getNodeAt(ei.getX(),ei.getY()),this,ei.getCode());
 			
 			pe.setAttribute(type,true);
 			pe.setAttribute("info",type);
 			pe.setImg(ImageController.getImage(type));
 			
-			String code = ei.getCode();
-			if(code.length()>0)pe.apply(code);
+			/*String code = ei.getCode();
+			if(code.length()>0)pe.apply(code);*/
 			
 			this.simulator.addEntity(pe);
 		}

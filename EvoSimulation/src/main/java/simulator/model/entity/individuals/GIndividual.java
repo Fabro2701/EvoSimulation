@@ -30,33 +30,16 @@ public abstract class GIndividual extends AbstractIndividual{
 	protected Genotype genotype;
 	protected Phenotype phenotype;
 	
-	protected ObservationManager observationManager;
 	
 	private int count = 0;
 	
-	private java.util.Map<String, java.util.Map<String,Integer>>interactionsMap;
 	
-	public GIndividual(String id, Node n, Controller ctrl) {
-		super(id, n, ctrl);
-		observationManager = new ObservationManager(this);
-		interactionsMap = new HashMap<>();
-		this.interactions.getInteractions().keySet().stream().forEach(i->interactionsMap.put(i, new HashMap<>()));
-	}
-	@Override
-	protected void init() {
-		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
-		for(String id:inits_l.keySet()) {
-			if(inits.match(id, this.getClass())) {
-				inits_l.get(id).accept(this);
-			}
-		}
-		this.alive = true;
-	}
-	public void updateObservations(List<Entity>entities, Map map) {
-		observationManager.update(entities, map);
+	public GIndividual(String id, Node n, Controller ctrl, String code) {
+		super(id, n, ctrl, code);
+		
+		
 	}
 	
-
 	@Override
 	public void perform(List<Entity>entities, Map map) {
 		for(String actionid:grammars.keySet()) {
@@ -82,25 +65,7 @@ public abstract class GIndividual extends AbstractIndividual{
 			//else System.err.println("Action "+election+" not declared");
 		}*/
 	}
-	@Override
-	public void myInteract(Entity e2) {
-		int time = ctrl.getSimulator().getTime();
-		String e2id = e2.getId();
-		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
-		java.util.Map<String, Integer> interactionsFreq = interactions.getInteractionsFreq();
-		for(String intid:interactions_l.keySet()) {
-			if(interactions.match(intid, this.getClass(), e2.getClass())) {
-				java.util.Map<String, Integer> intMap = this.interactionsMap.get(intid);
-				if(intMap.containsKey(e2id)){
-					if((time-intMap.get(e2id))%interactionsFreq.get(intid)!=0) {
-						continue;
-					}
-				}
-				interactions_l.get(intid).perform(this, e2, ctrl.getMap(), time);
-				intMap.put(e2id, time);
-			}
-		}
-	}
+	
 	
 	public static class Genes implements Mapper{
 		static java.util.Map<String, List<Integer>>rules = new LinkedHashMap<>();

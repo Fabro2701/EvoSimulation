@@ -48,8 +48,8 @@ public class MyIndividual extends GIndividual{
 	 * @param id
 	 * @param n
 	 */
-	private MyIndividual(Controller ctrl, String id, Node n) {
-		super(id, n, ctrl);
+	private MyIndividual(Controller ctrl, String id, Node n, String code) {
+		super(id, n, ctrl, code);
 		type = "mi";
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
@@ -64,7 +64,7 @@ public class MyIndividual extends GIndividual{
 	 * @param ctrl
 	 */
 	public MyIndividual(String id, Node node, Controller ctrl, String code) {
-		this(ctrl, id, node);
+		this(ctrl, id, node, code);
 		
 		genotype = new Genotype();
 		phenotype = new Phenotype();
@@ -95,9 +95,9 @@ public class MyIndividual extends GIndividual{
 		phenotype.setPolymorphims(polys);
 		genotype.addChromosome(c2);
 		
-		if(code.length()>0)this.apply(code);
 		
-		init();
+		
+		//init();
 	}
 	public MyIndividual(String id, Node node, Controller ctrl) {
 		this(id,node,ctrl,"");
@@ -110,7 +110,7 @@ public class MyIndividual extends GIndividual{
 	 * @param generation The greatest generation of parents
 	 */
 	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
-		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode());
+		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode(),null);
 		ind.genotype = new Genotype(geno);
 		ind.phenotype = new Phenotype();
 		ind.mutate();
@@ -149,7 +149,7 @@ public class MyIndividual extends GIndividual{
 	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
 		Objects.requireNonNull(cs);
 		
-		MyIndividual ind = new MyIndividual(ctrl, id, node);
+		MyIndividual ind = new MyIndividual(ctrl, id, node,null);
 		ind.genotype = new Genotype();
 		ind.phenotype = new Phenotype();
 		
@@ -185,7 +185,7 @@ public class MyIndividual extends GIndividual{
 //		
 //	}
 	public static MyIndividual fromJSON(String id, Node node, JSONObject genotype, JSONObject phenotype, JSONObject properties, Controller ctrl) {
-		MyIndividual ind = new MyIndividual(ctrl, id, node);
+		MyIndividual ind = new MyIndividual(ctrl, id, node,null);
 		ind.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {

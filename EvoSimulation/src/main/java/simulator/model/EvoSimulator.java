@@ -121,8 +121,8 @@ public class EvoSimulator {
 					PasiveEntity pe = (PasiveEntity)e;
 					double c = (double) pe.getAttribute("congestion");
 					Node n = e.node;
-					int er = 50;
 					float nv = (float) (c/100f);
+					int er = (int) (50f*nv)+30;
 					viewElements.put(n, (g2)->{
 						Color color = util.Util.getGradient(grad, nv,0.2f);
 						g2.setColor(color);

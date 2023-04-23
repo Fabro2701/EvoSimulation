@@ -1,8 +1,10 @@
 package simulator.model.entity;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import grammar.AbstractGrammar;
 import simulator.control.Controller;
@@ -12,10 +14,13 @@ import simulator.control.InteractionsController;
 import simulator.control.UpdatesController;
 import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
+import simulator.model.entity.observations.ObservationManager;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
-public abstract class InteractiveEntity extends Entity{
+public class InteractiveEntity extends Entity{
 
+	
 	protected java.util.Map<String, AbstractGrammar>grammars;
 	protected java.util.Map<String, java.util.Map<String, ActionI>>actions;
 	protected InteractionsController interactions;
@@ -23,10 +28,13 @@ public abstract class InteractiveEntity extends Entity{
 	protected InitController inits;
 	
 	protected GrammarController grammarController;
-	protected Map<String,Boolean>exs;
+	protected java.util.Map<String,Boolean>exs;
 	
-	public InteractiveEntity(String id, Node n, Controller ctrl) {
+	
+	
+	public InteractiveEntity(String id, Node n, Controller ctrl, String code) {
 		super(id, n, ctrl);
+		
 		
 		grammars = ctrl.getGrammarController().getGrammars();
 		actions = ctrl.getActionsController().getActions();
@@ -40,10 +48,20 @@ public abstract class InteractiveEntity extends Entity{
 			exs.put(k, false);
 		}
 		
+		if(code!=null&&code.length()>0)this.apply(code);
+		init();
 		
 	}
-	protected abstract void init();
 	
+	protected void init() {
+		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
+		for(String id:inits_l.keySet()) {
+			if(inits.match(id, this.getClass())) {
+				inits_l.get(id).accept(this);
+			}
+		}
+		this.alive = true;
+	}
 	@Override
 	public void update(EvoSimulator evoSimulator) {
 		super.update(evoSimulator);
@@ -64,6 +82,22 @@ public abstract class InteractiveEntity extends Entity{
 			}
 			
 		}
+	}
+
+	@Override
+	public void perform(List<Entity> entities, Map map) {
+		
+	}
+
+	@Override
+	public boolean shouldInteract() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void myInteract(Entity e2) {
+		System.err.println("no interaction allowed");
 	}
 	
 	

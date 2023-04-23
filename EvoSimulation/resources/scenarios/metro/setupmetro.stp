@@ -33,7 +33,7 @@ init := initactive("simulator.model.entity.individuals.MyIndividual"){
 		   		
 		}
 		initStation("simulator.model.entity.PasiveEntity"){
-			this.setAttribute("congestion",0);
+			this.setAttribute("congestion",0d);
 		}.
 updates := 
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){

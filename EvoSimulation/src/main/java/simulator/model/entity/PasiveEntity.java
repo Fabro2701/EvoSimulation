@@ -14,8 +14,8 @@ import simulator.model.map.Node;
 
 public class PasiveEntity extends InteractiveEntity {
 
-	public PasiveEntity(String id, Node n, Controller ctrl) {
-		super(id, n, ctrl);
+	public PasiveEntity(String id, Node n, Controller ctrl, String code) {
+		super(id, n, ctrl, code);
 		pheromone = new Pheromone();
 		pheromone.init(this);
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
@@ -23,16 +23,7 @@ public class PasiveEntity extends InteractiveEntity {
 		this.attributes.put("pasive", true);
 	}
 
-	@Override
-	protected void init() {
-		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
-		for(String id:inits_l.keySet()) {
-			if(inits.match(id, this.getClass())) {
-				inits_l.get(id).accept(this);
-			}
-		}
-		this.alive = true;
-	}
+	
 	@Override
 	public void perform(List<Entity>entities, Map map) {
 		
