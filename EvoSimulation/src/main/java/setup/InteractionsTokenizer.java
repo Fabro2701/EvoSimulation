@@ -39,7 +39,7 @@ public class InteractionsTokenizer extends ChildTokenizer{
 	   		  {"^=","SIMPLE_ASSIGN"},
 	   		  {"^[*/+-]=","COMPLEX_ASSIGN"},
 	   		  {"^[+-]","ADDITIVE_OPERATOR"},
-	   		  {"^[*/]","MULTIPLICATIVE_OPERATOR"},
+	   		  {"^[*/%]","MULTIPLICATIVE_OPERATOR"},
 	   		  {"^[<>]=?","RELATIONAL_OPERATOR"},
 	   		  {"^!","LOGICAL_NOT"},
 			  {"^\"[^\"]*\"","STRING"}

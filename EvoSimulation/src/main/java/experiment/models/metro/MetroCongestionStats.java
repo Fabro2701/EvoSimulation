@@ -27,23 +27,14 @@ public class MetroCongestionStats extends StatsData{
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity).collect(Collectors.toList());
-			for(Entity e:listTotal) {
+			/*for(Entity e:listTotal) {
 				((DefaultCategoryDataset)dataset).addValue((Number) e.getAttribute("congestion"), (String)e.getAttribute("station"), Integer.valueOf(currentTime));
-			}
-			/*if(this.groupby) {
-				List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof MyIndividual).collect(Collectors.toList());
-				Map<Object, List<Entity>>list = listTotal.stream().collect(Collectors.groupingBy(Entity.groupF));
-				
-				for(Object id:list.keySet()) {
-					long count = list.get(id).stream().filter((Entity m)->m.hasAttribute(this.att)&&(Boolean)m.getAttribute(this.att)).count();
-					((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
-				}
-			}
-			else {
-				long count = simulator.getEntities().stream().filter(e->e instanceof MyIndividual&&e.hasAttribute(this.att)&&(Boolean)e.getAttribute(this.att)).count();				
-				((DefaultCategoryDataset)dataset).addValue(count, MyIndividual.class.getSimpleName(), Integer.valueOf(currentTime));
-				
 			}*/
+			double sum=0d;
+			for(Entity e:listTotal) {
+				sum += ((Number)e.getAttribute("congestion")).doubleValue();
+			}
+			((DefaultCategoryDataset)dataset).addValue(sum,"avg", Integer.valueOf(currentTime));
 
 		}
 	}

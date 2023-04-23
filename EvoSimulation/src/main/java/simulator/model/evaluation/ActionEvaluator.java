@@ -429,6 +429,8 @@ public class ActionEvaluator {
 			return ((Number)eval(left, env)).doubleValue()*((Number)eval(right, env)).doubleValue();
 		case "/":
 			return ((Number)eval(left, env)).doubleValue()/((Number)eval(right, env)).doubleValue();
+		case "%":
+			return ((Number)eval(left, env)).intValue()%((Number)eval(right, env)).intValue();
 		default:
 			throw new EvaluationException("Operator "+op+" is not supported yet");
 		}

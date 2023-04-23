@@ -12,6 +12,7 @@ import simulator.view.viewer.ViewElementsController;
 
 public class MetroViewElements extends  ViewElementsController{
 
+	float[][]grad = new float[][] {{1,1,0},{1,0,0}};
 	public MetroViewElements(java.util.Map<Object, ViewElement> viewElements) {
 		super(viewElements);
 		// TODO Auto-generated constructor stub
@@ -19,13 +20,12 @@ public class MetroViewElements extends  ViewElementsController{
 
 	@Override
 	public void produce(List<Entity> entities, Map map) {
-		float[][]grad = new float[][] {{1,1,0},{1,0,0}};
 		for(Entity e:entities) {
 			if(e instanceof PasiveEntity) {
 				PasiveEntity pe = (PasiveEntity)e;
 				double c = (double) pe.getAttribute("congestion");
 				Node n = e.node;
-				float nv = (float) (c/100f);
+				float nv = (float) (c/1000f);
 				int er = (int) (50f*nv)+30;
 				viewElements.put(n, (g2)->{
 					Color color = util.Util.getGradient(grad, nv,0.2f);

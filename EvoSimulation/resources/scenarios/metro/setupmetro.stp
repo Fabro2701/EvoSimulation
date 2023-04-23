@@ -44,10 +44,12 @@ updates :=
 		   			let node = this.nextNodeStraightTowards(simulator.getMap(), dirEntity);
 					if(node != null)this.setNode(node);
 		   }
-		   updateCongestion(100)("simulator.model.entity.PasiveEntity"){
-				this.setAttribute("congestion",this.getAttribute("congestion")+this.getAttribute("grow"));
-				if(this.getAttribute("congestion")>=100){
-					this.setAttribute("congestion",100d);
+		   updateCongestion(73)("simulator.model.entity.PasiveEntity"){
+		   		let m = simulator.getTime() % 24;
+		   		let y = (static "experiment.models.metro.Util").getStationDistribution(m);
+				this.setAttribute("congestion",this.getAttribute("congestion")+y);
+				if(this.getAttribute("congestion")>=1000d){
+					this.setAttribute("congestion",1000d);
 				}
 				
 		   }.
