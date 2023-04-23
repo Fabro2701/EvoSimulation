@@ -1,33 +1,23 @@
 package simulator.model;
 
-import java.io.FileInputStream;
+import java.awt.Color;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
-import java.util.function.Function;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import grammar.AbstractGrammar;
-import simulator.control.ActionsController;
-import simulator.control.GlobalController;
-import simulator.control.GrammarController;
-import simulator.control.InitController;
-import simulator.control.InteractionsController;
-import simulator.control.SetupController;
-import simulator.control.UpdatesController;
 import simulator.model.entity.Entity;
+import simulator.model.entity.PasiveEntity;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
-import simulator.model.map.creator.EntityPanel.EntityInfo;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.Optimizer;
-import simulator.model.optimizer.UniformGridOptimizer;
+import simulator.view.viewer.ViewElement;
 
 /**
  * EvoSimulator class
@@ -38,6 +28,7 @@ public class EvoSimulator {
 	private int time;
 	private Map map;
 	private List<SimulatorObserver> observers;
+	private java.util.Map<Object,ViewElement>viewElements;
 	private List<Entity> entities;
 	private List<Entity> entitiesBuffer;
 	
@@ -65,6 +56,7 @@ public class EvoSimulator {
 		this.time = 0;
 		this.map = new Map(map);
 		this.observers = new ArrayList<>();
+		this.viewElements = new HashMap<>();
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
 		
@@ -113,9 +105,22 @@ public class EvoSimulator {
 		
 		//update observers
 		if(time%this.imgRefreshRate==0) {
-			for (SimulatorObserver observer : observers) {
-				observer.onUpdate(entities, map, time);
+			for(Entity e:entities) {
+				if(e instanceof PasiveEntity) {
+					PasiveEntity pe = (PasiveEntity)e;
+					int c = (int) pe.getAttribute("congestion");
+					Node n = e.node;
+					int er = c*5;
+					viewElements.put(n, (g2)->{
+						g2.setColor(new Color(255,0,0,100));
+						g2.fillOval(n.x-er/2, n.y-er/2, er,er);
+					});
+				}
 			}
+			for (SimulatorObserver observer : observers) {
+				observer.onUpdate(entities, map, time, this.viewElements);
+			}
+			this.viewElements.clear();
 		}
 		
 		if(save) {

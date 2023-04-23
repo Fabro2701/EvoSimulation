@@ -156,7 +156,7 @@ public class Viewer3D extends AbstractViewer{
 	}
 
 	@Override
-	public void onUpdate(List<Entity> entities, Map map, int time) {
+	public void onUpdate(List<Entity> entities, Map map, int time, java.util.Map<Object, ViewElement> viewElements) {
 		if(active) {
 			this.mapImg = map.getElevationImage();		
 			this.entities=entities;

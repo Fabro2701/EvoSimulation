@@ -64,7 +64,7 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 	@Override
 	public abstract void onRegister(List<Entity> entities, Map map, int time);
 	@Override
-	public abstract void onUpdate(List<Entity> entities, Map map, int time);
+	public abstract void onUpdate(List<Entity> entities, Map map, int time, java.util.Map<Object, ViewElement> viewElements);
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {
 		return null;

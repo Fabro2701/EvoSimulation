@@ -28,7 +28,7 @@ import simulator.model.map.Map;
  *
  */
 public class Viewer extends AbstractViewer {
-
+	java.util.Map<Object, ViewElement> viewElements;
 	public Viewer(Controller ctrl, int w, int h) {
 		super(ctrl,w,h);
 	}
@@ -55,10 +55,11 @@ public class Viewer extends AbstractViewer {
 	 * Update only if it is active to optimize
 	 */
 	@Override
-	public void onUpdate(List<Entity> entities, Map map, int time) {
+	public void onUpdate(List<Entity> entities, Map map, int time, java.util.Map<Object, ViewElement> viewElements) {
 		if(active) {
 			this.mapImg = map.getAttributesImage();
 			this.entities = entities;
+			this.viewElements = viewElements;
 			updateImage();
 			repaint();
 		}
@@ -86,6 +87,11 @@ public class Viewer extends AbstractViewer {
 		for (Entity e : entities) {
 			bufferGraphics.drawImage(e.getImage(), e.node.x-e.getImage().getWidth(null)/2,
 												   e.node.y-e.getImage().getHeight(null)/2, null);
+		}
+		if(viewElements!=null) {
+			for(ViewElement ve:viewElements.values()) {
+				ve.paint(bufferGraphics);
+			}
 		}
 		
 	}

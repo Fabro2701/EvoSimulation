@@ -1,5 +1,7 @@
 package simulator.model.map;
 
+import java.util.Objects;
+
 import org.json.JSONObject;
 
 import simulator.Constants.NODE_TYPE;
@@ -52,6 +54,23 @@ public class Node {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Node other = (Node) obj;
+		return x == other.x && y == other.y;
 	}
 
 	public static void main(String args[]) {

@@ -3,36 +3,36 @@
         "x": 90,
         "y": 90,
         "type": "estacion",
-        "code":"this.setAttribute(\"A\",true);this.setAttribute(\"station\",\"A\");"
+        "code":"this.setAttribute(\"A\",true);this.setAttribute(\"station\",\"A\");this.setAttribute(\"congestion\",10);"
     },
     {
         "x": 210,
         "y": 400,
         "type": "estacion",
-        "code":"this.setAttribute(\"B\",true);this.setAttribute(\"station\",\"B\");"
+        "code":"this.setAttribute(\"B\",true);this.setAttribute(\"station\",\"B\");this.setAttribute(\"congestion\",10);"
     },
     {
         "x": 400,
         "y": 260,
         "type": "estacion",
-        "code":"this.setAttribute(\"C\",true);this.setAttribute(\"station\",\"C\");"
+        "code":"this.setAttribute(\"C\",true);this.setAttribute(\"station\",\"C\");this.setAttribute(\"congestion\",10);"
     },
     {
         "x": 400,
         "y": 120,
         "type": "estacion",
-        "code":"this.setAttribute(\"D\",true);this.setAttribute(\"station\",\"D\");"
+        "code":"this.setAttribute(\"D\",true);this.setAttribute(\"station\",\"D\");this.setAttribute(\"congestion\",10);"
     },
     {
         "x": 600,
         "y": 240,
         "type": "estacion",
-        "code":"this.setAttribute(\"E\",true);this.setAttribute(\"station\",\"E\");"
+        "code":"this.setAttribute(\"E\",true);this.setAttribute(\"station\",\"E\");this.setAttribute(\"congestion\",10);"
     },
     {
         "x": 435,
         "y": 438,
         "type": "estacion",
-        "code":"this.setAttribute(\"F\",true);this.setAttribute(\"station\",\"F\");"
+        "code":"this.setAttribute(\"F\",true);this.setAttribute(\"station\",\"F\");this.setAttribute(\"congestion\",10);"
     }
 ]
