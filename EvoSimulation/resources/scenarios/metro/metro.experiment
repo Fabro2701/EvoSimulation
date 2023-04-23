@@ -6,4 +6,5 @@ events = resources/scenarios/metro/events.json
 constantsCtrl = false
 imgRefreshRate = 10
 attId = info
+delay = 1
 imgsdir = resources/entities/

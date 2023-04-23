@@ -80,6 +80,7 @@ public class Experiment {
 	String imgsdir;
 	String poly;
 	boolean terminalCtrl;
+	long delay;
 	public void run() {
 		try {
 			parse();
@@ -106,6 +107,7 @@ public class Experiment {
 		if(properties.containsKey("imgsdir"))builder.setImgsdir(properties.getProperty("imgsdir"));
 		if(properties.containsKey("poly"))builder.setPoly(properties.getProperty("poly"));
 		if(properties.containsKey("terminalCtrl"))builder.setTerminalCtrl(Boolean.valueOf(properties.getProperty("terminalCtrl")));
+		if(properties.containsKey("delay"))builder.setDelay(Long.valueOf(properties.getProperty("delay")));
 
 		return builder.build();
 	}
@@ -160,6 +162,7 @@ public class Experiment {
 		
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
+		simulator.setDelay(this.delay);
 		
 		//imgs
 		if(this.imgsdir!=null) {
@@ -241,6 +244,7 @@ public class Experiment {
 		String attId;
 		String imgsdir;
 		String poly;
+		long delay = 0;
 		boolean terminalCtrl = false;
 		public Builder(String map, String setup) {
 			this.map = map;
@@ -290,6 +294,10 @@ public class Experiment {
 			this.terminalCtrl = terminalCtrl;
 			return this;
 		}
+		public Builder setDelay(long delay) {
+			this.delay = delay;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -317,6 +325,7 @@ public class Experiment {
 		this.imgsdir = builder.imgsdir;
 		this.poly = builder.poly;
 		this.terminalCtrl = builder.terminalCtrl;
+		this.delay = builder.delay;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		//String y = Character.toString( 138_519 );
