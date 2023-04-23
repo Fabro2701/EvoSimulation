@@ -1,6 +1,7 @@
 package experiment.models.metro;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
 
 import simulator.model.entity.Entity;
@@ -31,6 +32,13 @@ public class MetroViewElements extends  ViewElementsController{
 					Color color = util.Util.getGradient(grad, nv,0.2f);
 					g2.setColor(color);
 					g2.fillOval(n.x-er/2, n.y-er/2, er,er);
+				});
+				
+				String name = (String) pe.getAttribute("station");
+				viewElements.put(name, (g2)->{
+					g2.setColor(Color.black);
+					g2.setFont(new Font("Monospaced", Font.BOLD, 22));
+					g2.drawString(name, n.x+15, n.y);
 				});
 			}
 		}
