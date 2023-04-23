@@ -15,7 +15,7 @@
                 "y": 133
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"F\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"F\");",
             "ID": 19,
             "id": "F",
             "class": "SimpleState"
@@ -27,7 +27,7 @@
                 "y": 290
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"C\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
             "ID": 32,
             "id": "C",
             "class": "SimpleState"
@@ -39,7 +39,7 @@
                 "y": 447
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"D\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"D\");",
             "ID": 45,
             "id": "D",
             "class": "SimpleState"
@@ -51,7 +51,7 @@
                 "y": 285
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"C\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
             "ID": 62,
             "id": "Caux",
             "class": "SimpleState"
@@ -74,7 +74,7 @@
         },
         {
             "toID": 32,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"F\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"F\");",
             "fromShift": {
                 "x": -16,
                 "y": 2
@@ -90,7 +90,7 @@
         },
         {
             "toID": 45,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"C\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"C\");",
             "fromShift": {
                 "x": -16,
                 "y": 2
@@ -106,7 +106,7 @@
         },
         {
             "toID": 62,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"D\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"D\");",
             "fromShift": {
                 "x": 8,
                 "y": -38
@@ -122,7 +122,7 @@
         },
         {
             "toID": 19,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"C\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"C\");",
             "fromShift": {
                 "x": 2,
                 "y": -43

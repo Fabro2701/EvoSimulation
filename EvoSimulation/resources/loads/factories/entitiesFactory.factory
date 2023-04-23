@@ -1,3 +1,4 @@
 builders = \
 simulator.factories.builders.entity.PasiveEntityBuilder,\
+simulator.factories.builders.entity.ActiveEntityBuilder,\
 simulator.factories.builders.entity.MyIndividualBuilder

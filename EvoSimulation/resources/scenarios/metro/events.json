@@ -8,7 +8,7 @@
                 "time":0,
                 "times":1,
                 "interval":50,
-                "typeTo":"mi",
+                "typeTo":"ae",
                 "amount":1,
                 "properties":{
                 	"apply":"this.setAttribute(\"route\",\"ABC\");this.setNode(((this.getCtrl()).getMap()).getNodeAt(100,200));"
@@ -22,7 +22,7 @@
                 "time":0,
                 "times":1,
                 "interval":50,
-                "typeTo":"mi",
+                "typeTo":"ae",
                 "amount":1,
                 "properties":{
                 	"apply":"this.setAttribute(\"route\",\"ADE\");this.setNode(((this.getCtrl()).getMap()).getNodeAt(200,200));"
@@ -36,7 +36,7 @@
                 "time":0,
                 "times":1,
                 "interval":50,
-                "typeTo":"mi",
+                "typeTo":"ae",
                 "amount":1,
                 "properties":{
                 	"apply":"this.setAttribute(\"route\",\"FCD\");this.setNode(((this.getCtrl()).getMap()).getNodeAt(200,200));"

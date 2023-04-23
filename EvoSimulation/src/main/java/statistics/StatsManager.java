@@ -140,7 +140,7 @@ public class StatsManager extends JFrame implements StatsObserver{
 	 */
 	@Override 
 	public void onStep(EvoSimulator simulator) {
-		if(simulator.getEntities().size()<50)return;
+		//if(simulator.getEntities().size()<50)return;
 		for(StatsObserver o:observers) {
 			o.onStep(simulator);
 		}

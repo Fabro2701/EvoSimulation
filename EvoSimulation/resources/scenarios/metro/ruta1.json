@@ -15,7 +15,7 @@
                 "y": 220
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"A\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"A\");",
             "ID": 19,
             "id": "A",
             "class": "SimpleState"
@@ -27,7 +27,7 @@
                 "y": 335
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"B\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"B\");",
             "ID": 33,
             "id": "B",
             "class": "SimpleState"
@@ -39,7 +39,7 @@
                 "y": 339
             },
             "continuous": false,
-            "action": "(MyIndividual e)e.setAttribute(\"dest\",\"C\");",
+            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
             "ID": 53,
             "id": "C",
             "class": "SimpleState"
@@ -62,7 +62,7 @@
         },
         {
             "toID": 33,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"A\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"A\");",
             "fromShift": {
                 "x": -15,
                 "y": 2
@@ -78,7 +78,7 @@
         },
         {
             "toID": 53,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"B\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"B\");",
             "fromShift": {
                 "x": 11,
                 "y": -11
@@ -94,7 +94,7 @@
         },
         {
             "toID": 19,
-            "code": "(MyIndividual e)return e.getAttribute(\"current\").equals(\"C\");",
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"C\");",
             "fromShift": {
                 "x": -17,
                 "y": -41

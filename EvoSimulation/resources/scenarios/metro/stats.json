@@ -1,0 +1,11 @@
+[
+{
+ type:"experiment.models.metro.MetroCongestionBuilder",
+ data:{
+       title:"Population count",
+       x:"Time",
+       updateRate:100,
+       visualizer:"line"
+      }
+}
+]

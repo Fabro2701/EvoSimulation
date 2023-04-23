@@ -8,7 +8,7 @@ global := a(){
 			diagram3.load("resources/scenarios/metro/ruta3.json");
 		  }.
 		  
-init := initactive("simulator.model.entity.individuals.MyIndividual"){
+init := initactive("simulator.model.entity.ActiveEntity"){
 				this.setAttribute("info","train");
 				this.setAttribute("current","none");
 				/*this.setAttribute("dest","A");*/
@@ -36,7 +36,7 @@ init := initactive("simulator.model.entity.individuals.MyIndividual"){
 			this.setAttribute("congestion",0d);
 		}.
 updates := 
-		   updateMov("simulator.model.entity.individuals.MyIndividual"){
+		   updateMov("simulator.model.entity.ActiveEntity"){
 		   			(this.getAttribute("flow")).step(this.getAttribute("map"));
 		   			let dir = this.getAttribute("dest");
 		   			let dirEntity = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),dir);
@@ -53,7 +53,7 @@ updates :=
 		   }.
 
 interactions := 
-				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+				towardsStateInteraction("simulator.model.entity.ActiveEntity"->"simulator.model.entity.PasiveEntity"){
 					let station = e2.getAttribute("station");
 				
 					this.setAttribute("current",station);

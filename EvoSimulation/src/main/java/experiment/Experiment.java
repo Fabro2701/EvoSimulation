@@ -81,6 +81,7 @@ public class Experiment {
 	String poly;
 	boolean terminalCtrl;
 	long delay;
+	String viewElements[] = new String[] {};
 	public void run() {
 		try {
 			parse();
@@ -108,6 +109,7 @@ public class Experiment {
 		if(properties.containsKey("poly"))builder.setPoly(properties.getProperty("poly"));
 		if(properties.containsKey("terminalCtrl"))builder.setTerminalCtrl(Boolean.valueOf(properties.getProperty("terminalCtrl")));
 		if(properties.containsKey("delay"))builder.setDelay(Long.valueOf(properties.getProperty("delay")));
+		if(properties.containsKey("view_elements"))builder.setViewElements(properties.getProperty("view_elements").split(","));
 
 		return builder.build();
 	}
@@ -163,6 +165,9 @@ public class Experiment {
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
 		simulator.setDelay(this.delay);
+		for(String viewE:this.viewElements) {
+			simulator.addViewElementsController(viewE);
+		}
 		
 		//imgs
 		if(this.imgsdir!=null) {
@@ -244,8 +249,9 @@ public class Experiment {
 		String attId;
 		String imgsdir;
 		String poly;
-		long delay = 0;
 		boolean terminalCtrl = false;
+		long delay = 0;
+		String viewElements[];
 		public Builder(String map, String setup) {
 			this.map = map;
 			this.setup = setup;
@@ -298,6 +304,10 @@ public class Experiment {
 			this.delay = delay;
 			return this;
 		}
+		public Builder setViewElements(String viewElements[]) {
+			this.viewElements = viewElements;
+			return this;
+		}
 		public Experiment build() {
 			return new Experiment(this);
 		}
@@ -326,6 +336,7 @@ public class Experiment {
 		this.poly = builder.poly;
 		this.terminalCtrl = builder.terminalCtrl;
 		this.delay = builder.delay;
+		this.viewElements = builder.viewElements;
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		//String y = Character.toString( 138_519 );

@@ -19,7 +19,6 @@ public class PasiveEntity extends InteractiveEntity {
 		pheromone = new Pheromone();
 		pheromone.init(this);
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
-		this.alive = true;
 		this.attributes.put("pasive", true);
 	}
 

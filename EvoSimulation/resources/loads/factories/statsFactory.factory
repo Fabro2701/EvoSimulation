@@ -7,4 +7,5 @@ simulator.factories.builders.stats.GenotypeHeterogeneityBuilder,\
 simulator.factories.builders.stats.BestIndividualCodeBuilder,\
 simulator.factories.builders.stats.EventsStatsBuilder,\
 simulator.factories.builders.stats.AttributeBuilder,\
-simulator.factories.builders.stats.PolymorphismBuilder
+simulator.factories.builders.stats.PolymorphismBuilder,\
+experiment.models.metro.MetroCongestionBuilder

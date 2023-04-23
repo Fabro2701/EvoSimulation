@@ -2,14 +2,17 @@ package simulator.model.entity;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import simulator.control.Controller;
+import simulator.control.ImageController;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
+import simulator.model.map.Map;
 import simulator.model.map.Node;
 
-public abstract class ActiveEntity extends InteractiveEntity {
+public class ActiveEntity extends InteractiveEntity {
 	private java.util.Map<String, java.util.Map<String,Integer>>interactionsMap;
 	public ActiveEntity(String id, Node n, Controller ctrl, String code) {
 		super(id, n, ctrl, code);
@@ -18,6 +21,7 @@ public abstract class ActiveEntity extends InteractiveEntity {
 		this.attributes.put("pasive", false);
 		interactionsMap = new HashMap<>();
 		this.interactions.getInteractions().keySet().stream().forEach(i->interactionsMap.put(i, new HashMap<>()));
+		if(this.img == null)this.img = ImageController.getImage(this.getClass());
 	}
 
 	@Override
@@ -82,5 +86,11 @@ public abstract class ActiveEntity extends InteractiveEntity {
 //		e.increaseEnergy(this.weight * ENTITY_FOOD_FACTOR * FOOD_ENERGY_GIVEN_CONSTANT);
 //		this.vanish();
 //	}
+
+	@Override
+	public void perform(List<Entity> entities, Map map) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

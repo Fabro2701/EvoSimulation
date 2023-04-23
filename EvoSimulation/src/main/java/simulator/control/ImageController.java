@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
 
+import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.PasiveEntity;
 import simulator.model.entity.individuals.MyIndividual;
 
@@ -24,6 +25,7 @@ public class ImageController {
 		imgs.put("bar", new ImageIcon("resources/entities/bar.png").getImage());
 		*/
 		imgs.put(PasiveEntity.class, new ImageIcon("resources/entities/pasiveentity.png").getImage());
+		imgs.put(ActiveEntity.class, new ImageIcon("resources/entities/entity1.png").getImage());
 		imgs.put(MyIndividual.class, new ImageIcon("resources/entities/entity1.png").getImage());
 		
 	}

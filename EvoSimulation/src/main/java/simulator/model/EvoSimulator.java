@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import experiment.models.metro.MetroViewElements;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
 import simulator.model.map.Map;
@@ -18,6 +20,7 @@ import simulator.model.map.Node;
 import simulator.model.optimizer.BasicOptimizer;
 import simulator.model.optimizer.Optimizer;
 import simulator.view.viewer.ViewElement;
+import simulator.view.viewer.ViewElementsController;
 
 /**
  * EvoSimulator class
@@ -28,7 +31,6 @@ public class EvoSimulator {
 	private int time;
 	private Map map;
 	private List<SimulatorObserver> observers;
-	private java.util.Map<Object,ViewElement>viewElements;
 	private List<Entity> entities;
 	private List<Entity> entitiesBuffer;
 	
@@ -38,7 +40,8 @@ public class EvoSimulator {
 	private boolean debug=false;
 	private boolean save=false;
 	
-
+	private List<ViewElementsController>viewElementsCtrls;
+	protected java.util.Map<Object,ViewElement>viewElements;
 	
 	private int imgRefreshRate = 1;
 	private long delay = 10;
@@ -57,16 +60,18 @@ public class EvoSimulator {
 		this.time = 0;
 		this.map = new Map(map);
 		this.observers = new ArrayList<>();
-		this.viewElements = new HashMap<>();
 		this.entities = new ArrayList<Entity>();
 		this.entitiesBuffer = new ArrayList<Entity>();
+		
+		viewElements = new java.util.HashMap<>();
+		viewElementsCtrls = new ArrayList<>();
 		
 		//this.commonGrammar = new BiasedGrammar();
 //		this.commonGrammar = new StandardGrammar();
 //		this.commonGrammar.parseBNF("default");
 		
 		//this.commonGrammar.calculateAttributes();
-		
+		//viewElementsCtrls.add(new MetroViewElements(viewElements));
 		
 		this.startTime = System.currentTimeMillis();
 	}
@@ -115,20 +120,8 @@ public class EvoSimulator {
 		//update observers
 		if(time%this.imgRefreshRate==0) {
 			//float[][]grad = new float[][] {{0,0,1},{0,1,1},{0,1,0},{1,1,0},{1,0,0}};
-			float[][]grad = new float[][] {{1,1,0},{1,0,0}};
-			for(Entity e:entities) {
-				if(e instanceof PasiveEntity) {
-					PasiveEntity pe = (PasiveEntity)e;
-					double c = (double) pe.getAttribute("congestion");
-					Node n = e.node;
-					float nv = (float) (c/100f);
-					int er = (int) (50f*nv)+30;
-					viewElements.put(n, (g2)->{
-						Color color = util.Util.getGradient(grad, nv,0.2f);
-						g2.setColor(color);
-						g2.fillOval(n.x-er/2, n.y-er/2, er,er);
-					});
-				}
+			for(ViewElementsController vec:this.viewElementsCtrls) {
+				vec.produce(entities, map);
 			}
 			for (SimulatorObserver observer : observers) {
 				observer.onUpdate(entities, map, time, this.viewElements);
@@ -160,6 +153,9 @@ public class EvoSimulator {
 		}
 	}
 
+	public void addViewElementsController(String classname) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, ClassNotFoundException {
+		this.viewElementsCtrls.add(((ViewElementsController)Class.forName(classname).getConstructors()[0].newInstance(this.viewElements)));
+	}
 	/**
 	 * Add an {@link SimulatorObserver}
 	 * @param observer

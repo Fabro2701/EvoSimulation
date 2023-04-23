@@ -74,5 +74,6 @@ public final class Constants {
 	
 
 	public static final String PasiveEntityBuilder_TYPE = "pe";
+	public static final String ActiveEntityBuilder_TYPE = "ae";
 	public static final String MyIndividualBuilder_TYPE = "mi";
 }

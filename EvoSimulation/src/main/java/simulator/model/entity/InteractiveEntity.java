@@ -5,8 +5,10 @@ import java.util.List;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import grammar.AbstractGrammar;
+import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.control.GrammarController;
 import simulator.control.InitController;
@@ -17,8 +19,9 @@ import simulator.model.EvoSimulator;
 import simulator.model.entity.observations.ObservationManager;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import util.Util;
 
-public class InteractiveEntity extends Entity{
+public abstract class InteractiveEntity extends Entity{
 
 	
 	protected java.util.Map<String, AbstractGrammar>grammars;
@@ -84,22 +87,61 @@ public class InteractiveEntity extends Entity{
 		}
 	}
 
-	@Override
-	public void perform(List<Entity> entities, Map map) {
-		
+	public Node nextNodeTowards_(Map map, Node node) {
+		int x = (node.x-this.node.x); if(x!=0)x=x>0?1:-1;
+		int y = (node.y-this.node.y); if(y!=0)y=y>0?1:-1;
+		return map.getNodeAt(this.node.x+x, this.node.y+y);
 	}
-
-	@Override
-	public boolean shouldInteract() {
-		// TODO Auto-generated method stub
-		return true;
+	public Node nextNodeTowards(Map map, Entity entity) {
+		return nextNodeTowards_(map,entity.node);
 	}
-
-	@Override
-	public void myInteract(Entity e2) {
-		System.err.println("no interaction allowed");
+	public Node nextNodeStraightTowards_(Map map, Node node, double th) {
+		double dx = node.x - this.node.x;
+		double dy = node.y - this.node.y;
+	    
+		if(dx==0&&dy==0)return this.node;
+	    double proportion = Math.abs(dx / dy);
+	    
+	    int x=0,y=0;
+	    if(dx!=0)x=dx>0?1:-1;
+	    if(dy!=0)y=dy>0?1:-1;
+	    
+	    if(proportion>=th) {
+	    	return map.getNodeAt(this.node.x+x, this.node.y);
+	    }
+	    else if(proportion<=1/th) {
+	    	return map.getNodeAt(this.node.x, this.node.y+y);
+	    }
+	    else {
+	    	return map.getNodeAt(this.node.x+x, this.node.y+y);
+	    }
 	}
-	
+	public Node nextNodeStraightTowardsEsp(Map map, Entity entity, double th) {
+		return nextNodeStraightTowards_(map,entity.node,th);
+	}
+	public Node nextNodeStraightTowards(Map map, Entity entity) {
+		return nextNodeStraightTowards_(map,entity.node,3d);
+	}
+	public Entity getEntityClosestAttribute(EvoSimulator simulator, String attribute) {
+		List<Entity>entities = simulator.getEntities();
+		Entity entity=null;
+		double mindist = Double.MAX_VALUE;
+		double dist;
+		for(Entity e:entities) {
+			if(e instanceof PasiveEntity &&e.hasAttribute(attribute)&&(boolean) e.getAttribute(attribute) && (dist=Util.nodeDistance(node, e.node))<mindist) {
+				mindist = dist;
+				entity = e;
+			}
+		}
+		return entity;
+	}
+	public Entity getEntityRandomAttribute(EvoSimulator simulator, String attribute) {
+		Entity entity=null;
+		List<Entity>entities = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity &&e.hasAttribute(attribute)&&(boolean) e.getAttribute(attribute)).collect(Collectors.toList());
+		if(entities.size()>0) 
+			entity = entities.get(RandomSingleton.nextInt(entities.size()));
+		return entity;
+	}
 	
 
 }
