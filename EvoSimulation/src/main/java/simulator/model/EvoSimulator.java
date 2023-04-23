@@ -41,6 +41,7 @@ public class EvoSimulator {
 
 	
 	private int imgRefreshRate = 1;
+	private long delay = 10;
 	
 	public EvoSimulator() throws IllegalArgumentException, IOException {
 		this("test1000void2");
@@ -76,6 +77,14 @@ public class EvoSimulator {
 	 */
 	public void step() {
 		//System.out.println(entities.size());
+		if(this.delay>0) {
+			try {
+				Thread.sleep(this.delay);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		time++;
 		if(entities.size()==0 && entitiesBuffer.size()==0)return;//for performance
 		
@@ -105,14 +114,18 @@ public class EvoSimulator {
 		
 		//update observers
 		if(time%this.imgRefreshRate==0) {
+			//float[][]grad = new float[][] {{0,0,1},{0,1,1},{0,1,0},{1,1,0},{1,0,0}};
+			float[][]grad = new float[][] {{1,1,0},{1,0,0}};
 			for(Entity e:entities) {
 				if(e instanceof PasiveEntity) {
 					PasiveEntity pe = (PasiveEntity)e;
-					int c = (int) pe.getAttribute("congestion");
+					double c = (double) pe.getAttribute("congestion");
 					Node n = e.node;
-					int er = c*5;
+					int er = 50;
+					float nv = (float) (c/100f);
 					viewElements.put(n, (g2)->{
-						g2.setColor(new Color(255,0,0,100));
+						Color color = util.Util.getGradient(grad, nv,0.2f);
+						g2.setColor(color);
 						g2.fillOval(n.x-er/2, n.y-er/2, er,er);
 					});
 				}
@@ -248,5 +261,11 @@ public class EvoSimulator {
 	}
 	public void setImgRefreshRate(int imgRefreshRate) {
 		this.imgRefreshRate = imgRefreshRate;
+	}
+	public long getDelay() {
+		return delay;
+	}
+	public void setDelay(long delay) {
+		this.delay = delay;
 	}
 }

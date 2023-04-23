@@ -6,6 +6,7 @@ import static simulator.Constants.MOVE.LEFT;
 import static simulator.Constants.MOVE.RIGHT;
 import static simulator.Constants.MOVE.UP;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -29,6 +30,34 @@ public class Util {
 	}
 	public static void printlnDouble(double s) {
 		System.out.println(s);
+	}
+	public static void printlnInt(int s) {
+		System.out.println(s);
+	}
+	public static Color getGradient(float[][]colors, float value, float alpha) {
+		value -= 0.001f;
+		int ncolors = colors.length-1;
+		float idx = (float) (value*ncolors);
+		int idx0=(int) Math.floor(idx),idx1=idx0+1;
+		
+		if(idx<0f) {
+			idx=0;
+			idx0=0;
+			idx1=1;
+		}
+		
+		float prop = idx-idx0;
+		prop = prop<=0f?0:prop;
+		
+		Color c=null;
+		try{
+			c=new Color((colors[idx1][0]-colors[idx0][0])*prop+colors[idx0][0],
+				(colors[idx1][1]-colors[idx0][1])*prop+colors[idx0][1],
+				(colors[idx1][2]-colors[idx0][2])*prop+colors[idx0][2],alpha);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return c;
 	}
 	public static int test() {
 		return 4;
@@ -149,7 +178,7 @@ public class Util {
         }
         return intValue;
     }
-	public static void main(String args[]) {
+	public static void maina(String args[]) {
 		int l=15;
 		String arr[][] = new String [l][l];
 		for(int y=0;y<l;y++) {

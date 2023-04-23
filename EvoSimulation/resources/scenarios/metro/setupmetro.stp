@@ -31,6 +31,9 @@ init := initactive("simulator.model.entity.individuals.MyIndividual"){
 					this.setAttribute("flow",flow);
 				}
 		   		
+		}
+		initStation("simulator.model.entity.PasiveEntity"){
+			this.setAttribute("congestion",0);
 		}.
 updates := 
 		   updateMov("simulator.model.entity.individuals.MyIndividual"){
@@ -40,6 +43,13 @@ updates :=
 		   			
 		   			let node = this.nextNodeStraightTowards(simulator.getMap(), dirEntity);
 					if(node != null)this.setNode(node);
+		   }
+		   updateCongestion(100)("simulator.model.entity.PasiveEntity"){
+				this.setAttribute("congestion",this.getAttribute("congestion")+this.getAttribute("grow"));
+				if(this.getAttribute("congestion")>=100){
+					this.setAttribute("congestion",100d);
+				}
+				
 		   }.
 
 interactions := 
@@ -47,5 +57,7 @@ interactions :=
 					let station = e2.getAttribute("station");
 				
 					this.setAttribute("current",station);
+					
+					e2.setAttribute("congestion",0d);
 					
 				}.

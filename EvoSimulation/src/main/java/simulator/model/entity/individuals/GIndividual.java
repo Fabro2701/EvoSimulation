@@ -55,27 +55,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	public void updateObservations(List<Entity>entities, Map map) {
 		observationManager.update(entities, map);
 	}
-	@Override
-	public void update(EvoSimulator evoSimulator) {
-		super.update(evoSimulator);
-		//observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
-		
-		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
-		java.util.Map<String, Integer> freqs = updates.getUpdatesFreq();
-		
-		for(String id:updates_l.keySet()) {
-			if(evoSimulator.getTime()%freqs.get(id)!=0)continue;
-			try {
-				if(updates.match(id, this.getClass())) {
-					if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
-				}
-			}catch(Exception e) {
-				System.err.println("Error in update: "+id);
-				e.printStackTrace();
-			}
-			
-		}
-	}
+	
 
 	@Override
 	public void perform(List<Entity>entities, Map map) {
