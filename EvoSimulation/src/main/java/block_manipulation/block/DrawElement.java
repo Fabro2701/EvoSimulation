@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 public class DrawElement {
-	static boolean borders = !false;
+	static boolean borders = false;
 	
 	public static abstract class Shape{
 		protected Color color;

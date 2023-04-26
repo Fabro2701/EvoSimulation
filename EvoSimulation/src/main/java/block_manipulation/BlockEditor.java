@@ -3,6 +3,7 @@ package block_manipulation;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -70,6 +71,19 @@ public class BlockEditor extends JPanel{
 			public void mouseClicked(MouseEvent e) {
     			
     			if(SwingUtilities.isLeftMouseButton(e)) {
+    				if(e.isControlDown()) {
+    					BlockManager del = null;
+    					for(BlockManager manager:managers) {
+            				if((currentBlock=manager.getRoot().findRecursive(e.getPoint()))!=null) {
+            					currentManager = manager;
+            					if(((RecursiveBlock) currentBlock).getPosition()==0) {
+            						del = currentManager;
+            					}
+            					break;
+            				}
+            			}
+    					if(del!=null)BlockEditor.this.managers.remove(del);
+    				}
     				for(BlockManager manager:managers) {
         				if((currentBlock=manager.getRoot().findRecursive(e.getPoint()))!=null) {
         					currentManager = manager;
@@ -218,7 +232,7 @@ public class BlockEditor extends JPanel{
 		
 		g2.setColor(Color.white);
 		g2.fillRect(2, 0, this.getWidth(), this.getHeight());
-		
+		//g2.setFont(new Font("Monospaced", Font.PLAIN, 15)); 
 		int yshift = 0;
 		for(BlockManager manager:managers) {
 			
