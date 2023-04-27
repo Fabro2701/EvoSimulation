@@ -16,7 +16,8 @@ public class MetroCongestionBuilder extends StatsBuilder{
 	@Override
 	public StatsData createTheInstance(JSONObject o, Controller ctrl) {
 		return new MetroCongestionStats(o.optInt("updateRate", Constants.DEFAULT_STATS_REFRESHRATE), 
-								  o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE)
+								  o.optBoolean("serialize", Constants.DEFAULT_STATS_SERIALIZE),
+								  o.optInt("clear", -1)
 								 );
 	}
 

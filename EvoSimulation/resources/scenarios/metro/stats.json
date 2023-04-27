@@ -5,6 +5,7 @@
        title:"Population count",
        x:"Time",
        updateRate:10,
+       clear:1000,
        visualizer:"line"
       }
 }

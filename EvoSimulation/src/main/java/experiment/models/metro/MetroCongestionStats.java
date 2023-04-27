@@ -14,16 +14,16 @@ import statistics.StatsData;
 
 public class MetroCongestionStats extends StatsData{
 
-	private int currentTime=0;
 	
-	public MetroCongestionStats(int updateRate, boolean serialize) {
-		super(updateRate, serialize);
+	public MetroCongestionStats(int updateRate, boolean serialize, int clear) {
+		super(updateRate, serialize, clear);
 		dataset = new DefaultCategoryDataset();
 		this.serialize = false;
 	}
 
 	@Override 
 	public void onStep(EvoSimulator simulator) {
+		super.onStep(simulator);
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity).collect(Collectors.toList());
@@ -35,7 +35,6 @@ public class MetroCongestionStats extends StatsData{
 				sum += ((Number)e.getAttribute("congestion")).doubleValue();
 			}
 			((DefaultCategoryDataset)dataset).addValue(sum,"avg", Integer.valueOf(currentTime));
-
 		}
 	}
 

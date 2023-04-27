@@ -1,12 +1,12 @@
 map = resources/maps/metroMap
 setup = resources/scenarios/metro/setupmetro.stp
 visualization = BASIC
-optimizer = UNIFORM_GRID
+optimizer = BASIC
 stats = resources/scenarios/metro/stats.json
 events = resources/scenarios/metro/events.json
 constantsCtrl = false
 imgRefreshRate = 10
 attId = info
-delay = 1
+delay = 0
 imgsdir = resources/entities/
 view_elements = experiment.models.metro.MetroViewElements

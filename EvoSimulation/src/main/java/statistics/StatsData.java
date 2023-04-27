@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.AbstractDataset;
 
+import simulator.model.EvoSimulator;
+
 /**
  * StatsData handles all {@link StatsObserver} events
  * @author Fabrizio Ortega
@@ -22,9 +24,16 @@ public abstract class StatsData implements StatsObserver{
 	protected PrintWriter fileWriter;
 	protected boolean serialize;
 	
-	public StatsData(int updateRate, boolean serialize) {
+	protected int currentTime=0;
+	private int clear;
+	
+	public StatsData(int updateRate, boolean serialize, int clear) {
 		this.updateRate = updateRate;
 		this.serialize = serialize;
+		this.clear = clear;
+	}
+	public StatsData(int updateRate, boolean serialize) {
+		this(updateRate, serialize,-1);
 	}
 	@Override
 	public void onRegister() {
@@ -35,6 +44,10 @@ public abstract class StatsData implements StatsObserver{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	@Override 
+	public void onStep(EvoSimulator simulator) {
+		if(clear!=-1&&currentTime%clear==0)clear();
 	}
 	public AbstractDataset getDataSet() {return dataset;}
 	public JLabel getText() {return text;}
