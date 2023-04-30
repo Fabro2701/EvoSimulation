@@ -5,7 +5,7 @@
        title:"Station accumulated wait",
        x:"Time steps",
        y:"Accumulated wait time",
-       updateRate:1000,
+       updateRate:500,
        clear:-1,
        visualizer:"line"
       }

@@ -8,6 +8,6 @@ constantsCtrl = false
 terminalCtrl = true
 imgRefreshRate = 10
 attId = info
-delay = 1
+delay = 0
 imgsdir = resources/entities/
 view_elements = experiment.models.metro.MetroViewElements

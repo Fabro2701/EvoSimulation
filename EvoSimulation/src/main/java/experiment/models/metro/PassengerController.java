@@ -51,7 +51,7 @@ public class PassengerController {
 						r=s;
 					}
 				}
-				if(station.equals(r)) {
+				if(this.routeManager.getPath(station, dest).size()==min) {
 					receptor.addPassengers(dest, this.passengers.get(dest));
 					this.passengers.put(dest, 0);
 				}
