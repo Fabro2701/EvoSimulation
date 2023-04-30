@@ -109,7 +109,7 @@ public class Translation {
 	public static void main(String args[]) {
 		Diagram diagram = new Diagram();
 		try {
-			diagram.load("resources/scenarios/metro/ruta3.json");
+			diagram.load("resources/scenarios/metro/rutaABFEDC.json");
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block

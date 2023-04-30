@@ -3,7 +3,7 @@
         "x": 90,
         "y": 90,
         "type": "estacion",
-        "code":"this.setAttribute(\"A\",true);this.setAttribute(\"station\",\"A\");this.setAttribute(\"grow\",10);"
+        "code":"this.setAttribute(\"A\",true);this.setAttribute(\"station\",\"A\");"
     },
     {
         "x": 210,

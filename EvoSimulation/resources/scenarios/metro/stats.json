@@ -2,8 +2,9 @@
 {
  type:"experiment.models.metro.MetroCongestionBuilder",
  data:{
-       title:"Population count",
-       x:"Time",
+       title:"Station accumulated wait",
+       x:"Time steps",
+       y:"Accumulated wait time",
        updateRate:1000,
        clear:-1,
        visualizer:"line"

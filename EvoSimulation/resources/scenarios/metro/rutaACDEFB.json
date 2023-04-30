@@ -1,0 +1,201 @@
+{
+    "elems": [
+        {
+            "pos": {
+                "x": 82,
+                "y": 92
+            },
+            "ID": 6,
+            "class": "InitState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 186,
+                "y": 127
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"A\");",
+            "ID": 19,
+            "id": "A",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 386,
+                "y": 94
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"D\");",
+            "ID": 32,
+            "id": "D",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 543,
+                "y": 151
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"E\");",
+            "ID": 45,
+            "id": "E",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 512,
+                "y": 292
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"F\");",
+            "ID": 58,
+            "id": "F",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 235,
+                "y": 283
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"B\");",
+            "ID": 71,
+            "id": "B",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 333,
+                "y": 182
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
+            "ID": 90,
+            "id": "C",
+            "class": "SimpleState"
+        },
+        {
+            "toID": 19,
+            "code": "",
+            "fromShift": {
+                "x": 4,
+                "y": -6
+            },
+            "toShift": {
+                "x": -29,
+                "y": -20
+            },
+            "ID": 84,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 6
+        },
+        {
+            "toID": 45,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"D\");",
+            "fromShift": {
+                "x": 10,
+                "y": -14
+            },
+            "toShift": {
+                "x": -27,
+                "y": -22
+            },
+            "ID": 86,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 58,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"E\");",
+            "fromShift": {
+                "x": -2,
+                "y": 2
+            },
+            "toShift": {
+                "x": 3,
+                "y": -38
+            },
+            "ID": 87,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 45
+        },
+        {
+            "toID": 71,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"F\");",
+            "fromShift": {
+                "x": -22,
+                "y": -13
+            },
+            "toShift": {
+                "x": 15,
+                "y": -11
+            },
+            "ID": 88,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 58
+        },
+        {
+            "toID": 19,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"B\");",
+            "fromShift": {
+                "x": -22,
+                "y": -39
+            },
+            "toShift": {
+                "x": -1,
+                "y": 0
+            },
+            "ID": 89,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 71
+        },
+        {
+            "toID": 90,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"A\");",
+            "fromShift": {
+                "x": 9,
+                "y": -23
+            },
+            "toShift": {
+                "x": -21,
+                "y": -10
+            },
+            "ID": 103,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        },
+        {
+            "toID": 32,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"C\");",
+            "fromShift": {
+                "x": 10,
+                "y": -28
+            },
+            "toShift": {
+                "x": -18,
+                "y": 0
+            },
+            "ID": 104,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 90
+        }
+    ],
+    "fsmid": "ACDEFB",
+    "base": {
+        "x": 3,
+        "y": -12
+    }
+}

@@ -1,13 +1,17 @@
 
 global := g(){
-			let diagram1 = (static "state_diagram.Diagram").forName("");
-			diagram1.load("resources/scenarios/metro/ruta1.json");
-			let diagram2 = (static "state_diagram.Diagram").forName("");
-			diagram2.load("resources/scenarios/metro/ruta2.json");
-			let diagram3 = (static "state_diagram.Diagram").forName("");
-			diagram3.load("resources/scenarios/metro/ruta3.json");
+			let diagramABC = (static "state_diagram.Diagram").forName("");
+			diagramABC.load("resources/scenarios/metro/rutaABC.json");
+			let diagramADE = (static "state_diagram.Diagram").forName("");
+			diagramADE.load("resources/scenarios/metro/rutaADE.json");
+			let diagramFCD = (static "state_diagram.Diagram").forName("");
+			diagramFCD.load("resources/scenarios/metro/rutaFCD.json");
+			let diagramACDEFB = (static "state_diagram.Diagram").forName("");
+			diagramACDEFB.load("resources/scenarios/metro/rutaACDEFB.json");
+			let diagramABFEDC = (static "state_diagram.Diagram").forName("");
+			diagramABFEDC.load("resources/scenarios/metro/rutaABFEDC.json");
 			
-			let trainCapacity = 1000;
+			let trainCapacity = 1500;
 			let routeManager = new "experiment.models.metro.RouteManager"();
 		  }.
 		  
@@ -22,15 +26,23 @@ init := initactive("simulator.model.entity.ActiveEntity"){
 				let route = this.getAttribute("route");
 				(static "util.Util").printlnString(route);
 				if(route.equals("ABC")){
-					let flow = diagram1.createFlow("experiment.models.metro.");
+					let flow = diagramABC.createFlow("experiment.models.metro.");
 					this.setAttribute("flow",flow);
 				}
 				else if(route.equals("ADE")){
-					let flow = diagram2.createFlow("experiment.models.metro.");
+					let flow = diagramADE.createFlow("experiment.models.metro.");
+					this.setAttribute("flow",flow);
+				}
+				else if(route.equals("FCD")){
+					let flow = diagramFCD.createFlow("experiment.models.metro.");
+					this.setAttribute("flow",flow);
+				}
+				else if(route.equals("ACDEFB")){
+					let flow = diagramACDEFB.createFlow("experiment.models.metro.");
 					this.setAttribute("flow",flow);
 				}
 				else{
-					let flow = diagram3.createFlow("experiment.models.metro.");
+					let flow = diagramABFEDC.createFlow("experiment.models.metro.");
 					this.setAttribute("flow",flow);
 				}
 				routeManager.signIn(route);
@@ -53,16 +65,18 @@ updates :=
 		   updateCongestion(73)("simulator.model.entity.PasiveEntity"){
 		   		let m = simulator.getTime() % 24;
 		   		let y = (static "experiment.models.metro.Util").getStationDistribution(m);
+		   		
+		   		y = y/10;
 				
 				let station = this.getAttribute("station");
 				let connections = routeManager.connections(station);
-				if(routeManager.direct(station,"A"))(this.getAttribute("passengers")).addPassengers("A",y/connections);
-				if(routeManager.direct(station,"B"))(this.getAttribute("passengers")).addPassengers("B",y/connections);
-				if(routeManager.direct(station,"C"))(this.getAttribute("passengers")).addPassengers("C",y/connections);
-				if(routeManager.direct(station,"D"))(this.getAttribute("passengers")).addPassengers("D",y/connections);
-				if(routeManager.direct(station,"E"))(this.getAttribute("passengers")).addPassengers("E",y/connections);
-				if(routeManager.direct(station,"F"))(this.getAttribute("passengers")).addPassengers("F",y/connections);
-		   }.
+				if(!station.equals("A"))(this.getAttribute("passengers")).addPassengers("A",y/connections);
+				if(!station.equals("B"))(this.getAttribute("passengers")).addPassengers("B",y/connections);
+				if(!station.equals("C"))(this.getAttribute("passengers")).addPassengers("C",y/connections);
+				if(!station.equals("D"))(this.getAttribute("passengers")).addPassengers("D",y/connections);
+				if(!station.equals("E"))(this.getAttribute("passengers")).addPassengers("E",y/connections);
+				if(!station.equals("F"))(this.getAttribute("passengers")).addPassengers("F",y/connections);
+		   }.      
 
 interactions := 
 				towardsStateInteraction(50)("simulator.model.entity.ActiveEntity"->"simulator.model.entity.PasiveEntity"){
@@ -72,6 +86,7 @@ interactions :=
 					
 					let passengers = this.getAttribute("passengers");
 					let route = this.getAttribute("route");
-					passengers.liberate(e2.getAttribute("station"),route);
-					(e2.getAttribute("passengers")).transfer(passengers,route, trainCapacity-passengers.total());
+					let passengers2 = e2.getAttribute("passengers");
+					passengers2.transfer(passengers,route, trainCapacity-passengers.total());
+					passengers.liberate(passengers2,e2.getAttribute("station"),route);
 				}.

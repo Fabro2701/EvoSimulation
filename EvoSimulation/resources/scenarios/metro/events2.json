@@ -1,0 +1,33 @@
+{
+    "events": [
+         {
+            "type":"areg",
+            "data":{
+	        	"id":"r",
+                "time":0,
+                "times":1,
+                "interval":650,
+                "typeTo":"ae",
+                "amount":1,
+                "properties":{
+                	"apply":"this.setAttribute(\"route\",\"ACDEFB\");this.setNode(((this.getCtrl()).getMap()).getNodeAt(100,200));"
+                }
+            }
+        },
+        {
+            "type":"areg",
+            "data":{
+	        	"id":"r",
+                "time":0,
+                "times":1,
+                "interval":650,
+                "typeTo":"ae",
+                "amount":1,
+                "properties":{
+                	"apply":"this.setAttribute(\"route\",\"ABFEDC\");this.setNode(((this.getCtrl()).getMap()).getNodeAt(100,200));"
+                }
+            }
+        }
+    ]
+}
+    

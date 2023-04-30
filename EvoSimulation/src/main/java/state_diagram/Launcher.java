@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 public class Launcher extends JFrame{
 	public static void main(String args[]) {;
 		SwingUtilities.invokeLater(()->{
-			String filename = "resources/scenarios/metro/ruta3.json";
+			String filename = "resources/scenarios/metro/rutaABFEDC.json";
 			Launcher launcher = new Launcher();
 			
 			
