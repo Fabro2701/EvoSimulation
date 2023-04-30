@@ -21,7 +21,7 @@ class Test extends JPanel{
 		float[][]cols = new float[][] {{1,1,0},{1,0,0}};
 		for(int i=0;i<=300;i++) {
 			System.out.println(i);
-			Color c = util.Util.getGradient(cols, i/300f,1);
+			Color c = util.Util.getGradient(cols, 1f,1);
 			System.out.println(c);
 			g2.setColor(c);
 			//g2.setColor(new Color(255,0,0,255*i/300));

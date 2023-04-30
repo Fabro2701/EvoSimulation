@@ -20,7 +20,7 @@
  		   Floor()
 		  ].
 <IF> :- [
-		 Header(name=Str(text="if"),right=<COND>,right=<COND>),
+		 Header(name=Str(text="if"),right=<COND>),
 		 Children(e=<LINE>),
 		 Floor()
 		],
@@ -36,19 +36,11 @@
 		  ],
 		  [
 		   Inner(names=<COND>,names=<OP>,names=<OBS>)
-		  ],
-		  [
-		   Inner(names=<OBS>,names=<OP>,names=<COND>)
 		  ].
 <OBS> :- [Inner(names=Str(text="obs1"))],
 		 [Inner(names=Str(text="obs2"))],
 		 [Inner(names=Str(text="obs3"))].
 <ACTION> :- [Inner(names=Str(text="RIGHT"))],
-			[Inner(names=Str(text="LEFT"))],
-			[Inner(names=Str(text="UP"))],
-			[Inner(names=Str(text="DOWN"))],
-			[Inner(names=Str(text="NEUTRAL"))].
+			[Inner(names=Str(text="LEFT"))].
 <OP> :- [Inner(names=Str(text="<"))],
-		[Inner(names=Str(text=">"))],
-		[Inner(names=Str(text="<="))],
-		[Inner(names=Str(text=">="))].
+		[Inner(names=Str(text=">"))].

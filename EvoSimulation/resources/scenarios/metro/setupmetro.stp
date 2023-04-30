@@ -1,11 +1,14 @@
 
-global := a(){
+global := g(){
 			let diagram1 = (static "state_diagram.Diagram").forName("");
 			diagram1.load("resources/scenarios/metro/ruta1.json");
 			let diagram2 = (static "state_diagram.Diagram").forName("");
 			diagram2.load("resources/scenarios/metro/ruta2.json");
 			let diagram3 = (static "state_diagram.Diagram").forName("");
 			diagram3.load("resources/scenarios/metro/ruta3.json");
+			
+			let trainCapacity = 1000;
+			let routeManager = new "experiment.models.metro.RouteManager"();
 		  }.
 		  
 init := initactive("simulator.model.entity.ActiveEntity"){
@@ -30,10 +33,13 @@ init := initactive("simulator.model.entity.ActiveEntity"){
 					let flow = diagram3.createFlow("experiment.models.metro.");
 					this.setAttribute("flow",flow);
 				}
+				routeManager.signIn(route);
 		   		
+			    this.setAttribute("passengers",new "experiment.models.metro.PassengerController"(routeManager));
+			    this.setAttribute("congestion",0);
 		}
 		initStation("simulator.model.entity.PasiveEntity"){
-			this.setAttribute("congestion",0d);
+			this.setAttribute("passengers",new "experiment.models.metro.PassengerController"(routeManager));
 		}.
 updates := 
 		   updateMov("simulator.model.entity.ActiveEntity"){
@@ -47,19 +53,25 @@ updates :=
 		   updateCongestion(73)("simulator.model.entity.PasiveEntity"){
 		   		let m = simulator.getTime() % 24;
 		   		let y = (static "experiment.models.metro.Util").getStationDistribution(m);
-				this.setAttribute("congestion",this.getAttribute("congestion")+y);
-				if(this.getAttribute("congestion")>=1000d){
-					this.setAttribute("congestion",1000d);
-				}
 				
+				let station = this.getAttribute("station");
+				let connections = routeManager.connections(station);
+				if(routeManager.direct(station,"A"))(this.getAttribute("passengers")).addPassengers("A",y/connections);
+				if(routeManager.direct(station,"B"))(this.getAttribute("passengers")).addPassengers("B",y/connections);
+				if(routeManager.direct(station,"C"))(this.getAttribute("passengers")).addPassengers("C",y/connections);
+				if(routeManager.direct(station,"D"))(this.getAttribute("passengers")).addPassengers("D",y/connections);
+				if(routeManager.direct(station,"E"))(this.getAttribute("passengers")).addPassengers("E",y/connections);
+				if(routeManager.direct(station,"F"))(this.getAttribute("passengers")).addPassengers("F",y/connections);
 		   }.
 
 interactions := 
-				towardsStateInteraction("simulator.model.entity.ActiveEntity"->"simulator.model.entity.PasiveEntity"){
+				towardsStateInteraction(50)("simulator.model.entity.ActiveEntity"->"simulator.model.entity.PasiveEntity"){
 					let station = e2.getAttribute("station");
 				
 					this.setAttribute("current",station);
 					
-					e2.setAttribute("congestion",0d);
-					
+					let passengers = this.getAttribute("passengers");
+					let route = this.getAttribute("route");
+					passengers.liberate(e2.getAttribute("station"),route);
+					(e2.getAttribute("passengers")).transfer(passengers,route, trainCapacity-passengers.total());
 				}.

@@ -1,33 +1,38 @@
 package experiment.models.metro;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RouteManager {
-	Map<String, Node>nodes;
+	Map<String, Set<String>>stations;
 	public RouteManager() {
-		this.nodes = new LinkedHashMap<>();
+		this.stations = new LinkedHashMap<>();
 	}
-	public static class Route{
-		public Route(List<String>nodes) {
-			
+	public void signIn(String route) {
+		for(String s:route.split("")) {
+			for(String s2:route.split("")) {
+				if(!s.equals(s2)){
+					stations.computeIfAbsent(s, i->new HashSet<>()).add(s2);
+				}
+			}
 		}
+		System.out.println(stations);
 	}
-	public static class Node{
-		int x,y;
-		public Node(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
+	public boolean direct(String origin, String dest) {
+		return stations.containsKey(origin)&&stations.get(origin).contains(dest);
 	}
-	public void addNode(String id, Node node) {
-		nodes.put(id, node);
+	public int connections(String station) {
+		return stations.containsKey(station)?stations.get(station).size():0;
 	}
-	public void addNode(String id, int x, int y) {
-		nodes.put(id, new Node(x,y));
-	}
+	
 	public static void main(String args[]) {
-		System.out.println(Node.class);
+		RouteManager r = new RouteManager();
+		r.signIn("ABC");
+		r.signIn("BD");
+		r.signIn("DEF");
+		System.out.println(r.stations);
 	}
 }

@@ -77,13 +77,13 @@ public class Viewer extends AbstractViewer {
 //				}
 //			}
 //		}
-		bufferGraphics.setColor(Color.black);
+		/*bufferGraphics.setColor(Color.black);
 		int gridSize = 20;
 		for (int i = 0; i < this.getHeight(); i += gridSize) {
 			for (int j = 0; j < this.getWidth(); j += gridSize) {
 				bufferGraphics.drawRect(i, j, gridSize, gridSize);
 			}
-		}
+		}*/
 		for (Entity e : entities) {
 			bufferGraphics.drawImage(e.getImage(), e.node.x-e.getImage().getWidth(null)/2,
 												   e.node.y-e.getImage().getHeight(null)/2, null);

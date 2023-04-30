@@ -24,10 +24,11 @@ public class MetroViewElements extends  ViewElementsController{
 		for(Entity e:entities) {
 			if(e instanceof PasiveEntity) {
 				PasiveEntity pe = (PasiveEntity)e;
-				double c = (double) pe.getAttribute("congestion");
+				PassengerController passengers = (PassengerController) pe.getAttribute("passengers");
 				Node n = e.node;
-				float nv = (float) (c/1000f);
+				float nv = (float) (Math.min(passengers.total(), 3000)/3000f);
 				int er = (int) (50f*nv)+30;
+	
 				viewElements.put(n, (g2)->{
 					Color color = util.Util.getGradient(grad, nv,0.2f);
 					g2.setColor(color);
@@ -40,6 +41,59 @@ public class MetroViewElements extends  ViewElementsController{
 					g2.setFont(new Font("Monospaced", Font.BOLD, 22));
 					g2.drawString(name, n.x+15, n.y);
 				});
+
+				viewElements.put(name+"pass", (g2)->{
+					g2.setColor(Color.black);
+					g2.setFont(new Font("Monospaced", Font.PLAIN, 15));
+					int i=1;
+					for(var entry:passengers.passengers.entrySet()) {
+						g2.drawString(entry.getKey(), n.x+15, n.y+i*15);
+						g2.drawString(String.valueOf(entry.getValue()), n.x+15+10, n.y+i*15);
+						i++;
+					}
+					
+				});
+			}
+			else {
+				PassengerController passengers =  (PassengerController) e.getAttribute("passengers");
+				String id = e.getId();
+				Node n = e.node;
+				viewElements.put(id, (g2)->{
+					g2.setColor(Color.black);
+					g2.setFont(new Font("Monospaced", Font.BOLD, 22));
+					g2.drawString((String) e.getAttribute("route"), n.x+15, n.y);
+				});
+				viewElements.put(id+"pass", (g2)->{
+					g2.setColor(Color.black);
+					g2.setFont(new Font("Monospaced", Font.PLAIN, 15));
+					int i=1;
+					for(var entry:passengers.passengers.entrySet()) {
+						g2.drawString(entry.getKey(), n.x+15, n.y+i*15);
+						g2.drawString(String.valueOf(entry.getValue()), n.x+15+10, n.y+i*15);
+						i++;
+					}
+				});
+				/*String route = (String) e.getAttribute("route");
+				viewElements.put(id+"pass", (g2)->{
+					g2.setColor(Color.black);
+					Node aux = null;
+					for(String s:route.split("")){
+						for(Entity e2:entities) {
+							if(e2 instanceof PasiveEntity) {
+								String station = (String) e2.getAttribute("station");
+								if(station.equals(s)) {
+									if(aux==null)aux=e2.node;
+									else {
+										g2.drawLine(aux.x, aux.y, e2.node.x, e2.node.y);
+										aux=e2.node;
+									}
+								}
+							}
+						}
+					}
+					
+					
+				});*/
 			}
 		}
 	}

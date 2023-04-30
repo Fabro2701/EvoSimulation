@@ -14,7 +14,7 @@ import statistics.StatsData;
 
 public class MetroCongestionStats extends StatsData{
 
-	
+	int sumacc=0;
 	public MetroCongestionStats(int updateRate, boolean serialize, int clear) {
 		super(updateRate, serialize, clear);
 		dataset = new DefaultCategoryDataset();
@@ -28,13 +28,16 @@ public class MetroCongestionStats extends StatsData{
 		if(currentTime%updateRate==0) {
 			List<Entity>listTotal = simulator.getEntities().stream().filter(e->e instanceof PasiveEntity).collect(Collectors.toList());
 			/*for(Entity e:listTotal) {
-				((DefaultCategoryDataset)dataset).addValue((Number) e.getAttribute("congestion"), (String)e.getAttribute("station"), Integer.valueOf(currentTime));
+				((DefaultCategoryDataset)dataset).addValue(((PassengerController)e.getAttribute("passengers")).total(), (String)e.getAttribute("station"), Integer.valueOf(currentTime));
 			}*/
-			double sum=0d;
+			int sum=0;
 			for(Entity e:listTotal) {
-				sum += ((Number)e.getAttribute("congestion")).doubleValue();
+				sum += ((PassengerController)e.getAttribute("passengers")).total();
 			}
 			((DefaultCategoryDataset)dataset).addValue(sum,"avg", Integer.valueOf(currentTime));
+			sumacc+=sum;
+			((DefaultCategoryDataset)dataset).addValue(sumacc,"acc", Integer.valueOf(currentTime));
+			
 		}
 	}
 
