@@ -165,9 +165,12 @@ public class Experiment {
 		simulator.setDebug(true);
 		simulator.setImgRefreshRate(this.imgRefreshRate);
 		simulator.setDelay(this.delay);
-		for(String viewE:this.viewElements) {
-			simulator.addViewElementsController(viewE);
+		if(this.viewElements!=null) {
+			for(String viewE:this.viewElements) {
+				simulator.addViewElementsController(viewE);
+			}
 		}
+		
 		
 		//imgs
 		if(this.imgsdir!=null) {
@@ -351,7 +354,7 @@ public class Experiment {
 		exp.run();
 		*/
 		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
-		Experiment exp2 = Experiment.fromFile("resources/scenarios/metro/metro.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/infection/infection.experiment");
 		exp2.run();
 	}
 }

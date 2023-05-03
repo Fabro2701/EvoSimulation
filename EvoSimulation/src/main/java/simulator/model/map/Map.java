@@ -84,7 +84,7 @@ public class Map {
 			JSONArray ents = new JSONArray(new JSONTokener(new FileInputStream(entsFile)));
 			for(int i=0;i<ents.length();i++) {
 				JSONObject o = ents.getJSONObject(i);
-				entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y"),o.getString("code")));
+				entitiesInfo.add(new EntityInfo(o.getString("type"),o.getInt("x"),o.getInt("y"),o.optString("code", "")));
 			}
 		}
 	}

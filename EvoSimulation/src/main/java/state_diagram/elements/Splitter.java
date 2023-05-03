@@ -41,6 +41,12 @@ public class Splitter extends TransitionableElement {
 		fromTs.add(t);
 		if(probs.size()<fromTs.size())probs.add(1d);
 	}
+	@Override
+	public void deleteFromTransition(Transition t) {
+		int i = fromTs.indexOf(t);
+		fromTs.remove(i);
+		probs.remove(i);
+	}
 
 	
 	@Override

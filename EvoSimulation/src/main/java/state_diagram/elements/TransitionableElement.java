@@ -80,6 +80,12 @@ public abstract class TransitionableElement extends Element{
 	public void addToTransition(Transition t) {
 		toTs.add(t);
 	}
+	protected void deleteFromTransition(Transition transition) {
+		fromTs.remove(transition);
+	}
+	protected void deleteToTransition(Transition transition) {
+		toTs.remove(transition);
+	}
 	public Point getRelativePosition(Point p) {
 		return new Point(p.x-(this.base.x + this.pos.x), p.y-(this.base.y + this.pos.y));
 	}

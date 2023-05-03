@@ -1,0 +1,85 @@
+{
+    "elems": [
+        {
+            "pos": {
+                "x": 58,
+                "y": 126
+            },
+            "ID": 6,
+            "class": "InitState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 259,
+                "y": 220
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"A\");",
+            "ID": 19,
+            "id": "Healthy",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 228,
+                "y": 358
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"B\");",
+            "ID": 33,
+            "id": "Sick",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 406,
+                "y": 351
+            },
+            "continuous": false,
+            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
+            "ID": 53,
+            "id": "Inmune",
+            "class": "SimpleState"
+        },
+        {
+            "toID": 19,
+            "code": "",
+            "fromShift": {
+                "x": -1,
+                "y": -1
+            },
+            "toShift": {
+                "x": -20,
+                "y": -18
+            },
+            "ID": 32,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 6
+        },
+        {
+            "toID": 33,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"A\");",
+            "fromShift": {
+                "x": -15,
+                "y": 2
+            },
+            "toShift": {
+                "x": 16,
+                "y": -39
+            },
+            "ID": 46,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        }
+    ],
+    "fsmid": "ABC",
+    "base": {
+        "x": 0,
+        "y": -1
+    }
+}

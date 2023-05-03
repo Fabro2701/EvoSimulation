@@ -115,6 +115,10 @@ public class Transition extends Element{
 	public TransitionableElement getTo() {
 		return to;
 	}
+	public void delete() {
+		from.deleteFromTransition(this);
+		to.deleteToTransition(this);
+	}
 	@Override
 	public JSONObject toJSON() {
 		return new JSONObject().put("class", "Transition")

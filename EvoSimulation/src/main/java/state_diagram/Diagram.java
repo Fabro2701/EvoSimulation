@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -83,6 +84,17 @@ public class Diagram extends JPanel{
 			Diagram.this.requestFocus();
 	    	Point p = ev.getPoint();
 			if (SwingUtilities.isRightMouseButton(ev)) {
+				if (ev.isControlDown()) {
+					for(int i=0;i<ts.size();i++) {
+						Transition t = ts.get(i);
+			    		if(t.containsLine(p)) {
+			    			t.delete();
+			    			ts.remove(i);
+			    			repaint();
+			    			break;
+			    		}
+			    	}
+				}
     			TransitionableElement aux = null;
 				for(TransitionableElement e:elems) {
 		    		if((aux=e.contains(p))!=null) {
