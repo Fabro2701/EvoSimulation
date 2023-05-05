@@ -8,52 +8,8 @@
                 "time":0,
                 "times":1000,
                 "interval":100,
-                "timelapse":50,
-                "typeTo":"mi",
-                "amount":200
-                
-            }
-        },
-        {
-            "type":"areg",
-            "data":{
-	        	"id":"r",
-                "time":0,
-                "times":1,
-                "interval":50,
-                "typeTo":"pe",
-                "amount":5,
-                "properties":{
-                	"apply":"this.setAttribute(\"supermarket\",true);this.setAttribute(\"info\",\"supermarket\");this.setImg((static \"simulator.control.ImageController\").getImage(\"supermarket\"));"
-                }
-            }
-        },
-        {
-            "type":"areg",
-            "data":{
-	        	"id":"r",
-                "time":0,
-                "times":1,
-                "interval":50,
-                "typeTo":"pe",
-                "amount":5,
-                "properties":{
-                	"apply":"this.setAttribute(\"house\",true);this.setAttribute(\"info\",\"house\");this.setImg((static \"simulator.control.ImageController\").getImage(\"house\"));"
-                }
-            }
-        },
-        {
-            "type":"areg",
-            "data":{
-	        	"id":"r",
-                "time":0,
-                "times":1,
-                "interval":50,
-                "typeTo":"pe",
-                "amount":5,
-                "properties":{
-                	"apply":"this.setAttribute(\"bar\",true);this.setAttribute(\"info\",\"bar\");this.setImg((static \"simulator.control.ImageController\").getImage(\"bar\"));"
-                }
+                "typeTo":"ae",
+                "amount":100
             }
         }
     ]

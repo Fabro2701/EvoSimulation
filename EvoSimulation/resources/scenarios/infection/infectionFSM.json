@@ -15,7 +15,7 @@
                 "y": 220
             },
             "continuous": false,
-            "action": "(Entity e)e.setAttribute(\"dest\",\"A\");",
+            "action": "(Entity e)e.setAttribute(\"status\",\"healthy\");",
             "ID": 19,
             "id": "Healthy",
             "class": "SimpleState"
@@ -27,7 +27,7 @@
                 "y": 358
             },
             "continuous": false,
-            "action": "(Entity e)e.setAttribute(\"dest\",\"B\");",
+            "action": "(Entity e)e.setAttribute(\"status\",\"infected\");",
             "ID": 33,
             "id": "Sick",
             "class": "SimpleState"
@@ -35,13 +35,25 @@
         {
             "rest": 0,
             "pos": {
-                "x": 406,
-                "y": 351
+                "x": 402,
+                "y": 359
             },
             "continuous": false,
-            "action": "(Entity e)e.setAttribute(\"dest\",\"C\");",
+            "action": "(Entity e)e.setAttribute(\"status\",\"inmune\");",
             "ID": 53,
             "id": "Inmune",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 239,
+                "y": 457
+            },
+            "continuous": false,
+            "action": "(Entity e)e.dispose();",
+            "ID": 56,
+            "id": "Death",
             "class": "SimpleState"
         },
         {
@@ -62,7 +74,7 @@
         },
         {
             "toID": 33,
-            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"A\");",
+            "code": "(Entity e)return e.getAttribute(\"status\").equals(\"infected\");",
             "fromShift": {
                 "x": -15,
                 "y": 2
@@ -75,9 +87,57 @@
             "type": "COND",
             "class": "Transition",
             "fromID": 19
+        },
+        {
+            "toID": 53,
+            "code": "return RandomSingleton.nextFloat()<=((Number)ActionEvaluator.getGlobalVariable(\"recoveryProb\")).floatValue();",
+            "fromShift": {
+                "x": 31,
+                "y": -18
+            },
+            "toShift": {
+                "x": -21,
+                "y": -20
+            },
+            "ID": 54,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 33
+        },
+        {
+            "toID": 19,
+            "code": "return RandomSingleton.nextFloat()<=((Number)ActionEvaluator.getGlobalVariable(\"lossinmuneProb\")).floatValue();",
+            "fromShift": {
+                "x": -16,
+                "y": -42
+            },
+            "toShift": {
+                "x": 48,
+                "y": 0
+            },
+            "ID": 55,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 53
+        },
+        {
+            "toID": 56,
+            "code": "return RandomSingleton.nextFloat()<=((Number)ActionEvaluator.getGlobalVariable(\"infectiondeathProb\")).floatValue();",
+            "fromShift": {
+                "x": 15,
+                "y": 3
+            },
+            "toShift": {
+                "x": 3,
+                "y": -39
+            },
+            "ID": 69,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 33
         }
     ],
-    "fsmid": "ABC",
+    "fsmid": "infectionFSM",
     "base": {
         "x": 0,
         "y": -1

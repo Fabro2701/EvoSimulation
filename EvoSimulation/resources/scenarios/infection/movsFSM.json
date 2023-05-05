@@ -1,0 +1,162 @@
+{
+    "elems": [
+        {
+            "pos": {
+                "x": 66,
+                "y": 139
+            },
+            "ID": 6,
+            "class": "InitState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 201,
+                "y": 215
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"house\");",
+            "ID": 19,
+            "id": "house",
+            "class": "SimpleState"
+        },
+        {
+            "probs": [
+                1,
+                1
+            ],
+            "pos": {
+                "x": 398,
+                "y": 222
+            },
+            "ID": 32,
+            "type": "STOCHASTIC",
+            "class": "Splitter"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 541,
+                "y": 124
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"restaurant\");",
+            "ID": 45,
+            "id": "restaurant",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 0,
+            "pos": {
+                "x": 544,
+                "y": 340
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"bar\");",
+            "ID": 58,
+            "id": "bar",
+            "class": "SimpleState"
+        },
+        {
+            "toID": 19,
+            "code": "",
+            "fromShift": {
+                "x": 1,
+                "y": -5
+            },
+            "toShift": {
+                "x": -22,
+                "y": -25
+            },
+            "ID": 71,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 6
+        },
+        {
+            "toID": 32,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"house\");",
+            "fromShift": {
+                "x": 40,
+                "y": -18
+            },
+            "toShift": {
+                "x": -18,
+                "y": -7
+            },
+            "ID": 72,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        },
+        {
+            "toID": 45,
+            "code": "",
+            "fromShift": {
+                "x": 1,
+                "y": -10
+            },
+            "toShift": {
+                "x": -20,
+                "y": -6
+            },
+            "ID": 73,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 58,
+            "code": "",
+            "fromShift": {
+                "x": 0,
+                "y": -8
+            },
+            "toShift": {
+                "x": -19,
+                "y": -35
+            },
+            "ID": 74,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 19,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"restaurant\");",
+            "fromShift": {
+                "x": -22,
+                "y": -34
+            },
+            "toShift": {
+                "x": 35,
+                "y": -35
+            },
+            "ID": 75,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 45
+        },
+        {
+            "toID": 19,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"bar\");",
+            "fromShift": {
+                "x": -21,
+                "y": -4
+            },
+            "toShift": {
+                "x": 29,
+                "y": 1
+            },
+            "ID": 76,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 58
+        }
+    ],
+    "fsmid": "movsFSM",
+    "base": {
+        "x": 0,
+        "y": -1
+    }
+}

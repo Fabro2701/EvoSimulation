@@ -60,6 +60,15 @@ public class ActionEvaluator {
 	static {
 		globalEnv = new Environment(null);
 	}
+	public static Object getGlobalVariable(String id) {
+		try {
+			return globalEnv.search(id);
+		} catch (EvaluationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	boolean debug = !true;
 	public ActionEvaluator(JSONArray program) {
 		this.program = program;

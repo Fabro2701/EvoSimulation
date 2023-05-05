@@ -1,53 +1,54 @@
 
 global := a(){
 			let mu = 60*520;
-			let infectionProb = 0.01;
-			let infectiondeathProb = 0.0001;
+			let initInfectionProb = 0.1;
+			let infectionProb = 1.01;
+			let infectiondeathProb = 0.00;
 			let recoveryProb = 0.001;
 			let lossinmuneProb = 0.001;
+			
+			let diagramInfection = new "state_diagram.Diagram"();
+			diagramInfection.load("resources/scenarios/infection/infectionFSM.json");
+			let diagramMovs = new "state_diagram.Diagram"();
+			diagramMovs.load("resources/scenarios/infection/movsFSM.json");
 		  }.
 		  
-init := initactive("simulator.model.entity.individuals.MyIndividual"){
-			  let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
-			  this.setAttribute("state",fsm.getCurrent());
+init := initactive("simulator.model.entity.ActiveEntity"){
 			  
-			  this.setAttribute("status","healthy");
-			  let p = (static "simulator.RandomSingleton").nextDouble();
-			  if(p<=0.05){
-			  	this.setAttribute("status","infected");
-			  }
+				this.setAttribute("current","none");
+				this.setAttribute("status","none");
+			  
+			  let map = (static "util.Util").createMap();
+				map.put("e",this);
+				this.setAttribute("map",map);
+				
+				let p = (static "simulator.RandomSingleton").nextFloat();
+				if(p<initInfectionProb){
+					this.setAttribute("status","infected");
+				}
+				let flowInfection = diagramInfection.createFlow("experiment.models.infection.");
+				this.setAttribute("flowInfection",flowInfection);
+				let flowMovs = diagramMovs.createFlow("experiment.models.infection.");
+				this.setAttribute("flowMovs",flowMovs);
+				
 		}
-		initactiveAge("simulator.model.entity.individuals.MyIndividual"){
-			let p = (static "simulator.RandomSingleton").nextGaussian();
+		initactiveAge("simulator.model.entity.ActiveEntity"){
+			/*let p = (static "simulator.RandomSingleton").nextGaussian();
 			p = (p*7.0+35.6)*52;
-			this.setAge(p);
+			this.setAge(p);*/
 					 
 	 	}.
-updates := update1("simulator.model.entity.individuals.MyIndividual"){
+updates := updateInfectionFSM(10)("simulator.model.entity.ActiveEntity"){
 				
-				let p = (static "simulator.RandomSingleton").nextDouble();
+				(this.getAttribute("flowInfection")).step(this.getAttribute("map"));
+				(this.getAttribute("flowMovs")).step(this.getAttribute("map"));
 		
 				if(this.getAge()>=mu){
 					this.dispose();
 				}
-				else if((this.getAttribute("status")).equals("infected") && p <= infectiondeathProb){
-					this.dispose();
-				}
-		   }
-		   recoveryupdate("simulator.model.entity.individuals.MyIndividual"){
-				let p = (static "simulator.RandomSingleton").nextDouble();
-		
-				if((this.getAttribute("status")).equals("inmune") && p <= lossinmuneProb){
-					this.setAttribute("status","healthy");
-				}
 				
-				p = (static "simulator.RandomSingleton").nextDouble();
-		
-				if((this.getAttribute("status")).equals("infected") && p <= recoveryProb){
-					this.setAttribute("status","inmune");
-				}
 		   }
-		   updateSetBuildings("simulator.model.entity.individuals.MyIndividual"){
+		   updateSetBuildings("simulator.model.entity.ActiveEntity"){
 				if(!this.hasAttribute("house")){
 			    	let house = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"house");
 			    	this.setAttribute("house",house);
@@ -60,26 +61,21 @@ updates := update1("simulator.model.entity.individuals.MyIndividual"){
 			    	let bar = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"bar");
 			    	this.setAttribute("bar",bar);
 			    }
+			    if(!this.hasAttribute("restaurant")){
+			    	let restaurant = this.getEntityRandomAttribute((this.getCtrl()).getSimulator(),"restaurant");
+			    	this.setAttribute("restaurant",restaurant);
+			    }
 		   }
-		   updateMov("simulator.model.entity.individuals.MyIndividual"){
-		   		if(this.hasAttribute("rest")){
-		   			if(this.getAttribute("rest")<=0){
-		   				let state = this.getAttribute("state");
-						let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
-						if(node != null)this.setNode(node);
-					}
-					else{
-						this.setAttribute("rest",this.getAttribute("rest")-1);
-					}
-		   		}
-				else{
-					let state = this.getAttribute("state");
-					let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(state.getData()));
+		   updateMov("simulator.model.entity.ActiveEntity"){
+		   			(this.getAttribute("flowMovs")).step(this.getAttribute("map"));
+		   			let dir = this.getAttribute("dest");
+		   			/*(static "util.Util").printlnString(dir);*/
+		   			let node = this.nextNodeTowards(simulator.getMap(), this.getAttribute(dir));
 					if(node != null)this.setNode(node);
-				}
-		   }.
+		   }
+		   .
 
-interactions := infectionInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+interactions := infectionInteraction("simulator.model.entity.ActiveEntity"->"simulator.model.entity.ActiveEntity"){
 	
 					let p = (static "simulator.RandomSingleton").nextDouble();
 					if((this.getAttribute("status")).equals("infected")){
@@ -88,13 +84,8 @@ interactions := infectionInteraction("simulator.model.entity.individuals.MyIndiv
 						}
 					}			
 				}
-				towardsStateInteraction("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
-					let fsm = (static "simulator.control.fsm.FSM").getMyIndividualFSM();
-					
-					let oldstate = this.getAttribute("state");
+				towardsStateInteraction("simulator.model.entity.ActiveEntity"->"simulator.model.entity.PasiveEntity"){
 					let info = e2.getAttribute("info");
-					let state = fsm.run(this.getAttribute("state"), info);
-					
-					if(oldstate!=state)oldstate.doJobs(this);
-					this.setAttribute("state", state);
+					/*(static "util.Util").printlnString(info);*/
+					this.setAttribute("current",info);
 				}.
