@@ -45,13 +45,16 @@ public class TransitionProduct extends Product{
 			IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
 		boolean b = (boolean) ctrl.invoke("transition"+t.ID, Util.extractParams(map,params));
 		if(b) {
-			advance();
+			boolean aux = false;
 			if(ctrl.getCurrent() instanceof InitStateProduct) {
-				ctrl.step(null);
+				aux = true;
 			}
+			advance();
+			if(aux)ctrl.step(map);
+			return true;
 		}
 		
-		return null;
+		return false;
 	}
 	public void advance() {
 		ctrl.setCurrent(to);

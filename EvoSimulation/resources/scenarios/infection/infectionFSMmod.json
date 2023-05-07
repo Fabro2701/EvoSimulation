@@ -15,7 +15,7 @@
                 "y": 220
             },
             "continuous": false,
-            "action": "(Entity e)e.setAttribute(\"status\",\"healthy\");",
+            "action": "(Entity e)if(!e.getAttribute(\"status\").equals(\"infected\"))e.setAttribute(\"status\",\"healthy\");",
             "ID": 19,
             "id": "Healthy",
             "class": "SimpleState"
@@ -106,7 +106,7 @@
         },
         {
             "toID": 19,
-            "code": "return RandomSingleton.nextFloat()<=((Number)ActionEvaluator.getGlobalVariable(\"lossinmuneProb\")).floatValue();",
+            "code": "(Entity e)return RandomSingleton.nextFloat()<=((Number)ActionEvaluator.getGlobalVariable(\"lossinmuneProb\")).floatValue()\n            && !((boolean)e.getAttribute(\"vaccinated\"));",
             "fromShift": {
                 "x": -16,
                 "y": -42
@@ -135,9 +135,41 @@
             "type": "COND",
             "class": "Transition",
             "fromID": 33
+        },
+        {
+            "toID": 53,
+            "code": "(Entity e)return (boolean)e.getAttribute(\"vaccinated\");",
+            "fromShift": {
+                "x": 53,
+                "y": -28
+            },
+            "toShift": {
+                "x": 20,
+                "y": -41
+            },
+            "ID": 70,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        },
+        {
+            "toID": 53,
+            "code": "(Entity e)return (boolean)e.getAttribute(\"vaccinated\");",
+            "fromShift": {
+                "x": 30,
+                "y": -4
+            },
+            "toShift": {
+                "x": -21,
+                "y": -5
+            },
+            "ID": 71,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 33
         }
     ],
-    "fsmid": "infectionFSM",
+    "fsmid": "infectionFSMmod",
     "base": {
         "x": 6,
         "y": -57

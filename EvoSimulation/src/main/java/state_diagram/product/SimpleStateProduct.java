@@ -1,6 +1,8 @@
 package state_diagram.product;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +15,7 @@ public class SimpleStateProduct extends Product{
 	SimpleState state;
 	int rest,cont;
 	boolean continuous;
-	TransitionProduct t;
+	List<TransitionProduct> ts;
 	private String params="";
 	static Pattern p = Pattern.compile("^\\([^\\(]*\\)");
 	public SimpleStateProduct(FlowController ctrl, SimpleState state) {
@@ -24,11 +26,14 @@ public class SimpleStateProduct extends Product{
 		this.rest = state.getRest();
 		this.continuous = state.isContinuous();
 		
-		Transition te = state.getFromTs().get(0);
-		if(ctrl.products.containsKey(te)) {
-			this.t = (TransitionProduct) ctrl.products.get(te);
+		this.ts = new ArrayList<>();
+		for(var t:state.getFromTs()) {
+			if(ctrl.products.containsKey(t)) {
+				this.ts.add((TransitionProduct) ctrl.products.get(t));
+			}
+			this.ts.add(new TransitionProduct(ctrl, t));
 		}
-		this.t = new TransitionProduct(ctrl, state.getFromTs().get(0));
+		
 		cont = rest;
 
 		Matcher m = p.matcher(state.getAction());
@@ -39,7 +44,9 @@ public class SimpleStateProduct extends Product{
 		//System.out.println("call");
 		if(rest==0) {
 			action(map);
-			t.execute(map);
+			for(var t:ts) {
+				if((boolean) t.execute(map))return null;
+			}
 		}
 		else {
 			if(cont == rest) {
@@ -53,7 +60,7 @@ public class SimpleStateProduct extends Product{
 			else {
 				if(continuous)action(map);
 				cont = rest;
-				t.execute(map);
+				for(var t:ts)if((boolean) t.execute(map))return null;
 			}
 		}
 

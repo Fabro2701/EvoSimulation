@@ -27,7 +27,7 @@ public abstract class Entity{
 	protected Image img;
 	public Node node;
 	protected boolean alive;
-	protected int age, currentTime, generation;
+	protected int currentTime, generation;
 	protected Pheromone pheromone;
 	protected Controller ctrl;
 	protected ImageController imgController;
@@ -44,7 +44,6 @@ public abstract class Entity{
 		this.id = id;
 		this.node = n;
 		//this.alive = true;
-		this.age = 0;
 		this.generation = 0;
 		this.imgController = ctrl.getImgController();
 		//this.updateImage();
@@ -57,7 +56,6 @@ public abstract class Entity{
 	 */
 	public void update(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
-		age++;
 		//this.updateImage();
 	}
 	
@@ -100,7 +98,6 @@ public abstract class Entity{
 	}
 	public void updateObservations(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
-		age++;
 	}
 	
 	public abstract boolean shouldInteract();
@@ -135,7 +132,7 @@ public abstract class Entity{
 
 	public JSONObject toJSON() {
 		return new JSONObject().put("type", type).put("data",
-				new JSONObject().put("id", id).put("x", node.x).put("y", node.y).put("age", age)
+				new JSONObject().put("id", id).put("x", node.x).put("y", node.y)
 		// .put("image", JSONObject.NULL)
 		);
 	}
@@ -162,12 +159,7 @@ public abstract class Entity{
 	public int getGeneration() {
 		return this.generation;
 	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public int getAge() {
-		return age;
-	}
+
 
 	
 

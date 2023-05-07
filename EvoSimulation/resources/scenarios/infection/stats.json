@@ -2,9 +2,8 @@
 {
  type:"pc",
  data:{
-       title:"Population count",
+       y:"Population count",
        x:"Time",
-       y:"",
        updateRate:100,
        visualizer:"line"
       }

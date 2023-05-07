@@ -9,7 +9,7 @@
             "class": "InitState"
         },
         {
-            "rest": 0,
+            "rest": 100,
             "pos": {
                 "x": 201,
                 "y": 215
@@ -22,8 +22,8 @@
         },
         {
             "probs": [
-                1,
-                1
+                0.6,
+                0.4
             ],
             "pos": {
                 "x": 398,
@@ -34,7 +34,7 @@
             "class": "Splitter"
         },
         {
-            "rest": 0,
+            "rest": 30,
             "pos": {
                 "x": 541,
                 "y": 124
@@ -46,7 +46,7 @@
             "class": "SimpleState"
         },
         {
-            "rest": 0,
+            "rest": 50,
             "pos": {
                 "x": 544,
                 "y": 340

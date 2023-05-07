@@ -5,11 +5,11 @@
             "type":"arecg",
             "data":{
 	        	"id":"r",
-                "time":0,
-                "times":1000,
+                "time":2,
+                "times":1,
                 "interval":100,
                 "typeTo":"ae",
-                "amount":100
+                "amount":200
             }
         }
     ]

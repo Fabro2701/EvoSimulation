@@ -354,7 +354,7 @@ public class Experiment {
 		exp.run();
 		*/
 		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
-		Experiment exp2 = Experiment.fromFile("resources/scenarios/infection/infection.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/obesidad/obesidad.experiment");
 		exp2.run();
 	}
 }

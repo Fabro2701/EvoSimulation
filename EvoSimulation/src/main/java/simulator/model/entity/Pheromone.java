@@ -23,7 +23,6 @@ public class Pheromone extends ArrayList<Float>{
 	}
 	public void init(Entity e) {
 		this.set(0,e instanceof ActiveEntity?1.f:0.f);
-		this.set(2,(float)e.age);
 		this.set(3,0.f);
 		this.set(4,0.f);
 		this.set(5,0.f);
