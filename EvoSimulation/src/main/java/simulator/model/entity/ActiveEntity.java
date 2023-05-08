@@ -22,6 +22,7 @@ public class ActiveEntity extends InteractiveEntity {
 		interactionsMap = new HashMap<>();
 		this.interactions.getInteractions().keySet().stream().forEach(i->interactionsMap.put(i, new HashMap<>()));
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
+		if(this.getClass().equals(ActiveEntity.class))init();
 	}
 
 	@Override

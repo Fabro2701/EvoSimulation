@@ -1,0 +1,706 @@
+[
+    {
+        "pos": {
+            "x": 169,
+            "y": 148
+        },
+        "blocks": [
+            {
+                "init": "INIT_DEF",
+                "filename": "resources/skeletons/updates.sklt",
+                "inputs": [
+                    {
+                        "pos": 1,
+                        "text": "initactiveAge"
+                    },
+                    {
+                        "pos": 2,
+                        "text": "let p = (static \"simulator.RandomSingleton\").nextGaussian();\np = (p*7.0+35.6)*52;\nthis.setAttribute(\"age\", p); "
+                    }
+                ],
+                "root": {
+                    "blocks": [
+                        {
+                            "name": {
+                                "text": "Init def",
+                                "type": "StrBlock"
+                            },
+                            "right": [{
+                                "blocks": [{
+                                    "text": "initactiveAge",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "HeaderBlock"
+                        },
+                        {
+                            "children": [{
+                                "blocks": [{
+                                    "text": "let p = (static \"simulator.RandomSingleton\").nextGaussian();\np = (p*7.0+35.6)*52;\nthis.setAttribute(\"age\", p); ",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "CODE",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "ChildrenBlock"
+                        },
+                        {"type": "FloorBlock"}
+                    ],
+                    "rule": "INIT_DEF",
+                    "type": "RecursiveBlock"
+                },
+                "decisions": [
+                    0,
+                    0,
+                    0
+                ],
+                "complete": true,
+                "base": {
+                    "x": 540,
+                    "y": 91
+                }
+            },
+            {
+                "init": "INIT_DEF",
+                "filename": "resources/skeletons/updates.sklt",
+                "inputs": [
+                    {
+                        "pos": 1,
+                        "text": "initactiveImc"
+                    },
+                    {
+                        "pos": 2,
+                        "text": "this.setAttribute(\"current\",\"none\");\nlet map = (static \"util.Util\").createMap();\nmap.put(\"e\",this);\nthis.setAttribute(\"map\",map);\nlet flowMovs = diagramMovs.createFlow(\"experiment.models.obesidad.\");\nthis.setAttribute(\"flowMovs\",flowMovs);\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\n  if(p<=O0){\n  \tthis.setAttribute(\"imc\",\"O\");\n  }\n  else if(p<=S0+O0){\n  \tthis.setAttribute(\"imc\",\"S\");\n  }\n  else{\n  \tthis.setAttribute(\"imc\",\"N\");\n  }"
+                    }
+                ],
+                "root": {
+                    "blocks": [
+                        {
+                            "name": {
+                                "text": "Init def",
+                                "type": "StrBlock"
+                            },
+                            "right": [{
+                                "blocks": [{
+                                    "text": "initactiveImc",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "HeaderBlock"
+                        },
+                        {
+                            "children": [{
+                                "blocks": [{
+                                    "text": "this.setAttribute(\"current\",\"none\");\nlet map = (static \"util.Util\").createMap();\nmap.put(\"e\",this);\nthis.setAttribute(\"map\",map);\nlet flowMovs = diagramMovs.createFlow(\"experiment.models.obesidad.\");\nthis.setAttribute(\"flowMovs\",flowMovs);\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\n  if(p<=O0){\n  \tthis.setAttribute(\"imc\",\"O\");\n  }\n  else if(p<=S0+O0){\n  \tthis.setAttribute(\"imc\",\"S\");\n  }\n  else{\n  \tthis.setAttribute(\"imc\",\"N\");\n  }",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "CODE",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "ChildrenBlock"
+                        },
+                        {"type": "FloorBlock"}
+                    ],
+                    "rule": "INIT_DEF",
+                    "type": "RecursiveBlock"
+                },
+                "decisions": [
+                    0,
+                    0,
+                    0
+                ],
+                "complete": true,
+                "base": {
+                    "x": 638,
+                    "y": 228
+                }
+            }
+        ],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.individuals.MyIndividual",
+        "managers": [
+            {
+                "init": "INIT_DEF",
+                "filename": "resources/skeletons/updates.sklt",
+                "inputs": [
+                    {
+                        "pos": 1,
+                        "text": "initactiveAge"
+                    },
+                    {
+                        "pos": 2,
+                        "text": "let p = (static \"simulator.RandomSingleton\").nextGaussian();\np = (p*7.0+35.6)*52;\nthis.setAttribute(\"age\", p); "
+                    }
+                ],
+                "root": {
+                    "blocks": [
+                        {
+                            "name": {
+                                "text": "Init def",
+                                "type": "StrBlock"
+                            },
+                            "right": [{
+                                "blocks": [{
+                                    "text": "initactiveAge",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "HeaderBlock"
+                        },
+                        {
+                            "children": [{
+                                "blocks": [{
+                                    "text": "let p = (static \"simulator.RandomSingleton\").nextGaussian();\np = (p*7.0+35.6)*52;\nthis.setAttribute(\"age\", p); ",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "CODE",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "ChildrenBlock"
+                        },
+                        {"type": "FloorBlock"}
+                    ],
+                    "rule": "INIT_DEF",
+                    "type": "RecursiveBlock"
+                },
+                "decisions": [
+                    0,
+                    0,
+                    0
+                ],
+                "complete": true,
+                "base": {
+                    "x": 540,
+                    "y": 91
+                }
+            },
+            {
+                "init": "INIT_DEF",
+                "filename": "resources/skeletons/updates.sklt",
+                "inputs": [
+                    {
+                        "pos": 1,
+                        "text": "initactiveImc"
+                    },
+                    {
+                        "pos": 2,
+                        "text": "this.setAttribute(\"current\",\"none\");\nlet map = (static \"util.Util\").createMap();\nmap.put(\"e\",this);\nthis.setAttribute(\"map\",map);\nlet flowMovs = diagramMovs.createFlow(\"experiment.models.obesidad.\");\nthis.setAttribute(\"flowMovs\",flowMovs);\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\n  if(p<=O0){\n  \tthis.setAttribute(\"imc\",\"O\");\n  }\n  else if(p<=S0+O0){\n  \tthis.setAttribute(\"imc\",\"S\");\n  }\n  else{\n  \tthis.setAttribute(\"imc\",\"N\");\n  }"
+                    }
+                ],
+                "root": {
+                    "blocks": [
+                        {
+                            "name": {
+                                "text": "Init def",
+                                "type": "StrBlock"
+                            },
+                            "right": [{
+                                "blocks": [{
+                                    "text": "initactiveImc",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NAME",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "HeaderBlock"
+                        },
+                        {
+                            "children": [{
+                                "blocks": [{
+                                    "text": "this.setAttribute(\"current\",\"none\");\nlet map = (static \"util.Util\").createMap();\nmap.put(\"e\",this);\nthis.setAttribute(\"map\",map);\nlet flowMovs = diagramMovs.createFlow(\"experiment.models.obesidad.\");\nthis.setAttribute(\"flowMovs\",flowMovs);\n  \nlet p = (static \"simulator.RandomSingleton\").nextFloat();\n  if(p<=O0){\n  \tthis.setAttribute(\"imc\",\"O\");\n  }\n  else if(p<=S0+O0){\n  \tthis.setAttribute(\"imc\",\"S\");\n  }\n  else{\n  \tthis.setAttribute(\"imc\",\"N\");\n  }",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "CODE",
+                                "type": "RecursiveBlock"
+                            }],
+                            "type": "ChildrenBlock"
+                        },
+                        {"type": "FloorBlock"}
+                    ],
+                    "rule": "INIT_DEF",
+                    "type": "RecursiveBlock"
+                },
+                "decisions": [
+                    0,
+                    0,
+                    0
+                ],
+                "complete": true,
+                "base": {
+                    "x": 638,
+                    "y": 228
+                }
+            }
+        ]
+    },
+    {
+        "pos": {
+            "x": 497,
+            "y": 64
+        },
+        "blocks": [],
+        "type": "Entity",
+        "clazz": "simulator.model.entity.PasiveEntity",
+        "managers": []
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 300,
+            "y": 204
+        },
+        "blocks": [],
+        "father": "MyIndividual",
+        "type": "Group",
+        "value": "O",
+        "managers": []
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 299,
+            "y": 339
+        },
+        "blocks": [],
+        "father": "MyIndividual",
+        "type": "Group",
+        "value": "S",
+        "managers": []
+    },
+    {
+        "att": "imc",
+        "pos": {
+            "x": 301,
+            "y": 271
+        },
+        "blocks": [],
+        "father": "MyIndividual",
+        "type": "Group",
+        "value": "N",
+        "managers": []
+    },
+    {
+        "att": "info",
+        "pos": {
+            "x": 665,
+            "y": 191
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "supermarket",
+        "managers": []
+    },
+    {
+        "att": "info",
+        "pos": {
+            "x": 624,
+            "y": 273
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "house",
+        "managers": []
+    },
+    {
+        "att": "info",
+        "pos": {
+            "x": 583,
+            "y": 340
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "bar",
+        "managers": []
+    },
+    {
+        "att": "info",
+        "pos": {
+            "x": 514,
+            "y": 381
+        },
+        "blocks": [],
+        "father": "PasiveEntity",
+        "type": "Group",
+        "value": "restaurant",
+        "managers": []
+    },
+    {
+        "pos": {
+            "x": 291,
+            "y": 41
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "10"
+                },
+                {
+                    "pos": 2,
+                    "text": "let imc1 = this.getAttribute(\"imc\");\nlet imc2 = e2.getAttribute(\"imc\");\nlet p = (static \"simulator.RandomSingleton\").nextDouble();\nif(imc1.equals(\"N\")&&((imc2.equals(\"S\")||imc2.equals(\"O\")))){\nif(p<=beta){\nthis.setAttribute(\"imc\",\"S\");\nthis.notifyEvent(\"intc_N_to_S\");\n}\n}"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "10",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let imc1 = this.getAttribute(\"imc\");\nlet imc2 = e2.getAttribute(\"imc\");\nlet p = (static \"simulator.RandomSingleton\").nextDouble();\nif(imc1.equals(\"N\")&&((imc2.equals(\"S\")||imc2.equals(\"O\")))){\nif(p<=beta){\nthis.setAttribute(\"imc\",\"S\");\nthis.notifyEvent(\"intc_N_to_S\");\n}\n}",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 542,
+                "y": 106
+            }
+        }],
+        "from": "MyIndividual",
+        "id": "imcInfluence",
+        "to": "MyIndividual",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [
+                {
+                    "pos": 1,
+                    "text": "10"
+                },
+                {
+                    "pos": 2,
+                    "text": "let imc1 = this.getAttribute(\"imc\");\nlet imc2 = e2.getAttribute(\"imc\");\nlet p = (static \"simulator.RandomSingleton\").nextDouble();\nif(imc1.equals(\"N\")&&((imc2.equals(\"S\")||imc2.equals(\"O\")))){\nif(p<=beta){\nthis.setAttribute(\"imc\",\"S\");\nthis.notifyEvent(\"intc_N_to_S\");\n}\n}"
+                }
+            ],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "10",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let imc1 = this.getAttribute(\"imc\");\nlet imc2 = e2.getAttribute(\"imc\");\nlet p = (static \"simulator.RandomSingleton\").nextDouble();\nif(imc1.equals(\"N\")&&((imc2.equals(\"S\")||imc2.equals(\"O\")))){\nif(p<=beta){\nthis.setAttribute(\"imc\",\"S\");\nthis.notifyEvent(\"intc_N_to_S\");\n}\n}",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 542,
+                "y": 106
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 363,
+            "y": 107
+        },
+        "blocks": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let info = e2.getAttribute(\"info\");\nthis.setAttribute(\"current\",info);"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let info = e2.getAttribute(\"info\");\nthis.setAttribute(\"current\",info);",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 674,
+                "y": 94
+            }
+        }],
+        "from": "MyIndividual",
+        "id": "buildingInt",
+        "to": "PasiveEntity",
+        "type": "Interaction",
+        "managers": [{
+            "init": "INTERACTION_DEF",
+            "filename": "resources/skeletons/interact.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let info = e2.getAttribute(\"info\");\nthis.setAttribute(\"current\",info);"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Interaction def",
+                            "type": "StrBlock"
+                        },
+                        "right": [
+                            {
+                                "text": "freq:",
+                                "type": "StrBlock"
+                            },
+                            {
+                                "blocks": [{
+                                    "text": "1",
+                                    "type": "InputBlock"
+                                }],
+                                "rule": "NUM",
+                                "type": "RecursiveBlock"
+                            }
+                        ],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "text": "let info = e2.getAttribute(\"info\");\nthis.setAttribute(\"current\",info);",
+                                "type": "InputBlock"
+                            }],
+                            "rule": "CODE",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "INTERACTION_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 674,
+                "y": 94
+            }
+        }]
+    },
+    {
+        "pos": {
+            "x": 59,
+            "y": 48
+        },
+        "blocks": [{
+            "init": "GLOBAL_DEF",
+            "filename": "resources/skeletons/global.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\nlet diabetesDeathProb = 0.0001;\n\nlet diagramMovs = new \"state_diagram.Diagram\"();\ndiagramMovs.load(\"resources/scenarios/obesidad/movsFSM.json\");"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Global variables def",
+                            "type": "StrBlock"
+                        },
+                        "right": [],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "names": [{
+                                    "blocks": [{
+                                        "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\nlet diabetesDeathProb = 0.0001;\n\nlet diagramMovs = new \"state_diagram.Diagram\"();\ndiagramMovs.load(\"resources/scenarios/obesidad/movsFSM.json\");",
+                                        "type": "InputBlock"
+                                    }],
+                                    "rule": "CODE",
+                                    "type": "RecursiveBlock"
+                                }],
+                                "type": "InnerBlock"
+                            }],
+                            "rule": "DECLARATION",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "GLOBAL_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 682,
+                "y": 87
+            }
+        }],
+        "id": "globalVars",
+        "type": "Global",
+        "managers": [{
+            "init": "GLOBAL_DEF",
+            "filename": "resources/skeletons/global.sklt",
+            "inputs": [{
+                "pos": 2,
+                "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\nlet diabetesDeathProb = 0.0001;\n\nlet diagramMovs = new \"state_diagram.Diagram\"();\ndiagramMovs.load(\"resources/scenarios/obesidad/movsFSM.json\");"
+            }],
+            "root": {
+                "blocks": [
+                    {
+                        "name": {
+                            "text": "Global variables def",
+                            "type": "StrBlock"
+                        },
+                        "right": [],
+                        "type": "HeaderBlock"
+                    },
+                    {
+                        "children": [{
+                            "blocks": [{
+                                "names": [{
+                                    "blocks": [{
+                                        "text": "let mu = 60*52;\nlet beta = 0.001121;\nlet gamma = 0.0003226;\nlet p1 = 0.020;\nlet p2 = 0.042;\nlet pe = 1/7;\nlet e1 = 0.004;\nlet e2 = 0.024;\nlet N0 = 0.704;\nlet S0 = 0.39;\nlet O0 = 0.16;\n\nlet diabetesDeathProb = 0.0001;\n\nlet diagramMovs = new \"state_diagram.Diagram\"();\ndiagramMovs.load(\"resources/scenarios/obesidad/movsFSM.json\");",
+                                        "type": "InputBlock"
+                                    }],
+                                    "rule": "CODE",
+                                    "type": "RecursiveBlock"
+                                }],
+                                "type": "InnerBlock"
+                            }],
+                            "rule": "DECLARATION",
+                            "type": "RecursiveBlock"
+                        }],
+                        "type": "ChildrenBlock"
+                    },
+                    {"type": "FloorBlock"}
+                ],
+                "rule": "GLOBAL_DEF",
+                "type": "RecursiveBlock"
+            },
+            "decisions": [
+                0,
+                0,
+                0
+            ],
+            "complete": true,
+            "base": {
+                "x": 682,
+                "y": 87
+            }
+        }]
+    }
+]

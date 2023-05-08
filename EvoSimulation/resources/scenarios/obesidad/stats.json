@@ -43,5 +43,14 @@
        visualizer:"bar",
        poly:"rs11549467"
       }
+},
+{
+ type:"p",
+ data:{
+       title:"Polymorphism rs4994",
+       updateRate:1000,
+       visualizer:"bar",
+       poly:"rs4994"
+      }
 }
 ]

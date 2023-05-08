@@ -1,5 +1,8 @@
 package simulator.model.entity.individuals;
 
+import static simulator.Constants.CHROMOSOME_LENGTH;
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,13 +10,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import grammar.AbstractGrammar.Symbol;
+import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
@@ -22,22 +29,59 @@ import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.entity.individuals.genome.Genotype;
 import simulator.model.entity.individuals.genome.Mapper;
 import simulator.model.entity.individuals.genome.Phenotype;
+import simulator.model.entity.individuals.genome.PolymorphismController;
+import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
 import simulator.model.entity.observations.ObservationManager;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
+import statistics.StatsManager;
 
 public abstract class GIndividual extends AbstractIndividual{
 	protected Genotype genotype;
 	protected Phenotype phenotype;
 	
+	private static Supplier<Chromosome.Codon>suppCodon = Chromosome.Codon::new;
+	private static Supplier<Boolean>suppBool = ()->RandomSingleton.nextBoolean();
+	private static Supplier<Float>suppFloat = ()->RandomSingleton.nextFloat();
 	
 	private int count = 0;
 	
 	
-	public GIndividual(String id, Node n, Controller ctrl, String code) {
-		super(id, n, ctrl, code);
+	public GIndividual(String id, Node node, Controller ctrl, String code) {
+		super(id, node, ctrl, code);
+
+		genotype = new Genotype();
+		phenotype = new Phenotype();
+		
+		//grammars chroms
+		for(String key:grammars.keySet()) {
+			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, suppCodon);
+			genotype.addChromosome(c);
+			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
+			phenotype.setSymbol(key, crom);
+			if(phenotype.isValid()==false) {
+				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
+				dispose();
+				return;
+			}
+		}
+		
+		//genes chrom
+		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, suppBool);
+		GIndividual.Genes genesMapper = new GIndividual.Genes();
+		HashSet<String> genes = genesMapper.mapGenes(c);
+		phenotype.setGenes(genes);
+		genotype.addChromosome(c);
+		
+		//polymorphims chrom
+		Chromosome<Float> c2 = new Chromosome<Float>(CHROMOSOME_LENGTH, suppFloat);
+		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
+		phenotype.setPolymorphims(polys);
+		genotype.addChromosome(c2);
 		
 		
+
+		init();
 	}
 	
 	@Override

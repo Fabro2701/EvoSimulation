@@ -109,7 +109,7 @@ public class Translation {
 	public static void main(String args[]) {
 		Diagram diagram = new Diagram();
 		try {
-			diagram.load("resources/scenarios/infection/infectionFSMmod.json");
+			diagram.load("resources/scenarios/obesidad/movsFSM.json");
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -118,8 +118,8 @@ public class Translation {
 		try {
 			Translation trs = new Translation(diagram.getElems(),
 											  diagram.getTransitions(),
-											  "src/main/java/experiment/models/infection/",
-											  "experiment.models.infection",
+											  "src/main/java/experiment/models/obesidad/",
+											  "experiment.models.obesidad",
 											  diagram.getFsmID());
 			trs.run();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {

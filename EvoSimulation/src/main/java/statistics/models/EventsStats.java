@@ -36,7 +36,7 @@ public class EventsStats extends StatsData{
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
 			for(String key:events.keySet()) {
-				((DefaultCategoryDataset)dataset).addValue(events.get(key), "-", key);
+				((DefaultCategoryDataset)dataset).addValue(events.get(key), "occurrences", key);
 
 			}
 		}

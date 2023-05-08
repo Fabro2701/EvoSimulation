@@ -1,4 +1,4 @@
-map = resources/maps/centered
+map = resources/maps/toledo2
 setup = resources/scenarios/obesidad/setup.stp
 visualization = BASIC
 optimizer = DENSITY

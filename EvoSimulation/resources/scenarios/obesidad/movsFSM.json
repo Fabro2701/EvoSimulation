@@ -1,0 +1,218 @@
+{
+    "elems": [
+        {
+            "pos": {
+                "x": 71,
+                "y": 286
+            },
+            "ID": 6,
+            "class": "InitState"
+        },
+        {
+            "rest": 100,
+            "pos": {
+                "x": 141,
+                "y": 308
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"house\");",
+            "ID": 19,
+            "id": "house",
+            "class": "SimpleState"
+        },
+        {
+            "probs": [
+                0.6,
+                0.4
+            ],
+            "pos": {
+                "x": 519,
+                "y": 301
+            },
+            "ID": 32,
+            "type": "STOCHASTIC",
+            "class": "Splitter"
+        },
+        {
+            "rest": 30,
+            "pos": {
+                "x": 541,
+                "y": 124
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"restaurant\");",
+            "ID": 45,
+            "id": "restaurant",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 50,
+            "pos": {
+                "x": 545,
+                "y": 533
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"bar\");",
+            "ID": 58,
+            "id": "bar",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 100,
+            "pos": {
+                "x": 404,
+                "y": 308
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"house\");",
+            "ID": 77,
+            "id": "house2",
+            "class": "SimpleState"
+        },
+        {
+            "rest": 50,
+            "pos": {
+                "x": 252,
+                "y": 308
+            },
+            "continuous": false,
+            "action": "(Entity e) e.setAttribute(\"dest\",\"supermarket\");",
+            "ID": 90,
+            "id": "supermarket",
+            "class": "SimpleState"
+        },
+        {
+            "toID": 19,
+            "code": "",
+            "fromShift": {
+                "x": 1,
+                "y": -5
+            },
+            "toShift": {
+                "x": -22,
+                "y": -25
+            },
+            "ID": 71,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 6
+        },
+        {
+            "toID": 45,
+            "code": "",
+            "fromShift": {
+                "x": 1,
+                "y": -10
+            },
+            "toShift": {
+                "x": -20,
+                "y": -6
+            },
+            "ID": 73,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 58,
+            "code": "",
+            "fromShift": {
+                "x": 0,
+                "y": -8
+            },
+            "toShift": {
+                "x": -19,
+                "y": -35
+            },
+            "ID": 74,
+            "type": "TRUE",
+            "class": "Transition",
+            "fromID": 32
+        },
+        {
+            "toID": 19,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"restaurant\");",
+            "fromShift": {
+                "x": -22,
+                "y": -34
+            },
+            "toShift": {
+                "x": 35,
+                "y": -35
+            },
+            "ID": 75,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 45
+        },
+        {
+            "toID": 19,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"bar\");",
+            "fromShift": {
+                "x": -21,
+                "y": -4
+            },
+            "toShift": {
+                "x": 29,
+                "y": 1
+            },
+            "ID": 76,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 58
+        },
+        {
+            "toID": 90,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"house\");",
+            "fromShift": {
+                "x": 38,
+                "y": -17
+            },
+            "toShift": {
+                "x": -22,
+                "y": -20
+            },
+            "ID": 103,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 19
+        },
+        {
+            "toID": 77,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"supermarket\");",
+            "fromShift": {
+                "x": 81,
+                "y": -16
+            },
+            "toShift": {
+                "x": -22,
+                "y": -16
+            },
+            "ID": 104,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 90
+        },
+        {
+            "toID": 32,
+            "code": "(Entity e)return e.getAttribute(\"current\").equals(\"house\");",
+            "fromShift": {
+                "x": 45,
+                "y": -18
+            },
+            "toShift": {
+                "x": -22,
+                "y": -10
+            },
+            "ID": 105,
+            "type": "COND",
+            "class": "Transition",
+            "fromID": 77
+        }
+    ],
+    "fsmid": "movsFSM",
+    "base": {
+        "x": 5,
+        "y": -9
+    }
+}

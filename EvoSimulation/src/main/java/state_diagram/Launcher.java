@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 public class Launcher extends JFrame{
 	public static void main(String args[]) {;
 		SwingUtilities.invokeLater(()->{
-			String filename = "resources/scenarios/infection/infectionFSMmod.json";
+			String filename = "resources/scenarios/obesidad/movsFSM.json";
 			Launcher launcher = new Launcher();
 			
 			

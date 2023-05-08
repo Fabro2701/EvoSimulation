@@ -1,3 +1,4 @@
+grammars := action(-1); "grammar.StandardGrammar"; "resources/scenarios/obesidad/obesidad_acts.bnf".
 
 global := a(){
 			let mu = 60*52;
@@ -138,7 +139,9 @@ updates :=  update_diabetes(2)("simulator.model.entity.individuals.MyIndividual"
 					}
 				}
 		   }.
-
+actions := <action> NOTHING{
+		   					;
+		   				   }.  
 interactions := imcInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
 					
 						let imc1 = this.getAttribute("imc");

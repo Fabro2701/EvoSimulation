@@ -321,6 +321,7 @@ public class ActionEvaluator {
 				Method m = null;
 				//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
 				for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
+				
 				Class<?>prms[] = m.getParameterTypes();
 				for(int i=0;i<arguments.length();i++) {
 					if(args[i] instanceof Number) {
@@ -446,7 +447,6 @@ public class ActionEvaluator {
 	}
 	private Object evalVariableStatement(JSONObject query, Environment env) throws EvaluationException{
 		JSONObject declaration = query.getJSONObject("declaration");
-		
 		return env.define(declaration.getJSONObject("id").getString("name"), 
 				     eval(declaration.getJSONObject("init"), env));
 	}

@@ -38,9 +38,7 @@ import util.Util;
 public class MyIndividual extends GIndividual{
 	protected List<Entity>children;
 	
-	private static Supplier<Chromosome.Codon>suppCodon = Chromosome.Codon::new;
-	private static Supplier<Boolean>suppBool = ()->RandomSingleton.nextBoolean();
-	private static Supplier<Float>suppFloat = ()->RandomSingleton.nextFloat();
+	
 
 	/**
 	 * Base Constructor
@@ -48,53 +46,12 @@ public class MyIndividual extends GIndividual{
 	 * @param id
 	 * @param n
 	 */
-	private MyIndividual(Controller ctrl, String id, Node n, String code) {
-		super(id, n, ctrl, code);
+	public MyIndividual(String id, Node node, Controller ctrl, String code) {
+		super(id, node, ctrl, code);
 		type = "mi";
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
 		if(this.img == null)this.img = ImageController.getImage(this.getClass());
 		children = new ArrayList<Entity>();
-	}
-	/**
-	 * Main constructor used by factories to create random entities
-	 * @param id
-	 * @param n node
-	 * @param ctrl
-	 */
-	public MyIndividual(String id, Node node, Controller ctrl, String code) {
-		this(ctrl, id, node, code);
-		
-		genotype = new Genotype();
-		phenotype = new Phenotype();
-		
-		//grammars chroms
-		for(String key:grammars.keySet()) {
-			Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, suppCodon);
-			genotype.addChromosome(c);
-			LinkedList<Symbol> crom = (LinkedList<Symbol>) grammars.get(key).mapChromosome(c);
-			phenotype.setSymbol(key, crom);
-			if(phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
-				dispose();
-				return;
-			}
-		}
-		
-		//genes chrom
-		Chromosome<Boolean> c = new Chromosome<Boolean>(CHROMOSOME_LENGTH, suppBool);
-		GIndividual.Genes genesMapper = new GIndividual.Genes();
-		HashSet<String> genes = genesMapper.mapGenes(c);
-		phenotype.setGenes(genes);
-		genotype.addChromosome(c);
-		
-		//polymorphims chrom
-		Chromosome<Float> c2 = new Chromosome<Float>(CHROMOSOME_LENGTH, suppFloat);
-		java.util.Map<String, VARIATION> polys = new PolymorphismController().mapPolymorphisms(c2);
-		phenotype.setPolymorphims(polys);
-		genotype.addChromosome(c2);
-		
-		
-		
 		//init();
 	}
 	public MyIndividual(String id, Node node, Controller ctrl) {
@@ -108,7 +65,7 @@ public class MyIndividual extends GIndividual{
 	 * @param generation The greatest generation of parents
 	 */
 	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
-		MyIndividual ind = new MyIndividual(ctrl, ctrl.getNextId(), ctrl.randomNode(),null);
+		MyIndividual ind = new MyIndividual(ctrl.getNextId(),  ctrl.randomNode(), ctrl,null);
 		ind.genotype = new Genotype(geno);
 		ind.phenotype = new Phenotype();
 		ind.mutate();
@@ -120,7 +77,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(c);
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");;
+				//for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");;
 				ind.dispose();
 				return ind;
 			}
@@ -147,7 +104,7 @@ public class MyIndividual extends GIndividual{
 	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
 		Objects.requireNonNull(cs);
 		
-		MyIndividual ind = new MyIndividual(ctrl, id, node,null);
+		MyIndividual ind = new MyIndividual(id, node,ctrl, null);
 		ind.genotype = new Genotype();
 		ind.phenotype = new Phenotype();
 		
@@ -159,7 +116,7 @@ public class MyIndividual extends GIndividual{
 			LinkedList<Symbol> crom = (LinkedList<Symbol>) ind.grammars.get(key).mapChromosome(cs.get(i));
 			ind.phenotype.setSymbol(key, crom);
 			if(ind.phenotype.isValid()==false) {
-				for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
+				//for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("offspringdeath");
 				ind.dispose();
 			}
 		}
@@ -183,7 +140,7 @@ public class MyIndividual extends GIndividual{
 //		
 //	}
 	public static MyIndividual fromJSON(String id, Node node, JSONObject genotype, JSONObject phenotype, JSONObject properties, Controller ctrl) {
-		MyIndividual ind = new MyIndividual(ctrl, id, node,null);
+		MyIndividual ind = new MyIndividual(id, node,ctrl, null);
 		ind.genotype = new Genotype(genotype);
 		
 		if(phenotype.getString("code").equals("")) {

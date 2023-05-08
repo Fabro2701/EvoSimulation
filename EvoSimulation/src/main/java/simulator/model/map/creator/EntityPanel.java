@@ -26,7 +26,7 @@ import simulator.model.map.creator.MapCreator.PanelManager;
  * @author fabrizioortega
  */
 public class EntityPanel extends AbstractCreatorPanel {
-	static String[] pes = new String[] {"estacion"};
+	static String[] pes = new String[] {"house","bar","restaurant","supermarket"};
 	
 	public EntityPanel(PanelManager panelManager) {
 		super(panelManager);
