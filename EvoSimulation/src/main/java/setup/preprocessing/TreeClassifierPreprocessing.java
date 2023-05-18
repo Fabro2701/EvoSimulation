@@ -52,6 +52,8 @@ public class TreeClassifierPreprocessing implements Preprocessing{
 	private static String parseTree(String text, String[]clazzs) {
 		StringBuilder sb = new StringBuilder();
 		int sep=4;
+		
+		text = text.replace("\r", "");
 
 		//parsing
 		Pattern p = Pattern.compile("[|\\- ]+");
@@ -119,6 +121,7 @@ public class TreeClassifierPreprocessing implements Preprocessing{
 		sb.append('\n');
 		sb.append(ifsb.toString());
 		//System.out.println(sb.toString());
+		System.out.println(ifsb.toString());
 		return sb.toString();
 	}
 	public static String translateAtt(String id) {

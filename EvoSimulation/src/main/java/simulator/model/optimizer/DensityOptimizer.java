@@ -20,35 +20,51 @@ import util.Util;
 public class DensityOptimizer implements Optimizer {
 
 	static int updateLapse = 2000;
+	protected static int splitThreshold = 100;
 	
 	EvoSimulator simulator;
 	KMeansClustering clusterAlgo;
 	int k;
 	
-	Grid grids[];
-	Grid defaultGrid;
+	ClusterGrid grids[];
+	ClusterGrid defaultGrid;
 	boolean init;
 	
 	public DensityOptimizer(EvoSimulator simulator, int k) {
 		this.k = k;
 		this.simulator = simulator;
 		clusterAlgo = new KMeansClustering(k,10);
-		grids = new Grid[k];
-		for(int i=0;i<k;i++)grids[i] = new Grid();
-		defaultGrid = new Grid();
+		grids = new ClusterGrid[k];
+		for(int i=0;i<k;i++)grids[i] = new ClusterGrid();
+		defaultGrid = new ClusterGrid();
 		init = false;
 	}
 	
-	private class Grid{
+	private class ClusterGrid{
 		List<Entity>inEntities;
 		int minx,miny,maxx,maxy;
 		Entry<Centroid, List<Entity>>cluster;
-		public Grid() {
+		Grid grids[][];
+		Grid defaultGrid;
+		public ClusterGrid() {
 			inEntities = new ArrayList<Entity>();
 		}
 		public void assignCluster(Entry<Centroid, List<Entity>>cluster) {
 			this.cluster = cluster;
-			/*List<Entity> es = cluster.getValue();
+			
+		}
+		public void reset() {
+			if(this.grids!=null) {
+				for(int i=0;i<splits;i++) {
+					for(int j=0;j<splits;j++) {
+						grids[i][j].reset();;
+					}
+				}
+			}
+			this.grids = null;
+		}
+		private void updateRange() {
+			List<Entity> es = cluster.getValue();
 			if(es.isEmpty()) {
 				maxx = 0;
 				maxy = 0;
@@ -60,11 +76,94 @@ public class DensityOptimizer implements Optimizer {
 			maxy = es.stream().max((Entity e1,Entity e2)->Integer.compare(e1.node.y, e2.node.y)).get().node.y;
 			minx = es.stream().min((Entity e1,Entity e2)->Integer.compare(e1.node.x, e2.node.x)).get().node.x;
 			miny = es.stream().min((Entity e1,Entity e2)->Integer.compare(e1.node.y, e2.node.y)).get().node.y;
-			*/
 		}
 		public boolean contains(Node node) {
 			int x = node.x, y = node.y;
 			return (x>=minx && x<=maxx)&&(y>=miny && y<=maxy);
+		}
+		public void update(Map map, List<Entity> entities) {
+			if(grids==null) {
+				_update(map,this.inEntities,entities);
+			}
+			else {
+				ExecutorService service = Executors.newCachedThreadPool();
+				List<Future<?>>results = new ArrayList<Future<?>>();
+				
+				try {
+					for(int i=0;i<splits;i++) {
+						for(int j=0;j<splits;j++) {
+							Grid g = grids[i][j];
+							results.add(service.submit(()->g.update(map,entities)));
+						}results.add(service.submit(()->defaultGrid.update(map,entities)));
+					}
+	
+					//join the results
+					for(Future<?> f:results) {
+						
+							f.get();
+						
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					e.printStackTrace();
+					return;
+				}
+				service.shutdown();
+				
+			}
+		
+		}
+		public void propagate() {
+			if(this.inEntities.size()<=splitThreshold) {
+				grids = null;
+			}
+			else {
+				//System.out.println(this.inEntities.size());
+				if(grids==null)initGrids(inEntities.size());
+				for(int i=0;i<splits;i++) {
+					for(int j=0;j<splits;j++) {
+						grids[i][j].reset();
+					}
+				}defaultGrid.reset();
+				
+				for(Entity e:this.inEntities) {
+					int x = (int)((e.node.x-minx)/unitsPerGridx);
+					int y = (int)((e.node.y-miny)/unitsPerGridy);
+					if(x<0||y<0||x>=splits||y>=splits) {
+						defaultGrid.internalEntities.add(e);
+					}
+					else this.grids[y][x].internalEntities.add(e);
+				}
+			}
+		}
+		float unitsPerGridx;
+		float unitsPerGridy;
+		int splits;
+		public void initGrids(int amount) {
+			updateRange();
+			this.splits = 2+amount/100;
+			this.unitsPerGridx = (float)(maxx-minx)/splits;
+			this.unitsPerGridy = (float)(maxy-miny)/splits;
+			this.grids = new Grid[splits][splits];
+			for(int i=0;i<splits;i++) {
+				for(int j=0;j<splits;j++) {
+					grids[i][j]=new Grid();
+				}
+			}
+			defaultGrid=new Grid();
+			
+		}
+		private class Grid{
+			List<Entity>internalEntities;
+			public Grid() {
+				this.internalEntities = new ArrayList<>();
+				
+			}
+			public void reset() {
+				if(this.internalEntities!=null)this.internalEntities.clear();
+			}
+			public void update(Map map, List<Entity> entities) {
+				_update(map,this.internalEntities,entities);
+			}
 		}
 	}
 	
@@ -74,11 +173,12 @@ public class DensityOptimizer implements Optimizer {
 			init = true;
 			int i = 0;
 			for(Entry<Centroid, List<Entity>>cluster:clusterAlgo.fit(entities).entrySet()) {
+				grids[i].reset();
 				grids[i].assignCluster(cluster);
 				i ++;
 			}
 		}
-		for(Grid g:grids)g.inEntities.clear();
+		for(ClusterGrid g:grids)g.inEntities.clear();
 		defaultGrid.inEntities.clear();
 		_assignGrids(entities);
 		/*System.out.println("---------------");
@@ -98,18 +198,18 @@ public class DensityOptimizer implements Optimizer {
 		ExecutorService service = Executors.newCachedThreadPool();
 		List<Future<?>>results = new ArrayList<Future<?>>();
 		
-		for(Grid g:grids) {
-			results.add(service.submit(()->_update(map, g.inEntities, entities)));
+	
+		for(ClusterGrid g:grids) {
+			results.add(service.submit(()->g.update(map,entities)));
 		}
-		results.add(service.submit(()->_update(map, defaultGrid.inEntities, entities)));
 
-		
 		//join the results
 		for(Future<?> f:results) {
 			try {
 				f.get();
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 		service.shutdown();
@@ -137,8 +237,8 @@ public class DensityOptimizer implements Optimizer {
 		*/
 		for(Entity e:entities) {
 			double md = 10000d;
-			Grid mg = defaultGrid;
-			for(Grid g:grids) {
+			ClusterGrid mg = null;
+			for(ClusterGrid g:grids) {
 				Entry<Centroid, List<Entity>> c = g.cluster;
 				double d = KMeansClustering.dist(e,c.getKey());
 				if(d<md) {
@@ -147,6 +247,9 @@ public class DensityOptimizer implements Optimizer {
 				}
 			}
 			mg.inEntities.add(e);
+		}
+		for(ClusterGrid g:grids) {
+			g.propagate();
 		}
 	}
 	public void _update(Map map, List<Entity> inEntities, List<Entity> entities) {

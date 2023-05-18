@@ -156,7 +156,7 @@ public class Experiment {
 			simulator.setOptimizer(new UniformGridOptimizer(simulator,3,3));
 		}
 		else if(this.optimizer == OPTIMIZER.DENSITY) {
-			simulator.setOptimizer(new DensityOptimizer(simulator,8));
+			simulator.setOptimizer(new DensityOptimizer(simulator,6));
 		}
 		else {
 			logger.log(Level.SEVERE, "Optimizer "+this.optimizer.toString()+ "not supported");
@@ -354,7 +354,7 @@ public class Experiment {
 		exp.run();
 		*/
 		//Experiment exp2 = Experiment.fromFile("resources/experiment/obesidad.experiment");
-		Experiment exp2 = Experiment.fromFile("resources/scenarios/obesidad/obesidad.experiment");
+		Experiment exp2 = Experiment.fromFile("resources/scenarios/infection/infection.experiment");
 		exp2.run();
 	}
 }

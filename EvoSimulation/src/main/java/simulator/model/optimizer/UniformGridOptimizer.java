@@ -136,6 +136,7 @@ public class UniformGridOptimizer implements Optimizer{
 				f.get();
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 		service.shutdown();

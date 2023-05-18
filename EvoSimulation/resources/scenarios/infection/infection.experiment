@@ -1,7 +1,7 @@
-map = resources/maps/toledo2
+map = resources/maps/centered
 setup = resources/scenarios/infection/setup.stp
 visualization = BASIC
-optimizer = UNIFORM_GRID
+optimizer = DENSITY
 stats = resources/scenarios/infection/stats.json
 events = resources/scenarios/infection/events.json
 constantsCtrl = true
