@@ -1,0 +1,86 @@
+grammars := action(200); "grammar.StandardGrammar"; "resources/scenarios/evolution/acts.bnf".
+
+
+init := 
+		initactiveImc("simulator.model.entity.individuals.MyIndividual"){
+			this.setAttribute("life",500);
+			
+		}.
+updates :=  
+		update_life(2)("simulator.model.entity.individuals.MyIndividual"){
+			
+			this.setAttribute("life",this.getAttribute("life")-1);
+				
+		}
+		 
+		update_death(2)("simulator.model.entity.individuals.MyIndividual"){
+			
+			if(this.getAttribute("life")<=0){
+				this.dispose();
+			}
+				
+		}
+		update_movs(2)("simulator.model.entity.individuals.MyIndividual"){
+			let cEntity = this.getAttribute("cEntity");
+			if(cEntity!=null){
+		   		let n = this.nextNodeStraightTowards(simulator.getMap(),cEntity);
+		   		if(n!=null){
+		   			this.setNode(n);
+		   		}
+		   	}
+			
+				
+		}.
+actions := <action> chaseUP{
+		   					let cEntity = this.getObservation("entityUP");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   				   }
+		   			chaseDOWN{
+		   					
+		   					let cEntity = this.getObservation("entityDOWN");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   				   }
+		   			chaseLEFT{
+		   					
+		   					let cEntity = this.getObservation("entityLEFT");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   				   }
+		   			chaseRIGHT{
+		   					
+		   					let cEntity = this.getObservation("entityRIGHT");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   				   }
+		   			action2{
+		   					;
+		   				   }.  
+interactions := 
+		attackInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+					
+			let life1 = this.getAttribute("life");
+			let life2 = e2.getAttribute("life");
+			this.setAttribute("life",life1-life2);
+			e2.setAttribute("life",life2-life1);
+			
+		}
+		attackInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+					
+			e2.dispose();
+			this.setAttribute("life",this.getAttribute("life")+100);
+			
+		}
+			
+				
+		/*rep(100)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+			let p = (static "simulator.RandomSingleton").nextDouble();
+			
+			if(p<=0.001)this.reproduce(e2);
+		}*/
+		.

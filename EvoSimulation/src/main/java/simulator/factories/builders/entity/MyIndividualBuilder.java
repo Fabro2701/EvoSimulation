@@ -1,11 +1,13 @@
 package simulator.factories.builders.entity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.Constants;
 import simulator.control.Controller;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.MyIndividual;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * MyIndividualBuilder instantiates a single MyIndividual
@@ -17,7 +19,7 @@ public class MyIndividualBuilder extends EntityBuilder{
 		type = Constants.MyIndividualBuilder_TYPE;
 	}
 	@Override
-	public Entity createTheInstance(JSONObject o, Controller ctrl) {
+	public Entity createTheInstance(JSONObject o, Controller ctrl) throws JSONException, EvaluationException {
 		MyIndividual mi = null;
 		if(o.has("genotype")) { 
 			mi = MyIndividual.fromJSON(o.getString("id"),

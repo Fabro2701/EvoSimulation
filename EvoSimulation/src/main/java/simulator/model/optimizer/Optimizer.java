@@ -3,10 +3,11 @@ package simulator.model.optimizer;
 import java.util.List;
 
 import simulator.model.entity.Entity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 
 public interface Optimizer {
-	public abstract void update(Map map, List<Entity>entities, int time);
+	public abstract void update(Map map, List<Entity>entities, int time) throws IllegalArgumentException, EvaluationException;
 //	protected HashMap<String,String>getObservations(Entity e, List<Entity>entities){
 //		if(e instanceof PasiveEntity)return null;
 //		HashMap<String,String> r = new HashMap<String,String>();

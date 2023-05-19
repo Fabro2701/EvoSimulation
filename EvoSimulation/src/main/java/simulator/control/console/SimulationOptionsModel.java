@@ -186,6 +186,12 @@ public class SimulationOptionsModel implements OptionsModel{
 				editor.sendInfo("Failed\n");
 				editor.sendInfo(e.getMessage()+'\n');
 				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (EvaluationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return false;

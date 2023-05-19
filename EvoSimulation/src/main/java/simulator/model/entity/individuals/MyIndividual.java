@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
@@ -29,6 +30,7 @@ import simulator.model.entity.individuals.genome.PolymorphismController;
 import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
 import simulator.model.entity.individuals.genome.operator.crossover.SinglePointCrossover;
 import simulator.model.entity.individuals.genome.operator.mutation.SingleCodonFlipMutation;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
@@ -45,8 +47,10 @@ public class MyIndividual extends GIndividual{
 	 * @param ctrl
 	 * @param id
 	 * @param n
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public MyIndividual(String id, Node node, Controller ctrl, String code) {
+	public MyIndividual(String id, Node node, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, node, ctrl, code);
 		type = "mi";
 		//img = new ImageIcon("resources/entities/myentity.png").getImage();
@@ -54,7 +58,7 @@ public class MyIndividual extends GIndividual{
 		children = new ArrayList<Entity>();
 		//init();
 	}
-	public MyIndividual(String id, Node node, Controller ctrl) {
+	public MyIndividual(String id, Node node, Controller ctrl) throws JSONException, EvaluationException {
 		this(id,node,ctrl,"");
 	}
 
@@ -63,8 +67,10 @@ public class MyIndividual extends GIndividual{
 	 * @param geno
 	 * @param ctrl
 	 * @param generation The greatest generation of parents
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) {
+	public static MyIndividual fromParents(Genotype geno, Controller ctrl, int generation) throws JSONException, EvaluationException {
 		MyIndividual ind = new MyIndividual(ctrl.getNextId(),  ctrl.randomNode(), ctrl,null);
 		ind.genotype = new Genotype(geno);
 		ind.phenotype = new Phenotype();
@@ -101,7 +107,7 @@ public class MyIndividual extends GIndividual{
 		return ind;
 	}
 
-	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) {
+	public static MyIndividual fromChromosome(String id, Node node, List<Chromosome>cs, Controller ctrl) throws JSONException, EvaluationException {
 		Objects.requireNonNull(cs);
 		
 		MyIndividual ind = new MyIndividual(id, node,ctrl, null);
@@ -139,7 +145,7 @@ public class MyIndividual extends GIndividual{
 //		}
 //		
 //	}
-	public static MyIndividual fromJSON(String id, Node node, JSONObject genotype, JSONObject phenotype, JSONObject properties, Controller ctrl) {
+	public static MyIndividual fromJSON(String id, Node node, JSONObject genotype, JSONObject phenotype, JSONObject properties, Controller ctrl) throws JSONException, EvaluationException {
 		MyIndividual ind = new MyIndividual(id, node,ctrl, null);
 		ind.genotype = new Genotype(genotype);
 		
@@ -151,7 +157,7 @@ public class MyIndividual extends GIndividual{
 		return ind;
 	}
 	
-	public void reproduce(MyIndividual i2) {
+	public void reproduce(MyIndividual i2) throws JSONException, EvaluationException {
 		for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("reproduction");
 
 		Pair<Genotype, Genotype> childs = new SinglePointCrossover().crossover(this.genotype, i2.genotype);
@@ -163,7 +169,7 @@ public class MyIndividual extends GIndividual{
 		//ctrl.getStatsManager().onMutation();
 	}
 	@Override
-	public void update(EvoSimulator simulator) {
+	public void update(EvoSimulator simulator) throws IllegalArgumentException, EvaluationException {
 		super.update(simulator);
 		if(children.size()!=0) {
 			simulator.addEntity(children.get(0));
@@ -220,10 +226,17 @@ public class MyIndividual extends GIndividual{
 	}
 	
 	public static void maina(String args[]) {
-		MyIndividual m = new MyIndividual("-2",new Node(0,0,255,255,255,null),null);
-		System.out.println(m.phenotype.getVisualCode());
+		MyIndividual m;
+		try {
+			m = new MyIndividual("-2",new Node(0,0,255,255,255,null),null);
+			System.out.println(m.phenotype.getVisualCode());
+			
+			HashMap<String,String>r = new HashMap<String,String>();
+		} catch (JSONException | EvaluationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		HashMap<String,String>r = new HashMap<String,String>();
 		
 //		r.put("countUP", "0");
 //		r.put("countRIGHT", "1");

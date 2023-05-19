@@ -1,11 +1,13 @@
 package simulator.events.models;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.events.MultipleTimeEvent;
+import simulator.model.evaluation.EvaluationException;
 
 public class AddRandomEntitiesGeneratorEvent extends MultipleTimeEvent{
 	private String typeTo;
@@ -21,7 +23,7 @@ public class AddRandomEntitiesGeneratorEvent extends MultipleTimeEvent{
 	}
 
 	@Override
-	protected void _execute(Controller ctrl) {
+	protected void _execute(Controller ctrl) throws JSONException, EvaluationException {
 		JSONArray arr = new JSONArray();
 		for(int i=0;i<amount;i++) {
 			JSONObject o = new JSONObject();

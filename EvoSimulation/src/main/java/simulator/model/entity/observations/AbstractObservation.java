@@ -11,7 +11,7 @@ public abstract class AbstractObservation {
 	ObservationManager manager;
 	public AbstractObservation() {
 	}
-	public abstract HashMap<String, String>getObservation(List<Entity>entities, Map map);
+	public abstract HashMap<String, Object> getObservation(List<Entity>entities, Map map);
 	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}

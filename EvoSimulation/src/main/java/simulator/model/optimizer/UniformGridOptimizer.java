@@ -3,6 +3,7 @@ package simulator.model.optimizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,6 +13,7 @@ import simulator.Constants.MOVE;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import util.Util;
 
@@ -51,7 +53,7 @@ public class UniformGridOptimizer implements Optimizer{
 		public void addEntity(Entity e) {
 			this.inEntities.add(e);
 		}
-		public void update(Map map, List<Entity> entities) {
+		public void update(Map map, List<Entity> entities) throws IllegalArgumentException, EvaluationException {
 			for (Entity e : inEntities) {
 				e.update(simulator);
 			}
@@ -112,15 +114,16 @@ public class UniformGridOptimizer implements Optimizer{
 		ExecutorService service = Executors.newCachedThreadPool();
 		List<Future<?>>results = new ArrayList<Future<?>>();
 		
-		class Task implements Runnable{
+		class Task implements Callable<Void>{
 			int i,j;
 			public Task(int i, int j) {
 				this.i=i;
 				this.j=j;
 			}
 			@Override
-			public void run() {
+			public Void call() throws IllegalArgumentException, EvaluationException {
 				grids[i][j].update(map, entities);
+				return null;
 			}
 		}
 		for(int i=0;i<yDivision;i++) {

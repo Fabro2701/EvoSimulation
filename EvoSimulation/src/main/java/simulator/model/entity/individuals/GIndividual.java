@@ -19,9 +19,12 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.json.JSONException;
+
 import grammar.AbstractGrammar.Symbol;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
+import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
@@ -32,6 +35,7 @@ import simulator.model.entity.individuals.genome.Phenotype;
 import simulator.model.entity.individuals.genome.PolymorphismController;
 import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
 import simulator.model.entity.observations.ObservationManager;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
@@ -47,7 +51,7 @@ public abstract class GIndividual extends AbstractIndividual{
 	private int count = 0;
 	
 	
-	public GIndividual(String id, Node node, Controller ctrl, String code) {
+	public GIndividual(String id, Node node, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, node, ctrl, code);
 
 		genotype = new Genotype();
@@ -85,13 +89,18 @@ public abstract class GIndividual extends AbstractIndividual{
 	}
 	
 	@Override
-	public void perform(List<Entity>entities, Map map) {
+	public void perform(List<Entity>entities, Map map) throws EvaluationException {
 		for(String actionid:grammars.keySet()) {
 			int t = this.grammarController.getTime(actionid);
 			if(t==-1) {//execute only once
 				if(!this.exs.get(actionid)) {
 					this.exs.put(actionid, true);
 					this.phenotype.evaluate(actionid, this.observationManager.getVariables(), (MyIndividual) this);
+					Object r = this.getAttribute("result"+actionid);
+					if(r!=null) {
+						ActionI act = actions.get(actionid).get(r);
+						act.perform(this, entities, map);
+					}
 				}
 				else {
 					continue;
@@ -99,6 +108,11 @@ public abstract class GIndividual extends AbstractIndividual{
 			}
 			else if(count%t==0) {
 				this.phenotype.evaluate(actionid, this.observationManager.getVariables(), (MyIndividual) this);
+				Object r = this.getAttribute("result"+actionid);
+				if(r!=null) {
+					ActionI act = actions.get(actionid).get(r);
+					act.perform(this, entities, map);
+				}
 			}
 		}
 		count++;

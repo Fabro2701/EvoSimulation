@@ -1,10 +1,12 @@
 package simulator.events.models;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import simulator.control.Controller;
 import simulator.events.OneTimeEvent;
 import simulator.factories.builders.events.EventBuilder;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * AddEntitiesEvent delegates the creation of {@link AddEntitiesEvent#entitiesToAdd} to {@link Controller} 
@@ -26,9 +28,11 @@ public class AddEntitiesEvent extends OneTimeEvent{
 
 	/**
 	 * {@link Controller} loads entitiesToAdd calling its set of {@link EventBuilder}
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
 	@Override
-	protected void _execute(Controller ctrl) {
+	protected void _execute(Controller ctrl) throws JSONException, EvaluationException {
 		ctrl.loadEntities(entitiesToAdd);
 	}
 

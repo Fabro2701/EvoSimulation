@@ -11,9 +11,10 @@ import simulator.model.ActionI;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 
 public class GlobalController extends ModuleController{
-	Map<String, Consumer<Entity>>statements;
+	Map<String, GlobalInt>statements;
 	public GlobalController() {
 		super();
 	}
@@ -21,7 +22,10 @@ public class GlobalController extends ModuleController{
 		super(declaration);
 		
 	}
-
+	@FunctionalInterface
+	public static interface GlobalInt{
+		void accept(Entity t)throws IllegalArgumentException , EvaluationException;
+	}
 	@Override
 	protected void init() {
 		statements = new LinkedHashMap<>();
@@ -44,11 +48,16 @@ public class GlobalController extends ModuleController{
 		}
 		//for global vars
 		for(String id:statements.keySet()) {
-			statements.get(id).accept(null);
+			try {
+				statements.get(id).accept(null);
+			} catch (IllegalArgumentException | EvaluationException e) {
+				System.err.println("Error executin global vars");
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public Map<String, Consumer<Entity>> getStatements() {
+	public Map<String, GlobalInt> getStatements() {
 		return statements;
 	}
 

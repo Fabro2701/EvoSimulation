@@ -1,6 +1,9 @@
 package simulator.events;
 
+import org.json.JSONException;
+
 import simulator.control.Controller;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * MultipleTimeEvent is a {@link Event} that executes its action multiple times
@@ -26,9 +29,11 @@ public abstract class MultipleTimeEvent extends Event{
 	
 	/**
 	 * executes _execute() {@link MultipleTimeEvent#times} times
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
 	@Override
-	public void execute(Controller ctrl) {
+	public void execute(Controller ctrl) throws JSONException, EvaluationException {
 		if(times>0) {
 			this._execute(ctrl);
 			executionTime = executionTime+interval;

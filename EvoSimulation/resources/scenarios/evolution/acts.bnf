@@ -1,0 +1,7 @@
+<CODE> -> <LINE>.
+<LINE> -> <ACTION>|<IF>.
+<IF> -> if <COND> {<LINE>} else {<LINE>} | if <COND> { <LINE> }.
+<COND> -> '(true)'.
+<ACTION> -> 'return ' <AS> ';'.
+<AS> -> '"chase'<DIR>'"'|'"action2"'.
+<DIR> -> 'UP'|'DOWN'|'LEFT'|'RIGHT'.

@@ -3,6 +3,7 @@ package simulator.events.models;
 import java.lang.reflect.InvocationTargetException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
@@ -10,6 +11,7 @@ import simulator.events.MultipleTimeEvent;
 import simulator.events.TimeLapseEvent;
 import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.entity.initializer.AbstractInitializer;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Node;
 
 public class AddRandomEntitiesConditionTimeLapseGeneratorEvent extends TimeLapseEvent{
@@ -29,7 +31,7 @@ public class AddRandomEntitiesConditionTimeLapseGeneratorEvent extends TimeLapse
 	}
 
 	@Override
-	protected void _execute(Controller ctrl) {
+	protected void _execute(Controller ctrl) throws JSONException, EvaluationException {
 		//System.out.println("exec");
 		long count = ctrl.getEntities().stream().filter(e->e instanceof MyIndividual).count();
 		if(count>amount)return;

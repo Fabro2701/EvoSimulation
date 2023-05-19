@@ -4,17 +4,21 @@ package simulator.model.entity;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+
 import simulator.control.Controller;
 import simulator.control.ImageController;
+import simulator.control.InteractionsController.InteractionsInt;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class ActiveEntity extends InteractiveEntity {
 	private java.util.Map<String, java.util.Map<String,Integer>>interactionsMap;
-	public ActiveEntity(String id, Node n, Controller ctrl, String code) {
+	public ActiveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, n, ctrl, code);
 		pheromone = new Pheromone();
 		pheromone.init(this);
@@ -26,10 +30,10 @@ public class ActiveEntity extends InteractiveEntity {
 	}
 
 	@Override
-	public void myInteract(Entity e2) {
+	public void myInteract(Entity e2) throws IllegalArgumentException, EvaluationException {
 		int time = ctrl.getSimulator().getTime();
 		String e2id = e2.getId();
-		java.util.Map<String, InteractionI> interactions_l = interactions.getInteractions();
+		java.util.Map<String, InteractionsInt> interactions_l = interactions.getInteractions();
 		java.util.Map<String, Integer> interactionsFreq = interactions.getInteractionsFreq();
 		for(String intid:interactions_l.keySet()) {
 			if(interactions.match(intid, this.getClass(), e2.getClass())) {
@@ -45,7 +49,7 @@ public class ActiveEntity extends InteractiveEntity {
 		}
 	}
 	@Override
-	public void update(EvoSimulator evoSimulator) {
+	public void update(EvoSimulator evoSimulator) throws IllegalArgumentException, EvaluationException {
 		super.update(evoSimulator);
 		//this.decreaseEnergy((weight + this.node.temperature) * LIVE_ENERGY_COST_CONSTANT);
 		
@@ -89,7 +93,7 @@ public class ActiveEntity extends InteractiveEntity {
 //	}
 
 	@Override
-	public void perform(List<Entity> entities, Map map) {
+	public void perform(List<Entity> entities, Map map) throws EvaluationException {
 		// TODO Auto-generated method stub
 		
 	}

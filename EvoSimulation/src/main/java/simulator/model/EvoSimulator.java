@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import experiment.models.metro.MetroViewElements;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import simulator.model.optimizer.BasicOptimizer;
@@ -79,8 +80,10 @@ public class EvoSimulator {
 
 	/**
 	 * Step the simulator once
+	 * @throws EvaluationException 
+	 * @throws IllegalArgumentException 
 	 */
-	public void step() {
+	public void step() throws IllegalArgumentException, EvaluationException {
 		//System.out.println(entities.size());
 		if(this.delay>0) {
 			try {
@@ -91,7 +94,12 @@ public class EvoSimulator {
 		}
 		
 		time++;
-		if(entities.size()==0 && entitiesBuffer.size()==0)return;//for performance
+		if(entities.size()==0 && entitiesBuffer.size()==0) {
+			for (SimulatorObserver observer : observers) {
+				observer.onUpdate(entities, map, time, this.viewElements);
+			}
+			return;//for performance
+		}
 		
 		if(debug) {
 			if(time%500==0) {

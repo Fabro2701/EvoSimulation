@@ -3,6 +3,7 @@ package simulator.events.models;
 import java.lang.reflect.InvocationTargetException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
@@ -10,6 +11,7 @@ import simulator.events.MultipleTimeEvent;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.entity.initializer.AbstractInitializer;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Node;
 
 public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
@@ -29,7 +31,7 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 	}
 
 	@Override
-	protected void _execute(Controller ctrl) {
+	protected void _execute(Controller ctrl) throws JSONException, EvaluationException {
 		long count = ctrl.getEntities().stream().filter(e->e instanceof ActiveEntity).count();
 		if(init != null){
 			

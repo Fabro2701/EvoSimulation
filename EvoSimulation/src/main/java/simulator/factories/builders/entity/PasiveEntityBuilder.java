@@ -1,10 +1,12 @@
 package simulator.factories.builders.entity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.Constants;
 import simulator.control.Controller;
 import simulator.model.entity.PasiveEntity;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * 
@@ -16,7 +18,7 @@ public class PasiveEntityBuilder extends EntityBuilder{
 		type = Constants.PasiveEntityBuilder_TYPE;
 	}
 	@Override
-	public PasiveEntity createTheInstance(JSONObject o, Controller ctrl) {
+	public PasiveEntity createTheInstance(JSONObject o, Controller ctrl) throws JSONException, EvaluationException {
 		String code = null;
 		if(o.has("properties")) {
 			JSONObject properties = o.getJSONObject("properties");

@@ -1,0 +1,30 @@
+
+{
+    "events": [
+         {
+            "type":"arecg",
+            "data":{
+	        	"id":"r",
+                "time":2,
+                "times":1000,
+                "interval":100,
+                "typeTo":"mi",
+                "amount":100
+                
+            }
+        },
+        {
+            "type":"arecg",
+            "data":{
+	        	"id":"r",
+                "time":2,
+                "times":1,
+                "interval":100,
+                "typeTo":"pe",
+                "amount":200,
+                "properties":{"apply":"this.setAttribute(\"info\",\"food\");"}
+            }
+        }
+    ]
+}
+    

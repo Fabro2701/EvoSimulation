@@ -18,14 +18,14 @@ public class ObservationManager {
 	List<AbstractObservation>observations;
 	Entity entity;
 	
-	HashMap<String,String> variables;
+	HashMap<String,Object> variables;
 	List<Entity>visibleEntities;
 	EnumMap<MOVE,Entity> closestEntity;
 	
 	
 	public ObservationManager(Entity entity) {
 		this.entity = entity;
-		this.variables = new HashMap<String,String>();
+		this.variables = new HashMap<String,Object>();
 		this.visibleEntities = new ArrayList<Entity>();
 		this.closestEntity = new EnumMap<MOVE,Entity>(MOVE.class);
 		
@@ -58,7 +58,7 @@ public class ObservationManager {
 		}
 		time++;
 	}
-	public HashMap<String, String> getVariables() {
+	public HashMap<String, Object> getVariables() {
 		return variables;
 	}
 	private void setCommonVariables(List<Entity>entities, Map map) {

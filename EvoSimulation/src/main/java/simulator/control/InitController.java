@@ -12,9 +12,10 @@ import org.json.JSONObject;
 
 import simulator.model.entity.Entity;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 
 public class InitController extends ModuleController{
-	Map<String, Consumer<Entity>>statements;
+	Map<String, InitInt>statements;
 	Map<String, List<Class<?>>>rules;
 	public InitController() {
 		super();
@@ -24,6 +25,10 @@ public class InitController extends ModuleController{
 		
 	}
 
+	@FunctionalInterface
+	public static interface InitInt{
+		void accept(Entity t)throws IllegalArgumentException , EvaluationException;
+	}
 	@Override
 	protected void init() {
 		statements = new LinkedHashMap<>();
@@ -54,7 +59,7 @@ public class InitController extends ModuleController{
 	public List<Class<?>> getClasses(String id){
 		return this.rules.get(id);
 	}
-	public Map<String, Consumer<Entity>> getStatements() {
+	public Map<String, InitInt> getStatements() {
 		return statements;
 	}
 	public boolean match(String id, Class<?>clazz) {

@@ -18,8 +18,8 @@ public class ClosestEntityPheromoneObservation extends AbstractObservation{
 		this.dir = dir;
 	}
 	@Override
-	public HashMap<String, String> getObservation(List<Entity> entities, Map map) {
-		HashMap<String, String> o = new HashMap<String, String>();
+	public HashMap<String, Object> getObservation(List<Entity> entities, Map map) {
+		HashMap<String, Object> o = new HashMap<String, Object>();
 		
 		Pheromone p = new Pheromone();
 		

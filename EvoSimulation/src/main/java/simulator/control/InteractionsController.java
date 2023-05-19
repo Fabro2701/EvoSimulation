@@ -11,11 +11,13 @@ import org.json.JSONObject;
 
 import simulator.model.ActionI;
 import simulator.model.InteractionI;
+import simulator.model.entity.Entity;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 import util.Pair;
 
 public class InteractionsController extends ModuleController{
-	Map<String, InteractionI>interactions;
+	Map<String, InteractionsInt>interactions;
 	Map<String, Integer>interactionsFreq;
 	Map<String, Pair<List<Class<?>>,List<Class<?>>>>rules;
 
@@ -25,6 +27,10 @@ public class InteractionsController extends ModuleController{
 	public InteractionsController(JSONObject declaration) {
 		super(declaration);
 		
+	}
+	@FunctionalInterface
+	public static interface InteractionsInt{
+		public Object perform(Entity e1, Entity e2, simulator.model.map.Map map, int time)throws IllegalArgumentException , EvaluationException;
 	}
 	@Override
 	protected void init() {
@@ -63,7 +69,7 @@ public class InteractionsController extends ModuleController{
 	public Pair<List<Class<?>>,List<Class<?>>> getClasses(String id){
 		return this.rules.get(id);
 	}
-	public Map<String, InteractionI> getInteractions() {
+	public Map<String, InteractionsInt> getInteractions() {
 		return interactions;
 	}
 	public Map<String, Integer> getInteractionsFreq() {

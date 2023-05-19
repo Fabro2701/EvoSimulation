@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -19,6 +20,7 @@ import simulator.model.EvoSimulator;
 import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.entity.PasiveEntity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import simulator.model.map.creator.EntityPanel.EntityInfo;
@@ -75,8 +77,10 @@ public class Controller {
 	/**
 	 * Steps the {@link Controller#simulator} and updates {@link Controller#eventManager} and {@link Controller#statsManager} 'runs' times
 	 * @param runs Number of steps to be taken
+	 * @throws EvaluationException 
+	 * @throws IllegalArgumentException 
 	 */
-	public void run(int runs) {
+	public void run(int runs) throws IllegalArgumentException, EvaluationException {
 		if (runs <= 0) return;
 		for (int i = 0; i < runs; i++) {
 			if(eventManager!=null)eventManager.update(this, simulator.getTime());
@@ -85,7 +89,7 @@ public class Controller {
 		}
 	}
 
-	public void addRandomEntity() {
+	public void addRandomEntity() throws JSONException, EvaluationException {
 		JSONObject o = new JSONObject().put("type", "mi").put("data",
 				new JSONObject()
 						//.put("id", String.valueOf(RandomSingleton.nextInt(1000)))
@@ -99,8 +103,10 @@ public class Controller {
 	 * Create and insert the {@link Entity} found in the stream into the {@link Controller#simulator}
 	 * using the {@link Controller#entityFactory}
 	 * @param in
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void loadEntities(InputStream in) {
+	public void loadEntities(InputStream in) throws JSONException, EvaluationException {
 		loadEntities(new JSONObject(new JSONTokener(in)).getJSONArray("entities"));
 	}
 
@@ -108,8 +114,10 @@ public class Controller {
 	 * Create and insert the {@link Entity} found in the JSONArray into the {@link Controller#simulator}
 	 * using the {@link Controller#entityFactory}
 	 * @param jsonInput
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void loadEntities(JSONArray jsonInput) {
+	public void loadEntities(JSONArray jsonInput) throws JSONException, EvaluationException {
 		for (int i = 0; i < jsonInput.length(); i++) {
 			simulator.addEntity(entityFactory.createInstance(jsonInput.getJSONObject(i), this));
 		}
@@ -127,8 +135,10 @@ public class Controller {
 	 * Create and insert the {@link Event}s found in the stream into the {@link Controller#eventManager}
 	 * using the {@link Controller#eventFactory}
 	 * @param in
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void loadEvents(InputStream in) {
+	public void loadEvents(InputStream in) throws JSONException, EvaluationException {
 		loadEvents(new JSONObject(new JSONTokener(in)).getJSONArray("events"));
 	}
 
@@ -136,8 +146,10 @@ public class Controller {
 	 * Create and insert the {@link Event}s found in the JSONArray into the {@link Controller#eventManager}
 	 * using the {@link Controller#eventFactory}
 	 * @param jsonInput
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void loadEvents(JSONArray jsonInput) {
+	public void loadEvents(JSONArray jsonInput) throws JSONException, EvaluationException {
 		for (int i = 0; i < jsonInput.length(); i++) {
 			eventManager.addEvent(eventFactory.createInstance(jsonInput.getJSONObject(i), this));
 		}
@@ -146,8 +158,10 @@ public class Controller {
 	/**
 	 * Add a single {@link Event} into the {@link Controller#eventManager} using the {@link Controller#eventFactory}
 	 * @param in
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void addEvent(InputStream in) {
+	public void addEvent(InputStream in) throws JSONException, EvaluationException {
 		eventManager.addEvent(eventFactory.createInstance(new JSONObject(new JSONTokener(in)), this));
 	}
 	
@@ -213,7 +227,13 @@ public class Controller {
 	public void loadPE(List<EntityInfo> entitiesInfo) {
 		for(EntityInfo ei:entitiesInfo) {
 			String type = ei.getName();
-			PasiveEntity pe = new PasiveEntity(getNextId(),getNodeAt(ei.getX(),ei.getY()),this,ei.getCode());
+			PasiveEntity pe=null;
+			try {
+				pe = new PasiveEntity(getNextId(),getNodeAt(ei.getX(),ei.getY()),this,ei.getCode());
+			} catch (JSONException | EvaluationException e) {
+				System.err.println("Error initializing PEs");
+				e.printStackTrace();
+			}
 			
 			pe.setAttribute(type,true);
 			pe.setAttribute("info",type);

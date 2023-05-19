@@ -7,16 +7,21 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.json.JSONException;
+
 import grammar.AbstractGrammar;
 import simulator.RandomSingleton;
 import simulator.control.Controller;
 import simulator.control.GrammarController;
 import simulator.control.InitController;
+import simulator.control.InitController.InitInt;
 import simulator.control.InteractionsController;
 import simulator.control.UpdatesController;
+import simulator.control.UpdatesController.UpdatesInt;
 import simulator.model.ActionI;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.observations.ObservationManager;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import util.Util;
@@ -35,7 +40,7 @@ public abstract class InteractiveEntity extends Entity{
 	
 	
 	
-	public InteractiveEntity(String id, Node n, Controller ctrl, String code) {
+	public InteractiveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, n, ctrl);
 		
 		
@@ -51,12 +56,14 @@ public abstract class InteractiveEntity extends Entity{
 			exs.put(k, false);
 		}
 		
-		if(code!=null&&code.length()>0)this.apply(code);
+		if(code!=null&&code.length()>0) {
+			this.apply(code);
+		}
 		
 	}
 	
-	protected void init() {
-		java.util.Map<String, Consumer<Entity>>inits_l = inits.getStatements(); 
+	protected void init() throws IllegalArgumentException, EvaluationException {
+		java.util.Map<String, InitInt>inits_l = inits.getStatements(); 
 		for(String id:inits_l.keySet()) {
 			if(inits.match(id, this.getClass())) {
 				if(id.equals("initactiveDiabetes")) {
@@ -68,23 +75,27 @@ public abstract class InteractiveEntity extends Entity{
 		this.alive = true;
 	}
 	@Override
-	public void update(EvoSimulator evoSimulator) {
+	public void update(EvoSimulator evoSimulator) throws IllegalArgumentException, EvaluationException {
 		super.update(evoSimulator);
 		//observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 		
-		java.util.Map<String, BiConsumer<Entity, EvoSimulator>> updates_l = updates.getUpdates();
+		java.util.Map<String, UpdatesInt> updates_l = updates.getUpdates();
 		java.util.Map<String, Integer> freqs = updates.getUpdatesFreq();
 		
 		for(String id:updates_l.keySet()) {
 			if(evoSimulator.getTime()%freqs.get(id)!=0)continue;
-			try {
+			
 				if(updates.match(id, this.getClass())) {
-					if(this.isAlive())updates_l.get(id).accept(this, evoSimulator);
+					if(this.isAlive())
+						try {
+							updates_l.get(id).accept(this, evoSimulator);
+						} catch (IllegalArgumentException | EvaluationException e) {
+							System.err.println("Error in update "+id);
+							e.printStackTrace();
+							throw e;
+						}
 				}
-			}catch(Exception e) {
-				System.err.println("Error in update: "+id);
-				e.printStackTrace();
-			}
+			
 			
 		}
 	}

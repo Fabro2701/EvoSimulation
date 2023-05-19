@@ -74,30 +74,34 @@ public class ActionEvaluator {
 		this.program = program;
 		if(debug)System.out.println(program.toString(4));
 	}
-	public Object evaluate(Environment env, boolean clear) {
+	boolean returnBoolean = false;
+	public Object evaluate(Environment env, boolean clear) throws EvaluationException {
+		returnBoolean = false;
 		Object r = null;
 		JSONObject expression = null;
 		for(int i=0;i<program.length();i++) {
 			expression = program.getJSONObject(i);
 			try {
 				r = this.eval(expression, env);
+				if(returnBoolean)break;
 			}
 			catch(EvaluationException e) {
 				//System.err.println("expression:\n"+expression.toString(4));
 				e.printStackTrace();
+				throw e;
 			}
 		}
 		if(clear)env.clear();
 		return r;
 	}
-	public Object evaluate(java.util.Map<String, Object>vars) {
+	public Object evaluate(java.util.Map<String, Object>vars) throws EvaluationException {
 		Environment env = new Environment(globalEnv);
 		for(String key:vars.keySet()) env.define(key, vars.get(key));
 		env.define("test", new TestEv());
 		
 		return evaluate(env, true);
 	}
-	public Object evaluatePairs(Object... args) throws IllegalArgumentException{
+	public Object evaluatePairs(Object... args) throws IllegalArgumentException, EvaluationException{
 		if(args.length%2!=0)throw new IllegalArgumentException("The arguments length is not even");
 		
 		java.util.Map<String, Object>vars = new java.util.HashMap<>();
@@ -115,6 +119,8 @@ public class ActionEvaluator {
 		switch(type) {
 		case "ExpressionStatement":
 			return this.eval(query.getJSONObject("expression"), env);
+		case "ReturnStatement":
+			return this.evalReturnExpression(query, env);
 		case "NewExpression":
 			return this.evalNewExpression(query, env);
 		case "AssignmentExpression":
@@ -158,6 +164,10 @@ public class ActionEvaluator {
 		default:
 			throw new EvaluationException("unsupported type: "+type);
 		}
+	}
+	private Object evalReturnExpression(JSONObject query, Environment env) throws EvaluationException {
+		returnBoolean = true;
+		return this.eval(query.getJSONObject("expression"), env);
 	}
 	private Object evalBooleanLiteral(JSONObject query, Environment env) throws EvaluationException{
 		return Boolean.valueOf(query.getString("value"));
@@ -318,6 +328,7 @@ public class ActionEvaluator {
 		}
 		else {
 			try {
+		
 				Method m = null;
 				//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
 				for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;
@@ -468,7 +479,7 @@ public class ActionEvaluator {
 		//actions();
 		interactions();
 	}
-	private static void actions() {
+	private static void actions() throws IllegalArgumentException, EvaluationException {
 		SetupController stc = SetupController.from("resources/setup/default.stp");
 		ActionsController ac = (ActionsController)stc.getModule("ActionsController");
 		
@@ -483,12 +494,12 @@ public class ActionEvaluator {
 		//System.out.println(c.isPrimitive());
 	}
 	private static void interactions() {
-		SetupController stc = SetupController.from("resources/setup/test.stp");
+		/*/SetupController stc = SetupController.from("resources/setup/test.stp");
 		InteractionsController ac = (InteractionsController)stc.getModule("InteractionsController");
 		
 		java.util.Map<String, InteractionI> acs = ac.getInteractions();
 		InteractionI a = acs.get("test");
 		
-		System.out.println(a.perform(null, null, null, 0));
+		System.out.println(a.perform(null, null, null, 0));*/
 	}
 }

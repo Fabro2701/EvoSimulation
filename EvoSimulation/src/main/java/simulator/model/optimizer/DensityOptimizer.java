@@ -3,6 +3,7 @@ package simulator.model.optimizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,6 +12,7 @@ import java.util.concurrent.Future;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.ActiveEntity;
 import simulator.model.entity.Entity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import simulator.model.optimizer.clustering.KMeansClustering;
@@ -81,7 +83,7 @@ public class DensityOptimizer implements Optimizer {
 			int x = node.x, y = node.y;
 			return (x>=minx && x<=maxx)&&(y>=miny && y<=maxy);
 		}
-		public void update(Map map, List<Entity> entities) {
+		public void update(Map map, List<Entity> entities) throws IllegalArgumentException, EvaluationException {
 			if(grids==null) {
 				_update(map,this.inEntities,entities);
 			}
@@ -93,8 +95,8 @@ public class DensityOptimizer implements Optimizer {
 					for(int i=0;i<splits;i++) {
 						for(int j=0;j<splits;j++) {
 							Grid g = grids[i][j];
-							results.add(service.submit(()->g.update(map,entities)));
-						}results.add(service.submit(()->defaultGrid.update(map,entities)));
+							results.add(service.submit((AuxInt)(()->{g.update(map,entities);return null;})));
+						}results.add(service.submit((AuxInt)(()->{defaultGrid.update(map,entities);return null;})));
 					}
 	
 					//join the results
@@ -161,12 +163,15 @@ public class DensityOptimizer implements Optimizer {
 			public void reset() {
 				if(this.internalEntities!=null)this.internalEntities.clear();
 			}
-			public void update(Map map, List<Entity> entities) {
+			public void update(Map map, List<Entity> entities) throws IllegalArgumentException, EvaluationException {
 				_update(map,this.internalEntities,entities);
 			}
 		}
 	}
-	
+
+	public static interface AuxInt extends Callable<Void>{
+		public abstract Void call() throws IllegalArgumentException, EvaluationException;
+	}
 	@Override
 	public void update(Map map, List<Entity> entities, int time) {
 		if(time%updateLapse==0 || !init) {	
@@ -200,7 +205,7 @@ public class DensityOptimizer implements Optimizer {
 		
 	
 		for(ClusterGrid g:grids) {
-			results.add(service.submit(()->g.update(map,entities)));
+			results.add(service.submit((AuxInt)(()->{g.update(map,entities);return null;})));
 		}
 
 		//join the results
@@ -252,7 +257,7 @@ public class DensityOptimizer implements Optimizer {
 			g.propagate();
 		}
 	}
-	public void _update(Map map, List<Entity> inEntities, List<Entity> entities) {
+	public void _update(Map map, List<Entity> inEntities, List<Entity> entities) throws IllegalArgumentException, EvaluationException {
 		for (Entity e : inEntities) {
 			e.update(simulator);
 		}

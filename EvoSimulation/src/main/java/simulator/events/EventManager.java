@@ -3,7 +3,10 @@ package simulator.events;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+import org.json.JSONException;
+
 import simulator.control.Controller;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * EventManager manages a set of {@link Event} ordered by its {@link Event#executionTime}
@@ -27,8 +30,10 @@ public class EventManager {
 	 * Execute the events with event.executionTime <= time
 	 * @param ctrl
 	 * @param time
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
-	public void update(Controller ctrl, int time) {
+	public void update(Controller ctrl, int time) throws JSONException, EvaluationException {
 		while(events.size()!=0 && events.peek().executionTime<=time) {
 			Event e = events.poll();
 			e.execute(ctrl);

@@ -18,8 +18,8 @@ public class ClosestEntityDistanceObservation extends AbstractObservation{
 		this.dir = dir;
 	}
 	@Override
-	public HashMap<String, String> getObservation(List<Entity> entities, Map map) {
-		HashMap<String, String> o = new HashMap<String, String>();
+	public HashMap<String, Object> getObservation(List<Entity> entities, Map map) {
+		HashMap<String, Object> o = new HashMap<String, Object>();
 		
 		
 		double minDist = Double.MAX_VALUE;
@@ -42,6 +42,8 @@ public class ClosestEntityDistanceObservation extends AbstractObservation{
 		}
 		
 		o.put("dist"+dir, String.valueOf((int)minDist));
+		o.put("entity"+dir, cEntity);
+		o.put("type"+dir, cEntity==null?null:cEntity.getClass().getSimpleName());
 		this.manager.getClosestEntity().put(this.dir, cEntity);
 		
 		return o;

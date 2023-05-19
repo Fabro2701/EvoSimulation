@@ -1,6 +1,9 @@
 package simulator.events;
 
+import org.json.JSONException;
+
 import simulator.control.Controller;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * TimeLapseEvent is a {@link Event} that executes its action in a time lapse
@@ -35,9 +38,11 @@ public abstract class TimeLapseEvent extends Event{
 	
 	/**
 	 * executes _execute() {@link TimeLapseEvent#times} times
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
 	@Override
-	public void execute(Controller ctrl) {
+	public void execute(Controller ctrl) throws JSONException, EvaluationException {
 		
 		if(times>0) {
 			this._execute(ctrl);

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import setup.OOPParser;
@@ -18,6 +19,7 @@ import simulator.control.ImageController;
 import simulator.control.fsm.State;
 import simulator.model.EvoSimulator;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 import statistics.StatsManager;
@@ -53,17 +55,21 @@ public abstract class Entity{
 	/**
 	 * Updates the {@link Entity#age}, {@link Entity#currentTime}
 	 * @param evoSimulator
+	 * @throws EvaluationException 
+	 * @throws IllegalArgumentException 
 	 */
-	public void update(EvoSimulator evoSimulator) {
+	public void update(EvoSimulator evoSimulator) throws IllegalArgumentException, EvaluationException {
 		currentTime=evoSimulator.getTime();
 		//this.updateImage();
 	}
 	
-	public abstract void perform(List<Entity>entities, Map map);
+	public abstract void perform(List<Entity>entities, Map map) throws EvaluationException;
 	/**
 	 * Updates the {@link Entity#energy} depending on the {@link Entity#getTheMove} result
 	 * @param observations
 	 * @return resulting move
+	 * @throws EvaluationException 
+	 * @throws JSONException 
 	 */
 //	public final MOVE getMove() {
 //		MOVE m = getTheMove();
@@ -81,7 +87,7 @@ public abstract class Entity{
 //		return ACTION.NOTHING;
 //	}
 //	protected abstract MOVE getTheMove();
-	public void apply(String code) {
+	public void apply(String code) throws JSONException, EvaluationException {
 		OOPParser parser = new OOPParser() {
 			@Override
 			protected JSONObject Program() {
@@ -90,11 +96,17 @@ public abstract class Entity{
 		};
 		this.apply(parser.parse(code).getJSONArray("list"));
 	}
-	public void apply(JSONArray code) {
+	public void apply(JSONArray code) throws EvaluationException {
 		ActionEvaluator eval = new ActionEvaluator(code);
 		java.util.Map<String, Object>vars = new HashMap<String, Object>();
 		vars.put("this", this);
-		eval.evaluate(vars);
+		try {
+			eval.evaluate(vars);
+		} catch (EvaluationException e) {
+			System.out.println("Error applying init code");
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	public void updateObservations(EvoSimulator evoSimulator) {
 		currentTime=evoSimulator.getTime();
@@ -102,13 +114,13 @@ public abstract class Entity{
 	
 	public abstract boolean shouldInteract();
 	
-	public void interact(Entity e) {
+	public void interact(Entity e) throws IllegalArgumentException, EvaluationException {
 		if (!this.alive || !e.isAlive())
 			return;
 		else
 			myInteract(e);
 	}
-	public abstract void myInteract(Entity e2);
+	public abstract void myInteract(Entity e2) throws IllegalArgumentException, EvaluationException;
 	
 	public void dispose() {
 		alive = false;
@@ -169,6 +181,10 @@ public abstract class Entity{
 
 	public void setNode(Node node) {
 		this.node = node;
+	}
+
+	public Node getNode() {
+		return node;
 	}
 
 

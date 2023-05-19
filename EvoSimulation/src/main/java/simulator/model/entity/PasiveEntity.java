@@ -4,17 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.json.JSONException;
+
 import simulator.Constants.MOVE;
 import simulator.control.Controller;
 import simulator.control.ImageController;
 import simulator.control.InitController;
 import simulator.model.EvoSimulator;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 
 public class PasiveEntity extends InteractiveEntity {
 
-	public PasiveEntity(String id, Node n, Controller ctrl, String code) {
+	public PasiveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, n, ctrl, code);
 		pheromone = new Pheromone();
 		pheromone.init(this);
@@ -22,6 +25,8 @@ public class PasiveEntity extends InteractiveEntity {
 		this.attributes.put("pasive", true);
 		
 		init();
+
+		this.setImg(ImageController.getImage(this.getAttribute("info")));
 	}
 
 	
@@ -30,7 +35,7 @@ public class PasiveEntity extends InteractiveEntity {
 		
 	}
 	@Override
-	public void update(EvoSimulator evoSimulator) {
+	public void update(EvoSimulator evoSimulator) throws IllegalArgumentException, EvaluationException {
 		super.update(evoSimulator);
 	}
 	@Override

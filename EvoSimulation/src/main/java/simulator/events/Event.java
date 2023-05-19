@@ -1,6 +1,9 @@
 package simulator.events;
 
+import org.json.JSONException;
+
 import simulator.control.Controller;
+import simulator.model.evaluation.EvaluationException;
 
 /**
  * Event class
@@ -14,7 +17,7 @@ public abstract class Event {
 	public Event(int executionTime) {
 		this.executionTime = executionTime;
 	}
-	protected abstract void _execute(Controller ctrl);
-	public abstract void execute(Controller ctrl);
+	protected abstract void _execute(Controller ctrl) throws JSONException, EvaluationException;
+	public abstract void execute(Controller ctrl) throws JSONException, EvaluationException;
 	
 }

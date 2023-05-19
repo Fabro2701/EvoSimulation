@@ -17,6 +17,7 @@ import setup.OOPParser;
 import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.entity.individuals.genome.PolymorphismController.VARIATION;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 import grammar.Evaluator;
 import grammar.Parser;
 
@@ -60,11 +61,12 @@ public class Phenotype{
 	public Phenotype(JSONObject phenotype) {
  		System.err.println("pending");
 	}
-	public void evaluate(String key, HashMap<String,String>observations, MyIndividual ind) {
+	public void evaluate(String key, HashMap<String,Object>observations, MyIndividual ind) throws EvaluationException {
 		ActionEvaluator eval = new ActionEvaluator(this.grammarASTs.get(key));
 		java.util.Map<String, Object>vars = new HashMap<String, Object>();
 		vars.put("this", ind);
-		eval.evaluate(vars);
+		Object r = eval.evaluate(vars);
+		ind.setAttribute("result"+key, r);
 	}
 	public Object getNext(String key, HashMap<String,String>observations) {
 		Evaluator eval = evaluators.get(key);

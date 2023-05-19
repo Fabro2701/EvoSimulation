@@ -15,9 +15,10 @@ import simulator.model.EvoSimulator;
 import simulator.model.InteractionI;
 import simulator.model.entity.Entity;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 
 public class UpdatesController extends ModuleController{
-	Map<String, BiConsumer<Entity, EvoSimulator>>updates;
+	Map<String, UpdatesInt>updates;
 	Map<String, Integer>updatesFreq;
 	Map<String, List<Class<?>>>rules;
 
@@ -26,6 +27,10 @@ public class UpdatesController extends ModuleController{
 	}
 	public UpdatesController(JSONObject declaration) {
 		super(declaration);
+	}
+	@FunctionalInterface
+	public static interface UpdatesInt{
+		public void accept(Entity t, EvoSimulator u)throws IllegalArgumentException , EvaluationException;
 	}
 	@Override
 	protected void init() {
@@ -61,7 +66,7 @@ public class UpdatesController extends ModuleController{
 	public List<Class<?>> getClasses(String id){
 		return this.rules.get(id);
 	}
-	public Map<String, BiConsumer<Entity, EvoSimulator>> getUpdates() {
+	public Map<String, UpdatesInt> getUpdates() {
 		return updates;
 	}
 	public Map<String, Integer> getUpdatesFreq() {

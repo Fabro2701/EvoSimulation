@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
 import simulator.factories.builders.Builder;
+import simulator.model.evaluation.EvaluationException;
 
 public class BuilderBasedFactory<T> implements Factory<T>{
 	private List<Builder<T>> builders;
@@ -41,7 +43,7 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 		
 	}
 	@Override
-	public T createInstance(JSONObject info, Controller controller) {
+	public T createInstance(JSONObject info, Controller controller) throws JSONException, EvaluationException {
 		for(Builder<T> b: builders) {
 			T tmp = b.createInstance(info,controller);
 			if(tmp!=null) {
@@ -52,7 +54,7 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 		return null;
 		//throw new IllegalArgumentException();
 	}
-	public T createInstance(JSONObject info) {
+	public T createInstance(JSONObject info) throws JSONException, EvaluationException {
 		return createInstance(info, null);
 	}
 	
