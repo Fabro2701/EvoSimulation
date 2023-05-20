@@ -161,8 +161,8 @@ public class MyIndividual extends GIndividual{
 		for(StatsManager sm:ctrl.getStatsManagers())sm.onEvent("reproduction");
 
 		Pair<Genotype, Genotype> childs = new SinglePointCrossover().crossover(this.genotype, i2.genotype);
-		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.first, ctrl, generation+1));
-		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, generation+1));
+		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.first, ctrl, Math.max(this.generation, i2.generation)+1));
+		this.ctrl.getSimulator().addEntity(MyIndividual.fromParents(childs.second, ctrl, Math.max(this.generation, i2.generation)+1));
 	}
 	public void mutate() {
 		new SingleCodonFlipMutation().mutate(genotype,0.10f);

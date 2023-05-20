@@ -68,6 +68,7 @@ public abstract class GIndividual extends AbstractIndividual{
 				dispose();
 				return;
 			}
+			//System.out.println(phenotype.getVisualCode());
 		}
 		
 		//genes chrom

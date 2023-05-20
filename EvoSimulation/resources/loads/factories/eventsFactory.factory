@@ -5,4 +5,5 @@ simulator.factories.builders.events.AddRandomEntitiesConditionTimeLapseGenerator
 simulator.factories.builders.events.AddRandomEntitiesConditionGeneratorEventBuilder,\
 simulator.factories.builders.events.SaveSimulationEventBuilder,\
 simulator.factories.builders.events.SaveStatsImageEventBuilder,\
-simulator.factories.builders.events.RefreshStatsEventBuilder
+simulator.factories.builders.events.RefreshStatsEventBuilder,\
+simulator.factories.builders.events.BiasGrammarEventBuilder

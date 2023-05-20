@@ -1,0 +1,45 @@
+[
+		{
+		 type:"pc",
+		 data:{
+		       title:"Population count",
+		       x:"Time",
+		       updateRate:500,
+		       visualizer:"line"
+		      }
+		},
+        {
+            "type":"cd",
+            data:{
+		       title:"Generation",
+		       updateRate:500,
+		       visualizer:"line"
+		      }
+        },
+        {
+            "type":"bic",
+            data:{
+		       title:"Best Code",
+		       updateRate:500,
+		       visualizer:"text",
+		       serialize:true
+		      }
+        },
+        {
+            "type":"gh",
+            data:{
+		       title:"Genotype heterogeneity",
+		       updateRate:1000,
+		       visualizer:"line"
+		      }
+        },
+        {
+            "type":"na",
+            data:{
+		       title:"Life attribute",
+		       updateRate:500,
+		       visualizer:"line",
+		       attribute:"life"
+		      }
+        }
+]

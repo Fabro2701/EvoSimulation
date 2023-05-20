@@ -123,11 +123,11 @@ public class SimulationOptionsModel implements OptionsModel{
 			statsManager = new StatsManager(cmd.getOptionValue("file"), statsFactory);
 			this.ctrl.addStatsManager(statsManager);
 			editor.sendInfo("Stats Models created\n");
-		} catch (JSONException | FileNotFoundException | IllegalArgumentException e) {
+		} catch (JSONException | FileNotFoundException | IllegalArgumentException | EvaluationException e) {
 			editor.sendError("Error loading statsManager\n");
 			e.printStackTrace();
 			return false;
-		}
+		} 
 		return false;
 	}
 	

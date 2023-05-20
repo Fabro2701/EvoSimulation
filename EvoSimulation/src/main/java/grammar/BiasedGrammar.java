@@ -9,17 +9,20 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import grammar.AbstractGrammar.Symbol;
+import grammar.AbstractGrammar.SymbolType;
 import grammar.bnf.BNFMeritParser;
 import grammar.derivations.DerivationTree;
 import grammar.derivations.TreeNode;
 import simulator.RandomSingleton;
 import simulator.model.entity.Entity;
 import simulator.model.entity.individuals.GIndividual;
+import simulator.model.entity.individuals.MyIndividual;
 import simulator.model.entity.individuals.genome.Chromosome;
 import simulator.model.entity.individuals.genome.Phenotype;
 
@@ -97,7 +100,7 @@ public class BiasedGrammar extends AbstractGrammar{
 	public void parseBNF(String filename) {
 		StringBuilder sb = new StringBuilder();
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("resources/loads/grammars/"+filename+".bnf")));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
 			String aux = reader.readLine();
 			while(aux!=null) {
 				sb.append(aux);
@@ -161,15 +164,15 @@ public class BiasedGrammar extends AbstractGrammar{
 	}
 	public void globalUpdate(List<Entity>entities) {
 		boolean debug=true;
-		Entity e = entities.stream().max(Comparator.comparing(Entity::getFoodEaten)).get();
+		Entity e = entities.stream().filter(en->en instanceof MyIndividual&&en.hasAttribute("life")).max(Comparator.comparing((Entity en)->(Double)en.getAttribute("life"))).get();
 		
-		if(!(RandomSingleton.nextFloat()<=((float)e.getFoodEaten()/30.f))) {
+		/*if(!(RandomSingleton.nextFloat()<=((float)e.getFoodEaten()/30.f))) {
 			return;
-		}
+		}*/
 		if(debug)System.out.println("-------UPDATING GRAMMAR----------");
 		
-		if(debug)System.out.println("age: "+e.getAge());
-		if(debug)System.out.println("maxfoodeaten: "+e.getFoodEaten());
+		if(debug)System.out.println("generation: "+e.getGeneration());
+		if(debug)System.out.println("maxlife: "+e.getAttribute("life"));
 		DerivationTree t = new DerivationTree(this);
 		
 		boolean b = t.buildFromChromosome(((GIndividual)e).getGenotype().getChromosome(0));//pending
@@ -181,7 +184,8 @@ public class BiasedGrammar extends AbstractGrammar{
 			return;
 		}
 		
-		DerivationTree newT = getDeepestPropagated(t);
+		//DerivationTree newT = getDeepestPropagated(t);
+		DerivationTree newT = getRandomNode(t);
 		
 		Production newP = new Production();
 		
@@ -224,6 +228,26 @@ public class BiasedGrammar extends AbstractGrammar{
 		if(n == t.getRoot())return new DerivationTree(n);
 		else return new DerivationTree(n.getParent());
 	}
+	public DerivationTree getRandomNode(DerivationTree t) {
+		List<TreeNode>nodelist= new ArrayList<>();
+		LinkedList<TreeNode> q = new LinkedList<>();
+		
+		
+		q.add(t.getRoot());
+		TreeNode n = null;
+		while(!q.isEmpty()) {
+			n = q.pop();
+			nodelist.add(n);
+			for(TreeNode child:n.get_children()) {
+				if(child.getData().type==SymbolType.NTerminal)q.add(child);
+			}
+			
+		}
+		
+		n = nodelist.get(RandomSingleton.nextInt(nodelist.size()));
+		
+		return new DerivationTree(n);
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -261,7 +285,7 @@ public class BiasedGrammar extends AbstractGrammar{
 		*/
 		//Grammar g = new Grammar("s");
 		//System.out.println(g);
-		for(int i=0;i<0;i++) {
+		/*for(int i=0;i<0;i++) {
 			Chromosome c = new Chromosome(50);
 			
 
@@ -281,7 +305,7 @@ public class BiasedGrammar extends AbstractGrammar{
 				System.out.println("-----------------");
 			}
 			
-		}
+		}*/
 		
 		
 		

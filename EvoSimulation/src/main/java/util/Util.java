@@ -138,7 +138,7 @@ public class Util {
 	}
 	public static float genotypeSimilarity(Genotype g1, Genotype g2) {
 		float similarity=0.0f;
-		for(int i=0;i<g1.size();i++) {
+		for(int i=0;i<1;i++) {
 			Chromosome<Chromosome.Codon> c1 = g1.getChromosome(i);
 			Chromosome<Chromosome.Codon> c2 = g2.getChromosome(i);
 			

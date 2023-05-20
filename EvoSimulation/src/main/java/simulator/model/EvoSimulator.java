@@ -119,11 +119,7 @@ public class EvoSimulator {
 			this.entitiesBuffer.clear();
 		}
 		
-		if(time%300==0) {
-//			if(commonGrammar instanceof BiasedGrammar){
-//				((BiasedGrammar)commonGrammar).globalUpdate(entities);
-//			}
-		}
+		
 		
 		//update observers
 		if(time%this.imgRefreshRate==0) {

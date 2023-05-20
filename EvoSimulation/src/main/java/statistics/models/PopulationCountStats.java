@@ -30,15 +30,24 @@ public class PopulationCountStats extends StatsData{
 	public void onStep(EvoSimulator simulator) {
 		currentTime=simulator.getTime();
 		if(currentTime%updateRate==0) {
-			
-			Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e.hasAttribute(Entity.attId)).collect(Collectors.groupingBy(Entity.groupF));
-			for(Object id:l.keySet()) {
-				long count = l.get(id).stream().count();
-				((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
+			if(Entity.attId==null) {
+				long count = simulator.getEntities().size();
+				((DefaultCategoryDataset)dataset).addValue(count, (String)"all", Integer.valueOf(currentTime));
 				if(this.serialize) {
-					this.fileWriter.printf("%d %s %d\n", currentTime, id, count);
+					this.fileWriter.printf("%d %s %d\n", currentTime, "all", count);
 				}
 			}
+			else{
+				Map<Object, List<Entity>>l = simulator.getEntities().stream().filter(e->e.hasAttribute(Entity.attId)).collect(Collectors.groupingBy(Entity.groupF));
+				for(Object id:l.keySet()) {
+					long count = l.get(id).stream().count();
+					((DefaultCategoryDataset)dataset).addValue(count, (String)id, Integer.valueOf(currentTime));
+					if(this.serialize) {
+						this.fileWriter.printf("%d %s %d\n", currentTime, id, count);
+					}
+				}
+			}
+			
 //			long cont=simulator.getEntities().stream().filter(e->e instanceof MyIndividual).count();
 //		
 //			((DefaultCategoryDataset)dataset).addValue(Integer.valueOf(simulator.getEntities().size())-cont, "foodPopulation", Integer.valueOf(currentTime));

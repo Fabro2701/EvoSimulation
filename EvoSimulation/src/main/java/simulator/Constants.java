@@ -61,6 +61,7 @@ public final class Constants {
 	public static final String PopulationCountBuilder_TYPE = "pc";
 	public static final String EventsStatsBuilder_TYPE = "es";
 	public static final String AttributeBuilder_TYPE = "a";
+	public static final String NumericAttributeBuilder_TYPE = "na";
 	
 
 	public static final String AddEntitiesEventBuilder = "ae";
@@ -70,6 +71,7 @@ public final class Constants {
 	public static final String RefreshStatsBuilder_TYPE = "rs";
 	public static final String SaveSimulatorBuilder_TYPE = "ss";
 	public static final String SaveStatsImageBuilder_TYPE = "sti";
+	public static final String BiasGrammarEventBuilder_TYPE = "bge";
 
 	
 

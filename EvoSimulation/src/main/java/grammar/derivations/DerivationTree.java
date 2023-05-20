@@ -42,7 +42,7 @@ public class DerivationTree {
 			_current = pending.pollFirst();
 			
 			if(_current._data.getType().equals(AbstractGrammar.SymbolType.NTerminal)) {
-				_expandAndPushNode(c.getCodon(i%c.getLength()).getIntValue(),pending);
+				_expandAndPushNode(((Chromosome.Codon)c.getCodon(i%c.getLength())).getIntValue(),pending);
 				i++;
 			}
 			if(i>=limit) return false;

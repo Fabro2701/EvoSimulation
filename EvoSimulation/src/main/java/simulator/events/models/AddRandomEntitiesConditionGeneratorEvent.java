@@ -32,7 +32,22 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 
 	@Override
 	protected void _execute(Controller ctrl) throws JSONException, EvaluationException {
-		long count = ctrl.getEntities().stream().filter(e->e instanceof ActiveEntity).count();
+		long count=0;
+		switch(typeTo) {
+			case "mi":{
+				count = ctrl.getEntities().stream().filter(e->e instanceof MyIndividual).count();
+				break;
+			}
+			case "ae":{
+				count = ctrl.getEntities().stream().filter(e->e instanceof ActiveEntity).count();
+				break;
+			}
+			case "pe":{
+				count = ctrl.getEntities().stream().filter(e->e instanceof simulator.model.entity.PasiveEntity).count();
+				break;
+			}
+				
+		}
 		if(init != null){
 			
 				AbstractInitializer initializer=null;

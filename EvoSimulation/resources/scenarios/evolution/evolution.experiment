@@ -1,10 +1,10 @@
 map = resources/maps/empty1000
 setup = resources/scenarios/evolution/setup.stp
 visualization = BASIC
-optimizer = BASIC
+optimizer = UNIFORM_GRID
+stats = resources/scenarios/evolution/stats.json
 events = resources/scenarios/evolution/events.json
 constantsCtrl = true
 terminalCtrl = true
 imgRefreshRate = 10
-attId = status
 imgsdir = resources/entities/

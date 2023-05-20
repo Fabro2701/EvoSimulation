@@ -18,6 +18,7 @@ import org.json.JSONTokener;
 import simulator.Constants;
 import simulator.factories.BuilderBasedFactory;
 import simulator.model.EvoSimulator;
+import simulator.model.evaluation.EvaluationException;
 import statistics.visualizers.AreaChartVisualizer;
 import statistics.visualizers.BarChartVisualizer;
 import statistics.visualizers.BoxChartVisualizer;
@@ -46,7 +47,7 @@ public class StatsManager extends JFrame implements StatsObserver{
 	public StatsManager() {
 		observers = new ArrayList<StatsObserver>();
 	}
-    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory) throws JSONException, FileNotFoundException, IllegalArgumentException{
+    public StatsManager(String config, BuilderBasedFactory<StatsData> modelFactory) throws JSONException, FileNotFoundException, IllegalArgumentException, EvaluationException{
     	this();
     	this.modelFactory = modelFactory;
     	loadConfig(config);
@@ -60,9 +61,10 @@ public class StatsManager extends JFrame implements StatsObserver{
     /**
      * Loads from filename the models to be displayed
      * @param filename
+     * @throws EvaluationException 
      * @throws Exception 
      */
-    public void loadConfig(String filename) throws JSONException, FileNotFoundException, IllegalArgumentException{
+    public void loadConfig(String filename) throws JSONException, FileNotFoundException, IllegalArgumentException, EvaluationException{
     	observers.clear();
     	
     	JSONArray config = new JSONArray(new JSONTokener(new FileInputStream(filename)));

@@ -134,8 +134,7 @@ public class Phenotype{
 				s.append(current);
 				s.append('\n');
 			}
-			else if(current.equals("if")||current.equals("else")||current.equals("\"RIGHT\"")||current.equals("\"LEFT\"")||
-					current.equals("\"UP\"")||current.equals("\"DOWN\"")||current.equals("\"NEUTRAL\"")){
+			else if(current.equals("if")||current.equals("else")||current.getName().contains("return")){
 				s.append(tabs);
 				s.append(current);
 			}

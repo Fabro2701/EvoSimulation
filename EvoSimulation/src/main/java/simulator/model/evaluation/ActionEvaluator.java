@@ -328,7 +328,9 @@ public class ActionEvaluator {
 		}
 		else {
 			try {
-		
+				if(ob==null) {
+					throw new EvaluationException("Object "+ob+" is null");
+				}
 				Method m = null;
 				//Method m = ob.getClass().getMethod(property.getString("name"), clazzs);
 				for(Method mi:ob.getClass().getMethods())if(mi.getName().equals(property.getString("name")))m=mi;

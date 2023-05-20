@@ -66,9 +66,6 @@ public abstract class InteractiveEntity extends Entity{
 		java.util.Map<String, InitInt>inits_l = inits.getStatements(); 
 		for(String id:inits_l.keySet()) {
 			if(inits.match(id, this.getClass())) {
-				if(id.equals("initactiveDiabetes")) {
-					int a=0;
-				}
 				inits_l.get(id).accept(this);
 			}
 		}

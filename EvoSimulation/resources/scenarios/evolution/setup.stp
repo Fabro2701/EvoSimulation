@@ -1,19 +1,20 @@
+/*grammars := action(200); "grammar.BiasedGrammar"; "resources/scenarios/evolution/bias_acts.bnf".*/
 grammars := action(200); "grammar.StandardGrammar"; "resources/scenarios/evolution/acts.bnf".
-
 
 init := 
 		initactiveImc("simulator.model.entity.individuals.MyIndividual"){
-			this.setAttribute("life",500);
+			this.setAttribute("life",3000d);
+		   	this.setAttribute("personality","rest");
 			
 		}.
 updates :=  
-		update_life(2)("simulator.model.entity.individuals.MyIndividual"){
+		update_life(1)("simulator.model.entity.individuals.MyIndividual"){
 			
-			this.setAttribute("life",this.getAttribute("life")-1);
+			this.setAttribute("life",this.getAttribute("life")-1d);
 				
 		}
 		 
-		update_death(2)("simulator.model.entity.individuals.MyIndividual"){
+		update_death(1)("simulator.model.entity.individuals.MyIndividual"){
 			
 			if(this.getAttribute("life")<=0){
 				this.dispose();
@@ -23,10 +24,21 @@ updates :=
 		update_movs(2)("simulator.model.entity.individuals.MyIndividual"){
 			let cEntity = this.getAttribute("cEntity");
 			if(cEntity!=null){
-		   		let n = this.nextNodeStraightTowards(simulator.getMap(),cEntity);
-		   		if(n!=null){
-		   			this.setNode(n);
-		   		}
+				if((this.getAttribute("personality")).equals("runaway")){
+					
+					let move = (static "util.Util").getNextMoveAwayFrom(this.getNode(),cEntity.getNode(),simulator.getMap());
+					let n = (simulator.getMap()).getValidMove(this.getNode(),move);
+			   		if(n!=null){
+			   			this.setNode(n);
+			   		}
+				}
+				else if((this.getAttribute("personality")).equals("chase")){
+					let n = this.nextNodeStraightTowards(simulator.getMap(),cEntity);
+			   		if(n!=null){
+			   			this.setNode(n);
+			   		}
+				}
+		   		
 		   	}
 			
 				
@@ -36,6 +48,7 @@ actions := <action> chaseUP{
 		   					if(cEntity!=null){
 		   						this.setAttribute("cEntity",cEntity);
 		   					}
+		   					this.setAttribute("personality","chase");
 		   				   }
 		   			chaseDOWN{
 		   					
@@ -43,6 +56,7 @@ actions := <action> chaseUP{
 		   					if(cEntity!=null){
 		   						this.setAttribute("cEntity",cEntity);
 		   					}
+		   					this.setAttribute("personality","chase");
 		   				   }
 		   			chaseLEFT{
 		   					
@@ -50,6 +64,7 @@ actions := <action> chaseUP{
 		   					if(cEntity!=null){
 		   						this.setAttribute("cEntity",cEntity);
 		   					}
+		   					this.setAttribute("personality","chase");
 		   				   }
 		   			chaseRIGHT{
 		   					
@@ -57,30 +72,68 @@ actions := <action> chaseUP{
 		   					if(cEntity!=null){
 		   						this.setAttribute("cEntity",cEntity);
 		   					}
+		   					this.setAttribute("personality","chase");
 		   				   }
-		   			action2{
-		   					;
+		   			runawayUP{
+		   					let cEntity = this.getObservation("entityUP");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   					this.setAttribute("personality","runaway");
+		   				   }
+		   			runawayDOWN{
+		   					
+		   					let cEntity = this.getObservation("entityDOWN");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   					this.setAttribute("personality","runaway");
+		   				   }
+		   			runawayLEFT{
+		   					
+		   					let cEntity = this.getObservation("entityLEFT");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   					this.setAttribute("personality","runaway");
+		   				   }
+		   			runawayRIGHT{
+		   					
+		   					let cEntity = this.getObservation("entityRIGHT");
+		   					if(cEntity!=null){
+		   						this.setAttribute("cEntity",cEntity);
+		   					}
+		   					this.setAttribute("personality","runaway");
+		   				   }
+		   			rest{
+		   					this.setAttribute("cEntity",null);
 		   				   }.  
 interactions := 
-		attackInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-					
+		attackInteraction(500)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
+			
 			let life1 = this.getAttribute("life");
 			let life2 = e2.getAttribute("life");
-			this.setAttribute("life",life1-life2);
-			e2.setAttribute("life",life2-life1);
-			
+			let p = (static "simulator.RandomSingleton").nextDouble();
+			if(p<=0.1d){
+				
+					this.reproduce(e2);
+
+			}
+			else{
+				this.setAttribute("life",life1/2);
+				e2.setAttribute("life",life2/2);
+				if(this.getAttribute("life")<0){
+					this.setAttribute("life",0d);
+				}
+				if(e2.getAttribute("life")<0){
+					e2.setAttribute("life",0d);
+				}
+			}
 		}
-		attackInteraction(2)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
+		eatInteraction(100)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.PasiveEntity"){
 					
 			e2.dispose();
-			this.setAttribute("life",this.getAttribute("life")+100);
-			
+			this.setAttribute("life",this.getAttribute("life")+500d);
+		
 		}
-			
-				
-		/*rep(100)("simulator.model.entity.individuals.MyIndividual"->"simulator.model.entity.individuals.MyIndividual"){
-			let p = (static "simulator.RandomSingleton").nextDouble();
-			
-			if(p<=0.001)this.reproduce(e2);
-		}*/
 		.

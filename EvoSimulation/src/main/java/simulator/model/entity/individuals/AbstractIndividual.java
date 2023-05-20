@@ -31,7 +31,7 @@ public abstract class AbstractIndividual extends ActiveEntity{
 		observationManager.update(evoSimulator.getEntities(), evoSimulator.getMap());
 	}
 	public Object getObservation(String obs) {
-		return this.observationManager.getVariables().get(obs);
+		return this.observationManager.getVariables().getOrDefault(obs, null);
 	}
 
 }
