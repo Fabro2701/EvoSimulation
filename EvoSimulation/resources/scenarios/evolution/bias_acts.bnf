@@ -1,10 +1,9 @@
-<CODE> -> <1><LINE>.
-<LINE> -> <1><IF>.
-<IF> -> <1>if <COND> {<ACTION>} else {<ACTION>} | <1>if <COND> { <ACTION> }.
-<COND> -> <1>'('<OBS>')' | <1>'('<OBS><CONDOP><OBS>')'.
-<OBS> -> <1><CLAZZ>'.equals(this.getObservation("type' <DIR> '"))'.
-<CLAZZ> -> <1>'"PasiveEntity"' | <1>'"MyIndividual"'.
-<CONDOP> -> <1>'&&'|<1>'||'.
-<ACTION> -> <1>'return ' <AS> ';'.
-<AS> -> <1>'"chase'<DIR>'"' | <1>'"runaway'<DIR>'"' .
-<DIR> -> <10>'UP'|<10>'DOWN'|<10>'LEFT'|<10>'RIGHT'.
+<CODE> -> <10><IF>|<10><CODE><IF>.
+<IF> -> <10>if <COND> {<ACTION>} else {<ACTION>} | <10>if <COND> { <ACTION> }.
+<COND> -> <10>'('<OBS>')' | <10>'('<OBS><CONDOP><OBS>')'.
+<OBS> -> <10><CLAZZ>'.equals(this.getObservation("type' <DIR> '"))'.
+<CLAZZ> -> <10>'"PasiveEntity"' | <10>'"MyIndividual"'.
+<CONDOP> -> <10>'&&'|<10>'||'.
+<ACTION> -> <10>'return ' <AS> ';'.
+<AS> -> <10>'"chase'<DIR>'"' | <10>'"runaway'<DIR>'"' .
+<DIR> -> <100>'UP'|<100>'DOWN'|<100>'LEFT'|<100>'RIGHT'.

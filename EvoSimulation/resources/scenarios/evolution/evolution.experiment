@@ -6,5 +6,5 @@ stats = resources/scenarios/evolution/stats.json
 events = resources/scenarios/evolution/events.json
 constantsCtrl = true
 terminalCtrl = true
-imgRefreshRate = 10
+imgRefreshRate = 1000
 imgsdir = resources/entities/

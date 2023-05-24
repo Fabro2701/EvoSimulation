@@ -21,7 +21,7 @@
                 "times":10000,
                 "interval":1000,
                 "typeTo":"pe",
-                "amount":100,
+                "amount":140,
                 "properties":{"apply":"this.setAttribute(\"info\",\"food\");"}
             }
         },

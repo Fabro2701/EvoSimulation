@@ -1,0 +1,10 @@
+<CODE> -> <IF>|<CODE><IF>.
+<LINE> -> <IF>|<ACTION>.
+<IF> -> if <COND> { <LINE> }.
+<COND> -> '('<OBS>')'|'('<OBS><CONDOP><OBS>')'.
+<OBS> -> <CLAZZ>'.equals(this.getObservation("type' <DIR> '"))'.
+<CLAZZ> -> '"PasiveEntity"'|'"MyIndividual"'.
+<CONDOP> -> '&&'|'||'.
+<ACTION> -> 'return ' <AS> ';'.
+<AS> -> '"chase'<DIR>'"'|'"runaway'<DIR>'"'.
+<DIR> -> 'UP'|'DOWN'|'LEFT'|'RIGHT'.

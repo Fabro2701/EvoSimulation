@@ -21,7 +21,7 @@ updates :=
 			}
 				
 		}
-		update_movs(2)("simulator.model.entity.individuals.MyIndividual"){
+		update_movs(1)("simulator.model.entity.individuals.MyIndividual"){
 			let cEntity = this.getAttribute("cEntity");
 			if(cEntity!=null){
 				if((this.getAttribute("personality")).equals("runaway")){
@@ -114,9 +114,9 @@ interactions :=
 			let life1 = this.getAttribute("life");
 			let life2 = e2.getAttribute("life");
 			let p = (static "simulator.RandomSingleton").nextDouble();
-			if(p<=0.1d){
+			if(p<0.1){
 				
-					this.reproduce(e2);
+				this.reproduce(e2);
 
 			}
 			else{

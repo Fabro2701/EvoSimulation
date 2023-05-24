@@ -50,48 +50,48 @@ public class RouteManager {
 		System.out.println(paths);
 	}
 	
-	public static List<String> encontrarCaminoMasCorto(Map<String, Set<String>> grafo, String origen, String destino) {
-        Map<String, String> predecesores = new HashMap<>(); // map para guardar el predecesor de cada nodo
-        Queue<String> cola = new LinkedList<>(); // cola para BFS
-        Set<String> visitados = new HashSet<>(); // conjunto de nodos visitados
+	public static List<String> encontrarCaminoMasCorto(Map<String, Set<String>> grafo, String origin, String dest) {
+        Map<String, String> predecesores = new HashMap<>();
+        Queue<String> cola = new LinkedList<>();
+        Set<String> visitados = new HashSet<>();
 
-        predecesores.put(origen, null); // el nodo origen no tiene predecesor
-        cola.add(origen); // añadir el nodo origen a la cola
+        predecesores.put(origin, null);
+        cola.add(origin);
 
         while (!cola.isEmpty()) {
-            String actual = cola.poll(); // obtener el siguiente nodo de la cola
+            String current = cola.poll();
 
-            if (actual.equals(destino)) { // si hemos llegado al destino, reconstruir el camino y devolverlo
-                return reconstruirCamino(predecesores, origen, destino);
+            if (current.equals(dest)) {
+                return reconstruirCamino(predecesores, origin, dest);
             }
 
-            for (String vecino : grafo.getOrDefault(actual, new HashSet<>())) { // iterar por los vecinos del nodo actual
-                if (!visitados.contains(vecino)) { // si el vecino no ha sido visitado, añadirlo a la cola y marcarlo como visitado
-                    predecesores.put(vecino, actual);
-                    cola.add(vecino);
-                    visitados.add(vecino);
+            for (String neigh : grafo.getOrDefault(current, new HashSet<>())) {
+                if (!visitados.contains(neigh)) {
+                    predecesores.put(neigh, current);
+                    cola.add(neigh);
+                    visitados.add(neigh);
                 }
             }
             
         }
 
-        return null; // si no se encontró un camino, devolver null
+        return null;
     }
 
-    private static List<String> reconstruirCamino(Map<String, String> predecesores, String origen, String destino) {
-        List<String> camino = new ArrayList<>(); // lista para almacenar el camino desde el origen hasta el destino
-        String actual = destino; // empezar por el nodo destino
+    private static List<String> reconstruirCamino(Map<String, String> predecesores, String origin, String dest) {
+        List<String> path = new ArrayList<>();
+        String current = dest;
         
         
-        while (!actual.equals(origen)) { // mientras haya predecesores
-            camino.add(actual); // añadir el nodo actual al camino
-            actual = predecesores.get(actual); // avanzar al predecesor del nodo actual
+        while (!current.equals(origin)) {
+        	path.add(current);
+            current = predecesores.get(current);
         }
         
         //camino.add(origen);
-        Collections.reverse(camino); // invertir el orden del camino para que vaya desde el origen hasta el destino
+        Collections.reverse(path);
         
-        return camino;
+        return path;
     }
 	public static void main(String args[]) {
 		RouteManager r = new RouteManager();

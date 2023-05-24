@@ -1,90 +1,81 @@
 ---------500:
- 2702.000000
- if("PasiveEntity".equals(this.getObservation("typeDOWN"))&&"MyIndividual".equals(this.getObservation("typeDOWN"))){
-    return "runawayDOWN";
+ 4503.000000
+ if("MyIndividual".equals(this.getObservation("typeUP"))&&"MyIndividual".equals(this.getObservation("typeDOWN"))){
+    return "chaseUP";
 }
-
-------------------1000:
- 2608.000000
- if("MyIndividual".equals(this.getObservation("typeUP"))){
-    return "chaseDOWN";
-}
-
-------------------1500:
- 2108.000000
- if("MyIndividual".equals(this.getObservation("typeUP"))){
-    return "chaseDOWN";
-}
-
-------------------2000:
- 1608.000000
- if("MyIndividual".equals(this.getObservation("typeUP"))){
-    return "chaseDOWN";
-}
-
-------------------2500:
- 1108.000000
- if("MyIndividual".equals(this.getObservation("typeUP"))){
+else{
     return "chaseDOWN";
 }
 
 ------------------3000:
- 608.000000
- if("MyIndividual".equals(this.getObservation("typeUP"))){
+ 4544.000000
+ if("MyIndividual".equals(this.getObservation("typeDOWN"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "chaseRIGHT";
+}
+else{
     return "chaseDOWN";
 }
 
 ------------------3500:
- 485.500000
- if("MyIndividual".equals(this.getObservation("typeLEFT"))||"PasiveEntity".equals(this.getObservation("typeUP"))){
-    return "chaseLEFT";
+ 5544.000000
+ if("MyIndividual".equals(this.getObservation("typeDOWN"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "chaseRIGHT";
+}
+else{
+    return "chaseDOWN";
 }
 
 ------------------4000:
- 131.625000
- if("MyIndividual".equals(this.getObservation("typeDOWN"))){
-    return "runawayDOWN";
-}
-else{
+ 6044.000000
+ if("MyIndividual".equals(this.getObservation("typeDOWN"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
     return "chaseRIGHT";
-}
-
-------------------4500:
- 1880.000000
- if("MyIndividual".equals(this.getObservation("typeRIGHT"))&&"MyIndividual".equals(this.getObservation("typeDOWN"))){
-    return "chaseRIGHT";
-}
-
-------------------5000:
- 22.500000
- if("MyIndividual".equals(this.getObservation("typeRIGHT"))&&"MyIndividual".equals(this.getObservation("typeDOWN"))){
-    return "chaseRIGHT";
-}
-
-------------------5500:
- 4086.000000
- if("PasiveEntity".equals(this.getObservation("typeUP"))&&"PasiveEntity".equals(this.getObservation("typeUP"))){
-    return "runawayUP";
 }
 else{
     return "chaseDOWN";
 }
 
-------------------6000:
- 2622.000000
- if("PasiveEntity".equals(this.getObservation("typeLEFT"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
-    return "chaseLEFT";
+------------------13000:
+ 6139.000000
+ if("PasiveEntity".equals(this.getObservation("typeUP"))||"MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "chaseDOWN";
 }
 else{
-    return "runawayLEFT";
+    return "chaseRIGHT";
 }
 
-------------------6500:
- 461.500000
- if("PasiveEntity".equals(this.getObservation("typeLEFT"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
-    return "chaseLEFT";
+------------------19500:
+ 6503.000000
+ if("MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "runawayUP";
 }
 else{
-    return "runawayLEFT";
+    return "chaseRIGHT";
+}
+
+------------------21000:
+ 7003.000000
+ if("MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "runawayUP";
+}
+else{
+    return "chaseRIGHT";
+}
+
+------------------21500:
+ 7503.000000
+ if("MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "runawayUP";
+}
+else{
+    return "chaseRIGHT";
+}
+
+------------------47500:
+ 8003.000000
+ if("PasiveEntity".equals(this.getObservation("typeDOWN"))){
+    return "chaseDOWN";
+}
+else{
+    return "chaseRIGHT";
 }
 

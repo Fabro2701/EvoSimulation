@@ -8,7 +8,7 @@ import simulator.Constants.NODE_TYPE;
 
 public class Node {
 	public int x, y;
-	public float temperature, radiation, elevation;
+	public float att1, att2, att3, elevation;
 	public NODE_TYPE type;
 
 	/**
@@ -22,16 +22,17 @@ public class Node {
 	public Node(int x, int y, float r, float g, float elevation, NODE_TYPE type) {
 		this.x = x;
 		this.y = y;
-		this.temperature = r;
-		this.radiation = g;
+		this.att1 = r;
+		this.att2 = g;
 		this.elevation = elevation;
 		this.type = type;
 	}
 
 	public JSONObject toJSON() {
 		return new JSONObject().put("x", x).put("y", y)
-							   .put("temperature", temperature)
-							   .put("radiaton", radiation)
+							   .put("att1", att1)
+							   .put("att2", att2)
+							   .put("att3", att3)
 							   .put("elevation", elevation)
 							   .put("type", type);
 	}
@@ -76,7 +77,7 @@ public class Node {
 	public static void main(String args[]) {
 		Node n = new Node(0,0,250/255f, 100/255f, 0, null);
 		System.out.println(n.elevation);
-		System.out.println(n.temperature);
-		System.out.println(n.radiation);
+		System.out.println(n.att1);
+		System.out.println(n.att2);
 	}
 }
