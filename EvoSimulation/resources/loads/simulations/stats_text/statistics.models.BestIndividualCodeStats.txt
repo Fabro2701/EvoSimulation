@@ -25,3 +25,12 @@ else{
     return "chaseDOWN";
 }
 
+------------------4000:
+ 6044.000000
+ if("MyIndividual".equals(this.getObservation("typeDOWN"))&&"MyIndividual".equals(this.getObservation("typeRIGHT"))){
+    return "chaseRIGHT";
+}
+else{
+    return "chaseDOWN";
+}
+
