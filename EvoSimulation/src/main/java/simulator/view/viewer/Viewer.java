@@ -114,7 +114,7 @@ public class Viewer extends AbstractViewer {
 					
 					if (Math.sqrt(Math.pow(e.node.x - point.x, 2)+Math.pow(e.node.y - point.y, 2)) <= selectionRatio) {
 						//openEntityDialog(e);
-						if(e instanceof ActiveEntity)Viewer.this.entityViewer.setEntity(e);
+						//if(e instanceof ActiveEntity)Viewer.this.entityViewer.setEntity(e);
 					}
 				}
 			}

@@ -33,6 +33,7 @@ import simulator.factories.builders.stats.PopulationAgeBuilder;
 import simulator.factories.builders.stats.PopulationCountBuilder;
 import simulator.model.EvoSimulator;
 import simulator.model.entity.Entity;
+import simulator.model.evaluation.EvaluationException;
 import simulator.model.optimizer.UniformGridOptimizer;
 import simulator.view.ConstantsViewer;
 import statistics.StatsData;
@@ -62,6 +63,9 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 		} catch (JSONException | FileNotFoundException | IllegalArgumentException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (EvaluationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     	
 		BuilderBasedFactory<Event> eventFactory = new BuilderBasedFactory<Event>("eventsFactory");
@@ -76,9 +80,9 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		simulator.loadSetup(setup);
 		simulator.setDebug(true);
 		ctrl = new Controller(simulator, entityFactory, eventFactory, eventManager,statsManager);
+		ctrl.loadSetup(setup);
 		constantsCtrl = new ConstantsController();
 		SwingUtilities.invokeLater(() -> {
 	        	new ConstantsViewer(constantsCtrl);
@@ -162,7 +166,15 @@ public class OptimizedLauncherGUI extends javax.swing.JFrame {
         this.jbStart.setEnabled(false);
         new Thread() {
         	public void run() {
-        		 ctrl.run(Integer.MAX_VALUE>>1);
+        		 try {
+					ctrl.run(Integer.MAX_VALUE>>1);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (EvaluationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         	}
         }.start();
        

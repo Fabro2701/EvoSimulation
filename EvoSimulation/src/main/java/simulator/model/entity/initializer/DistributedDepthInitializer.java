@@ -11,9 +11,8 @@ import simulator.control.Controller;
 import simulator.model.entity.Entity;
 
 public class DistributedDepthInitializer extends AbstractInitializer{
-	public List<Entity>createPopulation(Controller ctrl, int num, JSONObject properties){
+	public List<Entity>createPopulation(AbstractGrammar grammar, Controller ctrl, int num, JSONObject properties){
 		List<Entity>population = new ArrayList<Entity>();
-		AbstractGrammar grammar = ctrl.getCommonGrammar();
 		
 		JSONArray distributions = properties.getJSONArray("distributions");
 		for(int i=0;i<distributions.length();i++) {
@@ -26,8 +25,11 @@ public class DistributedDepthInitializer extends AbstractInitializer{
 		return population;
 	}
 
+
+
 	@Override
-	public List<Entity> createPopulation(Controller ctrl, int num, JSONObject properties, String clazz) {
+	public List<Entity> createPopulation(AbstractGrammar grammar, Controller ctrl, int num, JSONObject properties,
+			String clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}

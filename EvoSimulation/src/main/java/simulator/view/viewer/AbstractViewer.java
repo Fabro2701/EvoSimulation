@@ -15,7 +15,6 @@ import simulator.control.Controller;
 import simulator.model.SimulatorObserver;
 import simulator.model.entity.Entity;
 import simulator.model.map.Map;
-import simulator.view.EntityViewer;
 
 /**
  * AbstractViewer class is used to switch between View models in the simulation
@@ -27,7 +26,6 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 	//two variables that get updated as the simulation runs
 	protected List<Entity> entities;
 	protected Image mapImg;
-	protected EntityViewer entityViewer;
 	
 	protected BufferedImage bufferImage;
 	protected Graphics2D bufferGraphics;
@@ -58,9 +56,7 @@ public abstract class AbstractViewer extends JLabel implements SimulatorObserver
 		active=false;
 	}
 	public Image getImage() {return bufferImage;}
-	public void addEntityObserver(EntityViewer entityViewer) {
-		this.entityViewer = entityViewer;
-	}
+
 	@Override
 	public abstract void onRegister(List<Entity> entities, Map map, int time);
 	@Override

@@ -60,7 +60,7 @@ public class AddRandomEntitiesConditionGeneratorEvent extends MultipleTimeEvent{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				ctrl.loadEntities(initializer.createPopulation(ctrl, amount-(int)count, properties,clazz ));
+				ctrl.loadEntities(initializer.createPopulation(null, ctrl, amount-(int)count, properties,clazz ));
 			
 		}
 		else {

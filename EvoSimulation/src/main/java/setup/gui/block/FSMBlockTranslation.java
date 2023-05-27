@@ -15,6 +15,7 @@ import simulator.control.fsm.StochasticComparisonTransition;
 import simulator.control.fsm.Transition;
 import simulator.control.fsm.TrueTransition;
 import simulator.model.evaluation.ActionEvaluator;
+import simulator.model.evaluation.EvaluationException;
 
 public class FSMBlockTranslation {
 	List<SimpleState>states;
@@ -118,7 +119,12 @@ public class FSMBlockTranslation {
 				ActionEvaluator eval = new ActionEvaluator(codeob.getJSONArray("list"));
 				java.util.Map<String, Object>vars = new HashMap<String, Object>();
 				vars.put("this", e);
-				eval.evaluate(vars);
+				try {
+					eval.evaluate(vars);
+				} catch (EvaluationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			});
 		}
 		

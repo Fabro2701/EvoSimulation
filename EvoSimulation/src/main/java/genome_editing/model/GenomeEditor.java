@@ -30,7 +30,7 @@ public class GenomeEditor extends Editor{
 	} 
 
 	private void init() {
-		manager = new BlockManager(new Vector2D(20f,80f));
+		manager = new BlockManager("resources/skeletons/exmp.sklt");
 		List<Integer>decisions = manager.getDecisions();
 		decisions.clear();
 		for(int i=0;i<Constants.CHROMOSOME_LENGTH;i++) {
@@ -56,7 +56,7 @@ public class GenomeEditor extends Editor{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if(pressed) {
-					GenomeEditor.this.manager.move(current, e);
+					GenomeEditor.this.manager.move(current, e.getPoint());
 					current = e.getPoint();
 					repaint();
 				}

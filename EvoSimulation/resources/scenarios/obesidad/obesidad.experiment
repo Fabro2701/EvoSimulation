@@ -1,7 +1,7 @@
 map = resources/maps/toledo2
 setup = resources/scenarios/obesidad/setup.stp
 visualization = BASIC
-optimizer = DENSITY
+optimizer = UNIFORM_GRID
 stats = resources/scenarios/obesidad/stats.json
 events = resources/scenarios/obesidad/events.json
 constantsCtrl = true

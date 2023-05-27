@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
-import simulator.view.EntityViewer;
+
 import simulator.view.TimeLabel;
 import simulator.view.viewer.AbstractViewer;
 import simulator.view.viewer.EmptyViewer;
@@ -23,7 +23,7 @@ public class LauncherGUI extends javax.swing.JFrame {
 	private AbstractViewer viewer;
 	private boolean simStop;
 	private ViewersController viewsController;
-	EntityViewer entityViewer;
+
 	
 	public LauncherGUI(Controller controller) {
 		simStop = false;

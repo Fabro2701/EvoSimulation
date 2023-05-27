@@ -43,7 +43,7 @@ public class PopulationAgeStats extends StatsData{
 			Class<?>cls [] = {MyIndividual.class};
 			
 			for(Class<?>c:cls) {
-				IntSummaryStatistics stats = entities.stream().filter(e->e.getClass().equals(c)).mapToInt(Entity::getAge).summaryStatistics();
+				IntSummaryStatistics stats = entities.stream().filter(e->e.getClass().equals(c)).mapToInt(e->(Integer)e.getAttribute("age")).summaryStatistics();
 				avg = stats.getAverage();
 				max = stats.getMax();
 				

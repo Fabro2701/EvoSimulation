@@ -1,5 +1,7 @@
 package simulator.model.entity.initializer;
 
+import static simulator.Constants.CHROMOSOME_LENGTH;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,11 +24,10 @@ import simulator.model.map.Node;
 public class SensibleInitializer extends AbstractInitializer{
 
 	@Override
-	public List<Entity> createPopulation(Controller ctrl, int num, JSONObject properties, String clazz) {
+	public List<Entity> createPopulation(AbstractGrammar grammar, Controller ctrl, int num, JSONObject properties, String clazz) {
 		List<Entity> population = new ArrayList<Entity>();
 		
 		int maxDepth = properties.getInt("maxDepth");
-		AbstractGrammar grammar = ctrl.getCommonGrammar();
 		
 		try {
 			for(int i=0;i<num/2;i++) {
@@ -46,7 +47,7 @@ public class SensibleInitializer extends AbstractInitializer{
 		return population;
 	}
 	private Chromosome _generateGrow(AbstractGrammar grammar, int maxDepth) {
-		Chromosome c = new Chromosome(simulator.Constants.CHROMOSOME_LENGTH);
+		Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, Chromosome.Codon::new);
 		List<Integer>choices = new ArrayList<Integer>();
 		Production p=null;
 		Rule rule = null;
@@ -79,7 +80,7 @@ public class SensibleInitializer extends AbstractInitializer{
 			}
 			
 			choice = this._randomChoice(choices);
-			c.setIntToCodon(i, choice);
+			//c.setIntToCodon(i, choice);
 			pending.addAll(rule.get(choice).stream().filter(e->e.getType()==SymbolType.NTerminal).collect(Collectors.toList()));
 			currentDepth += rule.get(choice).get_minimumDepth();
 			i++;
@@ -88,7 +89,7 @@ public class SensibleInitializer extends AbstractInitializer{
 		return c;
 	}
 	private Chromosome _generateFull(AbstractGrammar grammar, int maxDepth) {
-		Chromosome c = new Chromosome(simulator.Constants.CHROMOSOME_LENGTH);
+		Chromosome<Chromosome.Codon> c = new Chromosome<Chromosome.Codon>(CHROMOSOME_LENGTH, Chromosome.Codon::new);
 		List<Integer>choices = new ArrayList<Integer>();
 		Production p=null;
 		Rule rule = null;
@@ -135,7 +136,7 @@ public class SensibleInitializer extends AbstractInitializer{
 			}
 			
 			choice = this._randomChoice(choices);
-			c.setIntToCodon(i, choice);
+			//c.setIntToCodon(i, choice);
 			pending.addAll(rule.get(choice).stream().filter(e->e.getType()==SymbolType.NTerminal).collect(Collectors.toList()));
 			currentDepth += rule.get(choice).get_minimumDepth();
 			i++;
