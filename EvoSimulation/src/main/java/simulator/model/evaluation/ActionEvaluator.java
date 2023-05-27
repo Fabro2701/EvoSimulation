@@ -23,38 +23,7 @@ import simulator.model.map.Map;
 
 
 public class ActionEvaluator {
-	public static class TestEv{
-		public int i=0;
-		public int x=4;
-		public float f=4;
-		public static int ss=9;
-		public TestEv2 test2 = new TestEv2();
-		public TestEv() {
-			i++;
-		}
-		public void testi(TestEv t) {
-			i+=t.i;
-		}
-		public void setF(float x) {
-			this.f = x;
-		}
-		public void setX(int x) {
-			this.x = x;
-		}
-		public int getX() {
-			return x;
-		}
-		public int inc(int inc) {
-			return x+inc;
-		}
-		public TestEv2 getTest2() {
-			return test2;
-		}
-	}
-	public static class TestEv2{
-		public int y=1;
 	
-	}
 	JSONArray program;
 	public static Environment globalEnv;
 	static {
@@ -97,7 +66,6 @@ public class ActionEvaluator {
 	public Object evaluate(java.util.Map<String, Object>vars) throws EvaluationException {
 		Environment env = new Environment(globalEnv);
 		for(String key:vars.keySet()) env.define(key, vars.get(key));
-		env.define("test", new TestEv());
 		
 		return evaluate(env, true);
 	}
