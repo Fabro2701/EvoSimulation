@@ -26,7 +26,7 @@ import simulator.model.map.Map;
 import simulator.model.map.Node;
 import util.Util;
 
-public abstract class InteractiveEntity extends Entity{
+public abstract class AliveEntity extends Entity{
 
 	
 	protected java.util.Map<String, AbstractGrammar>grammars;
@@ -40,7 +40,7 @@ public abstract class InteractiveEntity extends Entity{
 	
 	
 	
-	public InteractiveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
+	public AliveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, n, ctrl);
 		
 		

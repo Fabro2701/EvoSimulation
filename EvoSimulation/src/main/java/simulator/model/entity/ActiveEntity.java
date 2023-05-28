@@ -16,7 +16,7 @@ import simulator.model.evaluation.EvaluationException;
 import simulator.model.map.Map;
 import simulator.model.map.Node;
 
-public class ActiveEntity extends InteractiveEntity {
+public class ActiveEntity extends AliveEntity {
 	private java.util.Map<String, java.util.Map<String,Integer>>interactionsMap;
 	public ActiveEntity(String id, Node n, Controller ctrl, String code) throws JSONException, EvaluationException {
 		super(id, n, ctrl, code);
